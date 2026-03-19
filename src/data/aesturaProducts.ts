@@ -5,7 +5,7 @@ export const aesturaProducts = [
     category: "Skincare",
     wholesalePrice: 16.5,
     moq: 50,
-    imageSrc: "https://mykstyle.co.uk/cdn/shop/files/aestura-atobarrier-365-cream-10ml-590-Photoroom.png?v=1769703627&width=1445",
+    imageSrc: "https://int.aestura.com/cdn/shop/files/1_Atobarrier365-Cream_thumbnail_Product-80ml__1200x1200_961c8e7e-0afb-48bd-bea7-d47f285ab4d4.png?v=1734030421",
     isBestseller: true,
   },
   {
@@ -14,7 +14,7 @@ export const aesturaProducts = [
     category: "Skincare",
     wholesalePrice: 15.0,
     moq: 50,
-    imageSrc: "https://image.makewebcdn.com/makeweb/r_409x409/S3M3eCgZP/AESTURA/384823_8.jpg",
+    imageSrc: "https://int.aestura.com/cdn/shop/files/1_Atobarrier365-Hydro-Soothing-Cream_thumbnail_Product-60ml__1200x1200_aaac7d86-739b-41a8-97b5-42c576b02969.png?v=1733993707",
     isBestseller: false,
   },
   {
@@ -23,7 +23,7 @@ export const aesturaProducts = [
     category: "Skincare",
     wholesalePrice: 11.0,
     moq: 100,
-    imageSrc: "https://kiyoko.com/cdn/shop/files/8809013349067_S_1m.jpg?v=1772985258&width=1024",
+    imageSrc: "https://int.aestura.com/cdn/shop/files/1200x1200___365_1a9fcd7a-3389-4d02-aa50-2ffb1e6d5fcf.png?v=1742874026",
     isBestseller: true,
   },
   {
@@ -32,7 +32,7 @@ export const aesturaProducts = [
     category: "Skincare",
     wholesalePrice: 14.5,
     moq: 50,
-    imageSrc: "https://www.tiktok.com/api/img/?itemId=7507244925432515862&location=0&aid=1988",
+    imageSrc: "https://int.aestura.com/cdn/shop/files/1_Atobarrier365-Lotion_thumbnail_Product-150ml__1200x1200_e661801c-e140-4f23-88b6-44e02e95da4c.png?v=1734030390",
     isBestseller: false,
   },
   {
@@ -41,7 +41,7 @@ export const aesturaProducts = [
     category: "Skincare",
     wholesalePrice: 15.5,
     moq: 50,
-    imageSrc: "https://i.ytimg.com/vi/tD2fZ4ywabk/maxresdefault.jpg",
+    imageSrc: "https://int.aestura.com/cdn/shop/files/1_Atobarrier365-Hydro_Essence_thumbnail_Product-200ml__1200x1200_5b44c8c6-f402-4c16-94ed-8a8df78a6ded.png?v=1734030285",
     isBestseller: true,
   },
   {
@@ -50,7 +50,7 @@ export const aesturaProducts = [
     category: "Sun Care",
     wholesalePrice: 13.0,
     moq: 100,
-    imageSrc: "https://beautyboxkorea.com/web/upload/NNEditor/20231010/AESTURA-Derma-UV365-Barrier-Hydro-Mineral-Suncrean-SPF502B-PA2B2B2B2B-Set-3items_01.jpg",
+    imageSrc: "https://int.aestura.com/cdn/shop/files/1200x1200___UV365_4c661d44-ede8-4956-8d1a-91975d3b1ea1.png?v=1742874050",
     isBestseller: false,
   },
   {
@@ -59,7 +59,7 @@ export const aesturaProducts = [
     category: "Sun Care",
     wholesalePrice: 14.0,
     moq: 100,
-    imageSrc: "https://glamglobal.co.uk/cdn/shop/files/aestura-theracne-365-soothing-active-moisturizer-60ml-778763_600x.jpg?v=1745138067",
+    imageSrc: "https://images-kr.amoremall.com/products/1742175307549/150100000453/150100000453_00.png",
     isBestseller: false,
   }
 ];
