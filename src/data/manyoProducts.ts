@@ -5,7 +5,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7556098377147059511&location=0&aid=1988",
     isBestseller: false,
   },
   {
@@ -14,7 +14,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/I/51co3+1XekL.jpg",
     isBestseller: false,
   },
   {
@@ -23,7 +23,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://media.gopicky.com/reviews/5134b561-b6ee-4d5a-9e48-acde611612c1.jpg",
     isBestseller: false,
   },
   {
@@ -32,7 +32,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.lemon8-app.com/seo/image?item_id=7293261269249982981&index=1&sign=a482801d3bedeff58f79ee55544bea62",
     isBestseller: false,
   },
   {
@@ -41,7 +41,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://down-th.img.susercontent.com/file/th-11134207-7r98r-lvyyltue5iof87",
     isBestseller: false,
   },
   {
@@ -50,7 +50,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7511451438179011848&location=0&aid=1988",
     isBestseller: false,
   },
   {
@@ -59,7 +59,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://pinknblossom.com/cdn/shop/files/manyo-bifida-biome-complex-ampoule_desc5.jpg?v=1712241473",
     isBestseller: false,
   },
   {
@@ -68,7 +68,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.gopicky.com/_next/image?url=https://media.gopicky.com/reviews/LauAngel32-202171614247-1.jpg&w=3840&q=75",
     isBestseller: false,
   },
   {
@@ -77,7 +77,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn-image.oliveyoung.com/slicedImg/page/global/230630_Bifida_Biome_Ampoule_Lotion211d1e4b-bc44-4e55-a4b9-8b680ab5448a.jpg",
     isBestseller: false,
   },
   {
@@ -86,7 +86,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.kmarket365.com/shop_files/upload/202201251715530912.jpg",
     isBestseller: false,
   },
   {
@@ -95,7 +95,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://manyo.com.ua/wa-data/public/shop/products/34/64/6434/images/9566/9566.0x200.png",
     isBestseller: false,
   },
   {
@@ -104,7 +104,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://holiholic.com/cdn/shop/files/EVER_COLLAGEN_Time-Holiholic_3165081a-dd07-454a-a761-61d0392c504d_900x.jpg?v=1743059741",
     isBestseller: false,
   },
   {
@@ -113,7 +113,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7357117409674710315&location=0&aid=1988",
     isBestseller: false,
   },
   {
@@ -122,7 +122,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://i.makeupstore.uz/f/fb/fbzspjt6bwvu.jpg",
     isBestseller: false,
   },
   {
@@ -131,7 +131,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://media.karousell.com/media/photos/products/2024/3/24/manyo_galac_whitening_vita_ser_1711285896_3f4262b6_progressive.jpg",
     isBestseller: false,
   },
   {
@@ -140,7 +140,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.patchandgo.ru/unsafe/535x770/9c2dc7f454928f052e2ff873b1f9d1d6",
     isBestseller: false,
   },
   {
@@ -149,7 +149,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://manyo.com.ua/wa-data/public/shop/products/42/64/6442/images/9614/9614.0x200.png",
     isBestseller: false,
   },
   {
@@ -158,7 +158,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.thekbeauty.com/wp-content/uploads/2021/04/manyo-soda-cleansing-foam-modella.jpg",
     isBestseller: false,
   },
   {
@@ -167,7 +167,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://static.ksisters.com/public/productReviews/xs/96bd61633153b358d55853e44b61f8e0_0n1cujy_dad4c9e6e3cfd9b1d9e8d3b4c9e6e3cfd9.webp",
     isBestseller: false,
   },
   {
@@ -176,7 +176,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn-image.oliveyoung.com/slicedImg/page/japan/page/230313_foam_page_JP_0181c16ae3-b32d-45b9-9e1b-ed7c22305de8.jpg",
     isBestseller: false,
   },
   {
@@ -185,7 +185,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1277959474348352",
     isBestseller: false,
   },
   {
@@ -194,7 +194,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn.shopify.com/s/files/1/1120/1136/files/shopping_6.webp",
     isBestseller: false,
   },
   {
@@ -203,7 +203,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.hwahae.co.kr/reviews/10506014/10506014_0_0.png",
     isBestseller: false,
   },
   {
@@ -212,7 +212,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3740987064495066810",
     isBestseller: false,
   },
   {
@@ -221,7 +221,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://image.makewebcdn.com/makeweb/r_409x409/S3M3eCgZP/manyo/LO_7.jpg",
     isBestseller: false,
   },
   {
@@ -230,7 +230,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://kosmetista.ru/uploads/images/16/72/99/2025/03/01/57dc41_lbox.jpg",
     isBestseller: false,
   },
   {
@@ -239,7 +239,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://site-1650274.mozfiles.com/files/1650274/catitems/Manyo_Panthetoin_Enriched_Balm__3_-4c0e97ccea6277f0de5c03968d098dc1.jpg?6494781",
     isBestseller: false,
   },
   {
@@ -248,7 +248,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://d2c3d01lcpw2ui.cloudfront.net/gl/data/item/1573621587/Untitleddesign51759301103027159bdfd10b49.png",
     isBestseller: false,
   },
   {
@@ -257,7 +257,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3400857365690144768",
     isBestseller: false,
   },
   {
@@ -266,7 +266,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.skinthinks.com/7401-large_default/aceite-desmaquillante-manyo-pure-cleansing-oil-deep-clean-200ml.jpg",
     isBestseller: false,
   },
   {
@@ -275,7 +275,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "http://anua.com/cdn/shop/files/anua-us-moisturizer-pdrn-hyaluronic-acid-100-moisturizing-cream-1178755386.png?v=1752808531&width=2048",
     isBestseller: false,
   },
   {
@@ -284,7 +284,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3504796220399194813",
     isBestseller: false,
   },
   {
@@ -293,7 +293,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhw4HardVLiURY1hdd2lC7WHzabm5qteVq2Q0DCn2wi40rsQZr_hllRsrFcbuK-V6PJASGAGNNuKr_F61SQCmOEDtix44YM5LmOw9uvc1ab4LQI3yz7_CBdeWMs5L8mkTC9YQ_0_9HctJqS/s1600/IMG_4843.JPG",
     isBestseller: false,
   },
   {
@@ -302,7 +302,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://u.makeup.com.ua/i/i0/i0cotqfotash.jpg",
     isBestseller: false,
   },
   {
@@ -311,7 +311,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://godomall.speedycdn.net/c3c407c2df2f4d562f8f19cc4b24b96a/goods/1000000066/image/main/1000000066_main_099.png",
     isBestseller: false,
   },
   {
@@ -320,7 +320,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://i.ebayimg.com/images/g/vLAAAOSw85VkZdvl/s-l400.jpg",
     isBestseller: false,
   },
   {
@@ -329,7 +329,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.joomcdn.net/f53fa0ae3b8ec197d6f5655592c7d0cca67942d1_original.jpeg",
     isBestseller: false,
   },
   {
@@ -338,7 +338,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://i.makeup.uk/z/z0/z0v2xxcpfbbp.jpg",
     isBestseller: false,
   },
   {
@@ -347,7 +347,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.skincupid.de/cdn/shop/files/ma_nyo_Pure_Cleansing_Oil_200ml_STAGE_SHOT.jpg?v=1773318455&width=800",
     isBestseller: false,
   },
   {
@@ -356,7 +356,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7600576993146490167&location=0&aid=1988",
     isBestseller: false,
   },
   {
@@ -365,7 +365,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7600576993146490167&location=0&aid=1988",
     isBestseller: false,
   },
   {
@@ -374,7 +374,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://static.thcdn.com/productimg/original/13675635-1684971856937775.jpg",
     isBestseller: false,
   },
   {
@@ -383,7 +383,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://vely-prod-media-bucket.s3.amazonaws.com/uploads/2023/10/31/a000000153028_image_01_detail2.jpg",
     isBestseller: false,
   },
   {
@@ -392,7 +392,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://smkoreabeauty.com/cdn/shop/files/Pure_DeepCleansingFoam_2_600x_074e436b-f842-4088-8f03-f57e6fcbf28b.webp?v=1701286544&width=1445",
     isBestseller: false,
   },
   {
@@ -401,7 +401,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn-image.oliveyoung.com/slicedImg/page/global/220831_Bifida_Biome_Complex_Ampoule2d678fd9-96c1-4592-a375-6b5c5fdfb385.jpg",
     isBestseller: false,
   },
   {
@@ -410,7 +410,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.shegoestoseoul.com/image/catalog/PRODUCT/manyo-factory/bifida-biome-ampoule-toner/manyofactory-bifida-biome-ampoule-toner-09.jpg",
     isBestseller: false,
   },
   {
@@ -419,7 +419,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn-image.oliveyoung.com/slicedImg/page/global/240112/240112_peel_01107ac3ad-35ea-40b4-a076-b3653597768b.jpg",
     isBestseller: false,
   },
   {
@@ -428,7 +428,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://tshop.r10s.jp/charimeti/cabinet/05876460/manyo/manyo-ga-3set.jpg?fitin=720:720",
     isBestseller: false,
   },
   {
@@ -437,7 +437,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://d2c3d01lcpw2ui.cloudfront.net/gl/data/item/1759130213/Untitleddesign21759131287625283122f0112b.png",
     isBestseller: false,
   },
   {
@@ -446,7 +446,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://skinorea.com/cdn/shop/files/Manyo-Bifida-Biome-Complex-Ampoule-30ml_3.jpg?v=1703446005&width=1445",
     isBestseller: false,
   },
   {
@@ -455,7 +455,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://vely-prod-media-bucket.s3.amazonaws.com/uploads/2023/10/30/bifida-biome-ampoule-toner-300mlampoule-lotion-300ml_detail_06.jpg",
     isBestseller: false,
   },
   {
@@ -464,7 +464,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.shegoestoseoul.com/image/catalog/PRODUCT/manyo-factory/bifida-biome-ampoule-toner/manyofactory-bifida-biome-ampoule-toner-09.jpg",
     isBestseller: false,
   },
   {
@@ -473,7 +473,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn1.skinsafeproducts.com/photo/6A99D79BCD2376/large_1746087482.jpeg?1746087482",
     isBestseller: false,
   },
   {
@@ -482,7 +482,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://shopping.c.yimg.jp/lib/kscojp/998409430--01.jpg",
     isBestseller: false,
   },
   {
@@ -491,7 +491,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3221742146074600017",
     isBestseller: false,
   },
   {
@@ -500,7 +500,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.koreanbeauty.se/cdn/shop/files/manyo-Pure-Cleansing-Oil-200ml.png?v=1743600663&width=1080",
     isBestseller: false,
   },
   {
@@ -509,7 +509,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://static.ksisters.com/public/skus/m/3e6f4e1d0a163fad879bfefbe877eda7_rzc2xeh8_96d6e7d5e4db9a.webp",
     isBestseller: false,
   },
   {
@@ -518,7 +518,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.adorebeauty.com.au/pim_media/000/566/154/NAOS_3701129807835-PNG.png?w=386&h=386&fmt=webp",
     isBestseller: false,
   },
   {
@@ -527,7 +527,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://down-sg.img.susercontent.com/file/sg-11134208-7rfi0-m48k6cvvn39df1",
     isBestseller: false,
   },
   {
@@ -536,7 +536,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://manyo-chinese.com/storage/manyoglobalU0/www//product/2024/12/O/product.244.171092635282904.jpg",
     isBestseller: false,
   },
   {
@@ -545,7 +545,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "http://lacosmetique.com.au/cdn/shop/collections/Collection_Page_Images_-_2025-03-25T151128.376.jpg?v=1742875941",
     isBestseller: false,
   },
   {
@@ -554,7 +554,7 @@ export const manyoProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn-image.oliveyoung.com/slicedImg/page/global/231121/231117_panthetoin_cream_EN2ce39c0c-7213-47d0-bfc1-9ca9c8de0750.jpg",
     isBestseller: false,
   },
 ];

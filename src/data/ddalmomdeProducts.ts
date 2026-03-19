@@ -5,7 +5,7 @@ export const ddalmomdeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.emartwayskincare.com.bd/_next/image?url=https://d1puc9h291tp0h.cloudfront.net/uploads/all/nNpRjryKp8jSwQvcZOHtEwvNNpbv09hXTqsMy7ba.jpg&w=3840&q=75",
     isBestseller: true,
   },
   {
@@ -14,7 +14,7 @@ export const ddalmomdeProducts = [
     category: "Skincare",
     wholesalePrice: 18.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3516816594775346301",
     isBestseller: true,
   },
   {
@@ -23,7 +23,7 @@ export const ddalmomdeProducts = [
     category: "Skincare",
     wholesalePrice: 14.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1616683832168-1ed0dae27fa5?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://ecimg.cafe24img.com/pg296b84565315057/ddalmomde/web/upload/NNEditor/20241127/mobile/d4c15132635ac5b7d70a7d7f1d125d21_1732701655.jpg",
     isBestseller: false,
   },
   {
@@ -32,7 +32,7 @@ export const ddalmomdeProducts = [
     category: "Skincare",
     wholesalePrice: 11.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://godomall.speedycdn.net/246ac6860cab30de5414f7d17e2bb4bc/goods/1000000349/image/detail/1000000349_detail_022.png",
     isBestseller: false,
   }
 ];

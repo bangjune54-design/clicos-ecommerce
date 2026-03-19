@@ -5,7 +5,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 9.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lewkin.com/cdn/shop/files/IMG_5135_p.png?v=1750992568",
     isBestseller: true,
   },
   {
@@ -14,7 +14,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 14.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://preview.redd.it/torriden-dive-in-hyaluronic-acid-toner-v0-swnpv8xj5u8d1.jpeg?auto=webp&s=dfd7cb52a35a123b6b79ac6e02052fce072a2763",
     isBestseller: true,
   },
   {
@@ -23,7 +23,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 13.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://jbeauty.fi/cdn/shop/files/Torriden_DIVE_IN_Low_Molecular_Hyaluronic_Acid_Cleansing_Foam_JKB5.jpg?v=1739620700&width=1445",
     isBestseller: false,
   },
   {
@@ -32,7 +32,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/I/31Wer8OT+AL.__AC_SR166,182___.jpg",
     isBestseller: false,
   },
   {
@@ -41,7 +41,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1616683832168-1ed0dae27fa5?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://justcosmetics.cy/wp-content/uploads/2025/08/43.jpg",
     isBestseller: true,
   },
   {
@@ -50,7 +50,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://koreanwonder.com/3575-home_default/torriden-dive-in-low-molecular-hyaluronic-acid-serum-50ml.jpg",
     isBestseller: true,
   },
   {
@@ -59,7 +59,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 18.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1580870058864-42f5670f5e1f?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn.shopify.com/s/files/1/0263/8849/6458/files/01_39e05ea9-38a1-4b77-8708-f6e0f6ad245a.jpg?v=1715717706",
     isBestseller: false,
   },
   {
@@ -68,7 +68,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 14.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lyko.com/globalassets/product-images/torriden-dive-in-low-molecular-hyaluronic-acid-moisture-sun-cream-spf50-60-ml-3925-107-0060_5.jpg?ref=0E98BE6C1A",
     isBestseller: false,
   },
   {
@@ -77,7 +77,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1586495777744-4413f21061c5?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn.shopify.com/s/files/1/0579/4548/9541/files/WhatsAppImage2025-12-24at7.11.46PM.jpg?v=1766589189",
     isBestseller: true,
   },
   {
@@ -86,7 +86,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 13.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7519101756702264583&location=0&aid=1988",
     isBestseller: false,
   },
   {
@@ -95,7 +95,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3855606821717946155",
     isBestseller: true,
   },
   {
@@ -104,7 +104,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 15.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1596462413725-381c7ffebda2?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7506907789382585607&location=0&aid=1988",
     isBestseller: false,
   },
   {
@@ -113,7 +113,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 17.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1625324505378-0cbcedc33b76?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://i.imgur.com/nSWDuCO.jpg",
     isBestseller: true,
   },
   {
@@ -122,7 +122,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 2.00,
     moq: 200,
-    imageSrc: "https://images.unsplash.com/photo-1631214500515-e40eb424edec?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.venusbeauty.com.sg/pub/media/catalog/product/cache/a1b74babc97cee9523e2953898c28435/8/8/8809504742841_1_.jpg",
     isBestseller: true,
   },
   {
@@ -131,7 +131,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 4.50,
     moq: 100,
-    imageSrc: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://sokoskins.shop/cdn/shop/files/71j8b3OpOcL._SL1500_300x300.jpg?v=1711188800",
     isBestseller: false,
   },
   {
@@ -140,7 +140,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1596462413725-381c7ffebda2?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.adorebeauty.com.au/pim_media/000/530/616/TORRIDEN_Dive-In_Low_Molecular_Hyaluronic_Acid_Soothing_Cream_(2).png?w=386&h=386&fmt=webp",
     isBestseller: false,
   },
   {
@@ -149,7 +149,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 18.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://koreanshop.ca/wp-content/uploads/2025/02/Untitled-design-1-4-350x350.jpg",
     isBestseller: true,
   },
   {
@@ -158,7 +158,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.moona.store/cdn/shop/files/Torriden-Dive_in_for_Men_All_in_One-Skincare-Moona-Store-NZ-4_1080x.jpg?v=1758157119",
     isBestseller: false,
   },
   {
@@ -167,7 +167,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 14.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/ab8eb4b2-c897-41a5-8c93-8314bf48a3d9.__CR0,0,600,450_PT0_SX600_V1___.png",
     isBestseller: true,
   },
   {
@@ -176,7 +176,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 17.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1586495777744-4413f21061c5?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://torriden.us/cdn/shop/files/SOLIDINCream6.jpg?v=1753340120",
     isBestseller: false,
   },
   {
@@ -185,7 +185,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1616683832168-1ed0dae27fa5?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://skincarecoreenne.com/cdn/shop/files/product_images_1705671373.c7fa6a05-f643-4cca-94cd-10c6db5e74771733770182.jpg?v=1743603220&width=1183",
     isBestseller: true,
   },
   {
@@ -194,7 +194,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 6.50,
     moq: 100,
-    imageSrc: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://torriden.us/cdn/shop/files/SOLIDINLipEssenceSet4.jpg?v=1754894980",
     isBestseller: true,
   },
   {
@@ -203,7 +203,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 13.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1580870058864-42f5670f5e1f?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://static.ksisters.com/public/skus/m/ab3f0ba3026a123434b3adfcc84d56a1_byy1cukr_c9d6a592d9e1cd.webp",
     isBestseller: false,
   },
   {
@@ -212,7 +212,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 15.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=816092497230850",
     isBestseller: true,
   },
   {
@@ -221,7 +221,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 14.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1631214500515-e40eb424edec?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://media.bunjang.co.kr/product/356488739_1_1757940073_w1200.jpg",
     isBestseller: false,
   },
   {
@@ -230,7 +230,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7496587155083398418&location=0&aid=1988",
     isBestseller: true,
   },
   {
@@ -239,7 +239,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1625324505378-0cbcedc33b76?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn.shopify.com/s/files/1/0020/8184/9444/files/161c0bfc1f027037403ff554002b5d1a_1673418933_4824.jpg?v=1711189826",
     isBestseller: true,
   },
   {
@@ -248,7 +248,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 2.50,
     moq: 200,
-    imageSrc: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7553102465353125151&location=0&aid=1988",
     isBestseller: false,
   },
   {
@@ -257,7 +257,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 19.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://bearel.fi/wp-content/uploads/2025/05/Torriden-Cellmazing-Firming-Cream-kasvovoide.png",
     isBestseller: false,
   },
   {
@@ -266,7 +266,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 3.50,
     moq: 150,
-    imageSrc: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.koreanbeautysecret.com.hk/image/Torriden/firming-gel-mask-a7c.jpg",
     isBestseller: true,
   },
   {
@@ -275,7 +275,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 18.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://d2c3d01lcpw2ui.cloudfront.net/gl/data/editor/2402/1708186598_1.jpg",
     isBestseller: false,
   },
   {
@@ -284,7 +284,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 21.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1596462413725-381c7ffebda2?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://tshop.r10s.jp/joyance-m/cabinet/09251873/cellamp01.jpg?fitin=720:720",
     isBestseller: true,
   },
   {
@@ -293,7 +293,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 3.00,
     moq: 200,
-    imageSrc: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn.dsmcdn.com/mnresize/200/290/ty1796/prod/QC_ENRICHMENT/20251128/01/b7fe34fe-5e44-393b-b36c-94f39f646d27/1_org_zoom.jpg",
     isBestseller: false,
   }
 ];

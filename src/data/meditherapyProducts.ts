@@ -5,7 +5,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/ab1f10a4-06a0-4cda-87ec-f020808a1a46.__CR0,0,600,450_PT0_SX600_V1___.jpg",
     isBestseller: false,
   },
   {
@@ -14,7 +14,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://filtianbeauty.ae/wp-content/uploads/2025/08/MEDITHERAPY-INMOTOX-PEPTIDE-Shot-Cream-50ml-EMS2.webp",
     isBestseller: false,
   },
   {
@@ -23,7 +23,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.lazcdn.com/g/p/8aae6ffa8432cf274a60dac17b13bed1.jpg_360x360q80.jpg",
     isBestseller: false,
   },
   {
@@ -32,7 +32,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://mblogthumb-phinf.pstatic.net/MjAyNTAzMDdfODAg/MDAxNzQxMzU2NDE1OTc3.QuIbiG5G92v4HqnRaGewzpcxhFcPjnAzc7mfx_A14Wwg.Ws585Vlc-5Ty9zvggTD1ZTevf54kXS9ixK7PBo7yoaIg.PNG/썸네일_2.png?type=w800",
     isBestseller: false,
   },
   {
@@ -41,7 +41,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn-next.cybassets.com/media/W1siZiIsIjMwNjAwL3Byb2R1Y3RzLzUyMTk5Mzg4LzE3MzQwNzU0NTNfZTkyZGFmY2JmMTI5OGU1M2YxY2QuanBlZyJdXQ.jpeg?sha=6419cf3f8f786db7",
     isBestseller: false,
   },
   {
@@ -50,7 +50,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.hwahae.co.kr/reviews/9723206/9723206_0_0.png",
     isBestseller: false,
   },
   {
@@ -59,7 +59,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://buybeautykorea.com/cdn/shop/files/MEDITHERAPY_Tranexamic_ACID_Skin_Booster_Cream_100ml_665x.jpg?v=1763017665",
     isBestseller: false,
   },
   {
@@ -68,7 +68,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://sungsinsa.com/cdn/shop/files/477867079_122230101182025783_3625374152995506963_n.jpg?v=1745291895&width=1080",
     isBestseller: false,
   },
   {
@@ -77,7 +77,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3827226393323327230",
     isBestseller: false,
   },
   {
@@ -86,7 +86,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://i.ytimg.com/vi/hAc7jewvVWE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBPvrmHHcV0MphLMyZhphxcjtj6Cg",
     isBestseller: false,
   },
   {
@@ -95,7 +95,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://gd.image-qoo10.jp/li/696/382/6649382696.jpg",
     isBestseller: false,
   },
   {
@@ -104,7 +104,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/14e0e32f-7233-4f09-ab37-b54adc3a6221.__CR0,0,1464,625_PT0_SX1464_V1___.jpg",
     isBestseller: false,
   },
   {
@@ -113,7 +113,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://mylittlekorea.com/cdn/shop/files/MEDITHERAPY-Inmotox-Tension-Up-Mask-25gX5-Ma-Petite-Coree.jpg?v=1747479086&width=660",
     isBestseller: false,
   },
   {
@@ -122,7 +122,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn.dsmcdn.com/mnresize/420/620/ty1782/prod/QC_PREP/20251103/14/4176315c-e3d2-30a4-9cb1-2e050d86b5d5/1_org_zoom.jpg",
     isBestseller: false,
   },
   {
@@ -131,7 +131,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "http://makeupstash.pk/cdn/shop/files/sg-11134207-7rbkw-lp9j0dkn5i4o84.jpg?v=1758899275",
     isBestseller: false,
   },
   {
@@ -140,7 +140,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.lazcdn.com/g/p/9550edb94fcdb4df800236a6a8d9e869.jpg_960x960q80.jpg_.webp",
     isBestseller: false,
   },
   {
@@ -149,7 +149,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.myshopline.com/image/store/1689239902516/shumage-cream-240131-02-01.jpeg?w=800&h=1228",
     isBestseller: false,
   },
   {
@@ -158,7 +158,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.shoplineapp.com/media/image_clips/671f01e6e87a2e000b96386b/original.jpg?1730085350",
     isBestseller: false,
   },
   {
@@ -167,7 +167,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/I/71V+HRAzhmL._AC_UF350,350_QL80_.jpg",
     isBestseller: false,
   },
   {
@@ -176,7 +176,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.kbeautymakeup.com/cdn/shop/files/make-it-look-like-korean-ombre-lip-gloss.png?v=1759218492&width=1100",
     isBestseller: false,
   },
   {
@@ -185,7 +185,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://i.ebayimg.com/images/g/B0cAAOSwkWBjEyDq/s-l400.jpg",
     isBestseller: false,
   },
   {
@@ -194,7 +194,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/I/71jpXq5Fa9L._AC_UF350,350_QL80_.jpg",
     isBestseller: false,
   },
   {
@@ -203,7 +203,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn.shopify.com/s/files/1/0578/8532/7560/files/MEDITHERAPY_Wrinkle-Fit_Mask_18g07.jpg?v=1741340762",
     isBestseller: false,
   },
   {
@@ -212,7 +212,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.myshopline.com/image/store/1689239902516/sg-neck-mask-01-03.jpeg?w=800&h=2804",
     isBestseller: false,
   },
   {
@@ -221,7 +221,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3836860448188743420",
     isBestseller: false,
   },
   {
@@ -230,7 +230,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://koreanhomee.com/wp-content/uploads/2025/04/skin1004-Centella-Soothing-Cream-BOTH-scaled.jpg",
     isBestseller: false,
   },
   {
@@ -239,7 +239,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.skincupid.ca/cdn/shop/files/PDRN_Vita_Toning_Ampoule_30ml.jpg?v=1760352349&width=800",
     isBestseller: false,
   },
   {
@@ -248,7 +248,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://helloseoul.co.uk/cdn/shop/files/2026_38.png?v=1769903552",
     isBestseller: false,
   },
   {
@@ -257,7 +257,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.annabelleminerals.com/en_eu/7051-large_default/gua-sha-face-massage-tool.jpg",
     isBestseller: false,
   },
   {
@@ -266,7 +266,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.realsimple.com/thmb/ys_huQpZiN5rLi0rrmP2ULbBiaU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/IMG_4515-c876d1f1e77f4e4290258308707e8d9b.jpg",
     isBestseller: false,
   },
   {
@@ -275,7 +275,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://dewydemure.com/cdn/shop/files/MEDITHERAPY_Retinal_Skin_Booster_Serum_Dewy_Demure_Australia_benefits.webp?v=1748951953&width=1445",
     isBestseller: false,
   },
   {
@@ -284,7 +284,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://meditherapy.cafe24.com/web/upload/img/241002/241002_fcd20.jpg",
     isBestseller: false,
   },
   {
@@ -293,7 +293,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://koreanbeautybar.com/wp-content/uploads/2025/06/8809598456242_3.webp",
     isBestseller: false,
   },
   {
@@ -302,7 +302,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.cdn3.kr/http://testerkorea.com/storage/lsw529U0/www//product/2025/50/O/product.9504.176532170419626.jpg",
     isBestseller: false,
   },
   {
@@ -311,7 +311,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cf.shopee.tw/file/sg-11134207-821do-mglu1ey920i574",
     isBestseller: false,
   },
   {
@@ -320,7 +320,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.myshopline.com/image/store/1689239902516/mt-sg-inmotox-mask-detail-2-06.jpeg?w=800&h=1929",
     isBestseller: false,
   },
   {
@@ -329,7 +329,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://koreamarket.ru/wa-data/public/shop/products/77/37/23777/images/26774/26774.0x320.jpg",
     isBestseller: false,
   },
   {
@@ -338,7 +338,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://shopaholicdolls.com/wp-content/uploads/2025/05/Meditherapy-Inmotox-Peptide-Shot-Set-4.png",
     isBestseller: false,
   },
   {
@@ -347,7 +347,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://my-test-11.slatic.net/p/7148f22a6981339afd6d1d05405b956d.jpg",
     isBestseller: false,
   },
   {
@@ -356,7 +356,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3833296889178158632",
     isBestseller: false,
   },
   {
@@ -365,7 +365,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/de42cde1-9944-4b62-bf8e-6b952fbf1f57.__CR0,0,600,450_PT0_SX600_V1___.jpg",
     isBestseller: false,
   },
   {
@@ -374,7 +374,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://down-my.img.susercontent.com/file/sg-11134208-7ra3o-mbhsm8kbo9ev26",
     isBestseller: false,
   },
   {
@@ -383,7 +383,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://img.shoplineapp.com/media/image_clips/6916c9eabdc6960014e3ff88/original.jpg?1763101162=&owner_id=6459eb955f232a010a79948e",
     isBestseller: false,
   },
   {
@@ -392,7 +392,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://down-sg.img.susercontent.com/file/sg-11134258-8261m-mkvvfc962r5zb0",
     isBestseller: false,
   },
   {
@@ -401,7 +401,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://mybeautyshop.lv/wp-content/uploads/2024/12/Noon-Aesthetics-Azelaic-Br-13-1-500x500.png",
     isBestseller: false,
   },
   {
@@ -410,7 +410,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/I/615NlCjXCQL._AC_UF350,350_QL80_.jpg",
     isBestseller: false,
   },
   {
@@ -419,7 +419,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.meditherapy.co.kr/web/product/medium/202601/89b2cea89555292b5dc14635d7a51caf.png",
     isBestseller: false,
   },
   {
@@ -428,7 +428,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/I/61Jfp9PetyL._AC_UF1000,1000_QL80_.jpg",
     isBestseller: false,
   },
   {
@@ -437,7 +437,7 @@ export const meditherapyProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.ozhairandbeauty.com/_next/image?url=https://cdn.shopify.com/s/files/1/1588/9573/files/Copyof20230922-PDP-PressandGlow-HowToUse-ROW.webp?v=1769467566&w=3840&q=75",
     isBestseller: false,
   },
 ];

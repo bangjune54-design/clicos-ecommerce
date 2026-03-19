@@ -56,8 +56,8 @@ export function Home() {
       {/* Hero section */}
       <div className="relative isolate overflow-hidden bg-primary-900 pb-16 pt-14 sm:pb-20">
         <img
-          src="https://images.unsplash.com/photo-1615397323145-817a2dcddb3f?q=80&w=2600&auto=format&fit=crop"
-          alt="Cosmetics flatlay with natural textures"
+          src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=2600&auto=format&fit=crop"
+          alt="Cosmetics flatlay"
           className="absolute inset-0 -z-10 h-full w-full object-cover opacity-20"
         />
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -108,7 +108,12 @@ export function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {allShopProducts.filter(p => p.isBestseller).slice(0, 4).map((product) => (
+          {[
+            allShopProducts.find(p => p.isBestseller && p.brand === "FWEE"),
+            allShopProducts.find(p => p.isBestseller && p.brand === "Torriden"),
+            allShopProducts.find(p => p.isBestseller && p.brand === "4PM"),
+            allShopProducts.find(p => p.isBestseller && p.brand === "Beauty of Joseon")
+          ].filter(Boolean).map((product) => (
             <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
               <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
                 <img src={product.imageSrc} alt={product.name} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
@@ -140,7 +145,7 @@ export function Home() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {b2bBrands.slice(0, 6).map((brand) => (
-              <Link key={brand.name} to={`/shop?category=${encodeURIComponent(brand.name.toLowerCase())}`} className="group flex flex-col items-center p-4 bg-white rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all">
+              <Link key={brand.name} to={`/wholesale/brands/${encodeURIComponent(brand.name)}`} className="group flex flex-col items-center p-4 bg-white rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all">
                 <div className="w-16 h-16 rounded-full bg-primary-50 flex items-center justify-center mb-3 overflow-hidden">
                   {brand.image ? (
                     <img src={brand.image} alt={brand.name} className="w-full h-full object-cover" />
@@ -161,8 +166,12 @@ export function Home() {
           <h2 className="text-3xl font-bold font-serif text-gray-900">Recommended For You</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* We'll just slice a different set of products to act as recommended */}
-          {allShopProducts.filter(p => !p.isBestseller).slice(0, 4).map((product) => (
+          {[
+            allShopProducts.find(p => !p.isBestseller && p.brand === "FWEE"),
+            allShopProducts.find(p => !p.isBestseller && p.brand === "4PM"),
+            allShopProducts.find(p => !p.isBestseller && p.brand === "MEDICUBE"),
+            allShopProducts.find(p => !p.isBestseller && p.brand === "AESTURA")
+          ].filter(Boolean).map((product) => (
             <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
               <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
                 <img src={product.imageSrc} alt={product.name} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />

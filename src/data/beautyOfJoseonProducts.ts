@@ -5,7 +5,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://preview.redd.it/anyone-using-beauty-of-joseon-dynasty-cream-for-winter-help-v0-mngor132xb2g1.jpeg?width=640&crop=smart&auto=webp&s=096bb21db7c6f1e7f629eed08247f17e96a2b434",
     isBestseller: false,
   },
   {
@@ -14,7 +14,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3691981812934178420",
     isBestseller: false,
   },
   {
@@ -23,7 +23,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn2.primor.eu/media/catalog/product/cache/8d3aba296f7a18b5251ee30fa5db42b2/8/8/8809968130239_Glow_Replenishing_Rice_Milk_150ml_copia_ec00.png",
     isBestseller: false,
   },
   {
@@ -32,7 +32,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://image.made-in-china.com/365f3j00KQCVfipIVqUG/Moisturizing-Skin-Care-150ml-5-FL-Oz-Ginseng-Essence-Water-Hydrating-Face-Toner-Whitening-Lightening-Dry-Dull-for-Face.webp",
     isBestseller: false,
   },
   {
@@ -41,7 +41,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3831689249515843856",
     isBestseller: false,
   },
   {
@@ -50,7 +50,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7326968955384483105&location=3&aid=1988&index=0",
     isBestseller: false,
   },
   {
@@ -59,7 +59,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://media.ktown4u.com/products/origin/detail/2024/06/05/ShxRVr.jpg",
     isBestseller: false,
   },
   {
@@ -68,7 +68,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://judgeme.imgix.net/korean-skincare-uk/1772751541__2731__original.jpg?auto=format&w=160&dpr=2.625&w=360",
     isBestseller: false,
   },
   {
@@ -77,7 +77,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://beautyofjoseon.com/cdn/shop/files/Step2_Toner_1080_x_1500_px_1080_x_1500_px_20.png?v=1749629723&width=2025",
     isBestseller: false,
   },
   {
@@ -86,7 +86,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.cultbeauty.com/images?url=https://static.thcdn.com/productimg/original/16482142-1625230789358895.jpg&format=webp&auto=avif&width=1200&height=1200&fit=cover",
     isBestseller: false,
   },
   {
@@ -95,7 +95,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/I/71S-zMfI25L.jpg",
     isBestseller: false,
   },
   {
@@ -104,7 +104,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://herbycure.com/wp-content/uploads/2024/06/beauty-of-joseon-relief-sun-riceprobiotics-50ml-spf50-pa-1-300x300.png",
     isBestseller: false,
   },
   {
@@ -113,7 +113,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://k-beautyskin.com/wp-content/uploads/2024/01/Beauty-of-Joseon-Green-Plum-Refreshing-Cleanser-100ml_04.webp",
     isBestseller: false,
   },
   {
@@ -122,7 +122,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://medpak.shop/cdn/shop/files/beauty-of-joseon-hanbang-serum-discovery-kit-4-x-10-ml-boj5897-903498741.jpg?v=1756320198&width=1500",
     isBestseller: false,
   },
   {
@@ -131,7 +131,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.seoulmagic.com/wp-content/uploads/2024/11/93.png",
     isBestseller: false,
   },
   {
@@ -140,7 +140,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://static.beautytocare.com/cdn-cgi/image/w=295,h=295,sharpen=1,f=auto/media/catalog/product/b/e/beauty-of-joseon-light-on-serum-centella-vita-c-30ml.png",
     isBestseller: false,
   },
   {
@@ -149,7 +149,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://beautyofjoseon.com/cdn/shop/files/redbean_861723e9-de27-46d1-879c-a5dbbdef8e7e.jpg?v=1745288247&width=1200",
     isBestseller: false,
   },
   {
@@ -158,7 +158,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://judgeme.imgix.net/korean-skincare/1728727598__img_20241008_073749__original.jpg?auto=format&w=160&dpr=2.625&w=360",
     isBestseller: false,
   },
   {
@@ -167,7 +167,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://m.media-amazon.com/images/I/61HQRDWkK9L._AC_UF1000,1000_QL80_.jpg",
     isBestseller: false,
   },
   {
@@ -176,7 +176,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://cdn.shopify.com/s/files/1/0549/3843/5697/files/d4ecaa4cde577fef2633a5d4ea7395db_1682652927_5903.jpg?v=1684790161",
     isBestseller: false,
   },
   {
@@ -185,7 +185,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://beautyofjoseon.com/cdn/shop/files/preview_images/4a79a930f48d480b82f89f234e7f4d51.thumbnail.0000000000_1085x.jpg?v=1691925458",
     isBestseller: false,
   },
   {
@@ -212,7 +212,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://media.ktown4u.com/products/resize/thumbnail/2024/06/05/yoir9m.jpg",
     isBestseller: false,
   },
   {
@@ -221,7 +221,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3840197884981625931",
     isBestseller: false,
   },
   {
@@ -230,7 +230,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "http://koreanskincaresupply.com/cdn/shop/files/beauty-of-joseon-calming-serum-green-tea-panthenol-9281502.jpg?v=1762122466&width=1200",
     isBestseller: false,
   },
   {
@@ -239,7 +239,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://www.tiktok.com/api/img/?itemId=7326968955384483105&location=3&aid=1988&index=0",
     isBestseller: false,
   },
   {
@@ -248,7 +248,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://media.ktown4u.com/products/origin/detail/2024/06/05/ShxRVr.jpg",
     isBestseller: false,
   },
   {
@@ -257,7 +257,7 @@ export const beautyOfJoseonProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://sunskincare.ca/cdn/shop/products/BeautyofJoseonGlowDeepSerumRice_Arbutin-KeyIngredients-SunSkincare.jpg?v=1716663688&width=1445",
     isBestseller: false,
   },
 ];

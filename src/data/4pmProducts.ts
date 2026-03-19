@@ -5,7 +5,7 @@ export const fourPmProducts = [
     category: "Skincare",
     wholesalePrice: 14.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://d2lqwd048079zr.cloudfront.net/uploads/202405240751077_15.png",
     isBestseller: true,
   },
   {
@@ -14,7 +14,7 @@ export const fourPmProducts = [
     category: "Skincare",
     wholesalePrice: 16.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://d2lqwd048079zr.cloudfront.net/uploads/2024052407375656_12.png",
     isBestseller: true,
   },
   {
@@ -23,7 +23,7 @@ export const fourPmProducts = [
     category: "Skincare",
     wholesalePrice: 10.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://d2lqwd048079zr.cloudfront.net/uploads/202405240737033_8.png",
     isBestseller: false,
   },
   {
@@ -32,7 +32,7 @@ export const fourPmProducts = [
     category: "Skincare",
     wholesalePrice: 12.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1616683832168-1ed0dae27fa5?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://d2lqwd048079zr.cloudfront.net/uploads/2024052407372727_9.png",
     isBestseller: false,
   },
   {
@@ -41,7 +41,7 @@ export const fourPmProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://d2lqwd048079zr.cloudfront.net/uploads/2024052407373838_10.png",
     isBestseller: false,
   },
   {
@@ -50,7 +50,7 @@ export const fourPmProducts = [
     category: "Skincare",
     wholesalePrice: 13.50,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://d2lqwd048079zr.cloudfront.net/uploads/2024052407403737_13.png",
     isBestseller: true,
   }
 ];
