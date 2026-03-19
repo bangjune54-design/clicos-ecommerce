@@ -1,0 +1,324 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Star, ShieldCheck, Sparkles, ShoppingBag } from "lucide-react";
+import { Button } from "../components/ui/Button";
+import { Card } from "../components/ui/Card";
+import { Badge } from "../components/ui/Badge";
+import { allShopProducts } from "./Shop";
+import { b2bBrands } from "./WholesaleBrands";
+
+// Mocks
+const categories = [
+  {
+    name: "Skincare",
+    href: "/shop?category=skincare",
+    imageSrc:
+      "https://images.unsplash.com/photo-1599305090598-fe179d501334?q=80&w=600&auto=format&fit=crop",
+    description: "Premium serums, toners, and moisturizers for glass skin.",
+  },
+  {
+    name: "Hair Care",
+    href: "/shop?category=haircare",
+    imageSrc:
+      "https://images.unsplash.com/photo-1582211927806-cae15918b958?q=80&w=600&auto=format&fit=crop",
+    description: "Nourishing shampoos and treatments for healthy hair.",
+  },
+  {
+    name: "Styling",
+    href: "/shop?category=styling",
+    imageSrc:
+      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600&auto=format&fit=crop",
+    description: "Professional tools and styling products from Seoul.",
+  },
+];
+
+const features = [
+  {
+    name: "Authentic K-Beauty",
+    description: "100% genuine products sourced directly from Korea.",
+    icon: Sparkles,
+  },
+  {
+    name: "Wholesale Ready",
+    description: "Competitive pricing and low MOQs for global distributors.",
+    icon: ShieldCheck,
+  },
+  {
+    name: "Curated Selection",
+    description: "Only the best and trending products tested by experts.",
+    icon: Star,
+  },
+];
+
+export function Home() {
+  return (
+    <div className="bg-white">
+      {/* Hero section */}
+      <div className="relative isolate overflow-hidden bg-primary-900 pb-16 pt-14 sm:pb-20">
+        <img
+          src="https://images.unsplash.com/photo-1615397323145-817a2dcddb3f?q=80&w=2600&auto=format&fit=crop"
+          alt="Cosmetics flatlay with natural textures"
+          className="absolute inset-0 -z-10 h-full w-full object-cover opacity-20"
+        />
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:py-32 animate-slide-up">
+            <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+              <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-primary-200 ring-1 ring-white/20 hover:ring-white/40 transition-colors bg-white/5 backdrop-blur-md">
+                Announcing our new B2B Partner Portal.{" "}
+                <Link to="/wholesale" className="font-semibold text-white">
+                  <span className="absolute inset-0" aria-hidden="true" />
+                  Read more <span aria-hidden="true">&rarr;</span>
+                </Link>
+              </div>
+            </div>
+            <div className="text-center">
+              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-serif">
+                Authentic K-Beauty, <br />
+                <span className="text-accent">Delivered Globally</span>
+              </h1>
+              <p className="mt-6 text-lg leading-8 text-primary-100">
+                Premium skincare and hair care products exported worldwide. 
+                Whether you're shopping for yourself or stocking your store, 
+                CLICOS is your trusted K-Beauty partner.
+              </p>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <Link to="/shop">
+                  <Button size="lg" className="gap-2">
+                    Shop Retail <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <Link
+                  to="/wholesale"
+                  className="text-sm font-semibold leading-6 text-white hover:text-accent transition-colors"
+                >
+                  Apply for Wholesale <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Best Sellers Section */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex justify-between items-end mb-8 border-b border-gray-200 pb-4">
+          <h2 className="text-3xl font-bold font-serif text-gray-900">Best Sellers</h2>
+          <Link to="/shop" className="text-sm font-semibold text-primary-600 hover:text-primary-800 flex items-center gap-1 transition-colors">
+            View All <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {allShopProducts.filter(p => p.isBestseller).slice(0, 4).map((product) => (
+            <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
+              <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
+                <img src={product.imageSrc} alt={product.name} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                <Badge variant="accent" className="absolute top-3 left-3 shadow-sm">Bestseller</Badge>
+              </div>
+              <div className="p-4 flex flex-col flex-grow">
+                <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
+                <h3 className="text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
+                <div className="mt-auto pt-4 flex items-center justify-between">
+                  <p className="text-lg font-bold text-gray-900">${product.price.toFixed(2)}</p>
+                  <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50">
+                    <ShoppingBag className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Featured Brands Section */}
+      <div className="bg-primary-50/50 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-end mb-8 border-b border-primary-100 pb-4">
+            <h2 className="text-3xl font-bold font-serif text-gray-900">Featured Brands</h2>
+            <Link to="/brands" className="text-sm font-semibold text-primary-600 hover:text-primary-800 flex items-center gap-1 transition-colors">
+              All Brands <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {b2bBrands.slice(0, 6).map((brand) => (
+              <Link key={brand.name} to={`/shop?category=${encodeURIComponent(brand.name.toLowerCase())}`} className="group flex flex-col items-center p-4 bg-white rounded-xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all">
+                <div className="w-16 h-16 rounded-full bg-primary-50 flex items-center justify-center mb-3 overflow-hidden">
+                  {brand.image ? (
+                    <img src={brand.image} alt={brand.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-lg font-serif font-bold text-primary-900/40 uppercase">{brand.name.substring(0, 2)}</span>
+                  )}
+                </div>
+                <span className="text-sm font-medium text-gray-900 group-hover:text-primary-700 text-center">{brand.name}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Recommended Section */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex justify-between items-end mb-8 border-b border-gray-200 pb-4">
+          <h2 className="text-3xl font-bold font-serif text-gray-900">Recommended For You</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* We'll just slice a different set of products to act as recommended */}
+          {allShopProducts.filter(p => !p.isBestseller).slice(0, 4).map((product) => (
+            <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
+              <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
+                <img src={product.imageSrc} alt={product.name} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-4 flex flex-col flex-grow">
+                <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
+                <h3 className="text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
+                <div className="mt-auto pt-4 flex items-center justify-between">
+                  <p className="text-lg font-bold text-gray-900">${product.price.toFixed(2)}</p>
+                  <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50">
+                    <ShoppingBag className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Categories section */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <div className="sm:flex sm:items-baseline sm:justify-between">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 font-serif heading-gradient">
+            Shop by Category
+          </h2>
+          <Link
+            to="/shop"
+            className="hidden text-sm font-semibold text-primary-600 hover:text-primary-800 sm:block transition-colors"
+          >
+            Browse all categories<span aria-hidden="true"> &rarr;</span>
+          </Link>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
+          <div className="group aspect-[2/1] overflow-hidden rounded-2xl sm:aspect-auto sm:row-span-2 relative">
+            <img
+              src={categories[0].imageSrc}
+              alt={categories[0].name}
+              className="object-cover object-center w-full h-full group-hover:scale-105 transition-transform duration-700 ease-in-out"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 p-8 w-full">
+              <h3 className="text-2xl font-bold text-white font-serif">{categories[0].name}</h3>
+              <p className="mt-2 text-primary-100 text-sm max-w-sm">{categories[0].description}</p>
+              <Link to={categories[0].href} className="mt-4 inline-block text-white font-semibold text-sm hover:text-accent">
+                Shop now &rarr;
+              </Link>
+            </div>
+          </div>
+          <div className="group aspect-[2/1] overflow-hidden rounded-2xl sm:aspect-auto relative">
+            <img
+              src={categories[1].imageSrc}
+              alt={categories[1].name}
+              className="object-cover object-center w-full h-full group-hover:scale-105 transition-transform duration-700 ease-in-out"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 p-6 w-full">
+              <h3 className="text-xl font-bold text-white font-serif">{categories[1].name}</h3>
+              <p className="mt-1 text-primary-100 text-sm">{categories[1].description}</p>
+              <Link to={categories[1].href} className="mt-2 inline-block text-white font-semibold text-sm hover:text-accent">
+                Shop now &rarr;
+              </Link>
+            </div>
+          </div>
+          <div className="group aspect-[2/1] overflow-hidden rounded-2xl sm:aspect-auto relative">
+            <img
+              src={categories[2].imageSrc}
+              alt={categories[2].name}
+              className="object-cover object-center w-full h-full group-hover:scale-105 transition-transform duration-700 ease-in-out"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 p-6 w-full">
+              <h3 className="text-xl font-bold text-white font-serif">{categories[2].name}</h3>
+              <p className="mt-1 text-primary-100 text-sm">{categories[2].description}</p>
+              <Link to={categories[2].href} className="mt-2 inline-block text-white font-semibold text-sm hover:text-accent">
+                Shop now &rarr;
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 sm:hidden">
+          <Link to="/shop" className="block text-sm font-semibold text-primary-600 hover:text-primary-800">
+            Browse all categories<span aria-hidden="true"> &rarr;</span>
+          </Link>
+        </div>
+      </div>
+
+      {/* Feature section */}
+      <div className="bg-primary-50 py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:text-center">
+            <h2 className="text-base font-semibold leading-7 text-accent tracking-widest uppercase">
+              Why Choose CLICOS
+            </h2>
+            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-serif">
+              Your Gateway to Korean Beauty
+            </p>
+            <p className="mt-6 text-lg leading-8 text-gray-600">
+              We bridge the gap between Seoul's finest cosmetic innovations and the global market, 
+              ensuring quality, authenticity, and seamless delivery.
+            </p>
+          </div>
+          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+              {features.map((feature) => (
+                <div key={feature.name} className="flex flex-col items-center text-center glass rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300">
+                  <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-100/50 mb-4">
+                      <feature.icon className="h-6 w-6 text-primary-700" aria-hidden="true" />
+                    </div>
+                  </dt>
+                  <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600">
+                    <p className="flex-auto font-medium text-gray-900 mb-2">{feature.name}</p>
+                    <p>{feature.description}</p>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </div>
+      {/* B2B CTA */}
+      <div className="bg-white">
+        <div className="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
+          <div className="relative isolate overflow-hidden bg-primary-900 px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
+            <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl font-serif">
+              Looking to Buy in Bulk?
+            </h2>
+            <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-primary-100">
+              Join our wholesale program to access exclusive pricing, low MOQs, and dedicated account support for your retail store or distribution business.
+            </p>
+            <div className="mt-10 flex items-center justify-center gap-x-6">
+              <Button variant="secondary" size="lg">
+                Apply for Wholesale
+              </Button>
+              <Link to="/wholesale/login" className="text-sm font-semibold leading-6 text-white hover:text-accent transition-colors">
+                Partner Login <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+            <svg
+              viewBox="0 0 1024 1024"
+              className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
+              aria-hidden="true"
+            >
+              <circle cx={512} cy={512} r={512} fill="url(#827591b1-ce8c-4110-b064-7cb85a0b1217)" fillOpacity="0.7" />
+              <defs>
+                <radialGradient id="827591b1-ce8c-4110-b064-7cb85a0b1217">
+                  <stop stopColor="#a77b6d" />
+                  <stop offset={1} stopColor="#a77b6d" />
+                </radialGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
