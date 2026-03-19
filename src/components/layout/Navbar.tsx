@@ -38,7 +38,7 @@ const navigation: NavItem[] = [
   { name: "Contact", href: "/contact" },
 ];
 
-const currencies = ["USD", "EUR", "KRW", "JPY", "GBP"];
+const currencies = ["USD", "EUR", "KRW", "JPY", "GBP", "BRL"];
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
