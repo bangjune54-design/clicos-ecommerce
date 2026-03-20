@@ -10,7 +10,8 @@ export function Login() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate successful login
-    navigate("/my-page");
+    localStorage.setItem("isLoggedIn", "true");
+    window.location.href = "/my-page";
   };
 
   return (

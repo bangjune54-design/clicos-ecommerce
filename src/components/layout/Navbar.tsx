@@ -44,7 +44,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currency, setCurrency] = useState("USD");
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("isLoggedIn") === "true");
   
   // Search state
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -325,7 +325,11 @@ export function Navbar() {
                     </Link>
                     <button
                       className="block w-full px-4 py-2 text-left text-sm font-bold text-gray-800 hover:bg-red-50 hover:text-red-900 transition-colors"
-                      onClick={() => alert("Sign out clicked!")}
+                      onClick={() => {
+                        localStorage.removeItem("isLoggedIn");
+                        setIsLoggedIn(false);
+                        navigate("/");
+                      }}
                     >
                       Sign Out
                     </button>
