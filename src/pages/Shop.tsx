@@ -71,6 +71,14 @@ export function Shop() {
   // Toggle between retail and wholesale views for testing purposes
   const [isWholesaleView, setIsWholesaleView] = useState(false);
   const [shopSearchQuery, setShopSearchQuery] = useState("");
+  
+  // Track quantities independently for each product card
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
+  
+  const getQty = (id: string) => quantities[id] || 1;
+  const updateQty = (id: string, delta: number) => {
+    setQuantities(prev => ({ ...prev, [id]: Math.max(1, (prev[id] || 1) + delta) }));
+  };
 
   const filteredProducts = allShopProducts.filter(p => {
     const matchesCategory = activeCategory === "All" || p.category === activeCategory;
@@ -196,8 +204,13 @@ export function Shop() {
                       </Badge>
                     )}
                     
-                    <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity translate-y-4 group-hover:translate-y-0 duration-300">
-                      <Button className="w-full gap-2 shadow-lg">
+                    <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 translate-y-4 group-hover:translate-y-0 duration-300 bg-white/90 backdrop-blur-sm">
+                      <div className="flex items-center justify-between border border-gray-300 rounded-md bg-white shadow-sm font-semibold">
+                        <button type="button" className="px-3 py-1.5 text-gray-600 hover:bg-gray-100 transition-colors w-1/3 text-center rounded-l-md" onClick={(e) => { e.preventDefault(); updateQty(product.id, -1); }}>-</button>
+                        <span className="px-2 py-1.5 text-sm font-bold text-gray-900 w-1/3 text-center border-x border-gray-300">{getQty(product.id)}</span>
+                        <button type="button" className="px-3 py-1.5 text-gray-600 hover:bg-gray-100 transition-colors w-1/3 text-center rounded-r-md" onClick={(e) => { e.preventDefault(); updateQty(product.id, 1); }}>+</button>
+                      </div>
+                      <Button className="w-full gap-2 shadow-md">
                         <ShoppingBag className="w-4 h-4" /> 
                         {isWholesaleView ? "Add to Quote" : "Add to Cart"}
                       </Button>
