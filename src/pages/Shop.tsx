@@ -83,8 +83,13 @@ export function Shop() {
   const handleAddToCart = (e: React.MouseEvent, product: any, isB2B: boolean) => {
     e.preventDefault();
     const qty = getQty(product.id);
+    const userType = localStorage.getItem("userType") || "retail"; // default guests to retail
     
     if (isB2B) {
+      if (userType !== "wholesale") {
+        alert("Only Wholesale Partners can add wholesale items. Please login as a Wholesale Partner.");
+        return;
+      }
       const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
       const existingItem = currentB2BCart.find((item: any) => item.id === product.id);
       if (existingItem) {
@@ -103,6 +108,10 @@ export function Shop() {
       localStorage.setItem('b2bCart', JSON.stringify(currentB2BCart));
       alert(`Added ${qty} boxes of ${product.name} to Wholesale Quote!`);
     } else {
+      if (userType === "wholesale") {
+        alert("Wholesale Partners cannot add retail items to the cart.");
+        return;
+      }
       const currentRetailCart = JSON.parse(localStorage.getItem('retailCart') || '[]');
       const existingItem = currentRetailCart.find((item: any) => item.id === product.id);
       if (existingItem) {

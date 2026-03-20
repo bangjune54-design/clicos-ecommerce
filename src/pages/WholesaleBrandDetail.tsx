@@ -123,6 +123,12 @@ export function WholesaleBrandDetail() {
   const handleAddToCart = (e: React.MouseEvent, product: any) => {
     e.preventDefault();
     const qty = getQty(product.id);
+    const userType = localStorage.getItem("userType") || "retail";
+    
+    if (userType !== "wholesale") {
+      alert("Only Wholesale Partners can add wholesale items. Please login as a Wholesale Partner.");
+      return;
+    }
     
     const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
     const existingItem = currentB2BCart.find((item: any) => item.id === product.id);

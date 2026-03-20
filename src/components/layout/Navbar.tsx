@@ -66,9 +66,11 @@ export function Navbar() {
     
     // Add cart syncing logic
     const updateCartCount = () => {
+      const userType = localStorage.getItem('userType') || 'retail';
       const retail = JSON.parse(localStorage.getItem('retailCart') || '[]');
       const b2b = JSON.parse(localStorage.getItem('b2bCart') || '[]');
-      setCartCount(retail.length + b2b.length);
+      
+      setCartCount(userType === 'wholesale' ? b2b.length : retail.length);
     };
     updateCartCount();
     window.addEventListener("storage", updateCartCount);

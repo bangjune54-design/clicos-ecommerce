@@ -42,10 +42,16 @@ export function Cart() {
     return JSON.parse(localStorage.getItem('b2bCart') || '[]');
   });
 
-  const retailTotal = retailItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const userType = localStorage.getItem("userType") || "retail";
+
+  const retailTotal = userType !== "wholesale" 
+    ? retailItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    : 0;
   
   // B2B pricing logic could be different, here we assume price is per item * (boxQty * inboxQty)
-  const b2bTotal = b2bItems.reduce((acc, item) => acc + item.price * (item.boxQty * item.inboxQty), 0);
+  const b2bTotal = userType === "wholesale" 
+    ? b2bItems.reduce((acc, item) => acc + item.price * (item.boxQty * item.inboxQty), 0)
+    : 0;
 
   const handleRemoveRetail = (id: number) => {
     const updated = retailItems.filter(item => item.id !== id);
@@ -96,15 +102,16 @@ export function Cart() {
           <div className="lg:col-span-8 space-y-12">
             
             {/* RETAIL SECTION */}
-            <section className="glass p-6 rounded-2xl">
-              <div className="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
-                <h2 className="text-xl font-bold font-serif text-gray-900">Shop Items (Retail)</h2>
-                <span className="text-sm text-gray-500">{retailItems.length} items</span>
-              </div>
-              
-              {retailItems.length === 0 ? (
-                <p className="text-gray-500 text-center py-4">Your retail cart is empty.</p>
-              ) : (
+            {userType !== "wholesale" && (
+              <section className="glass p-6 rounded-2xl">
+                <div className="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
+                  <h2 className="text-xl font-bold font-serif text-gray-900">Shop Items (Retail)</h2>
+                  <span className="text-sm text-gray-500">{retailItems.length} items</span>
+                </div>
+                
+                {retailItems.length === 0 ? (
+                  <p className="text-gray-500 text-center py-4">Your retail cart is empty.</p>
+                ) : (
                 <ul className="divide-y divide-gray-200">
                   {retailItems.map((item) => (
                     <li key={item.id} className="flex py-6">
@@ -154,8 +161,10 @@ export function Cart() {
                 </ul>
               )}
             </section>
+            )}
 
             {/* B2B SECTION */}
+            {userType === "wholesale" && (
             <section className="glass p-6 rounded-2xl">
               <div className="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
                 <h2 className="text-xl font-bold font-serif text-gray-900">B2B Wholesale Items</h2>
@@ -218,6 +227,7 @@ export function Cart() {
                 </ul>
               )}
             </section>
+            )}
           </div>
 
           {/* ORDER SUMMARY */}
@@ -225,14 +235,18 @@ export function Cart() {
             <h2 className="text-lg font-bold font-serif text-gray-900 mb-6">Order Summary</h2>
 
             <dl className="space-y-4 text-sm text-gray-600">
-              <div className="flex items-center justify-between">
-                <dt>Retail Subtotal</dt>
-                <dd className="font-medium text-gray-900">${retailTotal.toFixed(2)}</dd>
-              </div>
-              <div className="flex items-center justify-between">
-                <dt>Wholesale Subtotal</dt>
-                <dd className="font-medium text-gray-900">${b2bTotal.toFixed(2)}</dd>
-              </div>
+              {userType !== "wholesale" && (
+                <div className="flex items-center justify-between">
+                  <dt>Retail Subtotal</dt>
+                  <dd className="font-medium text-gray-900">${retailTotal.toFixed(2)}</dd>
+                </div>
+              )}
+              {userType === "wholesale" && (
+                <div className="flex items-center justify-between">
+                  <dt>Wholesale Subtotal</dt>
+                  <dd className="font-medium text-gray-900">${b2bTotal.toFixed(2)}</dd>
+                </div>
+              )}
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex items-center text-sm">
                   <span>Shipping estimate</span>

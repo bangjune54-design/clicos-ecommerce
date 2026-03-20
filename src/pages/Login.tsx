@@ -11,6 +11,7 @@ export function Login() {
     e.preventDefault();
     // Simulate successful login
     localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userType", activeTab === "wholesale" ? "wholesale" : "retail");
     window.location.href = "/my-page";
   };
 
