@@ -9,9 +9,32 @@ import { fweeProducts } from "../data/fweeProducts";
 
 // Shared initial mock state
 const initialMockOrders = [
-  { id: "KOR-8X912-39L", date: "March 15, 2026", status: "Processing", customer: "jane.doe@example.com", total: 345.50 },
-  { id: "KOR-7B421-99A", date: "February 28, 2026", status: "Delivered", customer: "retail_shop@b2b.com", total: 128.00 },
-  { id: "KOR-9C111-22B", date: "March 18, 2026", status: "In Transit", customer: "wholesale@clicos.co.kr", total: 450.00 }
+  { 
+    id: "KOR-8X912-39L", date: "March 15, 2026", status: "Processing", 
+    customerName: "Jane Doe", customerEmail: "jane.doe@example.com", total: 345.50,
+    address: "123 Main St, New York, NY 10001, USA",
+    items: [
+      { name: "Torriden DIVE-IN Low Molecular Hyaluronic Acid Serum 50ml", qty: 2, price: 21.00 },
+      { name: "FWEE Lip & Cheek Blurry Pudding Pot", qty: 3, price: 18.00 }
+    ]
+  },
+  { 
+    id: "KOR-7B421-99A", date: "February 28, 2026", status: "Delivered", 
+    customerName: "John Smith", customerEmail: "retail_shop@b2b.com", total: 128.00,
+    address: "88 Retail Ave, Los Angeles, CA 90015, USA",
+    items: [
+      { name: "CosRX Advanced Snail 96 Mucin Power Essence", qty: 5, price: 16.00 }
+    ]
+  },
+  { 
+    id: "KOR-9C111-22B", date: "March 18, 2026", status: "In Transit", 
+    customerName: "Admin Setup", customerEmail: "wholesale@clicos.co.kr", total: 450.00,
+    address: "1 Clicos Warehouse, Seoul, South Korea",
+    items: [
+      { name: "Beauty of Joseon Relief Sun : Rice + Probiotics", qty: 20, price: 14.50 },
+      { name: "Laneige Lip Sleeping Mask", qty: 10, price: 16.00 }
+    ]
+  }
 ];
 
 const mockAccounts = [
@@ -25,6 +48,7 @@ export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory">("orders");
   const [orders, setOrders] = useState(initialMockOrders);
   const [accounts, setAccounts] = useState(mockAccounts);
+  const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
   const [editingOrderId, setEditingOrderId] = useState<string | null>(null);
   const [editOrderTotal, setEditOrderTotal] = useState<number>(0);
   const [editingProductId, setEditingProductId] = useState<string | null>(null);
@@ -159,9 +183,13 @@ export function AdminDashboard() {
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
                 {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50">
+                  <React.Fragment key={order.id}>
+                  <tr className="hover:bg-gray-50 cursor-pointer" onClick={() => setExpandedOrderId(expandedOrderId === order.id ? null : order.id)}>
                     <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-primary-900">{order.id}</td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{order.customer}</td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                      <div className="font-semibold text-gray-900">{order.customerName}</div>
+                      <div className="text-xs">{order.customerEmail}</div>
+                    </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{order.date}</td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 font-semibold">
                       {editingOrderId === order.id ? (
@@ -178,7 +206,7 @@ export function AdminDashboard() {
                         formatPrice(order.total)
                       )}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm" onClick={(e) => e.stopPropagation()}>
                       <select
                         value={order.status}
                         onChange={(e) => handleStatusChange(order.id, e.target.value)}
@@ -192,7 +220,7 @@ export function AdminDashboard() {
                         <option value="Delivered">Delivered</option>
                       </select>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                    <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium" onClick={(e) => e.stopPropagation()}>
                       <div className="flex justify-end gap-3 items-center">
                         {editingOrderId === order.id ? (
                           <button onClick={() => handleSaveOrder(order.id)} className="text-green-600 hover:text-green-900 font-semibold flex items-center gap-1">
@@ -215,6 +243,48 @@ export function AdminDashboard() {
                       </div>
                     </td>
                   </tr>
+                  
+                  {/* Expanded Dropdown Content */}
+                  {expandedOrderId === order.id && (
+                    <tr>
+                      <td colSpan={6} className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                        <div className="animate-fade-in origin-top space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            
+                            {/* Items List */}
+                            <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                              <h4 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2"><PackageSearch className="w-4 h-4"/> Ordered Items</h4>
+                              <ul className="space-y-3">
+                                {order.items.map((item, idx) => (
+                                  <li key={idx} className="flex justify-between items-start text-sm">
+                                    <span className="text-gray-700 max-w-[70%] leading-tight text-xs font-medium">{item.name} <span className="text-gray-400 font-normal block mt-0.5">Qty: {item.qty}</span></span>
+                                    <span className="font-semibold text-gray-900">{formatPrice(item.price * item.qty)}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                            
+                            {/* Destination/Customer Info */}
+                            <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                              <h4 className="text-sm font-bold text-gray-900 mb-4 flex items-center gap-2"><Users className="w-4 h-4" /> Destination Details</h4>
+                              <dl className="space-y-3 text-sm">
+                                <div>
+                                  <dt className="text-gray-500 text-xs uppercase tracking-wider font-semibold">Recipient Name</dt>
+                                  <dd className="font-medium text-gray-900 mt-0.5">{order.customerName}</dd>
+                                </div>
+                                <div>
+                                  <dt className="text-gray-500 text-xs uppercase tracking-wider font-semibold">Delivery Address</dt>
+                                  <dd className="font-medium text-gray-900 mt-0.5 max-w-[80%] leading-snug">{order.address}</dd>
+                                </div>
+                              </dl>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
