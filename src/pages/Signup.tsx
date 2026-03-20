@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
+import { CheckCircle2 } from "lucide-react";
 
 export function Signup() {
   const [activeTab, setActiveTab] = useState<"general" | "wholesale">("general");
@@ -49,11 +50,36 @@ export function Signup() {
 
   if (success) {
     return (
-      <div className="bg-white min-h-[calc(100vh-80px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8 glass p-8 rounded-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-primary-900 font-serif">Account Created!</h2>
-          <p className="mt-2 text-sm text-gray-600">Your account has been successfully created.</p>
-          <Button as={Link} to="/login" className="mt-6">Go to Login</Button>
+      <div className="bg-white min-h-[calc(100vh-80px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary-50/50 to-white">
+        <div className="w-full max-w-lg space-y-8 glass p-10 sm:p-14 rounded-3xl text-center shadow-xl border border-primary-100/50 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-2 bg-primary-500"></div>
+          
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-50 mt-4 mb-8">
+            <CheckCircle2 className="h-10 w-10 text-green-500" aria-hidden="true" />
+          </div>
+          
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 font-serif">
+            Welcome to CLICOS!
+          </h2>
+          
+          <div className="space-y-4">
+            <p className="text-base text-gray-600">
+              Your account has been successfully created.
+            </p>
+            {activeTab === "wholesale" && (
+              <p className="text-sm text-primary-700 bg-primary-50 p-4 rounded-xl border border-primary-100">
+                Your wholesale partner application is under review. Our B2B team will contact you shortly if additional details are needed.
+              </p>
+            )}
+          </div>
+          
+          <div className="pt-6">
+            <Link to="/login" className="block w-full sm:inline-block sm:w-auto">
+              <Button size="lg" className="w-full px-12">
+                Proceed to Login
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     );
