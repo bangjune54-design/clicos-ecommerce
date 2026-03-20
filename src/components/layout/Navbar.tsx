@@ -44,6 +44,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currency, setCurrency] = useState("USD");
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   // Search state
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -307,8 +308,8 @@ export function Navbar() {
             </button>
             <div className="absolute right-0 top-full mt-0 w-40 opacity-0 invisible group-hover/user:opacity-100 group-hover/user:visible transition-all duration-200 border border-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 overflow-hidden transform group-hover/user:translate-y-0 translate-y-1">
               <div className="py-2">
-                {/* Simulated Logged In State (Hardcoded true for demonstration) */}
-                {true ? (
+                {/* Simulated Logged In State (Hardcoded for demonstration) */}
+                {isLoggedIn ? (
                   <>
                     <Link
                       to="/my-page"
@@ -402,8 +403,8 @@ export function Navbar() {
                     </select>
                   </div>
                   <div className="flex gap-4">
-                    <Button variant="outline" className="flex-1 justify-center gap-2">
-                      <User className="h-4 w-4" /> Account
+                    <Button variant="outline" className="flex-1 justify-center gap-2" onClick={() => navigate(isLoggedIn ? "/my-page" : "/login")}>
+                      <User className="h-4 w-4" /> {isLoggedIn ? "Account" : "Login"}
                     </Button>
                     <Button variant="primary" className="flex-1 justify-center gap-2">
                       <ShoppingBag className="h-4 w-4" /> Cart (0)
