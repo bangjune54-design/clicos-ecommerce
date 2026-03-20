@@ -5,7 +5,7 @@ export const ddalmomdeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.emartwayskincare.com.bd/_next/image?url=https://d1puc9h291tp0h.cloudfront.net/uploads/all/nNpRjryKp8jSwQvcZOHtEwvNNpbv09hXTqsMy7ba.jpg&w=3840&q=75",
+    imageSrc: "https://ecimg.cafe24img.com/pg296b84565315057/ddalmomde/web/product/big/20250601/286db4d145a35e2181a733b08b008e16.jpg",
     isBestseller: true,
   },
   {
@@ -14,7 +14,7 @@ export const ddalmomdeProducts = [
     category: "Skincare",
     wholesalePrice: 18.00,
     moq: 50,
-    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3516816594775346301",
+    imageSrc: "https://ecimg.cafe24img.com/pg296b84565315057/ddalmomde/web/product/big/20251126/731728be7a56b10c28e0c6f3b1b9c9f6.jpg",
     isBestseller: true,
   },
   {
@@ -23,7 +23,7 @@ export const ddalmomdeProducts = [
     category: "Skincare",
     wholesalePrice: 14.50,
     moq: 50,
-    imageSrc: "https://ecimg.cafe24img.com/pg296b84565315057/ddalmomde/web/upload/NNEditor/20241127/mobile/d4c15132635ac5b7d70a7d7f1d125d21_1732701655.jpg",
+    imageSrc: "https://ecimg.cafe24img.com/pg296b84565315057/ddalmomde/web/product/big/20250601/bb094a4da3361801b346a77b25256653.jpg",
     isBestseller: false,
   },
   {
@@ -32,7 +32,7 @@ export const ddalmomdeProducts = [
     category: "Skincare",
     wholesalePrice: 11.00,
     moq: 50,
-    imageSrc: "https://godomall.speedycdn.net/246ac6860cab30de5414f7d17e2bb4bc/goods/1000000349/image/detail/1000000349_detail_022.png",
+    imageSrc: "https://ecimg.cafe24img.com/pg296b84565315057/ddalmomde/web/product/big/20250601/094c59bb62dac1e040f47b066e188848.jpg",
     isBestseller: false,
   }
 ];

@@ -5,7 +5,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 9.50,
     moq: 50,
-    imageSrc: "https://lewkin.com/cdn/shop/files/IMG_5135_p.png?v=1750992568",
+    imageSrc: "https://www.koreanbeauty.no/cdn/shop/files/AHA_BHA_PHAMiracleBodyTonerMist_1.png?v=1773850870&width=900",
     isBestseller: true,
   },
   {
@@ -14,7 +14,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 14.00,
     moq: 50,
-    imageSrc: "https://preview.redd.it/torriden-dive-in-hyaluronic-acid-toner-v0-swnpv8xj5u8d1.jpeg?auto=webp&s=dfd7cb52a35a123b6b79ac6e02052fce072a2763",
+    imageSrc: "https://refreshskincare.co.uk/cdn/shop/files/Torriden-DIVE-IN-Low-Molecule-Hyaluronic-Toner-300ml-UK-1.png?v=1748268879&width=1445",
     isBestseller: true,
   },
   {
@@ -23,7 +23,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 13.50,
     moq: 50,
-    imageSrc: "https://jbeauty.fi/cdn/shop/files/Torriden_DIVE_IN_Low_Molecular_Hyaluronic_Acid_Cleansing_Foam_JKB5.jpg?v=1739620700&width=1445",
+    imageSrc: "https://wcosmetics.com.au/cdn/shop/files/WXWorkCapture_17390832312710.png?v=1756443848&width=450",
     isBestseller: false,
   },
   {
@@ -32,7 +32,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://m.media-amazon.com/images/I/31Wer8OT+AL.__AC_SR166,182___.jpg",
+    imageSrc: "https://pureseoul.co.uk/cdn/shop/files/Torriden-Dive-In-for-dry-dehydrated-skin-PURESEOUL-UK-KBeauty-shop-info-5d_7a9f3cfd-97d2-4503-be99-95c0a3d7afc1_1800x1800.png?v=1712141543",
     isBestseller: false,
   },
   {
@@ -41,7 +41,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.50,
     moq: 50,
-    imageSrc: "https://justcosmetics.cy/wp-content/uploads/2025/08/43.jpg",
+    imageSrc: "https://cdn.salla.sa/onxjbX/8faecee4-9c5e-47e3-b3b7-f6f3c5970032-1000x1000-RrzhUzcpaKDBYiznnt1sdepdjOBjJ46x8fXU7Ny3.png",
     isBestseller: true,
   },
   {
@@ -50,7 +50,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.00,
     moq: 50,
-    imageSrc: "https://koreanwonder.com/3575-home_default/torriden-dive-in-low-molecular-hyaluronic-acid-serum-50ml.jpg",
+    imageSrc: "https://refreshskincare.co.uk/cdn/shop/files/Torriden-DIVE-IN-Low-Molecule-Hyaluronic-Acid-Cream-80ml-UK-4.png?v=1748268700&width=1445",
     isBestseller: true,
   },
   {
@@ -59,7 +59,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 18.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0263/8849/6458/files/01_39e05ea9-38a1-4b77-8708-f6e0f6ad245a.jpg?v=1715717706",
+    imageSrc: "https://clubtrendi.lk/wp-content/uploads/2024/08/TORRIDEN-Dive-In-low-molecular-hyaluronic-acid-soothing-cream-4.png",
     isBestseller: false,
   },
   {
@@ -68,7 +68,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 14.50,
     moq: 50,
-    imageSrc: "https://lyko.com/globalassets/product-images/torriden-dive-in-low-molecular-hyaluronic-acid-moisture-sun-cream-spf50-60-ml-3925-107-0060_5.jpg?ref=0E98BE6C1A",
+    imageSrc: "https://cloudflare.lipscosme.com/image/4a409304657c4ac657a7f1a8-1717649346.png?auto=avif,webp&fio=1&orient=1&width=1424",
     isBestseller: false,
   },
   {
@@ -77,7 +77,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0579/4548/9541/files/WhatsAppImage2025-12-24at7.11.46PM.jpg?v=1766589189",
+    imageSrc: "https://img.hwahae.co.kr/commerce/goods/20260303_133632_화해_모이스처03.png",
     isBestseller: true,
   },
   {
@@ -86,7 +86,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 13.00,
     moq: 50,
-    imageSrc: "https://www.tiktok.com/api/img/?itemId=7519101756702264583&location=0&aid=1988",
+    imageSrc: "http://koolseoul.com/cdn/shop/files/TORRIDENDiveInWaterySunSerumSPF50_PA_50ml_1.png?v=1753862173",
     isBestseller: false,
   },
   {
@@ -95,7 +95,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.00,
     moq: 50,
-    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3855606821717946155",
+    imageSrc: "https://wcosmetics.com.au/cdn/shop/files/WXWorkCapture_17719048519082.png?v=1771905148&width=699",
     isBestseller: true,
   },
   {
@@ -104,7 +104,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 15.50,
     moq: 50,
-    imageSrc: "https://www.tiktok.com/api/img/?itemId=7506907789382585607&location=0&aid=1988",
+    imageSrc: "http://heyskinday.com/cdn/shop/files/TorridenDIVE-INLOWMOLECULEHYALURONICACIDSERUM50ML_002_1.png?v=1718208644",
     isBestseller: false,
   },
   {
@@ -113,7 +113,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 17.00,
     moq: 50,
-    imageSrc: "https://i.imgur.com/nSWDuCO.jpg",
+    imageSrc: "https://refreshskincare.co.uk/cdn/shop/files/Torriden-DIVE-IN-Low-Molecular-Hyaluronic-Acid-Multi-Pad-UK-3.png?v=1754322202&width=1445",
     isBestseller: true,
   },
   {
@@ -122,7 +122,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 2.00,
     moq: 200,
-    imageSrc: "https://www.venusbeauty.com.sg/pub/media/catalog/product/cache/a1b74babc97cee9523e2953898c28435/8/8/8809504742841_1_.jpg",
+    imageSrc: "http://luxiface.com/cdn/shop/files/idol-glass-skin-starter-5-step-inspired-5.png?v=1772197738",
     isBestseller: true,
   },
   {
@@ -131,7 +131,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 4.50,
     moq: 100,
-    imageSrc: "https://sokoskins.shop/cdn/shop/files/71j8b3OpOcL._SL1500_300x300.jpg?v=1711188800",
+    imageSrc: "https://cdn-image.oliveyoung.com/slicedImg/Designbook/24_0719_en/240719_en9_img5d0969880-3ae5-49bb-88c2-66d808916e44.png",
     isBestseller: false,
   },
   {
@@ -140,7 +140,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.adorebeauty.com.au/pim_media/000/530/616/TORRIDEN_Dive-In_Low_Molecular_Hyaluronic_Acid_Soothing_Cream_(2).png?w=386&h=386&fmt=webp",
+    imageSrc: "https://lewkin.com/cdn/shop/files/ChatGPTImage2025_4_3_02_12_23.png?v=1750991947",
     isBestseller: false,
   },
   {
@@ -149,7 +149,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 18.00,
     moq: 50,
-    imageSrc: "https://koreanshop.ca/wp-content/uploads/2025/02/Untitled-design-1-4-350x350.jpg",
+    imageSrc: "https://www.adorebeauty.com.au/pim_media/000/530/580/DIVE-IN_Low_Molecular_Hyaluronic_Acid_Mask_Pack_10ea_(2).png",
     isBestseller: true,
   },
   {
@@ -158,7 +158,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.50,
     moq: 50,
-    imageSrc: "https://www.moona.store/cdn/shop/files/Torriden-Dive_in_for_Men_All_in_One-Skincare-Moona-Store-NZ-4_1080x.jpg?v=1758157119",
+    imageSrc: "https://ecimg.cafe24img.com/pg1065b57791643075/torriden1/web/upload/NNEditor/20240910/1725952800906.png",
     isBestseller: false,
   },
   {
@@ -167,7 +167,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 14.00,
     moq: 50,
-    imageSrc: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/ab8eb4b2-c897-41a5-8c93-8314bf48a3d9.__CR0,0,600,450_PT0_SX600_V1___.png",
+    imageSrc: "https://d1iuscsovtvj4y.cloudfront.net/__sized__/products/DIVE_IN_Low_Molecular_Hyaluronic_Acid_Mask_Pack_thumb-thumbnail-540x540.png",
     isBestseller: true,
   },
   {
@@ -176,7 +176,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 17.50,
     moq: 50,
-    imageSrc: "https://torriden.us/cdn/shop/files/SOLIDINCream6.jpg?v=1753340120",
+    imageSrc: "https://cdn2.surisuri.dk/uploads/products/solid-in-ceramide-cream/_1200x600_crop_center-center_none/torriden-solid-in-cream-1000x1000.png",
     isBestseller: false,
   },
   {
@@ -185,7 +185,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.00,
     moq: 50,
-    imageSrc: "https://skincarecoreenne.com/cdn/shop/files/product_images_1705671373.c7fa6a05-f643-4cca-94cd-10c6db5e74771733770182.jpg?v=1743603220&width=1183",
+    imageSrc: "https://kiyoko.ca/cdn/shop/files/torriden-solid-in-ceramide-lip-essence-1_1024x1024_5dbf7dfa-08d3-4c25-b4ae-8f3854ab5d55.png?v=1765831313&width=1024",
     isBestseller: true,
   },
   {
@@ -194,7 +194,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 6.50,
     moq: 100,
-    imageSrc: "https://torriden.us/cdn/shop/files/SOLIDINLipEssenceSet4.jpg?v=1754894980",
+    imageSrc: "https://cdn.shopify.com/s/files/1/0515/4589/9157/files/NDC02.png?v=1773157587",
     isBestseller: true,
   },
   {
@@ -203,7 +203,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 13.00,
     moq: 50,
-    imageSrc: "https://static.ksisters.com/public/skus/m/ab3f0ba3026a123434b3adfcc84d56a1_byy1cukr_c9d6a592d9e1cd.webp",
+    imageSrc: "https://www.adorebeauty.com.au/pim_media/000/530/481/TORRIDENBalanceful_Cica_Toner_Pad.png",
     isBestseller: false,
   },
   {
@@ -212,7 +212,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 15.50,
     moq: 50,
-    imageSrc: "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=816092497230850",
+    imageSrc: "https://pretties.com.hk/cdn/shop/files/202603E-PB-1800x800-4_1800x800.png?v=1772294303",
     isBestseller: true,
   },
   {
@@ -221,7 +221,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 14.50,
     moq: 50,
-    imageSrc: "https://media.bunjang.co.kr/product/356488739_1_1757940073_w1200.jpg",
+    imageSrc: "https://glamglobal.co.uk/cdn/shop/files/product_images_1767777246.221767849787_dc79e30d-ae2a-4167-a80b-ede8565397ea_600x.png?v=1768893338",
     isBestseller: false,
   },
   {
@@ -230,7 +230,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.50,
     moq: 50,
-    imageSrc: "https://www.tiktok.com/api/img/?itemId=7496587155083398418&location=0&aid=1988",
+    imageSrc: "https://d1iuscsovtvj4y.cloudfront.net/__sized__/products/BALANCEFUL_Cica_Mask_thumb-thumbnail-540x540.png",
     isBestseller: true,
   },
   {
@@ -239,7 +239,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 16.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0020/8184/9444/files/161c0bfc1f027037403ff554002b5d1a_1673418933_4824.jpg?v=1711189826",
+    imageSrc: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/0dbf1f04-5545-43b2-8b75-7a2b9eb4162b.__CR0,0,488,700_PT0_SX488_V1___.png",
     isBestseller: true,
   },
   {
@@ -248,7 +248,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 2.50,
     moq: 200,
-    imageSrc: "https://www.tiktok.com/api/img/?itemId=7553102465353125151&location=0&aid=1988",
+    imageSrc: "https://torriden.us/cdn/shop/files/5d-cica-complex.png?v=1754356572",
     isBestseller: false,
   },
   {
@@ -257,7 +257,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 19.00,
     moq: 50,
-    imageSrc: "https://bearel.fi/wp-content/uploads/2025/05/Torriden-Cellmazing-Firming-Cream-kasvovoide.png",
+    imageSrc: "https://image.globaloliveyoungshop.com/Designbook/24_0304_en/240304_en8_img1.png",
     isBestseller: false,
   },
   {
@@ -266,7 +266,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 3.50,
     moq: 150,
-    imageSrc: "https://www.koreanbeautysecret.com.hk/image/Torriden/firming-gel-mask-a7c.jpg",
+    imageSrc: "https://cdn-image.oliveyoung.com/slicedImg/Designbook/24_0304_en/240304_en8_img5d14fc284-4f75-4825-9af9-d0d5175738c1.png",
     isBestseller: true,
   },
   {
@@ -275,7 +275,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 18.00,
     moq: 50,
-    imageSrc: "https://d2c3d01lcpw2ui.cloudfront.net/gl/data/editor/2402/1708186598_1.jpg",
+    imageSrc: "https://cdn11.bigcommerce.com/s-hwo2s3k4l6/images/stencil/1280x1280/products/530/2482/15__66337.1721095325.png?c=2",
     isBestseller: false,
   },
   {
@@ -284,7 +284,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 21.00,
     moq: 50,
-    imageSrc: "https://tshop.r10s.jp/joyance-m/cabinet/09251873/cellamp01.jpg?fitin=720:720",
+    imageSrc: "https://pureseoul.co.uk/cdn/shop/files/Torriden-CELLMAZING-vita-c-brightening-mask-1pc-PURESEOUL-UK-KBeauty-Shop-1_1800x1800.png?v=1736928285",
     isBestseller: true,
   },
   {
@@ -293,7 +293,7 @@ export const torridenProducts = [
     category: "Skincare",
     wholesalePrice: 3.00,
     moq: 200,
-    imageSrc: "https://cdn.dsmcdn.com/mnresize/200/290/ty1796/prod/QC_ENRICHMENT/20251128/01/b7fe34fe-5e44-393b-b36c-94f39f646d27/1_org_zoom.jpg",
+    imageSrc: "https://cdn.shopify.com/s/files/1/0844/3861/4342/files/SKIN0068_d1993eaa-bb0d-4255-838d-1d5936496ec2.png?v=1764171515",
     isBestseller: false,
   }
 ];

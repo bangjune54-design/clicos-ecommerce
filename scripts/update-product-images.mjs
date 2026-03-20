@@ -13,7 +13,7 @@ async function getImageForProduct(productName, brandName) {
     else if (brandName.toLowerCase().includes('Joseon')) cleanBrand = 'Beauty of Joseon';
     
     // Add "skincare" to help google find right product
-    const query = `${cleanBrand} ${productName} skincare`;
+    const query = `${cleanBrand} ${productName} transparent png`;
     console.log(`Searching: ${query}`);
     
     const options = {
@@ -27,11 +27,11 @@ async function getImageForProduct(productName, brandName) {
     if (images && images.length > 0) {
       // Return the first image URL that looks like a valid image and not too generic
       for (const img of images) {
-        if (img.url && !img.url.includes('lookfantastic') && !img.url.includes('sephora')) {
+        if (img.url && img.url.toLowerCase().includes('.png') && !img.url.toLowerCase().includes('.jpg') && !img.url.includes('lookfantastic') && !img.url.includes('sephora')) {
           return img.url;
         }
       }
-      return images[0].url;
+      return null;
     }
   } catch (err) {
     console.error(`Error searching image for ${productName}:`, err.message);
@@ -48,6 +48,11 @@ async function run() {
   
   for (const file of files) {
     const fileName = file.getBaseName();
+    if (fileName === 'aesturaProducts.ts' || fileName === '4pmProducts.ts') {
+      console.log(`\n--- Skipping ${fileName} as per user instruction ---`);
+      continue;
+    }
+
     let brandName = fileName.replace('Products.ts', '');
     brandName = brandName.replace(/([A-Z])/g, ' $1').trim(); // camelCase to title
     brandName = brandName.charAt(0).toUpperCase() + brandName.slice(1);
@@ -69,21 +74,18 @@ async function run() {
               const nameValue = nameProp.getInitializer().getText().replace(/['"]/g, '');
               const currentImageSrc = imageSrcProp.getInitializer().getText().replace(/['"]/g, '');
               
-              if (currentImageSrc.includes('unsplash.com')) {
-                const newUrl = await getImageForProduct(nameValue, brandName);
-                if (newUrl) {
-                  imageSrcProp.setInitializer(`"${newUrl}"`);
-                  console.log(`[UPDATED] ${nameValue}`);
-                  totalUpdated++;
-                } else {
-                  console.log(`[SKIPPED] No image found for ${nameValue}`);
-                }
-                
-                // Add tiny delay to not bombard google
-                await delay(800);
+              // Force update to get transparent background versions
+              const newUrl = await getImageForProduct(nameValue, brandName);
+              if (newUrl) {
+                imageSrcProp.setInitializer(`"${newUrl}"`);
+                console.log(`[UPDATED] ${nameValue}`);
+                totalUpdated++;
               } else {
-                 console.log(`[ALREADY UPDATED] ${nameValue}`);
+                console.log(`[SKIPPED] No transparent PNG found for ${nameValue}`);
               }
+              
+              // Add tiny delay to not bombard google
+              await delay(800);
             }
           }
         }

@@ -5,7 +5,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://d1f6um9xlu8jl4.cloudfront.net/numbuzin/numbuzin_No.1_Pantothenic_B5_Active_Soothing_Serum_50ml_D.jpg",
+    imageSrc: "https://glowtime.mu/wp-content/uploads/2024/08/NUMBUZIN-No-1-Pantothenic-B5-Active-Soothing-Cream-2.png",
     isBestseller: false,
   },
   {
@@ -14,7 +14,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://kbazar24.com/wp-content/uploads/2025/10/51P6UDMC5pL._SL1500_-1-600x600.jpg",
+    imageSrc: "https://www.ballagrio.com/cdn/shop/files/02_f92505f9-20ce-435d-a7d8-40d18790255e.png?v=1749674638&width=360",
     isBestseller: false,
   },
   {
@@ -23,7 +23,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0578/8532/7560/files/NUMBUZIN_NO.2_Rose_PDRN_Collagen_Plumping_Serum_30ml8.jpg?v=1757402991",
+    imageSrc: "https://eg.feel22.com/cdn/shop/files/mary-and-may-6-peptide-complex-serum-5411716.png?v=1757761631&width=600",
     isBestseller: false,
   },
   {
@@ -32,7 +32,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.lakinza.ca/cdn/shop/files/numbuzin-no2-rose-pdrn-collagen-plumping-serum-30ml-lakinza-k-beauty-canada-2185421.jpg?v=1772393718&width=533",
+    imageSrc: "https://www.ballagrio.com/cdn/shop/files/02_f92505f9-20ce-435d-a7d8-40d18790255e.png?v=1749674638&width=360",
     isBestseller: false,
   },
   {
@@ -41,7 +41,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://kkulskincare.com/cdn/shop/files/Numbuzin3_Serum_1.webp?v=1722030425&width=1445",
+    imageSrc: "https://pretties.com.hk/cdn/shop/files/202603E-PB-1800x800-2_1800x800.png?v=1772294013",
     isBestseller: false,
   },
   {
@@ -50,7 +50,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.tiktok.com/api/img/?itemId=7518448466692033805&location=0&aid=1988",
+    imageSrc: "https://moodarabia.com/cdn/shop/files/numbuzinNo.6SerumDeepSleepMaskSerum.png?v=1769423514&width=1100",
     isBestseller: false,
   },
   {
@@ -59,7 +59,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://ruzubeauty.com/cdn/shop/files/1_7b499d41-af0f-455a-8224-7aa7cf9800a2.jpg?v=1762359345&width=1080",
+    imageSrc: "https://sg-live-01.slatic.net/p/e8b381fba450f92005b6624c21e75318.png",
     isBestseller: false,
   },
   {
@@ -68,7 +68,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://down-id.img.susercontent.com/file/id-11134207-8224p-mkeoufjdo83q5b",
+    imageSrc: "https://miinme.ch/cdn/shop/files/NumbuzinNo.5VitaminConcentratedSerum1.png?crop=center&height=2308&v=1761055147&width=1776",
     isBestseller: false,
   },
   {
@@ -77,7 +77,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cafe24img.poxo.com/jolsejolse/web/upload/category/mobile/shop2_3064_top_761739.jpg",
+    imageSrc: "https://images.hush.sg/assets/images/products/original/numbuzin/no-5-vitamin-concentrated-serum-17088.png",
     isBestseller: false,
   },
   {
@@ -86,7 +86,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.ohmyglow.co/wp-content/uploads/2025/07/numbuzin-No.3-Blue-Bio-Retinol-Pore-Refining-Serum-cover-01-510x612.jpg",
+    imageSrc: "https://lhbg.de/media/e0/93/a2/1751793149/numbuzin-deep-sleep-mask-serum.png?ts=1751793149",
     isBestseller: false,
   },
   {
@@ -95,7 +95,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0736/8894/0784/files/acda5657-db0f-444e-bf1d-f371d1e08af6.__CR0_0_1464_600_PT0_SX1464_V1.jpg?v=1734932166",
+    imageSrc: "http://mstorebuy.com/cdn/shop/files/550x550_Heeju_ed6794ce-9443-4468-8e74-07c30657c68d.png?v=1757438374",
     isBestseller: false,
   },
   {
@@ -104,7 +104,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "http://mynumbuzin.com/wp-content/uploads/2024/02/Numbuzin-no.6.png.webp",
+    imageSrc: "https://mystiglam.com/cdn/shop/files/Numbuzin-No.9-NAD-Bio-Lifting-Essence.png?v=1760697447&width=320",
     isBestseller: false,
   },
   {
@@ -113,7 +113,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.tiktok.com/api/img/?itemId=7231558031295909146&location=0&aid=1988",
+    imageSrc: "https://lifestyleincloud.com/wp-content/uploads/2022/12/Missha-No.7-Mild-Green-Soothing-Serum-50ml-2-477x400.png",
     isBestseller: false,
   },
   {
@@ -122,7 +122,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://danacosmetics-jo.com/wp-content/uploads/2025/04/Screenshot_27-4-2025_44814_www.yesstyle.com_.jpeg",
+    imageSrc: "https://www.essentials.lk/cdn/shop/files/Numbuzin-No.9-NAD_-BIO-Lifting-sil-Essence-edited_1.png?v=1762745526",
     isBestseller: false,
   },
   {
@@ -131,7 +131,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://image.makewebcdn.com/makeweb/r_409x409/S3M3eCgZP/numbuzin/380715_2.jpg",
+    imageSrc: "https://olivekollection.com/cdn/shop/files/Numbuzin_Pure-FullCalmingHerbToner_2048x.png?v=1709831787",
     isBestseller: false,
   },
   {
@@ -140,7 +140,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3855314449360728847",
+    imageSrc: "https://cdn11.bigcommerce.com/s-63354/images/stencil/1280x1280/products/10007/26576/Numbuzin_No__64715.1756820393.png?c=2&imbypass=on",
     isBestseller: false,
   },
   {
@@ -149,7 +149,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn-image.oliveyoung.com/prdtImg/1490/5ed16d9b-4731-442d-8ff2-03086e57208b.jpg?RS=1500x1500&AR=0&SF=webp&QT=80",
+    imageSrc: "https://theskincarelibrary.com/cdn/shop/files/Numbuzin2Toner_1024x.png?v=1702973576",
     isBestseller: false,
   },
   {
@@ -158,7 +158,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://thebaerry.com/cdn/shop/files/15___1500x2040_3664f2c2-4e7d-4e58-911e-fa7b5ba4ca15.webp?v=1773406457&width=128",
+    imageSrc: "https://us.numbuzin.com/cdn/shop/files/TheIconicDuonumnuzin_sBestSellingSerums_b6180175-3435-4b0f-b582-d009b96c4cac.png?v=1768722617&width=1000",
     isBestseller: false,
   },
   {
@@ -167,7 +167,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://notskinco.com/cdn/shop/files/numbuzin-nad-9-serum.webp?v=1756872042&width=1445",
+    imageSrc: "https://oneeyebeauty.com/wp-content/uploads/2026/02/Logo_Final_Oct25-sized.png",
     isBestseller: false,
   },
   {
@@ -176,7 +176,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3815782138055419865",
+    imageSrc: "https://calmhavenbeauty.co.uk/cdn/shop/files/Numbuzin_No.1_Centella_Re-Leaf_Green_Toner_Pad_Usage_Tips.png?v=1717629841&width=1946",
     isBestseller: false,
   },
   {
@@ -194,7 +194,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://d2c3d01lcpw2ui.cloudfront.net/gl/data/item/1661235662/e1175887473217686abcfdff7ea.jpg",
+    imageSrc: "https://g-image.beautyamora.com/BSFWNUZ00002/BSFWNUZ00002-001-20221007.png",
     isBestseller: false,
   },
   {
@@ -203,7 +203,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://terglow.com/cdn/shop/files/numbuzin-no5-niacinamide-concentrated-toner-pad-glutathione-niacinamide-pha-lha-180ml70pads608floz-319592.jpg?v=1748858729&width=1445",
+    imageSrc: "https://www.blushme.lk/cdn/shop/files/NUMBUZIN_No.5_Vitamin-Niacinamide_Concentrated_Pad_70Pads_results.png?v=1724065977&width=720",
     isBestseller: false,
   },
   {
@@ -212,7 +212,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.chemistwarehouse.com.au/_next/image?url=https://static.chemistwarehouse.com.au/ams/media/pi/145899/MP-1-800.jpg&w=3840&q=75",
+    imageSrc: "https://mykstyle.co.uk/cdn/shop/files/copy-1636423053-1EBB288ED81B4EBA08CECA795EC98A4EC9DBC_EC8381EC84B8ED8E98EC9DB4ECA780_global_1copy.png?v=1753620241&width=1445",
     isBestseller: false,
   },
   {
@@ -221,7 +221,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://malila.hu/wp-content/uploads/2024/05/JSMC02-OCRREU_thumb-300x300.jpg",
+    imageSrc: "https://www.koreanbeauty.co.uk/cdn/shop/files/No.5_Glutathione_Vitamin_Concentrated_Serum_5.png?v=1763122890&width=1080",
     isBestseller: false,
   },
   {
@@ -230,7 +230,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://gardenofmuses.com/wp-content/uploads/2023/05/Numbuzin-No.-2-Deep-Clean-Fresh-Cream-Cleanser-and-No.-1-Cleansing-Oil.png",
+    imageSrc: "https://cdn1.skinsafeproducts.com/photo/C2D347B6A5AE3C/medium_1772006320.pngpng?1772006320",
     isBestseller: false,
   },
   {
@@ -239,7 +239,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.koreanbeauty.com/cdn/shop/files/No.3_Super_Glowing_Essence_Toner_200ml_4.png?v=1765377467&width=900",
+    imageSrc: "https://www.koreanbeauty.com/cdn/shop/files/No.3SuperGlowingEssenceToner200ml_1.png?v=1765377467&width=1080",
     isBestseller: false,
   },
   {
@@ -248,7 +248,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://m.media-amazon.com/images/I/71+M3MHEyoL._AC_UF350,350_QL80_.jpg",
+    imageSrc: "https://d1aq4ubbxe020v.cloudfront.net/image/product/30312/85831461_1732708753_d1ffa610e90e0f4df2b695658c61c922-500x500.png?format=png",
     isBestseller: false,
   },
   {
@@ -257,7 +257,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://koreacosmeticsbn.com/cdn/shop/files/numbuzin_No.1-Pantothenic-B5-Active-Soothing-Cream-4.webp?v=1751091832&width=1946",
+    imageSrc: "https://static.insales-cdn.com/images/products/1/7881/2645040841/WakeMake_Stay_Fixer_Finish_Powder_1.png",
     isBestseller: false,
   },
   {
@@ -266,7 +266,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://img.joomcdn.net/b7b47ec4c466a43f4b4f8bf5c9f96aa76a77f56e_original.jpeg",
+    imageSrc: "https://cdn-image.oliveyoung.com/prdt_review_mov/20241013/1352/99197c43-8225-4296-b358-a0809abb0ec3.png?RS=0x240&AO=1&SF=webp&QT=80",
     isBestseller: false,
   },
   {
@@ -275,7 +275,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://m.media-amazon.com/images/I/616qrxZVXjL._AC_UF350,350_QL80_.jpg",
+    imageSrc: "https://boniik.com.au/cdn/shop/files/NUMBUZINNo.1PantothenicB5ActiveSoothingCream4_dd2c8470-e262-4e50-95b6-ca4d1c6ae297.png?v=1769038298&width=800",
     isBestseller: false,
   },
   {
@@ -284,7 +284,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://m.media-amazon.com/images/I/61F3aO4WOiL._AC_UF350,350_QL80_.jpg",
+    imageSrc: "https://rokbucket.rokomari.io/ProductNew20190903/260X372/Numbuzin_No_5_Plus_Vitamin_Glutathione_D-Numbuzin-3e854-484715.png",
     isBestseller: false,
   },
   {
@@ -293,7 +293,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://judgeme.imgix.net/korean-skincare/1737314667__img20241108112709__original.jpg?auto=format&w=160&dpr=2.625&w=360",
+    imageSrc: "https://cdn.webshopapp.com/shops/243452/files/229649990/korean-skincare-step1-little-wonderland-off.png",
     isBestseller: false,
   },
   {
@@ -302,7 +302,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://m.media-amazon.com/images/I/61WCo2P43bL._AC_UF350,350_QL80_.jpg",
+    imageSrc: "https://www.koreanbeautys.com/cdn/shop/files/DESIGN.png?v=1739475014&width=1080",
     isBestseller: false,
   },
   {
@@ -311,7 +311,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3833247749131230897",
+    imageSrc: "https://cdn.shopify.com/s/files/1/0020/8184/9444/files/40fe0eb4e277.png?v=1754482285",
     isBestseller: false,
   },
   {
@@ -320,7 +320,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://lookaside.fbsbx.com/lookaside/crawler/instagram/DVBeISNDke9/0/image.jpg",
+    imageSrc: "https://simplyu.store/wp-content/uploads/2023/12/Untitled-design-2024-07-20T212956.748.png",
     isBestseller: false,
   },
   {
@@ -329,7 +329,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "http://www.koreanbeauty.co.uk/cdn/shop/files/No.1PantothenicB5ActiveSoothingCream80ml.png?v=1756888072",
+    imageSrc: "https://www.koreanbeauty.com/cdn/shop/files/No.1PantothenicB5ActiveSoothingSerum_3.png?v=1771940097&width=1080",
     isBestseller: false,
   },
   {
@@ -338,7 +338,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://hdskinshop.com/wp-content/uploads/2025/09/Numbuzin-No.2-Rose-PDRN-Collagen-Plumping-Serum-30mL-3_converted-600x799.webp",
+    imageSrc: "http://angelhaven.sg/cdn/shop/files/435.png?v=1751805111&width=1200",
     isBestseller: false,
   },
   {
@@ -347,7 +347,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.ohmyglow.co/wp-content/uploads/2025/07/numbuzinMask_No.2-Rose-PDRN-Overnight-Collagen-Mask-4P-3.gif",
+    imageSrc: "https://cdn-image.oliveyoung.com/prdt_review/1508/9e6f22f9-c0a6-4864-b694-0333a2133335.png?RS=0x240&AO=1&SF=webp&QT=80",
     isBestseller: false,
   },
   {
@@ -356,7 +356,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.tiktok.com/api/img/?itemId=7600176776689569054&location=0&aid=1988",
+    imageSrc: "https://angelhaven.sg/cdn/shop/files/447.png?v=1751807159&width=1080",
     isBestseller: false,
   },
   {
@@ -365,7 +365,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://down-sg.img.susercontent.com/file/sg-11134207-7rdxa-md9y5g72s4af56",
+    imageSrc: "https://www.lamourlife.com/cdn/shop/files/numbuzinNo.3Tingle-PoreSofteningSheetMask1pc_02.png?v=1773175973&width=1500",
     isBestseller: false,
   },
   {
@@ -374,7 +374,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3849753646260839249",
+    imageSrc: "https://luminaskn.co.uk/cdn/shop/files/41EAAD08-0580-449A-9226-59E4692D4347.png?v=1762790010&width=3840",
     isBestseller: false,
   },
   {
@@ -383,7 +383,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://d2c3d01lcpw2ui.cloudfront.net/gl/data/editor/2602/0b0b08ff-136b-495c-9c23-9c5ec1374d572eb55cb544f0.jpeg",
+    imageSrc: "https://boniik.com.au/cdn/shop/files/NUMBUZINNo.9NADBioLiftingEssence4.png?v=1738287345&width=800",
     isBestseller: false,
   },
   {
@@ -392,7 +392,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "http://purish.com/cdn/shop/files/2-numbuzin-no-1-pantothenic-b5-active-soothing-serum-purish_1200x1200.png?v=1755081812",
+    imageSrc: "https://calmhavenbeauty.co.uk/cdn/shop/files/numbuzin-serum-numbuzin-no-1-pantothenic-b5-active-soothing-serum-50ml-45535566954815.png?v=1717617219&width=1946",
     isBestseller: false,
   },
   {
@@ -401,7 +401,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://m.media-amazon.com/images/I/716E-ERd9SL._AC_UF350,350_QL80_.jpg",
+    imageSrc: "https://d2c3d01lcpw2ui.cloudfront.net/gl/data/editor/2512/IMG_80286dd5ca88b5ee.png",
     isBestseller: false,
   },
   {
@@ -410,7 +410,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://img.watsonsvn.com/ecommerce/ecom/Numbuzin/Numbuzin-No3-Tingle-Pore-Softening-Sheet-Mask-27ml-1.jpg",
+    imageSrc: "https://niasha.ch/cdn/shop/files/No.-3-Skin-Softening-Serum---1_490x510_crop_center.png?v=1706542692",
     isBestseller: false,
   },
   {
@@ -419,7 +419,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://media.shopages3.com/media/f858/571550587565_77132704607650500757.webp",
+    imageSrc: "https://us.numbuzin.com/cdn/shop/files/No.9SheetMask_Main.png?v=1751011777&width=1000",
     isBestseller: false,
   },
   {
@@ -428,7 +428,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://ddvql06zg3s2o.cloudfront.net/Assets/res/imgs/creative/share/mm_beauty.jpg",
+    imageSrc: "https://holastylekorean.com/cdn/shop/files/4_f24e57e4-77c9-4cd0-8bba-e3034513fb80.png?v=1717138966&width=1780",
     isBestseller: false,
   },
   {
@@ -437,7 +437,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0573/3793/8117/files/250401_______1__A__MO02.jpg?v=1749382756",
+    imageSrc: "https://www.dodoskin.com/cdn/shop/files/Rectangle_1_3.png?v=1765285528&width=256",
     isBestseller: false,
   },
   {
@@ -446,7 +446,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://down-sg.img.susercontent.com/file/sg-11134207-7ra3s-mbjp5v3f0ozx74",
+    imageSrc: "http://angelhaven.sg/cdn/shop/files/435.png?v=1751805111&width=1200",
     isBestseller: false,
   },
   {
@@ -455,7 +455,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0061/7516/2486/files/Screenshot_2024-11-07_at_11.23.32.jpg?v=1730946223",
+    imageSrc: "https://miinme.ch/cdn/shop/files/NUMBUZINNo.3Tingle-PoreSofteningSheetMask2.png?crop=center&height=1236&v=1765862411&width=951",
     isBestseller: false,
   },
   {
@@ -464,7 +464,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://shop.delivered.co.kr/cdn/shop/files/3_6fc771e0-37f2-4a12-b73d-45488d757f6c.jpg?v=1719561746&width=3840",
+    imageSrc: "https://niasha.ch/cdn/shop/files/Untitled_design_13_2424573e-44d8-4e6a-bddf-c8dd9240fb93_276x276.png?v=1669729492",
     isBestseller: false,
   },
   {
@@ -473,7 +473,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://sthkbeauty.com/cdn/shop/files/Untitled_060eb4c5-b5ed-4aca-a160-600e9b6067cc.webp?v=1757839165&width=3840",
+    imageSrc: "https://purish.com/cdn/shop/files/6-numbuzin-no-5-vitamin-niacinamide-concentrated-pad-purish.png?v=1755081929&width=1200",
     isBestseller: false,
   },
   {
@@ -482,7 +482,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0668/0022/2505/files/Photoroom_20250519_125604.jpg?v=1747738243&width=960&height=1120&crop=center",
+    imageSrc: "https://www.lamourlife.com/cdn/shop/files/numbuzin_No._3_Tingle-Pore_Softening_Sheet_Mask_4_pcs-1.png?v=1756219733&width=1100",
     isBestseller: false,
   },
   {
@@ -491,7 +491,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://skinstash.pk/cdn/shop/files/Untitleddesign-2024-08-29T152436.821.png?v=1754083245&width=1946",
+    imageSrc: "https://image.globaloliveyoungshop.com/Designbook/23_0725_en/230725_en1_img1.png",
     isBestseller: false,
   },
   {
@@ -500,7 +500,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://koreanshop.ca/wp-content/uploads/2025/12/b9b8515b-efa8-413a-a222-f96db504592f-350x350.png",
+    imageSrc: "https://koreanshop.ca/wp-content/uploads/2025/02/numbuzinNo.5VitaminGlutathioneLaserCream50ml-1_2048x2048-595x595.png",
     isBestseller: false,
   },
   {
@@ -509,7 +509,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://d1flfk77wl2xk4.cloudfront.net/Assets/30/777/M_p0224177730.jpg",
+    imageSrc: "https://preview.redd.it/numbuzin-no-5-serum-or-axis-y-on-dark-spots-v0-bpyd6xeq6x8g1.png?width=880&format=png&auto=webp&s=17bbf52e429de27c3b77223ce44fbb4b34626961",
     isBestseller: false,
   },
   {
@@ -518,7 +518,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
+    imageSrc: "https://pretties.com.hk/cdn/shop/files/202603E-PB-1800x800-6_1800x800.png?v=1772294362",
     isBestseller: false,
   },
   {
@@ -527,7 +527,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.dsmcdn.com/mnresize/420/620/ty1789/prod/QC_PREP/20251118/00/b8121b45-2ab3-30c1-81a0-75a5500c2a3f/1_org.jpg",
+    imageSrc: "https://www.koreanbeautys.com/cdn/shop/files/DESIGN_2.png?v=1739474925&width=1080",
     isBestseller: false,
   },
   {
@@ -536,7 +536,7 @@ export const numbuzinProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.koreanbeauty.com/cdn/shop/files/No.9_NAD_Collagen_Under_Eye_Patches_2.png?v=1764259784&width=1080",
+    imageSrc: "https://www.lamourlife.com/cdn/shop/files/NumbuzinNo.9NAD_RetinolVolumetoxEyeCream10ml_04.png?v=1764779410&width=1500",
     isBestseller: false,
   },
 ];
