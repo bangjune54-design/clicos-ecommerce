@@ -17,6 +17,7 @@ import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { ShoppingBag, ArrowLeft, Search } from "lucide-react";
+import { useCurrency } from "../contexts/CurrencyContext";
 
 interface Product {
   id: string;
@@ -113,6 +114,7 @@ const generateMockProducts = (brandName: string): Product[] => {
 };
 
 export function WholesaleBrandDetail() {
+  const { formatPrice } = useCurrency();
   const { brandId } = useParams();
   const [brandSearchQuery, setBrandSearchQuery] = useState("");
   
@@ -280,12 +282,11 @@ export function WholesaleBrandDetail() {
                     </select>
                   </div>
                 )}
-                
-                <div className="mt-auto flex items-end justify-between pt-2">
-                  <div>
-                    <p className="text-xl font-bold text-primary-800">${product.wholesalePrice.toFixed(2)}</p>
-                    <p className="text-xs text-accent font-semibold mt-1">Inbox Qty: {product.moq} units</p>
-                  </div>
+                                <div className="mt-auto flex items-end justify-between">
+                    <div>
+                      <p className="text-xl font-bold text-primary-800">{formatPrice(product.wholesalePrice)}</p>
+                      <p className="text-xs text-accent font-semibold mt-1">MOQ: {product.moq} units</p>
+                    </div>
                 </div>
               </CardContent>
             </Card>

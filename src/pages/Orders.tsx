@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Package, Truck, CheckCircle2, Copy, MapPin, Ship, Plane } from "lucide-react";
 import { Badge } from "../components/ui/Badge";
+import { useCurrency } from "../contexts/CurrencyContext";
 
 // Mock Data
 const mockOrders = [
@@ -75,6 +76,7 @@ const trackingSteps = [
 ];
 
 export function Orders() {
+  const { formatPrice } = useCurrency();
   const [expandedTrackingId, setExpandedTrackingId] = useState<string | null>(null);
 
   const getStatusIcon = (status: string) => {
@@ -136,7 +138,7 @@ export function Orders() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Total</h3>
-                    <p className="text-gray-500">${order.total.toFixed(2)}</p>
+                    <p className="text-gray-500">{formatPrice(order.total)}</p>
                   </div>
                   <div className="col-span-2 sm:col-span-2 sm:text-right">
                     <h3 className="font-semibold text-gray-900 mb-1">Order # {order.id}</h3>
@@ -217,7 +219,7 @@ export function Orders() {
                             <h4 className="text-base font-bold text-gray-900 line-clamp-2">{item.name}</h4>
                             <p className="text-sm text-gray-500 mt-1">{item.brand}</p>
                           </div>
-                          <p className="text-sm font-bold text-gray-900 ml-4">${item.price.toFixed(2)}</p>
+                          <p className="text-sm font-bold text-gray-900 ml-4">{formatPrice(item.price)}</p>
                         </div>
                         <div className="flex items-end justify-between mt-2">
                           <p className="text-sm text-gray-500">Qty: {item.qty}</p>

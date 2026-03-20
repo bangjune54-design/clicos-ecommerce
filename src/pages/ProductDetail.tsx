@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { ShoppingBag, ArrowLeft, Star, Truck, ShieldCheck } from "lucide-react";
 import { Button } from "../components/ui/Button";
+import { useCurrency } from "../contexts/CurrencyContext";
 import { Badge } from "../components/ui/Badge";
 import { allShopProducts } from "./Shop";
 
 export function ProductDetail() {
-  const { id } = useParams();
+  const { formatPrice } = useCurrency();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType") || "retail";
   
@@ -35,7 +37,7 @@ export function ProductDetail() {
   // they would see retail pricing per the requirement unless restricted.
   // In `Shop.tsx`, b2bProductsList have mocked retail pricing (`price`) alongside `wholesalePrice`.
 
-  const displayPrice = isB2B ? product. wholesalePrice : product.price;
+  const displayPrice = isB2B ? product.wholesalePrice : product.price;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -141,12 +143,14 @@ export function ProductDetail() {
               <span className="text-sm text-gray-500 hover:text-primary-700 cursor-pointer">{Math.floor(Math.random() * 200) + 15} Reviews</span>
             </div>
 
-            <div className="flex items-end gap-4 mb-8">
-              <p className="text-3xl font-bold text-gray-900">${displayPrice.toFixed(2)}</p>
+            <div className="flex items-center gap-4 mb-6">
+              <p className="text-3xl font-bold text-gray-900">{formatPrice(displayPrice)}</p>
               {isB2B && (
-                <div className="flex flex-col mb-1 text-sm">
-                  <span className="text-gray-500 line-through">${product.price.toFixed(2)} MSRP</span>
-                  <span className="text-accent font-semibold">Inbox Qty: {product.moq} units</span>
+                <div className="flex flex-col">
+                  <span className="text-gray-500 line-through">{formatPrice(product.price)} MSRP</span>
+                  <span className="text-sm font-semibold text-accent mt-1">
+                    Whole Sale Price ({product.moq} MOQ)
+                  </span>
                 </div>
               )}
             </div>

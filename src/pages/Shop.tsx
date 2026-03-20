@@ -4,6 +4,7 @@ import { Filter, ChevronDown, ShoppingBag, Search } from "lucide-react";
 import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
+import { useCurrency } from "../contexts/CurrencyContext";
 
 // Import all wholesale product data
 import { fweeProducts } from "../data/fweeProducts";
@@ -61,6 +62,7 @@ export const allShopProducts = [
 ];
 
 export function Shop() {
+  const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get("category");
   
@@ -303,13 +305,15 @@ export function Shop() {
                     <div className="mt-auto flex items-end justify-between">
                       {isWholesaleView ? (
                         <div>
-                          <p className="text-sm text-gray-500 line-through">${product.price.toFixed(2)} MSRP</p>
-                          <p className="text-xl font-bold text-primary-800">${product.wholesalePrice.toFixed(2)}</p>
+                          <div className="flex items-center gap-2 mb-3">
+                            <p className="text-sm text-gray-500 line-through">{formatPrice(product.price)} MSRP</p>
+                            <p className="text-xl font-bold text-primary-800">{formatPrice(product.wholesalePrice)}</p>
+                          </div>
                           <p className="text-xs text-accent font-semibold mt-1">MOQ: {product.moq} units</p>
                         </div>
                       ) : (
-                        <div>
-                          <p className="text-lg font-bold text-gray-900">${product.price.toFixed(2)}</p>
+                        <div className="flex items-center justify-between mt-auto mb-3">
+                          <p className="text-lg font-bold text-gray-900">{formatPrice(product.price)}</p>
                         </div>
                       )}
                     </div>

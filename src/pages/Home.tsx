@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, ShieldCheck, Sparkles, ShoppingBag } from "lucide-react";
 import { Button } from "../components/ui/Button";
-import { Card } from "../components/ui/Card";
+import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
+import { useCurrency } from "../contexts/CurrencyContext";
 import { allShopProducts } from "./Shop";
 import { b2bBrands } from "./WholesaleBrands";
 
@@ -51,6 +52,7 @@ const features = [
 ];
 
 export function Home() {
+  const { formatPrice } = useCurrency();
   return (
     <div className="bg-white">
       {/* Hero section */}
@@ -123,7 +125,7 @@ export function Home() {
                 <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
                 <h3 className="text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
                 <div className="mt-auto pt-4 flex items-center justify-between">
-                  <p className="text-lg font-bold text-gray-900">${product.price.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-gray-900">{formatPrice(product?.price || 0)}</p>
                   <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50">
                     <ShoppingBag className="w-4 h-4" />
                   </Button>
@@ -180,7 +182,7 @@ export function Home() {
                 <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
                 <h3 className="text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
                 <div className="mt-auto pt-4 flex items-center justify-between">
-                  <p className="text-lg font-bold text-gray-900">${product.price.toFixed(2)}</p>
+                  <p className="text-lg font-bold text-gray-900">{formatPrice(product?.price || 0)}</p>
                   <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50">
                     <ShoppingBag className="w-4 h-4" />
                   </Button>

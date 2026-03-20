@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/Button";
+import { useCurrency } from "../contexts/CurrencyContext";
 
 // Mock data for Cart
 const mockRetailItems = [
@@ -35,6 +37,7 @@ const mockB2BItems = [
 ];
 
 export function Cart() {
+  const { formatPrice } = useCurrency();
   const [retailItems, setRetailItems] = useState<any[]>(() => {
     return JSON.parse(localStorage.getItem('retailCart') || '[]');
   });
@@ -123,7 +126,7 @@ export function Cart() {
                         <div>
                           <div className="flex justify-between text-base font-medium text-gray-900">
                             <h3 className="line-clamp-2 pr-4">{item.name}</h3>
-                            <p className="ml-4 whitespace-nowrap">${(item.price * item.quantity).toFixed(2)}</p>
+                            <p className="ml-4 whitespace-nowrap">{formatPrice(item.price * item.quantity)}</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">{item.brand}</p>
                         </div>
@@ -185,10 +188,10 @@ export function Cart() {
                         <div>
                           <div className="flex justify-between text-base font-medium text-gray-900">
                             <h3 className="line-clamp-2 pr-4">{item.name}</h3>
-                            <p className="ml-4 whitespace-nowrap">${(item.price * item.boxQty * item.inboxQty).toFixed(2)}</p>
+                            <p className="ml-4 whitespace-nowrap">{formatPrice(item.price * item.boxQty * item.inboxQty)}</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">{item.brand}</p>
-                          <p className="mt-1 text-xs text-gray-400">Price per unit: ${item.price.toFixed(2)}</p>
+                          <p className="mt-1 text-xs text-gray-400">Price per unit: {formatPrice(item.price)}</p>
                         </div>
                         <div className="flex flex-1 items-end justify-between text-sm mt-2">
                           <div className="text-gray-500 flex items-center gap-3">
@@ -238,13 +241,13 @@ export function Cart() {
               {userType !== "wholesale" && (
                 <div className="flex items-center justify-between">
                   <dt>Retail Subtotal</dt>
-                  <dd className="font-medium text-gray-900">${retailTotal.toFixed(2)}</dd>
+                  <dd className="font-medium text-gray-900">{formatPrice(retailTotal)}</dd>
                 </div>
               )}
               {userType === "wholesale" && (
                 <div className="flex items-center justify-between">
                   <dt>Wholesale Subtotal</dt>
-                  <dd className="font-medium text-gray-900">${b2bTotal.toFixed(2)}</dd>
+                  <dd className="font-medium text-gray-900">{formatPrice(b2bTotal)}</dd>
                 </div>
               )}
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
@@ -255,7 +258,7 @@ export function Cart() {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="text-base font-bold text-gray-900">Order Total</dt>
-                <dd className="text-base font-bold text-gray-900">${(retailTotal + b2bTotal).toFixed(2)}</dd>
+                <dd className="text-base font-bold text-gray-900">{formatPrice(retailTotal + b2bTotal)}</dd>
               </div>
             </dl>
 
