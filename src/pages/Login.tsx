@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 
 export function Login() {
   const [activeTab, setActiveTab] = useState<"general" | "wholesale">("general");
+  const navigate = useNavigate();
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate successful login
+    navigate("/my-page");
+  };
 
   return (
     <div className="bg-white min-h-[calc(100vh-80px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -38,7 +45,7 @@ export function Login() {
           </button>
         </div>
 
-        <form className="mt-8 space-y-6" action="#" method="POST">
+        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="space-y-4 rounded-md shadow-sm">
             <div>
