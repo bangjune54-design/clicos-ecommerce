@@ -5,7 +5,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://pureseoul.co.uk/cdn/shop/files/MEDICUBE-Zero-Pore-One-Day-Cream-50ml-PURESEOUL-UK-KBeauty-Shop-3_1800x1800.png?v=1724058940",
+    imageSrc: "https://themedicube.com.sg/cdn/shop/products/86e27ee7b7a7a18211c0bd6d5ecf4d2c.png?v=1767342139&width=1445",
     isBestseller: false,
   },
   {
@@ -14,7 +14,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "http://sulskin.com/cdn/shop/files/SULSKIN_BEST_SELLER.png?v=1731363423",
+    imageSrc: "https://www.ohmyglow.co/wp-content/uploads/2025/03/medicube-Zero-Pore-One-Day-Cream-23.jpg",
     isBestseller: false,
   },
   {
@@ -32,7 +32,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://radiancerevolution.com.au/cdn/shop/files/medicube-one-day-exosome-shot-pore-ampoule-2000-30ml-ampoule-medicube-radiance-revolution-786348.png?v=1746848619",
+    imageSrc: "https://www.shegoestoseoul.com/image/catalog/PRODUCT/2025/medicube/oneday-exosome-shot-pore-ampoule/7500/medicube-oneday-exosome-shot-pore-ampoule-7500-01-19.jpg",
     isBestseller: false,
   },
   {
@@ -41,7 +41,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0904/2781/8313/files/IMAGESkincareOpulentRadianceHydratingGiftSet_320x.png?v=1758619345",
+    imageSrc: "https://naturealsk.b-cdn.net/8187-home_default/medicube-zero-pore-one-day-serum-30-ml.jpg",
     isBestseller: false,
   },
   {
@@ -50,7 +50,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn-image.oliveyoung.com/slicedImg/Designbook/24_1108_en/241108_en9_img2ffdf50ed-d0fa-4a08-9840-1ecaaa40e5ef.png",
+    imageSrc: "https://www.shegoestoseoul.com/image/catalog/PRODUCT/2025/medicube/pore-zero-blackhead-mud-mask/01/medicube-zero-pore-blackhead-mud-mask-09.jpg",
     isBestseller: false,
   },
   {
@@ -59,7 +59,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.glowkor.com/cdn/shop/files/MEDICUBE-ZeroPorePad2.0-70Pads_2.png?v=1730321701&width=1445",
+    imageSrc: "https://themedicube.com.sg/cdn/shop/files/05_30b0c36d-187b-4064-a358-ab7ee0918ddb.jpg?v=1763974337&width=1946",
     isBestseller: false,
   },
   {
@@ -68,7 +68,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://beautyontapp.com/cdn/shop/files/1_2.png?v=1746081106",
+    imageSrc: "https://kiyoko.com/cdn/shop/files/buy-medicube-zero-pore-pad-20-trial-size-2-pads-at-lila-beauty-korean-and-japanese-beauty-skin-care-708083_eef63ab9-346a-42db-bd40-b0cea3feef0f.png?v=1765233739&width=1024",
     isBestseller: false,
   },
   {
@@ -77,7 +77,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://koreabe.com/cdn/shop/files/1_4952f9ed-5454-4c27-a1f4-463b156d7fa3.png?v=1772958091&width=320",
+    imageSrc: "https://medicube.us/cdn/shop/files/gift_46d513c2-f689-4b68-9679-74c75362f6d4.png?v=1766559960&width=1946",
     isBestseller: false,
   },
   {
@@ -86,7 +86,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://mirai-skin.com/cdn/shop/files/product_images_1733323811.c946f4fcacd6b751b515322045a6cf2a1741100086.png?v=1747726525&width=600",
+    imageSrc: "https://www.ladymakeup.com/pf/14127/1751006168/medicube_zero_pore_serum_2_0_collagen_facial_serum_37_ml_20250627_083451.jpg",
     isBestseller: false,
   },
   {
@@ -95,7 +95,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://eu.fragrance.com/media/catalog/product/G/0/G0023316881_9_2aec.png?optimize=medium&fit=bounds&height=512&width=460&canvas=460:512",
+    imageSrc: "https://www.ballagrio.com/cdn/shop/files/medicube-zero-pore-cream-2-0-50ml-02.jpg?v=1760504784&width=360",
     isBestseller: false,
   },
   {
@@ -104,7 +104,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.koreanbeauty.pt/cdn/shop/files/Vita_Toning_Capsule_Cream.png?v=1773767515&width=900",
+    imageSrc: "https://static.sweetcare.pt/img/prd/488/v-638901669858314396/medicube-025358mw-1.webp",
     isBestseller: false,
   },
   {
@@ -122,7 +122,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0614/4098/3123/files/AU_Beauty_Bazaar_5_3e916e41-0f54-4ab6-9a93-d193e39c4c36.png?v=1762928807",
+    imageSrc: "http://thekshop.ca/cdn/shop/files/medicube_Zero_Pore_Blackhead_Deep_Cleansing_Oil_THEKSHOP_Canada.jpg?v=1742505611",
     isBestseller: false,
   },
   {
@@ -140,7 +140,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.skincupid.us/cdn/shop/files/MEDICUBEZeroPoreOne-daySerum_30ml_3.png?v=1760352243&width=1280",
+    imageSrc: "https://static.beautytocare.com/cdn-cgi/image/f=auto/media/catalog/product/m/e/medicube-zero-pore-one-day-cream-50ml.jpg",
     isBestseller: false,
   },
   {
@@ -149,7 +149,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.ohmyglow.co/wp-content/uploads/2025/02/medicube-Deep-Vita-C-Pad-3.png",
+    imageSrc: "https://themedicube.com.sg/cdn/shop/files/1a296533f8308e5240398c6eb8c8bd9a_b84bf661-e2e9-4ce7-a3d7-62b85a831b13.jpg?v=1767602187&width=1445",
     isBestseller: false,
   },
   {
@@ -158,7 +158,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://skincarecoreenne.com/cdn/shop/files/product_images_1760516354.771527e26fcbf65e15b22e110d82399f1760994652_415950d0-ab43-4bad-860f-ef01be9cdb02.png?v=1761042915&width=1260",
+    imageSrc: "https://www.shegoestoseoul.com/image/catalog/PRODUCT/2025/medicube/deep-lifting-peptide-eye-cream-for-face/medicube-deep-lifting-peptide-eyecream-for-face-03.jpg",
     isBestseller: false,
   },
   {
@@ -167,7 +167,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0705/3174/3778/files/Barrier_Repair_Icon_ff61f7da-533e-4396-b6e2-4a12e28dfbcc.png?v=1716983905",
+    imageSrc: "https://cdn.notinoimg.com/detail_main_lq/medicube/8800240566944_01-o/deep-vita-c-ampoule-2-0___250716.jpg",
     isBestseller: false,
   },
   {
@@ -176,7 +176,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://img.shoplineapp.com/media/image_clips/668b7b7c3f1e71001f6f9382/original.jpg?1720417148",
+    imageSrc: "https://medicube.us/cdn/shop/files/04_a569b946-77f7-479b-8e90-87724fcaacb2.jpg?v=1773299312&width=1445",
     isBestseller: false,
   },
   {
@@ -194,7 +194,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.chemistwarehouse.ae/cdn/shop/collections/Medicube_900x.png?v=1763121413",
+    imageSrc: "https://m.themedicube.co.kr/web/upload/appfiles/ZaReJam3QiELznoZeGGkMG/3343382d06ee3b5f43fcd603cf72556c.jpg",
     isBestseller: false,
   },
   {
@@ -212,7 +212,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0725/2053/2145/files/Clean_packshot.png?v=1770063530",
+    imageSrc: "https://medicube.us/cdn/shop/files/04_a569b946-77f7-479b-8e90-87724fcaacb2.jpg?v=1773299312&width=1445",
     isBestseller: false,
   },
   {
@@ -221,7 +221,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://skinstash.pk/cdn/shop/files/Medicube_Deep_Vitamin_C_Daily_Quick_Mask_350g_8.png?v=1754071131&width=1946",
+    imageSrc: "https://kiokii.com/cdn/shop/files/medicube-deep-vita-c-pad-2-sizesmedicubekiokii-and-6722047.png?v=1772493909",
     isBestseller: false,
   },
   {
@@ -275,7 +275,7 @@ export const medicubeProducts = [
     category: "Body Care",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "http://skincarecoreenne.com/cdn/shop/files/product_images_1733236996.35f59965d9354f2f3ac65295219fe0621735053017.png?v=1743601646",
+    imageSrc: "https://koreanskinca.re/cdn/shop/files/medicube_Kojic_Acid_Turmeric_Night_Wrapping_Mask_75ml.png?v=1743064502&width=3840",
     isBestseller: false,
   },
   {
@@ -302,7 +302,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.kbeautymakeup.com/cdn/shop/files/product_images_1760516353.a579fcbfef2338ca56cde26e40d72f9f1760638993_0f626957-127e-404b-a9c6-5547b3cd685f.png?v=1760639942&width=180",
+    imageSrc: "https://www.skintemple.rs/uploads/store/products/thumbnails/tmb-medicube-kojic-acid-turmeric-vita-eye-gel-serum-30-ml-69a1a33fe3b49.webp",
     isBestseller: false,
   },
   {
@@ -311,7 +311,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "http://koreanskinca.re/cdn/shop/files/product_images_1763626705.9ad986c361d4e885e9e6f6188a484bd9_920ac965-5152-49b0-b758-db4f4e6a99ba1763978858.png?v=1763978898",
+    imageSrc: "https://media.karousell.com/media/photos/products/2025/10/28/medicube_kojic_acid_turmeric_n_1761655480_e89bc9d8_progressive.jpg",
     isBestseller: false,
   },
   {
@@ -320,7 +320,7 @@ export const medicubeProducts = [
     category: "Body Care",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://glamglobal.co.uk/cdn/shop/files/product_images_1760516354.771527e26fcbf65e15b22e110d82399f1760683266_52019239-49f9-4e77-8623-f28f2d02ed6b_600x.png?v=1760683581",
+    imageSrc: "https://shinoss.myshopify.com/cdn/shop/files/new-medicube-smooth-clear-body-care-set-hypochlorous-acid-body-peel-shot-kojic-acid-turmeric-body-wash-toner-pad-toner-mist-exfoliating-for-dead-skin-cells-exce-3944233.jpg?v=1770925325&width=1420",
     isBestseller: false,
   },
   {
@@ -338,7 +338,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.myshoptet.com/usr/www.korejskaskincare.cz/user/shop/detail/159241-5_medicube-pdrn-pletova-mlha.png?69584070",
+    imageSrc: "https://cdn.myshoptet.com/usr/www.korejskaskincare.cz/user/shop/detail/159187_medicubet-tripple-collagen-toner-1.jpg?69584070",
     isBestseller: false,
   },
   {
@@ -347,7 +347,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.adorebeauty.com.au/pim_media/000/545/920/PNG_A.png?w=386&h=386&fmt=webp",
+    imageSrc: "https://skinguru24.pl/wp-content/uploads/sites/8/2026/01/ingredients-medicube-triple-collagen-cream-40-50ml-sgpi24-05b8-5.webp",
     isBestseller: false,
   },
   {
@@ -356,7 +356,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://img.ananinja.com/media/ninja-catalog-42/sa_creations/8800256113217_3.png?w=3840&q=75",
+    imageSrc: "http://hanabeauty.com.au/cdn/shop/files/medicube-Collagen-Night-Wrapping-Mask-75ml-with-box.jpg?v=1752017739&width=2048",
     isBestseller: false,
   },
   {
@@ -365,7 +365,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn1.skinsafeproducts.com/photo/480DC4A33A16FC/large_1720422726.png?1720422726",
+    imageSrc: "https://www.eyurs.com/cdn/shop/files/medicube-collagen-jelly-cream-back-side-packaging-box.jpg?v=1732656685&width=1080",
     isBestseller: false,
   },
   {
@@ -374,7 +374,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn1.skinsafeproducts.com/photo/480DC4A33A16FC/large_1720422726.png?1720422726",
+    imageSrc: "https://beautylau.fr/cdn/shop/files/medicube-collagen-jelly-cream-produit-et-texture.png?v=1765808892&width=416",
     isBestseller: false,
   },
   {
@@ -392,7 +392,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "http://edenskinstore.com/cdn/shop/files/MedicubeTripleCollagenCream.png?v=1750677423",
+    imageSrc: "https://themedicube.com.sg/cdn/shop/files/01_45ac2e51-a736-471e-b040-7599229418f3.jpg?v=1763974808&width=1946",
     isBestseller: false,
   },
   {
@@ -401,7 +401,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "http://hikoco.co.nz/cdn/shop/collections/Medicube_Brand_Photo_Blue2.png?v=1740974830",
+    imageSrc: "https://www.skin2seoul.co.uk/cdn/shop/files/medicubecollagenboosterserum4-min_800x.jpg?v=1745575996",
     isBestseller: false,
   },
   {
@@ -410,7 +410,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://lulupun.shop/cdn/shop/files/Your_Japanese_beauty_shop_ea598060-b45c-462d-a70c-5ae49e952de4.png?v=1752281908&width=600",
+    imageSrc: "https://koreabe.com/cdn/shop/files/medicubecolorsetEMAIL_MOBILEbanner_1080x1080piksel_9.png?v=1768319634",
     isBestseller: false,
   },
   {
@@ -419,7 +419,7 @@ export const medicubeProducts = [
     category: "Body Care",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "http://beauty-garden.hr/cdn/shop/files/185_5d78008c-3191-49c7-b1ee-f78c062b234a.png?v=1751372057",
+    imageSrc: "https://www.medicubesshop.com/wp-content/uploads/2025/10/Red-Glow-Body-Essentials_01_8f8dad58-7fe9-4263-ba73-d695f892a384-2-370x475.jpg",
     isBestseller: false,
   },
   {
@@ -428,7 +428,7 @@ export const medicubeProducts = [
     category: "Body Care",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://d1aq4ubbxe020v.cloudfront.net/image/product/28424/27058338_1729083532_1d2b5fd57f931bac23d300a64facb985-500x500.png?format=png",
+    imageSrc: "https://www.cosmeticsdiary.pk/cdn/shop/files/medicube-medicube-red-acne-succinic-acid-peel-40-g-8909517419709-1171058044.gif?v=1748892950",
     isBestseller: false,
   },
   {
@@ -437,7 +437,7 @@ export const medicubeProducts = [
     category: "Body Care",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://skincarecoreenne.com/cdn/shop/files/product_images_1760516354.771527e26fcbf65e15b22e110d82399f1760994652_415950d0-ab43-4bad-860f-ef01be9cdb02.png?v=1761042915&width=1260",
+    imageSrc: "https://glamglobal.co.uk/cdn/shop/files/medicube-red-clear-cica-body-mist-200ml-330144.jpg?v=1745139109",
     isBestseller: false,
   },
   {
@@ -446,7 +446,7 @@ export const medicubeProducts = [
     category: "Hair Care",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0700/8727/8887/files/10_480x480.png?v=1679641372",
+    imageSrc: "https://aubeautybazaar.com/cdn/shop/files/medicube-soyxidil-2in1-treatment-265ml-1524015.png?v=1771416913",
     isBestseller: false,
   },
   {
@@ -455,7 +455,7 @@ export const medicubeProducts = [
     category: "Hair Care",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.boozyshop.com/cdn/shop/files/medicube-red-succinic-acid-peeling-pad-63563197055359.png?height=645&v=1736348314",
+    imageSrc: "https://www.boozyshop.com/cdn/shop/files/medicube-red-succinic-acid-clarifying-serum-66605378765183.png?height=645&v=1755006144",
     isBestseller: false,
   },
   {
@@ -464,7 +464,7 @@ export const medicubeProducts = [
     category: "Hair Care",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://kbeautyarabia.com/cdn/shop/files/ZeroPoreBlackheadDeepCleansingOil1.png?v=1744638325&width=1080",
+    imageSrc: "https://m.themedicube.co.kr/web/product/detail/soyxidil/soymint/240913_soymint_1_11.jpg",
     isBestseller: false,
   },
   {
@@ -473,7 +473,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://beautyontapp.com/cdn/shop/files/product-title-variant-title-authentic-k-beauty-south-africa-8822442.png?v=1770559748&width=750",
+    imageSrc: "https://lyko.com/globalassets/product-images/medicube-zero-pore-pad-2.0-100-ml-70pcs-4007-119-0070_1.jpg?ref=2BDFF01856&w=1200&h=1250&quality=75",
     isBestseller: false,
   },
   {
@@ -491,7 +491,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://static.beautytocare.com/cdn-cgi/image/w=305,h=305,fit=cover,f=auto/media/content/ranges/medicube-anti-aging_cover25.png",
+    imageSrc: "https://radiancerevolution.com.au/cdn/shop/files/medicube-red-cream-plus-20-100ml-cream-medicube-radiance-revolution-812565.png?v=1739227844",
     isBestseller: false,
   },
   {
@@ -500,7 +500,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn-image.oliveyoung.com/prdtImg/1399/7ff137ab-2e56-40dc-88a6-140130ff7b3f.png?RS=810x810&AR=0&SF=webp&QT=80",
+    imageSrc: "https://kbeautybliss.com/wp-content/uploads/2026/03/medicube-PDRN-Pink-Collagen-Glow-Jelly-Mist-Serum.webp",
     isBestseller: false,
   },
   {
@@ -509,7 +509,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://img.hwahae.co.kr/reviews/9944970/9944970_0_0.png",
+    imageSrc: "https://cafe24img.poxo.com/medicube0/web/product/medium/202408/c1b794efb8b125c0ebb903bb868dbb58.png",
     isBestseller: false,
   },
   {
@@ -518,7 +518,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cosibella-wholesale.com/data/gfx/eng/navigation/15_2_i_29657.png",
+    imageSrc: "https://www.ksecret.com/images/thumbs/0012145_medicube-red-cream-20-50ml.webp",
     isBestseller: false,
   },
   {
@@ -527,7 +527,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cafe24img.poxo.com/medicube0/web/product/medium/202511/6f00121025f615ae9f7841e245c492ec.png",
+    imageSrc: "https://themedicube.com.sg/cdn/shop/files/th_228403c2-22e1-4b7e-8aa8-699aebbe7701.jpg?v=1721800973&width=533",
     isBestseller: false,
   },
   {
@@ -536,7 +536,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://glowtime.mu/wp-content/uploads/2025/02/MEDICUBE-Red-Erasing-Cream-4.png",
+    imageSrc: "https://cafe24img.poxo.com/medicube0/web/product/medium/202407/6937373f581d7f8210e0aa4a491a17a3.png",
     isBestseller: false,
   },
   {
@@ -545,7 +545,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://koreanshop.ca/wp-content/uploads/2025/03/L_g0198346240_001.png",
+    imageSrc: "https://cafe24img.poxo.com/medicube0/web/product/medium/202407/6937373f581d7f8210e0aa4a491a17a3.png",
     isBestseller: false,
   },
   {
@@ -554,7 +554,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0844/3861/4342/files/MCUBE0021.png?v=1753456045",
+    imageSrc: "https://www.ladymakeup.com/pf/7772/1743163769/medicube_red_succinic_acid_peeling_pad_exfoliating_face_pads_70_pcs_20250328_130630.jpg",
     isBestseller: false,
   },
   {
@@ -581,7 +581,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://feel22.com/cdn/shop/files/MedicubePDRNPinkCollagenToningGelTonerPad.png?v=1761648232&width=500",
+    imageSrc: "https://image.oliveyoung.co.kr/cfimages/cf-goods/uploads/images/html/crop/A000000219676/202502241938/crop2/cafe24img.poxo.com/medicube0/web/product/detail/PDRN/oneday_serum/pdrn_oneday_3_09.jpg?created=202502241939",
     isBestseller: false,
   },
   {
@@ -608,7 +608,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.lamourlife.com/cdn/shop/files/MEDICUBEPDRNPinkCaffeineNightWrappingMask75ml_05.png?v=1765385256&width=1500",
+    imageSrc: "https://m.themedicube.co.kr/web/product/medium/202602/0f26a64f8ab58d62db7d4560b9bb92a7.png",
     isBestseller: false,
   },
   {
@@ -626,7 +626,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.officialkbeauty.com/cdn/shop/files/Medicube_PDRN_Pink_One_Day_Serum_Set_2.png?v=1760609029&width=1445",
+    imageSrc: "https://www.ksecret.com/images/thumbs/0011340_medicube-pdrn-pink-hyaluronic-moisturizing-cream-50ml_400.jpeg",
     isBestseller: false,
   },
   {
@@ -653,7 +653,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.koreanbeautys.com/cdn/shop/files/DESIGN.png?v=1739475014&width=1080",
+    imageSrc: "https://www.ksecret.com/images/thumbs/0013213_medicube-pdrn-hydrating-gel-cleanser-200ml_400.png",
     isBestseller: false,
   },
   {
@@ -671,7 +671,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.koreanbeautykr.com/cdn/shop/files/medicube-pdrn-pink-collagen-capsule-cream-55g-9760922.png?v=1768433466&width=150",
+    imageSrc: "https://cafe24img.poxo.com/medicube0/web/product/detail/PDRN/capsule/pdrn_capsule_01_01.jpg",
     isBestseller: false,
   },
   {
@@ -689,7 +689,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://theskincarelibrary.com/cdn/shop/files/MedicubePDRNPinkPeptideEyeCreamTSCLPhoto_800x.png?v=1749571606",
+    imageSrc: "https://idakorea.ee/wp-content/uploads/2025/06/medicube-hyaluronic-multi-peptide-serum-idakorea1-260x298.webp",
     isBestseller: false,
   },
   {
@@ -716,7 +716,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://static.beautytocare.com/cdn-cgi/image/w=305,h=305,fit=cover,f=auto/media/content/ranges/medicube-anti-aging_cover25.png",
+    imageSrc: "https://www.lakinza.ca/cdn/shop/files/medicube-pdrn-pink-glutathione-serum-mist-100ml-korean-skincare-143776.webp?v=1741232448&width=1445",
     isBestseller: false,
   },
   {
@@ -734,7 +734,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.koreanbeauty.eu/cdn/shop/files/PDRNPinkCollagenGelMask_1.png?v=1743600368&width=1080",
+    imageSrc: "https://m.themedicube.co.kr/web/upload/appfiles/ZaReJam3QiELznoZeGGkMG/a90c12e1ef50119eea983051bb5c4de8.jpg",
     isBestseller: false,
   },
   {
@@ -752,7 +752,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://fashionista.com/.image/ar_1:1,c_fill,cs_srgb,q_auto:good,w_1200/MjIxMDcwMTI0NzQ3MDcyOTYx/pdrn-buzzy-beauty-ingredient.png",
+    imageSrc: "https://preview.redd.it/medicube-pdrn-line-any-thoughts-i-havent-seen-a-lot-of-v0-fx13vh92muqe1.jpg?width=596&format=pjpg&auto=webp&s=4389a00ae6eb937d38530a82117b11db48398f05",
     isBestseller: false,
   },
   {
@@ -788,7 +788,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://hypercape-build.s3.ap-northeast-2.amazonaws.com/images/product/1738733909841_9044bcdcd47e43bd82d064cb8eef8783.png",
+    imageSrc: "https://q-depot-live-assets.s3.us-east-2.amazonaws.com/storage/images/9-medicube_wholesale.webp",
     isBestseller: false,
   },
   {
@@ -824,7 +824,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.salla.sa/onxjbX/9373a978-6718-4298-96e5-0b737b03fff0-1000x1000-zF8pUa7DJ65kcZVPO8o417CNgnpfGCGDOGVvw4PA.png",
+    imageSrc: "https://beautytribe.com/cdn/shop/files/medicube-pdrn-pink-collagen-capsule-cream-55g-153433-8293991.jpg?v=1764386832&width=1500",
     isBestseller: false,
   },
   {
@@ -833,7 +833,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://skincarecoreenne.com/cdn/shop/files/product_images_1731394056.3be7249722c25f05161285416a84ae191735156372.png?v=1747619883&width=1260",
+    imageSrc: "https://themedicube.com.sg/cdn/shop/files/Rectangle_70426.png?v=1757551855",
     isBestseller: false,
   },
   {
@@ -860,7 +860,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/bae97d0d-9e73-43c4-9e72-9d46318ee442.__CR0,0,1464,600_PT0_SX1464_V1___.png",
+    imageSrc: "https://koreanskinca.re/cdn/shop/files/medicube_Kojic_Acid_Turmeric_Peel_Shot_80ml.png?v=1763979755&width=3840",
     isBestseller: false,
   },
   {
@@ -869,7 +869,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://btime.om/cdn/shop/files/01_41b67f66-67f1-40cc-b8ff-98cdf4772a3f.png?v=1767748990&width=1600",
+    imageSrc: "https://cdn.shopify.com/s/files/1/0909/8654/5430/files/medicube-deep-vita-c-capsule-cream-55g-cream-medicube-radiance-revolution-762176_large.jpg?v=1765790913",
     isBestseller: false,
   },
   {
@@ -878,7 +878,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://betterskin.ge/wp-content/uploads/3-25-150x150.png",
+    imageSrc: "https://m.themedicube.co.kr/web/upload/appfiles/ZaReJam3QiELznoZeGGkMG/3343382d06ee3b5f43fcd603cf72556c.jpg",
     isBestseller: false,
   },
   {
@@ -887,7 +887,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://saranghae.ch/cdn/shop/files/medicubeage-rboosterpropink2.png?v=1741956722",
+    imageSrc: "https://lilabeauty.com.au/cdn/shop/files/buy-medicube-age-r-booster-pro-at-lila-beauty-korean-and-japanese-beauty-skin-care-600648.jpg?v=1720010426",
     isBestseller: false,
   },
   {
@@ -896,7 +896,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0156/3905/2336/files/pro_th.png?v=1766985600",
+    imageSrc: "https://cafe24img.poxo.com/medicube0/web/product/detail/device/boosterpro/231015_pro03_14.jpg",
     isBestseller: false,
   },
   {
@@ -905,7 +905,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://beauty-garden.hr/cdn/shop/files/92_3e1a61e0-5fb1-4299-90b3-01497d6f2d80.png?v=1751360655&width=1500",
+    imageSrc: "https://hips.hearstapps.com/hmg-prod/images/medicube-before-and-after-6765d458254ba.png?crop=0.498xw:0.990xh;0.502xw,0.00676xh&resize=640:*",
     isBestseller: false,
   },
   {
@@ -914,7 +914,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://kream-phinf.pstatic.net/MjAyNTExMjRfMTEz/MDAxNzYzOTY2MTg2MjM2.Rm7qxUhg2NSczSEWzghTmygtdO8Y8L7B5N-IyQv2rPIg.aYxgyP4jc9ooCtbccqW9F2nPxFg4sRLV6-Z7I16bs-8g.PNG/a_84b936923e8f44de9f414d1951e5a4e8.png?type=m",
+    imageSrc: "https://kiokii.com/cdn/shop/files/medicube-age-r-booster-pro-pink-editionmedicubekiokii-and-304887.png?v=1772480506",
     isBestseller: false,
   },
   {
@@ -923,7 +923,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.shopify.com/s/files/1/0844/3861/4342/files/MCUBE0005.png?v=1760892755",
+    imageSrc: "https://themedicube.com.sg/cdn/shop/files/SG_231005_glow01_1200_06.jpg?v=1738915844&width=1445",
     isBestseller: false,
   },
   {
@@ -932,7 +932,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn.mafrservices.com/pim-content/UAE/media/product/8809960354732/1741177383/8809960354732_main.png?im=Resize=376",
+    imageSrc: "https://koreanshop.ca/wp-content/uploads/2024/09/medicube_mask-350x350.jpg",
     isBestseller: false,
   },
   {
@@ -959,7 +959,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://media.springernature.com/full/springer-static/image/art:10.1038/s44294-025-00111-w/MediaObjects/44294_2025_111_Fig1_HTML.png",
+    imageSrc: "https://media.karousell.com/media/photos/products/2024/11/11/hello_kittymedicube_ager_6_in__1731301521_5ebd0427_progressive.jpg",
     isBestseller: false,
   },
   {
@@ -968,7 +968,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.uniquebunny.com/cdn/shop/files/Vegan.png?v=1770134896",
+    imageSrc: "https://boniik.com.au/cdn/shop/files/medicube-collagen-jelly-cream-boniik-australia_grande.jpg?v=1716361847",
     isBestseller: false,
   },
   {
@@ -977,7 +977,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://unniskin.com/cdn/shop/files/47_off_1_8f1015fc-308a-4a9c-920b-799f756a4ed9_700x.png?v=1756852869",
+    imageSrc: "https://cdn.beautyamora.com.au/media/catalog/product/cache/e0fc45df2e7abf9462fdbfd00944ee31/m/e/medicube-multi-blackhead-pore-brush-20g-679.jpg",
     isBestseller: false,
   },
   {
@@ -986,7 +986,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://yvescosmetic.com/upload/products/product1_08012026-163010.png",
+    imageSrc: "https://wcosmetics.com.au/cdn/shop/files/medicube-age-r-booster-pro-head-cover-medicube-beauty-decoder-8800240579913-4890494.webp?v=1764839080",
     isBestseller: false,
   },
   {
@@ -995,7 +995,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://pic2-cdn.creality.com/model/109e183af3b191cc50036435d098a22d.png",
+    imageSrc: "http://haru-beauty.com/cdn/shop/files/medicube_age_r_booster_pro.webp?v=1737397586",
     isBestseller: false,
   },
   {
@@ -1004,7 +1004,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.skincupid.de/cdn/shop/files/ANUA_Azelaic_Hyaluron_Soothing_Serum_30ml.png?v=1760352390&width=550",
+    imageSrc: "http://themedicube.com.sg/cdn/shop/files/2025_th.jpg?v=1766470285",
     isBestseller: false,
   },
   {
@@ -1013,7 +1013,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://focdn.gcdn.samsungsdscloud.com/images/files_new/mp/gd/2024/01/04//PRDI20240104141136A837701B001_400x400.png",
+    imageSrc: "https://cdn.beautyamora.com.au/media/catalog/product/cache/e0fc45df2e7abf9462fdbfd00944ee31/m/e/medicube-age-r-booster-pro-white-154g-48.jpg",
     isBestseller: false,
   },
   {
@@ -1022,7 +1022,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://runrabbit.lk/cdn/shop/files/1_27428520-9923-436a-87d6-f1063fe23f2f.png?v=1771828377&width=360",
+    imageSrc: "https://media.karousell.com/media/photos/products/2025/12/27/medicube_ager_booster_pro__bra_1766797477_549fe2ff_thumbnail.jpg",
     isBestseller: false,
   },
   {
@@ -1031,7 +1031,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://beautitu.com/cdn/shop/files/skin1004-10-30ml-6376373.png?v=1752963914&width=533",
+    imageSrc: "https://cdn.beautyamora.com.au/media/catalog/product/cache/e0fc45df2e7abf9462fdbfd00944ee31/m/e/medicube-age-r-booster-pro-pink-edition-154g-188.jpg",
     isBestseller: false,
   },
   {
@@ -1040,7 +1040,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn-image.oliveyoung.com/slicedImg/Designbook/24_1108_en/241108_en1_img2dae28e6e-5c56-4a34-8697-6495180669ab.png",
+    imageSrc: "https://m.themedicube.co.kr/web/product/medium/202603/610aa20a0f495cef0fc830a26ee8385b.png",
     isBestseller: false,
   },
   {
@@ -1049,7 +1049,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://m.media-amazon.com/images/I/21oVdXE3VqL.__AC_SR166,182___.jpg",
+    imageSrc: "https://m.themedicube.co.kr/web/product/detail/PDRN/mask/250925_gelmask (43).webp",
     isBestseller: false,
   },
   {
@@ -1058,7 +1058,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://www.cosmetology.co.za/wp-content/uploads/2026/02/8800256115549_1-1.png",
+    imageSrc: "https://m.themedicube.co.kr/web/upload/NNEditor/20260213/0213_gelmask_01_03.jpg",
     isBestseller: false,
   },
   {
@@ -1076,7 +1076,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "http://tsubakibeauty.com/cdn/shop/files/medicube_PDRN_cream_37d8cebf-80d2-458e-b512-93234c45ee1e.png?v=1772479877",
+    imageSrc: "https://cafe24img.poxo.com/medicube0/web/product/detail/PDRN/mask/pdrnwrapping (15)_result.webp",
     isBestseller: false,
   },
   {
@@ -1094,7 +1094,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://cdn-image.oliveyoung.com/prdt_review/1560/ff70bfdf-1354-4d15-b291-33e7ddaa03d7.png?RS=0x240&AO=1&SF=webp&QT=80",
+    imageSrc: "https://nouraskincare.com/cdn/shop/files/medicube-kojic-turmeric-full-set-noura-skincare_grande.jpg?v=1769270978",
     isBestseller: false,
   },
   {
@@ -1103,7 +1103,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://suunsu.com/cdn/shop/files/MedicubePDRNPinkVitaCoatingMask1.png?v=1769686991&width=1334",
+    imageSrc: "https://oceanbuy.ca/cdn/shop/files/medicubemedicube-azelaic-acid-exosome-shot-2000-30mloceanbuy-beauty-1841850.jpg?v=1772844427&width=900",
     isBestseller: false,
   },
   {
@@ -1112,7 +1112,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://shoplineimg.com/5c04c85bc0d24a0001ac013b/69ba2604a8ffd64e97b5045f/900x.png?",
+    imageSrc: "https://m.themedicube.co.kr/web/upload/NNEditor/20251217/copy-1765959612-211022_deepmask02_03_shop1_161334.jpg",
     isBestseller: false,
   },
   {
@@ -1121,7 +1121,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://buybeautique.com/cdn/shop/files/Screenshot_7.png?v=1664100385&width=500",
+    imageSrc: "https://www.lamourlife.com/cdn/shop/files/medicubecollagennightwrappingmask1.png?v=1740503356&width=1100",
     isBestseller: false,
   },
   {
@@ -1130,7 +1130,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://wcosmetics.com.au/cdn/shop/files/WXWorkCapture_17390940701537.png?v=1756443608&width=1280",
+    imageSrc: "https://luxiface.com/cdn/shop/files/medicube-zero-pore-pad-2_0-70pcs.png?v=1772111958",
     isBestseller: false,
   },
   {
@@ -1139,7 +1139,7 @@ export const medicubeProducts = [
     category: "Skincare",
     wholesalePrice: 15.00,
     moq: 50,
-    imageSrc: "https://ohlolly.com/cdn/shop/files/MediAnswer_Calming_Collagen_mask_1200x.png?v=1758597746",
+    imageSrc: "https://beautyaddicts.pe/cdn/shop/files/collagen-lifting-mask-medicube-6.png?v=1738954932&width=1214",
     isBestseller: false,
   },
 ];
