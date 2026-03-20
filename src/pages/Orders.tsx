@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Package, Truck, CheckCircle2, Copy } from "lucide-react";
+import { Package, Truck, CheckCircle2, Copy, MapPin, Ship, Plane } from "lucide-react";
 import { Badge } from "../components/ui/Badge";
 
 // Mock Data
@@ -66,7 +66,17 @@ const mockOrders = [
   }
 ];
 
+const trackingSteps = [
+  { id: 1, name: "Korea warehouse", icon: Package },
+  { id: 2, name: "Port (Korea)", icon: Ship },
+  { id: 3, name: "Shipping", icon: Plane },
+  { id: 4, name: "Port (Destination)", icon: Ship },
+  { id: 5, name: "Arrived", icon: MapPin },
+];
+
 export function Orders() {
+  const [expandedTrackingId, setExpandedTrackingId] = useState<string | null>(null);
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "Delivered":
@@ -88,6 +98,15 @@ export function Orders() {
       case "Processing":
       default:
         return "warning";
+    }
+  };
+
+  const getActiveStep = (status: string) => {
+    switch(status) {
+      case "Processing": return 1;
+      case "In Transit": return 3;
+      case "Delivered": return 5;
+      default: return 1;
     }
   };
 
@@ -142,11 +161,48 @@ export function Orders() {
                     <p className="text-sm text-gray-500">{order.statusDescription}</p>
                   </div>
                   <div className="ml-auto flex-shrink-0">
-                    <button className="px-4 py-2 border border-gray-300 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
-                      Track Package
+                    <button 
+                      onClick={() => setExpandedTrackingId(expandedTrackingId === order.id ? null : order.id)}
+                      className="px-4 py-2 border border-gray-300 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      {expandedTrackingId === order.id ? "Hide Tracking" : "Track Package"}
                     </button>
                   </div>
                 </div>
+
+                {/* Tracking Dropdown */}
+                {expandedTrackingId === order.id && (
+                  <div className="mb-8 p-6 bg-gray-50 rounded-xl border border-gray-100 animate-fade-in origin-top">
+                    <h4 className="text-sm font-bold text-gray-900 mb-6 uppercase tracking-wider">Tracking Timeline</h4>
+                    <div className="relative">
+                      {/* Timeline Line */}
+                      <div className="absolute top-5 left-0 w-full h-1 bg-gray-200 rounded-full" />
+                      <div 
+                        className="absolute top-5 left-0 h-1 bg-primary-500 rounded-full transition-all duration-1000 ease-out"
+                        style={{ width: `${((getActiveStep(order.status) - 1) / (trackingSteps.length - 1)) * 100}%` }}
+                      />
+                      
+                      {/* Steps */}
+                      <div className="relative flex justify-between">
+                        {trackingSteps.map((step) => {
+                          const StepIcon = step.icon;
+                          const isActive = step.id <= getActiveStep(order.status);
+                          
+                          return (
+                            <div key={step.id} className="flex flex-col items-center w-24">
+                              <div className={`w-10 h-10 rounded-full border-4 border-gray-50 flex items-center justify-center z-10 transition-colors duration-500 ${isActive ? 'bg-primary-500 text-white' : 'bg-white text-gray-300'}`}>
+                                <StepIcon className="w-4 h-4" />
+                              </div>
+                              <p className={`mt-3 text-xs font-semibold text-center leading-tight transition-colors duration-500 ${isActive ? 'text-primary-900' : 'text-gray-400'}`}>
+                                {step.name}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Items */}
                 <ul className="divide-y divide-gray-100">
