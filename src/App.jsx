@@ -15,6 +15,7 @@ import { About } from "@/pages/About";
 import { Blog } from "@/pages/Blog";
 import { BlogPost } from "@/pages/BlogPost";
 import { Contact } from "@/pages/Contact";
+import { ProductDetail } from "@/pages/ProductDetail";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/wholesale" element={<Wholesale />} />
           <Route path="/wholesale/brands" element={<WholesaleBrands />} />
           <Route path="/wholesale/brands/:brandId" element={<WholesaleBrandDetail />} />

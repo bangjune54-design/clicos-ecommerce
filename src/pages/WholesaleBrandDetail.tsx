@@ -227,19 +227,23 @@ export function WholesaleBrandDetail() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product) => (
             <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
-              <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
-                <img
-                  src={product.imageSrc}
-                  alt={product.name}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                />
-                {product.isBestseller && (
-                  <Badge variant="accent" className="absolute top-3 left-3 shadow-sm">
-                    Bestseller
-                  </Badge>
-                )}
+              <Link to={`/product/${product.id}`} className="block">
+                <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
+                  <img
+                    src={product.imageSrc}
+                    alt={product.name}
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {product.isBestseller && (
+                    <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
+                      Bestseller
+                    </Badge>
+                  )}
+                </div>
+              </Link>
+              <CardContent className="flex flex-col flex-grow pt-4 relative">
                 
-                <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 translate-y-4 group-hover:translate-y-0 duration-300 bg-white/90 backdrop-blur-sm">
+                <div className="absolute inset-x-0 bottom-full p-4 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 translate-y-4 group-hover:translate-y-0 duration-300 bg-white/90 backdrop-blur-sm shadow-md pointer-events-auto z-20">
                   <div className="flex items-center justify-between border border-gray-300 rounded-md bg-white shadow-sm font-semibold">
                     <button type="button" className="px-3 py-1.5 text-gray-600 hover:bg-gray-100 transition-colors w-1/3 text-center rounded-l-md" onClick={(e) => { e.preventDefault(); updateQty(product.id, -1); }}>-</button>
                     <span className="px-2 py-1.5 text-sm font-bold text-gray-900 w-1/3 text-center border-x border-gray-300">{getQty(product.id)}</span>
@@ -249,13 +253,13 @@ export function WholesaleBrandDetail() {
                     <ShoppingBag className="w-4 h-4" /> Add to Quote
                   </Button>
                 </div>
-              </div>
               
-              <CardContent className="flex flex-col flex-grow pt-4">
                 <p className="text-xs text-gray-500 mb-1">{brand.name}</p>
-                <h3 className="text-base font-bold text-gray-900 mb-2 leading-tight">
-                  {product.name}
-                </h3>
+                <Link to={`/product/${product.id}`} className="hover:text-primary-800 transition-colors group-hover:underline">
+                  <h3 className="text-base font-bold text-gray-900 mb-2 leading-tight">
+                    {product.name}
+                  </h3>
+                </Link>
 
                 {product.colors && product.colors.length > 0 && (
                   <div className="mb-4">
