@@ -53,6 +53,7 @@ export function AdminDashboard() {
   const [editOrderTotal, setEditOrderTotal] = useState<number>(0);
   const [editingProductId, setEditingProductId] = useState<string | null>(null);
   const [editProductPayload, setEditProductPayload] = useState<any>({});
+  const [deleteModal, setDeleteModal] = useState<{isOpen: boolean, type: 'order' | 'account' | 'product' | null, id: string | null}>({ isOpen: false, type: null, id: null });
   
   // Combine some real data strings for the inventory tab
   const [inventory, setInventory] = useState<any[]>(() => {
@@ -74,21 +75,28 @@ export function AdminDashboard() {
   };
 
   const handleDeleteOrder = (orderId: string) => {
-    if (window.confirm("Are you sure you want to cancel/delete this order?")) {
-      setOrders(orders.filter(o => o.id !== orderId));
-    }
+    setOrders(orders.filter(o => o.id !== orderId));
   };
 
   const handleDeleteAccount = (accountId: string) => {
-    if (window.confirm("Are you sure you want to delete this account?")) {
-      setAccounts(accounts.filter(a => a.id !== accountId));
-    }
+    setAccounts(accounts.filter(a => a.id !== accountId));
   };
 
   const handleDeleteProduct = (productId: string) => {
     const updated = inventory.filter(p => p.id !== productId);
     setInventory(updated);
     localStorage.setItem("adminInventory", JSON.stringify(updated));
+  };
+
+  const confirmDelete = () => {
+    if (deleteModal.type === 'order' && deleteModal.id) {
+      handleDeleteOrder(deleteModal.id);
+    } else if (deleteModal.type === 'account' && deleteModal.id) {
+      handleDeleteAccount(deleteModal.id);
+    } else if (deleteModal.type === 'product' && deleteModal.id) {
+      handleDeleteProduct(deleteModal.id);
+    }
+    setDeleteModal({ isOpen: false, type: null, id: null });
   };
 
   const handleSaveOrder = (id: string) => {
@@ -235,7 +243,7 @@ export function AdminDashboard() {
                           </button>
                         )}
                         <button 
-                          onClick={() => handleDeleteOrder(order.id)} 
+                          onClick={() => setDeleteModal({ isOpen: true, type: 'order', id: order.id })} 
                           className="text-red-400 hover:text-red-600 font-semibold flex items-center gap-1"
                         >
                           <Trash2 className="w-4 h-4"/> Delete
@@ -325,7 +333,7 @@ export function AdminDashboard() {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                       <button 
-                        onClick={() => handleDeleteAccount(acc.id)} 
+                        onClick={() => setDeleteModal({ isOpen: true, type: 'account', id: acc.id })} 
                         className="text-red-400 hover:text-red-600 font-semibold flex items-center gap-1 justify-end w-full"
                       >
                         <Trash2 className="w-4 h-4"/> Delete
@@ -397,7 +405,7 @@ export function AdminDashboard() {
                               <Edit className="w-4 h-4" />
                             </button>
                           )}
-                          <button onClick={() => handleDeleteProduct(item.id)} className="text-red-400 hover:text-red-600 transition-colors">
+                          <button onClick={() => setDeleteModal({ isOpen: true, type: 'product', id: item.id })} className="text-red-400 hover:text-red-600 transition-colors">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -411,6 +419,31 @@ export function AdminDashboard() {
         )}
 
       </div>
+
+      {/* Custom Confirmation Modal */}
+      {deleteModal.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setDeleteModal({ isOpen: false, type: null, id: null })} />
+          <div className="bg-white rounded-2xl p-8 max-w-sm w-full mx-4 relative z-10 shadow-2xl transform transition-all">
+            <h3 className="text-xl font-bold text-gray-900 mb-2 font-serif">Are you sure?</h3>
+            <p className="text-gray-500 mb-6 leading-relaxed">
+              This action cannot be undone. You are about to permanently delete this {deleteModal.type === 'order' ? 'order' : deleteModal.type === 'account' ? 'account' : 'product'}.
+            </p>
+            <div className="flex items-center gap-3 w-full">
+              <Button variant="outline" className="flex-1" onClick={() => setDeleteModal({ isOpen: false, type: null, id: null })}>
+                Cancel
+              </Button>
+              <button 
+                onClick={confirmDelete} 
+                className="flex-1 rounded-full px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 bg-red-600 hover:bg-red-700"
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
