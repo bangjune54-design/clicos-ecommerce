@@ -64,6 +64,9 @@ const generateMockProducts = (brandName: string): Product[] => {
   if (brandName === "Kerasys") {
     return kerasysProducts;
   }
+  if (brandName === "ATS") {
+    return atsProducts;
+  }
   
   return [
     {
