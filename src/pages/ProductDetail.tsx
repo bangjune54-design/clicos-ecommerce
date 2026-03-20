@@ -156,7 +156,7 @@ export function ProductDetail() {
             </div>
 
             <p className="text-base text-gray-700 leading-relaxed mb-10 border-b border-gray-200 pb-8">
-              Discover the beauty of carefully crafted authentic Korean formulas. This {product.category.toLowerCase()} essentially targets optimal results, ensuring your absolute satisfaction with every use. Premium ingredients combined with advanced technology deliver visible improvements.
+              {product.description || "Discover the beauty of carefully crafted authentic Korean formulas. This " + product.category.toLowerCase() + " essentially targets optimal results, ensuring your absolute satisfaction with every use. Premium ingredients combined with advanced technology deliver visible improvements."}
             </p>
 
             <form className="mt-auto">

@@ -103,8 +103,9 @@ export function AdminDashboard() {
     setEditingOrderId(null);
   };
 
-  const handleSaveProduct = (id: string) => {
-    const updated = inventory.map(p => p.id === id ? { ...p, ...editProductPayload } : p);
+  const handleSaveProduct = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const updated = inventory.map(p => p.id === editingProductId ? { ...p, ...editProductPayload } : p);
     setInventory(updated);
     saveLiveInventory(updated);
     setEditingProductId(null);
@@ -355,125 +356,190 @@ export function AdminDashboard() {
 
         {/* Tab Content: Inventory */}
         {activeTab === "inventory" && (
-          <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl shadow-sm ring-1 ring-gray-900/5">
-              <div className="flex flex-1 w-full sm:w-auto gap-4 items-center">
-                <div className="relative max-w-sm w-full">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search className="h-4 w-4 text-gray-400" />
+          <div className="space-y-6 animate-fade-in">
+            {editingProductId ? (
+              <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-8">
+                <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+                  <h3 className="text-2xl font-bold font-serif text-gray-900">Edit Product Profile</h3>
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={() => setEditingProductId(null)}>Cancel</Button>
+                    <Button onClick={handleSaveProduct}>Save Changes</Button>
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    value={inventorySearch}
-                    onChange={(e) => setInventorySearch(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition duration-150 ease-in-out"
-                  />
                 </div>
-                <div className="relative">
-                  <select
-                    value={inventoryBrandFilter}
-                    onChange={(e) => setInventoryBrandFilter(e.target.value)}
-                    className="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm font-medium"
-                  >
-                    <option value="All">All Brands</option>
-                    {Array.from(new Set(inventory.map(p => p.brand).filter(Boolean))).sort().map(brand => (
-                      <option key={brand as string} value={brand as string}>{brand as string}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+                
+                <form className="grid grid-cols-1 md:grid-cols-2 gap-8" onSubmit={handleSaveProduct}>
+                  
+                  {/* Left Column: Visuals & Text */}
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Product Image URL</label>
+                      <img src={editProductPayload.imageSrc || "https://placehold.co/400?text=No+Image"} alt="Preview" className="w-full h-48 object-cover rounded-lg border border-gray-200 shadow-sm mb-3" />
+                      <Input 
+                        value={editProductPayload.imageSrc || ""} 
+                        onChange={e => setEditProductPayload({...editProductPayload, imageSrc: e.target.value})} 
+                        placeholder="https://example.com/image.jpg"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Product Name</label>
+                      <Input 
+                        value={editProductPayload.name || ""} 
+                        onChange={e => setEditProductPayload({...editProductPayload, name: e.target.value})} 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Description</label>
+                      <textarea 
+                        className="w-full rounded-md border-0 py-2.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 resize-none h-32"
+                        value={editProductPayload.description || ""} 
+                        onChange={e => setEditProductPayload({...editProductPayload, description: e.target.value})}
+                        placeholder="Detailed product features and benefits..."
+                      />
+                    </div>
+                  </div>
 
-              <div className="flex items-center gap-3 w-full sm:w-auto shrink-0 justify-end">
-                <Button onClick={handleResetInventory} variant="outline" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
-                  <RotateCcw className="w-4 h-4" /> Reset Default
-                </Button>
-                <Button onClick={handleAddProduct} className="flex items-center gap-2 shadow-sm">
-                  <Plus className="w-4 h-4" /> Add New Product
-                </Button>
+                  {/* Right Column: Pricing & Meta */}
+                  <div className="space-y-6 bg-gray-50/50 p-6 rounded-xl border border-gray-100">
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Brand</label>
+                      <Input 
+                        value={editProductPayload.brand || ""} 
+                        onChange={e => setEditProductPayload({...editProductPayload, brand: e.target.value})} 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Category</label>
+                      <Input 
+                        value={editProductPayload.category || ""} 
+                        onChange={e => setEditProductPayload({...editProductPayload, category: e.target.value})} 
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-semibold mb-2 text-gray-900">Retail Price ($)</label>
+                        <Input 
+                          type="number" step="0.01"
+                          value={editProductPayload.price || 0} 
+                          onChange={e => setEditProductPayload({...editProductPayload, price: parseFloat(e.target.value)})} 
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold mb-2 text-primary-800">B2B Price ($)</label>
+                        <Input 
+                          type="number" step="0.01"
+                          value={editProductPayload.wholesalePrice || 0} 
+                          onChange={e => setEditProductPayload({...editProductPayload, wholesalePrice: parseFloat(e.target.value)})} 
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Minimum Order Qty (MOQ)</label>
+                      <Input 
+                        type="number"
+                        value={editProductPayload.moq || 1} 
+                        onChange={e => setEditProductPayload({...editProductPayload, moq: parseInt(e.target.value)})} 
+                      />
+                    </div>
+                  </div>
+                </form>
               </div>
-            </div>
-            
-            <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Preview</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Product ID</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Brand Name</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Retail Price</th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">B2B Price</th>
-                    <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase tracking-wider">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {inventory
-                    .filter(item => inventoryBrandFilter === "All" || item.brand === inventoryBrandFilter)
-                    .filter(item => 
-                      inventorySearch === "" || 
-                      item.name.toLowerCase().includes(inventorySearch.toLowerCase()) || 
-                      (item.brand && item.brand.toLowerCase().includes(inventorySearch.toLowerCase()))
-                    )
-                    .map((item) => (
-                    <tr key={item.id} className="hover:bg-gray-50">
-                      <td className="whitespace-nowrap px-6 py-3">
-                        <div className="h-10 w-10 flex-shrink-0">
-                          <img className="h-10 w-10 rounded-md object-cover border border-gray-200" src={item.imageSrc} alt="" />
-                        </div>
-                      </td>
-                      <td 
-                        className="px-6 py-4 text-sm font-medium text-gray-900 truncate max-w-[200px] cursor-pointer hover:bg-gray-100 transition-colors"
-                        onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}
+            ) : (
+              // Normal Inventory Table View
+              <>
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl shadow-sm ring-1 ring-gray-900/5">
+                  <div className="flex flex-1 w-full sm:w-auto gap-4 items-center">
+                    <div className="relative max-w-sm w-full">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-4 w-4 text-gray-400" />
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Search products..."
+                        value={inventorySearch}
+                        onChange={(e) => setInventorySearch(e.target.value)}
+                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition duration-150 ease-in-out"
+                      />
+                    </div>
+                    <div className="relative">
+                      <select
+                        value={inventoryBrandFilter}
+                        onChange={(e) => setInventoryBrandFilter(e.target.value)}
+                        className="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm font-medium"
                       >
-                        {editingProductId === item.id ? (
-                          <input type="text" className="w-full px-2 py-1 border rounded bg-white text-gray-900" value={editProductPayload.name || ""} onChange={e => setEditProductPayload({...editProductPayload, name: e.target.value})} autoFocus onClick={e => e.stopPropagation()} />
-                        ) : item.name}
-                      </td>
-                      <td 
-                        className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 font-semibold cursor-pointer hover:bg-gray-100 transition-colors"
-                        onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}
-                      >
-                        {editingProductId === item.id ? (
-                          <input type="text" className="w-full px-2 py-1 border rounded bg-white text-gray-900" value={editProductPayload.brand || ""} onChange={e => setEditProductPayload({...editProductPayload, brand: e.target.value})} onClick={e => e.stopPropagation()} />
-                        ) : (item.brand || "CLICOS")}
-                      </td>
-                      <td 
-                        className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
-                        onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}
-                      >
-                        {editingProductId === item.id ? (
-                          <input type="number" className="w-20 px-2 py-1 border rounded bg-white text-gray-900" value={editProductPayload.price || 0} onChange={e => setEditProductPayload({...editProductPayload, price: Number(e.target.value)})} onClick={e => e.stopPropagation()} />
-                        ) : formatPrice(item.price)}
-                      </td>
-                      <td 
-                        className="whitespace-nowrap px-6 py-4 text-sm text-primary-800 font-bold cursor-pointer hover:bg-gray-100 transition-colors"
-                        onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}
-                      >
-                        {editingProductId === item.id ? (
-                          <input type="number" className="w-20 px-2 py-1 border rounded bg-white text-gray-900" value={editProductPayload.wholesalePrice || 0} onChange={e => setEditProductPayload({...editProductPayload, wholesalePrice: Number(e.target.value)})} onClick={e => e.stopPropagation()} />
-                        ) : formatPrice(item.wholesalePrice)}
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                        <div className="flex items-center justify-end gap-3">
-                          {editingProductId === item.id ? (
-                            <button onClick={() => handleSaveProduct(item.id)} className="text-green-600 hover:text-green-900 font-semibold">
-                              Save
-                            </button>
-                          ) : (
-                            <button onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }} className="text-gray-400 hover:text-gray-900 transition-colors">
-                              <Edit className="w-4 h-4" />
-                            </button>
-                          )}
-                          <button onClick={() => setDeleteModal({ isOpen: true, type: 'product', id: item.id })} className="text-red-400 hover:text-red-600 transition-colors">
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                        <option value="All">All Brands</option>
+                        {Array.from(new Set(inventory.map(p => p.brand).filter(Boolean))).sort().map(brand => (
+                          <option key={brand as string} value={brand as string}>{brand as string}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 w-full sm:w-auto shrink-0 justify-end">
+                    <Button onClick={handleResetInventory} variant="outline" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
+                      <RotateCcw className="w-4 h-4" /> Reset Default
+                    </Button>
+                    <Button onClick={handleAddProduct} className="flex items-center gap-2 shadow-sm">
+                      <Plus className="w-4 h-4" /> Add New Product
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Preview</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Product ID</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Brand Name</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Retail Price</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">B2B Price</th>
+                        <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 bg-white">
+                      {inventory
+                        .filter(item => inventoryBrandFilter === "All" || item.brand === inventoryBrandFilter)
+                        .filter(item => 
+                          inventorySearch === "" || 
+                          item.name.toLowerCase().includes(inventorySearch.toLowerCase()) || 
+                          (item.brand && item.brand.toLowerCase().includes(inventorySearch.toLowerCase()))
+                        )
+                        .map((item) => (
+                        <tr key={item.id} className="hover:bg-gray-50">
+                          <td className="whitespace-nowrap px-6 py-3">
+                            <div className="h-10 w-10 flex-shrink-0">
+                              <img className="h-10 w-10 rounded-md object-cover border border-gray-200" src={item.imageSrc} alt="" />
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 text-sm font-medium text-gray-900 truncate max-w-[200px] cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}>
+                            {item.name}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 font-semibold cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}>
+                            {item.brand || "CLICOS"}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}>
+                            {formatPrice(item.price)}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-primary-800 font-bold cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}>
+                            {formatPrice(item.wholesalePrice)}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                            <div className="flex items-center justify-end gap-3">
+                              <button onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }} className="text-gray-400 hover:text-gray-900 transition-colors">
+                                <Edit className="w-4 h-4" />
+                              </button>
+                              <button onClick={() => setDeleteModal({ isOpen: true, type: 'product', id: item.id })} className="text-red-400 hover:text-red-600 transition-colors">
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
           </div>
         )}
 
