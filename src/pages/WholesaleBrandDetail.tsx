@@ -12,6 +12,7 @@ import { numbuzinProducts } from "../data/numbuzinProducts";
 import { aesturaProducts } from "../data/aesturaProducts";
 import { kerasysProducts } from "../data/kerasysProducts";
 import { atsProducts } from "../data/atsProducts";
+import { getLiveInventory } from "../utils/inventory";
 import { meditherapyProducts } from "../data/meditherapyProducts";
 import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";

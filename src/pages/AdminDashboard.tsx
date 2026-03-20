@@ -4,8 +4,7 @@ import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { Input } from "../components/ui/Input";
 import { useCurrency } from "../contexts/CurrencyContext";
-import { torridenProducts } from "../data/torridenProducts";
-import { fweeProducts } from "../data/fweeProducts";
+import { getLiveInventory, saveLiveInventory } from "../utils/inventory";
 
 // Shared initial mock state
 const initialMockOrders = [
@@ -57,9 +56,7 @@ export function AdminDashboard() {
   
   // Combine some real data strings for the inventory tab
   const [inventory, setInventory] = useState<any[]>(() => {
-    const localInv = localStorage.getItem("adminInventory");
-    if (localInv) return JSON.parse(localInv);
-    return [...fweeProducts, ...torridenProducts]; // Initialize with a subset of real products
+    return getLiveInventory();
   });
 
   // Security check mapping
@@ -85,7 +82,7 @@ export function AdminDashboard() {
   const handleDeleteProduct = (productId: string) => {
     const updated = inventory.filter(p => p.id !== productId);
     setInventory(updated);
-    localStorage.setItem("adminInventory", JSON.stringify(updated));
+    saveLiveInventory(updated);
   };
 
   const confirmDelete = () => {
@@ -107,7 +104,7 @@ export function AdminDashboard() {
   const handleSaveProduct = (id: string) => {
     const updated = inventory.map(p => p.id === id ? { ...p, ...editProductPayload } : p);
     setInventory(updated);
-    localStorage.setItem("adminInventory", JSON.stringify(updated));
+    saveLiveInventory(updated);
     setEditingProductId(null);
   };
 
@@ -125,8 +122,8 @@ export function AdminDashboard() {
     };
     const updated = [newProduct, ...inventory];
     setInventory(updated);
-    localStorage.setItem("adminInventory", JSON.stringify(updated));
-    alert("New product dynamically added to localStorage catalog!");
+    saveLiveInventory(updated);
+    alert("New product dynamically added to the global catalog!");
   };
 
   return (
@@ -374,24 +371,36 @@ export function AdminDashboard() {
                           <img className="h-10 w-10 rounded-md object-cover border border-gray-200" src={item.imageSrc} alt="" />
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900 truncate max-w-[200px]">
+                      <td 
+                        className="px-6 py-4 text-sm font-medium text-gray-900 truncate max-w-[200px] cursor-pointer hover:bg-gray-100 transition-colors"
+                        onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}
+                      >
                         {editingProductId === item.id ? (
-                          <input type="text" className="w-full px-2 py-1 border rounded" value={editProductPayload.name || ""} onChange={e => setEditProductPayload({...editProductPayload, name: e.target.value})} />
+                          <input type="text" className="w-full px-2 py-1 border rounded bg-white text-gray-900" value={editProductPayload.name || ""} onChange={e => setEditProductPayload({...editProductPayload, name: e.target.value})} autoFocus onClick={e => e.stopPropagation()} />
                         ) : item.name}
                       </td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 font-semibold">
+                      <td 
+                        className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 font-semibold cursor-pointer hover:bg-gray-100 transition-colors"
+                        onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}
+                      >
                         {editingProductId === item.id ? (
-                          <input type="text" className="w-full px-2 py-1 border rounded" value={editProductPayload.brand || ""} onChange={e => setEditProductPayload({...editProductPayload, brand: e.target.value})} />
+                          <input type="text" className="w-full px-2 py-1 border rounded bg-white text-gray-900" value={editProductPayload.brand || ""} onChange={e => setEditProductPayload({...editProductPayload, brand: e.target.value})} onClick={e => e.stopPropagation()} />
                         ) : (item.brand || "CLICOS")}
                       </td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                      <td 
+                        className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors"
+                        onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}
+                      >
                         {editingProductId === item.id ? (
-                          <input type="number" className="w-20 px-2 py-1 border rounded" value={editProductPayload.price || 0} onChange={e => setEditProductPayload({...editProductPayload, price: Number(e.target.value)})} />
+                          <input type="number" className="w-20 px-2 py-1 border rounded bg-white text-gray-900" value={editProductPayload.price || 0} onChange={e => setEditProductPayload({...editProductPayload, price: Number(e.target.value)})} onClick={e => e.stopPropagation()} />
                         ) : formatPrice(item.price)}
                       </td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-primary-800 font-bold">
+                      <td 
+                        className="whitespace-nowrap px-6 py-4 text-sm text-primary-800 font-bold cursor-pointer hover:bg-gray-100 transition-colors"
+                        onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}
+                      >
                         {editingProductId === item.id ? (
-                          <input type="number" className="w-20 px-2 py-1 border rounded" value={editProductPayload.wholesalePrice || 0} onChange={e => setEditProductPayload({...editProductPayload, wholesalePrice: Number(e.target.value)})} />
+                          <input type="number" className="w-20 px-2 py-1 border rounded bg-white text-gray-900" value={editProductPayload.wholesalePrice || 0} onChange={e => setEditProductPayload({...editProductPayload, wholesalePrice: Number(e.target.value)})} onClick={e => e.stopPropagation()} />
                         ) : formatPrice(item.wholesalePrice)}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">

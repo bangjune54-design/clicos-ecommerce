@@ -5,16 +5,7 @@ import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Badge } from "../components/ui/Badge";
 import { b2bBrands } from "./WholesaleBrands";
-import { fweeProducts } from "../data/fweeProducts";
-import { torridenProducts } from "../data/torridenProducts";
-import { ddalmomdeProducts } from "../data/ddalmomdeProducts";
-import { fourPmProducts } from "../data/4pmProducts";
-import { medicubeProducts } from "../data/medicubeProducts";
-import { beautyOfJoseonProducts } from "../data/beautyOfJoseonProducts";
-import { manyoProducts } from "../data/manyoProducts";
-import { numbuzinProducts } from "../data/numbuzinProducts";
-import { meditherapyProducts } from "../data/meditherapyProducts";
-import { aesturaProducts } from "../data/aesturaProducts";
+import { getLiveInventory } from "../utils/inventory";
 
 interface Product {
   id: string;
@@ -28,17 +19,8 @@ interface Product {
 }
 
 const getBrandProducts = (brandName: string): Product[] => {
-  if (brandName === "FWEE") return fweeProducts;
-  if (brandName === "Torriden") return torridenProducts;
-  if (brandName === "DDALMOMDE") return ddalmomdeProducts;
-  if (brandName === "4PM") return fourPmProducts;
-  if (brandName === "MEDICUBE") return medicubeProducts;
-  if (brandName === "Beauty of Joseon") return beautyOfJoseonProducts;
-  if (brandName === "Ma:nyo") return manyoProducts;
-  if (brandName === "NUMBUZIN") return numbuzinProducts;
-  if (brandName === "Meditherapy") return meditherapyProducts;
-  if (brandName === "AESTURA") return aesturaProducts;
-  return [];
+  // Use a quick case-insensitive comparison or direct match from the live inventory hub
+  return getLiveInventory().filter(p => p.brand === brandName || p.brand?.toUpperCase() === brandName.toUpperCase());
 };
 
 const benefits = [
