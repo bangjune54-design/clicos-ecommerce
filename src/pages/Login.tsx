@@ -5,6 +5,7 @@ import { Input } from "../components/ui/Input";
 
 export function Login() {
   const [activeTab, setActiveTab] = useState<"general" | "wholesale">("general");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
@@ -12,7 +13,13 @@ export function Login() {
     // Simulate successful login
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("userType", activeTab === "wholesale" ? "wholesale" : "retail");
-    window.location.href = "/my-page";
+    localStorage.setItem("userEmail", email);
+    
+    if (email === "info@clicos.co.kr" || email === "wholesale@clicos.co.kr") {
+      window.location.href = "/admin";
+    } else {
+      window.location.href = "/my-page";
+    }
   };
 
   return (
@@ -61,6 +68,8 @@ export function Login() {
                 autoComplete="email"
                 required
                 placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>

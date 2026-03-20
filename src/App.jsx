@@ -17,6 +17,7 @@ import { Blog } from "@/pages/Blog";
 import { BlogPost } from "@/pages/BlogPost";
 import { Contact } from "@/pages/Contact";
 import { ProductDetail } from "@/pages/ProductDetail";
+import { AdminDashboard } from "@/pages/AdminDashboard";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             
             {/* Catch-all route to home for demo purposes */}
             <Route path="*" element={<Home />} />

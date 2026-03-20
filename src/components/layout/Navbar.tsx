@@ -45,6 +45,8 @@ export function Navbar() {
   const [currency, setCurrency] = useState("USD");
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("isLoggedIn") === "true");
+  const userEmail = localStorage.getItem("userEmail");
+  const isAdmin = userEmail === "info@clicos.co.kr" || userEmail === "wholesale@clicos.co.kr";
   
   // Search state
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -169,6 +171,14 @@ export function Navbar() {
             {showCurrencyDropdown && (
               <div className="absolute right-0 mt-2 w-24 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="py-1">
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      className="block w-full px-4 py-2 text-left text-sm font-bold text-accent hover:bg-primary-50 transition-colors"
+                    >
+                      Admin Portal
+                    </Link>
+                  )}
                   {currencies.map((c) => (
                     <button
                       key={c}
