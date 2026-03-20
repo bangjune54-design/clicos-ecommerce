@@ -35,8 +35,12 @@ const mockB2BItems = [
 ];
 
 export function Cart() {
-  const [retailItems, setRetailItems] = useState(mockRetailItems);
-  const [b2bItems, setB2BItems] = useState(mockB2BItems);
+  const [retailItems, setRetailItems] = useState<any[]>(() => {
+    return JSON.parse(localStorage.getItem('retailCart') || '[]');
+  });
+  const [b2bItems, setB2BItems] = useState<any[]>(() => {
+    return JSON.parse(localStorage.getItem('b2bCart') || '[]');
+  });
 
   const retailTotal = retailItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   
@@ -44,31 +48,43 @@ export function Cart() {
   const b2bTotal = b2bItems.reduce((acc, item) => acc + item.price * (item.boxQty * item.inboxQty), 0);
 
   const handleRemoveRetail = (id: number) => {
-    setRetailItems(retailItems.filter(item => item.id !== id));
+    const updated = retailItems.filter(item => item.id !== id);
+    setRetailItems(updated);
+    localStorage.setItem('retailCart', JSON.stringify(updated));
+    window.dispatchEvent(new Event("storage"));
   };
 
   const handleRemoveB2B = (id: number) => {
-    setB2BItems(b2bItems.filter(item => item.id !== id));
+    const updated = b2bItems.filter(item => item.id !== id);
+    setB2BItems(updated);
+    localStorage.setItem('b2bCart', JSON.stringify(updated));
+    window.dispatchEvent(new Event("storage"));
   };
 
   const updateRetailQuantity = (id: number, delta: number) => {
-    setRetailItems(retailItems.map(item => {
+    const updated = retailItems.map(item => {
       if (item.id === id) {
         const newQty = Math.max(1, item.quantity + delta);
         return { ...item, quantity: newQty };
       }
       return item;
-    }));
+    });
+    setRetailItems(updated);
+    localStorage.setItem('retailCart', JSON.stringify(updated));
+    window.dispatchEvent(new Event("storage"));
   };
 
   const updateB2BQuantity = (id: number, delta: number) => {
-    setB2BItems(b2bItems.map(item => {
+    const updated = b2bItems.map(item => {
       if (item.id === id) {
         const newBoxQty = Math.max(1, item.boxQty + delta);
         return { ...item, boxQty: newBoxQty };
       }
       return item;
-    }));
+    });
+    setB2BItems(updated);
+    localStorage.setItem('b2bCart', JSON.stringify(updated));
+    window.dispatchEvent(new Event("storage"));
   };
 
   return (

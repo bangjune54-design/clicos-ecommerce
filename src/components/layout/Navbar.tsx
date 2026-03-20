@@ -53,6 +53,8 @@ export function Navbar() {
   
   const location = useLocation();
   const navigate = useNavigate();
+  
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -61,7 +63,22 @@ export function Navbar() {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    
+    // Add cart syncing logic
+    const updateCartCount = () => {
+      const retail = JSON.parse(localStorage.getItem('retailCart') || '[]');
+      const b2b = JSON.parse(localStorage.getItem('b2bCart') || '[]');
+      const retailQty = retail.reduce((sum: number, item: any) => sum + item.quantity, 0);
+      const b2bQty = b2b.reduce((sum: number, item: any) => sum + item.boxQty, 0);
+      setCartCount(retailQty + b2bQty);
+    };
+    updateCartCount();
+    window.addEventListener("storage", updateCartCount);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("storage", updateCartCount);
+    };
   }, []);
 
   // Filter recommendations
@@ -349,9 +366,11 @@ export function Navbar() {
           <Link to="/cart" className="text-gray-700 hover:text-primary-800 transition-colors relative block">
             <span className="sr-only">Cart</span>
             <ShoppingBag className="h-5 w-5" />
-            <span className="absolute -top-1 -right-1 bg-accent text-white rounded-full h-4 w-4 flex items-center justify-center text-[10px] font-bold">
-              3
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-accent text-white rounded-full h-4 w-4 flex items-center justify-center text-[10px] font-bold">
+                {cartCount}
+              </span>
+            )}
           </Link>
         </div>
       </nav>
@@ -410,8 +429,8 @@ export function Navbar() {
                     <Button variant="outline" className="flex-1 justify-center gap-2" onClick={() => navigate(isLoggedIn ? "/my-page" : "/login")}>
                       <User className="h-4 w-4" /> {isLoggedIn ? "Account" : "Login"}
                     </Button>
-                    <Button variant="primary" className="flex-1 justify-center gap-2">
-                      <ShoppingBag className="h-4 w-4" /> Cart (0)
+                    <Button variant="primary" className="flex-1 justify-center gap-2" onClick={() => { setMobileMenuOpen(false); navigate("/cart"); }}>
+                      <ShoppingBag className="h-4 w-4" /> Cart ({cartCount})
                     </Button>
                   </div>
                 </div>

@@ -80,6 +80,52 @@ export function Shop() {
     setQuantities(prev => ({ ...prev, [id]: Math.max(1, (prev[id] || 1) + delta) }));
   };
 
+  const handleAddToCart = (e: React.MouseEvent, product: any, isB2B: boolean) => {
+    e.preventDefault();
+    const qty = getQty(product.id);
+    
+    if (isB2B) {
+      const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
+      const existingItem = currentB2BCart.find((item: any) => item.id === product.id);
+      if (existingItem) {
+        existingItem.boxQty += qty;
+      } else {
+        currentB2BCart.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          price: product.wholesalePrice,
+          inboxQty: product.moq,
+          boxQty: qty,
+          image: product.imageSrc
+        });
+      }
+      localStorage.setItem('b2bCart', JSON.stringify(currentB2BCart));
+      alert(`Added ${qty} boxes of ${product.name} to Wholesale Quote!`);
+    } else {
+      const currentRetailCart = JSON.parse(localStorage.getItem('retailCart') || '[]');
+      const existingItem = currentRetailCart.find((item: any) => item.id === product.id);
+      if (existingItem) {
+        existingItem.quantity += qty;
+      } else {
+        currentRetailCart.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          price: product.price,
+          quantity: qty,
+          image: product.imageSrc
+        });
+      }
+      localStorage.setItem('retailCart', JSON.stringify(currentRetailCart));
+      alert(`Added ${qty}x ${product.name} to Cart!`);
+    }
+    // Reset quantity after adding
+    setQuantities(prev => ({ ...prev, [product.id]: 1 }));
+    // Dispatch an event so Navbar can update its badge immediately
+    window.dispatchEvent(new Event("storage"));
+  };
+
   const filteredProducts = allShopProducts.filter(p => {
     const matchesCategory = activeCategory === "All" || p.category === activeCategory;
     const matchesSearch = p.name.toLowerCase().includes(shopSearchQuery.toLowerCase()) || 
@@ -210,7 +256,7 @@ export function Shop() {
                         <span className="px-2 py-1.5 text-sm font-bold text-gray-900 w-1/3 text-center border-x border-gray-300">{getQty(product.id)}</span>
                         <button type="button" className="px-3 py-1.5 text-gray-600 hover:bg-gray-100 transition-colors w-1/3 text-center rounded-r-md" onClick={(e) => { e.preventDefault(); updateQty(product.id, 1); }}>+</button>
                       </div>
-                      <Button className="w-full gap-2 shadow-md">
+                      <Button className="w-full gap-2 shadow-md" onClick={(e) => handleAddToCart(e, product, isWholesaleView)}>
                         <ShoppingBag className="w-4 h-4" /> 
                         {isWholesaleView ? "Add to Quote" : "Add to Cart"}
                       </Button>
