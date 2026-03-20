@@ -68,9 +68,7 @@ export function Navbar() {
     const updateCartCount = () => {
       const retail = JSON.parse(localStorage.getItem('retailCart') || '[]');
       const b2b = JSON.parse(localStorage.getItem('b2bCart') || '[]');
-      const retailQty = retail.reduce((sum: number, item: any) => sum + item.quantity, 0);
-      const b2bQty = b2b.reduce((sum: number, item: any) => sum + item.boxQty, 0);
-      setCartCount(retailQty + b2bQty);
+      setCartCount(retail.length + b2b.length);
     };
     updateCartCount();
     window.addEventListener("storage", updateCartCount);
