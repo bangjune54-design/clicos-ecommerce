@@ -25,6 +25,10 @@ export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory">("orders");
   const [orders, setOrders] = useState(initialMockOrders);
   const [accounts, setAccounts] = useState(mockAccounts);
+  const [editingOrderId, setEditingOrderId] = useState<string | null>(null);
+  const [editOrderTotal, setEditOrderTotal] = useState<number>(0);
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
+  const [editProductPayload, setEditProductPayload] = useState<any>({});
   
   // Combine some real data strings for the inventory tab
   const [inventory, setInventory] = useState<any[]>(() => {
@@ -61,6 +65,18 @@ export function AdminDashboard() {
     const updated = inventory.filter(p => p.id !== productId);
     setInventory(updated);
     localStorage.setItem("adminInventory", JSON.stringify(updated));
+  };
+
+  const handleSaveOrder = (id: string) => {
+    setOrders(orders.map(o => o.id === id ? { ...o, total: editOrderTotal } : o));
+    setEditingOrderId(null);
+  };
+
+  const handleSaveProduct = (id: string) => {
+    const updated = inventory.map(p => p.id === id ? { ...p, ...editProductPayload } : p);
+    setInventory(updated);
+    localStorage.setItem("adminInventory", JSON.stringify(updated));
+    setEditingProductId(null);
   };
 
   const handleAddProduct = () => {
@@ -147,7 +163,21 @@ export function AdminDashboard() {
                     <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-primary-900">{order.id}</td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{order.customer}</td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{order.date}</td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 font-semibold">{formatPrice(order.total)}</td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 font-semibold">
+                      {editingOrderId === order.id ? (
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-500">$</span>
+                          <input 
+                            type="number" 
+                            className="w-24 px-2 py-1 text-sm border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
+                            value={editOrderTotal}
+                            onChange={(e) => setEditOrderTotal(Number(e.target.value))}
+                          />
+                        </div>
+                      ) : (
+                        formatPrice(order.total)
+                      )}
+                    </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm">
                       <select
                         value={order.status}
@@ -164,9 +194,18 @@ export function AdminDashboard() {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                       <div className="flex justify-end gap-3 items-center">
-                        <button className="text-primary-600 hover:text-primary-900 font-semibold flex items-center gap-1">
-                          <Edit className="w-4 h-4"/> Edit
-                        </button>
+                        {editingOrderId === order.id ? (
+                          <button onClick={() => handleSaveOrder(order.id)} className="text-green-600 hover:text-green-900 font-semibold flex items-center gap-1">
+                            Save
+                          </button>
+                        ) : (
+                          <button 
+                            onClick={() => { setEditingOrderId(order.id); setEditOrderTotal(order.total); }} 
+                            className="text-primary-600 hover:text-primary-900 font-semibold flex items-center gap-1"
+                          >
+                            <Edit className="w-4 h-4"/> Edit
+                          </button>
+                        )}
                         <button 
                           onClick={() => handleDeleteOrder(order.id)} 
                           className="text-red-400 hover:text-red-600 font-semibold flex items-center gap-1"
@@ -257,15 +296,37 @@ export function AdminDashboard() {
                           <img className="h-10 w-10 rounded-md object-cover border border-gray-200" src={item.imageSrc} alt="" />
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900 truncate max-w-[200px]">{item.name}</td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 font-semibold">{item.brand || "CLICOS"}</td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">{formatPrice(item.price)}</td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-primary-800 font-bold">{formatPrice(item.wholesalePrice)}</td>
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900 truncate max-w-[200px]">
+                        {editingProductId === item.id ? (
+                          <input type="text" className="w-full px-2 py-1 border rounded" value={editProductPayload.name || ""} onChange={e => setEditProductPayload({...editProductPayload, name: e.target.value})} />
+                        ) : item.name}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 font-semibold">
+                        {editingProductId === item.id ? (
+                          <input type="text" className="w-full px-2 py-1 border rounded" value={editProductPayload.brand || ""} onChange={e => setEditProductPayload({...editProductPayload, brand: e.target.value})} />
+                        ) : (item.brand || "CLICOS")}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                        {editingProductId === item.id ? (
+                          <input type="number" className="w-20 px-2 py-1 border rounded" value={editProductPayload.price || 0} onChange={e => setEditProductPayload({...editProductPayload, price: Number(e.target.value)})} />
+                        ) : formatPrice(item.price)}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-primary-800 font-bold">
+                        {editingProductId === item.id ? (
+                          <input type="number" className="w-20 px-2 py-1 border rounded" value={editProductPayload.wholesalePrice || 0} onChange={e => setEditProductPayload({...editProductPayload, wholesalePrice: Number(e.target.value)})} />
+                        ) : formatPrice(item.wholesalePrice)}
+                      </td>
                       <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                         <div className="flex items-center justify-end gap-3">
-                          <button className="text-gray-400 hover:text-gray-900 transition-colors">
-                            <Edit className="w-4 h-4" />
-                          </button>
+                          {editingProductId === item.id ? (
+                            <button onClick={() => handleSaveProduct(item.id)} className="text-green-600 hover:text-green-900 font-semibold">
+                              Save
+                            </button>
+                          ) : (
+                            <button onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }} className="text-gray-400 hover:text-gray-900 transition-colors">
+                              <Edit className="w-4 h-4" />
+                            </button>
+                          )}
                           <button onClick={() => handleDeleteProduct(item.id)} className="text-red-400 hover:text-red-600 transition-colors">
                             <Trash2 className="w-4 h-4" />
                           </button>
