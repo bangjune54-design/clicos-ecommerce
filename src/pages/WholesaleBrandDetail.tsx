@@ -131,7 +131,7 @@ export function WholesaleBrandDetail() {
     }
     
     const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
-    const existingItem = currentB2BCart.find((item: any) => item.id === product.id);
+    const existingItem = currentB2BCart.find((item: any) => item.id === product.id && !item.color);
     if (existingItem) {
       existingItem.boxQty += qty;
     } else {

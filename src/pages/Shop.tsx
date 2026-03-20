@@ -91,7 +91,7 @@ export function Shop() {
         return;
       }
       const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
-      const existingItem = currentB2BCart.find((item: any) => item.id === product.id);
+      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && !item.color);
       if (existingItem) {
         existingItem.boxQty += qty;
       } else {
@@ -113,7 +113,7 @@ export function Shop() {
         return;
       }
       const currentRetailCart = JSON.parse(localStorage.getItem('retailCart') || '[]');
-      const existingItem = currentRetailCart.find((item: any) => item.id === product.id);
+      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && !item.color);
       if (existingItem) {
         existingItem.quantity += qty;
       } else {

@@ -47,7 +47,7 @@ export function ProductDetail() {
 
     if (isB2B) {
       const currentB2BCart = JSON.parse(localStorage.getItem("b2bCart") || "[]");
-      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && item.color === selectedColor);
+      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.color || "") === (selectedColor || ""));
       if (existingItem) {
         existingItem.boxQty += quantity;
       } else {
@@ -66,7 +66,7 @@ export function ProductDetail() {
       alert(`Added ${quantity} boxes of ${product.name} to Wholesale Quote!`);
     } else {
       const currentRetailCart = JSON.parse(localStorage.getItem("retailCart") || "[]");
-      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && item.color === selectedColor);
+      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.color || "") === (selectedColor || ""));
       if (existingItem) {
         existingItem.quantity += quantity;
       } else {
