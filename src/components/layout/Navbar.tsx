@@ -335,10 +335,10 @@ export function Navbar() {
                       My Account
                     </Link>
                     <Link
-                      to="/track-orders"
+                      to="/orders"
                       className="block w-full px-4 py-2 text-left text-sm font-medium text-gray-700 hover:bg-primary-50 hover:text-primary-900 transition-colors"
                     >
-                      Track Orders
+                      Orders
                     </Link>
                     <button
                       className="block w-full px-4 py-2 text-left text-sm font-bold text-gray-800 hover:bg-red-50 hover:text-red-900 transition-colors"

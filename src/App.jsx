@@ -10,6 +10,7 @@ import { Brands } from "@/pages/Brands";
 import { Login } from "@/pages/Login";
 import { Signup } from "@/pages/Signup";
 import { MyPage } from "@/pages/MyPage";
+import { Orders } from "@/pages/Orders";
 import { Cart } from "@/pages/Cart";
 import { About } from "@/pages/About";
 import { Blog } from "@/pages/Blog";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/my-page" element={<MyPage />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
