@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, ShoppingBag, PackageSearch, Trash2, Edit, Plus, CheckCircle2 } from "lucide-react";
+import { Users, ShoppingBag, PackageSearch, Trash2, Edit, Plus, CheckCircle2, Search, Filter, RotateCcw } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { Input } from "../components/ui/Input";
@@ -53,6 +53,8 @@ export function AdminDashboard() {
   const [editingProductId, setEditingProductId] = useState<string | null>(null);
   const [editProductPayload, setEditProductPayload] = useState<any>({});
   const [deleteModal, setDeleteModal] = useState<{isOpen: boolean, type: 'order' | 'account' | 'product' | null, id: string | null}>({ isOpen: false, type: null, id: null });
+  const [inventorySearch, setInventorySearch] = useState("");
+  const [inventoryBrandFilter, setInventoryBrandFilter] = useState("All");
   
   // Combine some real data strings for the inventory tab
   const [inventory, setInventory] = useState<any[]>(() => {
@@ -124,6 +126,14 @@ export function AdminDashboard() {
     setInventory(updated);
     saveLiveInventory(updated);
     alert("New product dynamically added to the global catalog!");
+  };
+
+  const handleResetInventory = () => {
+    if (window.confirm("Are you sure you want to reset the inventory to the default catalog? All custom edits and added products will be lost.")) {
+      localStorage.removeItem("globalInventory");
+      setInventory(getLiveInventory());
+      alert("Inventory has been fully restored to default.");
+    }
   };
 
   return (
@@ -346,12 +356,45 @@ export function AdminDashboard() {
         {/* Tab Content: Inventory */}
         {activeTab === "inventory" && (
           <div className="space-y-6">
-            <div className="flex justify-end">
-              <Button onClick={handleAddProduct} className="flex items-center gap-2 shadow-sm">
-                <Plus className="w-4 h-4" /> Add New Product
-              </Button>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-xl shadow-sm ring-1 ring-gray-900/5">
+              <div className="flex flex-1 w-full sm:w-auto gap-4 items-center">
+                <div className="relative max-w-sm w-full">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Search className="h-4 w-4 text-gray-400" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={inventorySearch}
+                    onChange={(e) => setInventorySearch(e.target.value)}
+                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition duration-150 ease-in-out"
+                  />
+                </div>
+                <div className="relative">
+                  <select
+                    value={inventoryBrandFilter}
+                    onChange={(e) => setInventoryBrandFilter(e.target.value)}
+                    className="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm font-medium"
+                  >
+                    <option value="All">All Brands</option>
+                    {Array.from(new Set(inventory.map(p => p.brand).filter(Boolean))).sort().map(brand => (
+                      <option key={brand as string} value={brand as string}>{brand as string}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 w-full sm:w-auto shrink-0 justify-end">
+                <Button onClick={handleResetInventory} variant="outline" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
+                  <RotateCcw className="w-4 h-4" /> Reset Default
+                </Button>
+                <Button onClick={handleAddProduct} className="flex items-center gap-2 shadow-sm">
+                  <Plus className="w-4 h-4" /> Add New Product
+                </Button>
+              </div>
             </div>
-            <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl overflow-hidden">
+            
+            <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -364,7 +407,14 @@ export function AdminDashboard() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {inventory.map((item) => (
+                  {inventory
+                    .filter(item => inventoryBrandFilter === "All" || item.brand === inventoryBrandFilter)
+                    .filter(item => 
+                      inventorySearch === "" || 
+                      item.name.toLowerCase().includes(inventorySearch.toLowerCase()) || 
+                      (item.brand && item.brand.toLowerCase().includes(inventorySearch.toLowerCase()))
+                    )
+                    .map((item) => (
                     <tr key={item.id} className="hover:bg-gray-50">
                       <td className="whitespace-nowrap px-6 py-3">
                         <div className="h-10 w-10 flex-shrink-0">
