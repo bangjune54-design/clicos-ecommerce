@@ -17,6 +17,7 @@ import { numbuzinProducts } from "../data/numbuzinProducts";
 import { meditherapyProducts } from "../data/meditherapyProducts";
 import { aesturaProducts } from "../data/aesturaProducts";
 import { kerasysProducts } from "../data/kerasysProducts";
+import { atsProducts } from "../data/atsProducts";
 
 // Helper to convert wholesale product shape to retail shape where necessary
 const mapB2BProducts = (b2bList: any[], brandName: string, categoryName: string = "Skincare") => {
@@ -47,6 +48,7 @@ export const b2bProductsList = [
   ...mapB2BProducts(meditherapyProducts, "Meditherapy", "Body Care"),
   ...mapB2BProducts(aesturaProducts, "AESTURA"),
   ...mapB2BProducts(kerasysProducts, "Kerasys", "Hair Care"),
+  ...mapB2BProducts(atsProducts, "ATS", "Hair Care"),
 ];
 
 // Mocks
