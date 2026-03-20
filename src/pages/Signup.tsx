@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { CheckCircle2 } from "lucide-react";
 
 export function Signup() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"general" | "wholesale">("general");
   const [formData, setFormData] = useState({
     firstName: "",
@@ -74,11 +75,9 @@ export function Signup() {
           </div>
           
           <div className="pt-6">
-            <Link to="/login" className="block w-full sm:inline-block sm:w-auto">
-              <Button size="lg" className="w-full px-12">
-                Proceed to Login
-              </Button>
-            </Link>
+            <Button size="lg" className="w-full sm:w-auto px-12" onClick={() => navigate("/login")}>
+              Proceed to Login
+            </Button>
           </div>
         </div>
       </div>
