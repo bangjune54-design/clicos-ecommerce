@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, ShoppingBag, PackageSearch, Trash2, Edit, Plus, CheckCircle2, Search, Filter, RotateCcw } from "lucide-react";
+import { Users, ShoppingBag, PackageSearch, Trash2, Edit, Plus, CheckCircle2, Search, Filter, RotateCcw, X, UploadCloud } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { Input } from "../components/ui/Input";
@@ -55,6 +55,7 @@ export function AdminDashboard() {
   const [deleteModal, setDeleteModal] = useState<{isOpen: boolean, type: 'order' | 'account' | 'product' | null, id: string | null}>({ isOpen: false, type: null, id: null });
   const [inventorySearch, setInventorySearch] = useState("");
   const [inventoryBrandFilter, setInventoryBrandFilter] = useState("All");
+  const [isDragging, setIsDragging] = useState(false);
   
   // Combine some real data strings for the inventory tab
   const [inventory, setInventory] = useState<any[]>(() => {
@@ -372,12 +373,48 @@ export function AdminDashboard() {
                   {/* Left Column: Visuals & Text */}
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-900">Product Image URL</label>
-                      <img src={editProductPayload.imageSrc || "https://placehold.co/400?text=No+Image"} alt="Preview" className="w-full h-48 object-cover rounded-lg border border-gray-200 shadow-sm mb-3" />
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Product Image</label>
+                      <div 
+                        className={`relative w-full h-48 rounded-lg border-2 border-dashed transition-colors flex flex-col items-center justify-center mb-3 group overflow-hidden ${isDragging ? 'border-primary-500 bg-primary-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'}`}
+                        onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                        onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          setIsDragging(false);
+                          if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                            const file = e.dataTransfer.files[0];
+                            const reader = new FileReader();
+                            reader.onload = (event) => setEditProductPayload({ ...editProductPayload, imageSrc: event.target?.result as string });
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      >
+                        {editProductPayload.imageSrc ? (
+                          <>
+                            <img src={editProductPayload.imageSrc} alt="Preview" className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
+                              <button 
+                                type="button"
+                                onClick={() => setEditProductPayload({ ...editProductPayload, imageSrc: "" })}
+                                className="bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg"
+                              >
+                                <X className="w-6 h-6" />
+                              </button>
+                              <span className="text-white text-sm font-medium mt-2">Click to Remove</span>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="text-center p-4 cursor-pointer">
+                            <UploadCloud className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                            <p className="text-sm text-gray-500 font-medium">Drag and drop an image here</p>
+                            <p className="text-xs text-gray-400 mt-1">or provide a URL below</p>
+                          </div>
+                        )}
+                      </div>
                       <Input 
                         value={editProductPayload.imageSrc || ""} 
                         onChange={e => setEditProductPayload({...editProductPayload, imageSrc: e.target.value})} 
-                        placeholder="https://example.com/image.jpg"
+                        placeholder="Image URL (or drag & drop above)"
                       />
                     </div>
                     <div>
@@ -502,7 +539,8 @@ export function AdminDashboard() {
                         .filter(item => 
                           inventorySearch === "" || 
                           item.name.toLowerCase().includes(inventorySearch.toLowerCase()) || 
-                          (item.brand && item.brand.toLowerCase().includes(inventorySearch.toLowerCase()))
+                          (item.brand && item.brand.toLowerCase().includes(inventorySearch.toLowerCase())) ||
+                          (item.description && item.description.toLowerCase().includes(inventorySearch.toLowerCase()))
                         )
                         .map((item) => (
                         <tr key={item.id} className="hover:bg-gray-50">
