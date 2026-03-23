@@ -134,16 +134,22 @@ export function ProductDetail() {
               {product.name}
             </h1>
             
-            {/* Reviews Mock */}
-            <div className="flex items-center gap-4 mb-6">
+            {/* Reviews Mock & Sales */}
+            <div className="flex items-center gap-3 sm:gap-4 mb-6 flex-wrap">
               <div className="flex items-center text-yellow-500">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star key={star} className={`w-4 h-4 ${star <= Math.floor(product.rating || 5) ? 'fill-current' : 'text-gray-300'}`} />
                 ))}
               </div>
-              <span className="text-sm text-gray-500 font-medium">{product.rating ? product.rating.toFixed(1) : "5.0"} out of 5</span>
+              <span className="text-sm text-gray-500 font-medium">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
               <span className="text-gray-300">|</span>
-              <span className="text-sm text-gray-500 hover:text-primary-700 cursor-pointer">{Math.floor(Math.random() * 200) + 15} Reviews</span>
+              <a href="#reviews" onClick={(e) => { e.preventDefault(); document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-sm text-gray-500 hover:text-primary-700 cursor-pointer underline underline-offset-4 decoration-gray-300 hover:decoration-primary-700 transition-colors">
+                {Math.floor((product.name.length * 17) % 200) + 45} Reviews
+              </a>
+              <span className="text-gray-300">|</span>
+              <span className="text-sm font-semibold text-primary-600 bg-primary-50 px-2 py-0.5 rounded">
+                {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ sold
+              </span>
             </div>
 
             <div className="flex items-center gap-4 mb-6">
@@ -230,6 +236,49 @@ export function ProductDetail() {
 
           </div>
         </div>
+
+        {/* Reviews Section */}
+        <section id="reviews" className="mt-24 pt-16 border-t border-gray-200 scroll-mt-24">
+          <h2 className="text-3xl font-bold font-serif text-gray-900 mb-10">Customer Reviews</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {/* Review Summary */}
+            <div className="bg-gray-50 rounded-2xl p-8 flex flex-col items-center justify-center text-center h-full">
+              <div className="text-5xl font-bold text-gray-900 mb-4">{product.rating ? product.rating.toFixed(1) : "5.0"}</div>
+              <div className="flex items-center text-yellow-500 mb-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className={`w-5 h-5 ${star <= Math.floor(product.rating || 5) ? 'fill-current' : 'text-gray-300'}`} />
+                ))}
+              </div>
+              <p className="text-sm text-gray-500">Based on {Math.floor((product.name.length * 17) % 200) + 45} reviews</p>
+            </div>
+            
+            {/* Reviews List */}
+            <div className="md:col-span-2 space-y-8">
+              {[
+                { name: "Sarah M.", date: "October 12, 2025", rating: 5, text: "Absolutely love this! I've been using it for a few weeks and the results are amazing. It arrived perfectly packaged and the quality is exactly what you'd expect from authentic Korean beauty products." },
+                { name: "Jessica T.", date: "September 28, 2025", rating: 5, text: "Holy grail status. I have sensitive skin and this didn't cause any breakouts. The texture is beautiful and it layers perfectly under my makeup. Will definitely repurchase!" },
+                { name: "Emily R.", date: "September 15, 2025", rating: 4, text: "Really good product overall. It took a little while to see the full effects, but my skin has definitely improved. The packaging is very premium too." }
+              ].map((review, i) => (
+                <div key={i} className="border-b border-gray-100 pb-8 last:border-0 last:pb-0">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-semibold text-gray-900">{review.name}</h4>
+                      <p className="text-xs text-gray-500 mt-1">{review.date}</p>
+                    </div>
+                    <div className="flex text-yellow-500">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star key={star} className={`w-4 h-4 ${star <= review.rating ? 'fill-current' : 'text-gray-300'}`} />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-gray-600 mt-3 text-sm leading-relaxed">{review.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
       </div>
     </div>
   );
