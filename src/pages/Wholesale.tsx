@@ -4,8 +4,7 @@ import { Building2, Globe2, Truck, ShieldCheck, ArrowRight, Plus, X } from "luci
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Badge } from "../components/ui/Badge";
-import { b2bBrands } from "./WholesaleBrands";
-import { getLiveInventory } from "../utils/inventory";
+import { getLiveInventory, getLiveBrands } from "../utils/inventory";
 
 interface Product {
   id: string;
@@ -47,6 +46,7 @@ const benefits = [
 ];
 
 export function Wholesale() {
+  const b2bBrands = getLiveBrands();
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);

@@ -1,24 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
-
-export const b2bBrands = [
-  { name: "4PM", description: "Premium, functional skincare solutions.", image: "/4pm-b2b.jpg" },
-  { name: "AESTURA", description: "Derma-cosmetics representing dermatology-grade barrier repair.", image: "/aestura-b2b.png" },
-  { name: "DDALMOMDE", description: "Innovative beauty focused on natural radiance.", image: "https://ecimg.cafe24img.com/pg296b84565315057/ddalmomde/web/product/big/20250601/286db4d145a35e2181a733b08b008e16.jpg" },
-  { name: "ATS", description: "Professional hair and scalp care brand." },
-  { name: "MEDICUBE", description: "Clinically tested dermocosmetics for sensitive and troubled skin.", image: "https://themedicube.com.sg/cdn/shop/products/86e27ee7b7a7a18211c0bd6d5ecf4d2c.png" },
-  { name: "NUMBUZIN", description: "Number-based customized skincare solutions." },
-  { name: "Ma:nyo", description: "Pure ingredient-oriented skincare brand for a healthy barrier." },
-  { name: "Meditherapy", description: "Home-care healing solutions merging devices and cosmetics." },
-  { name: "FWEE", description: "Trendy color cosmetics focused on expressive makeup." },
-  { name: "Torriden", description: "Clean beauty brand focusing on deep hydration with hyaluronic acid." },
-  { name: "Beauty of Joseon", description: "Hanbang (traditional Korean herbal medicine) skincare for modern routines." },
-  { name: "Kerasys", description: "Premium hair clinics and body care with rich, perfumed scents.", image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=400&auto=format&fit=crop" },
-];
+import { getLiveBrands } from "../utils/inventory";
 
 export function WholesaleBrands() {
+  const [b2bBrands, setB2bBrands] = useState<any[]>([]);
   const [b2bSearchQuery, setB2bSearchQuery] = useState("");
+
+  useEffect(() => {
+    setB2bBrands(getLiveBrands());
+  }, []);
 
   const filteredBrands = b2bBrands.filter((brand) =>
     brand.name.toLowerCase().includes(b2bSearchQuery.toLowerCase())

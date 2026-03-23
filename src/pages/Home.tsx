@@ -5,8 +5,7 @@ import { Button } from "../components/ui/Button";
 import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { useCurrency } from "../contexts/CurrencyContext";
-import { b2bBrands } from "./WholesaleBrands";
-import { getLiveInventory } from "../utils/inventory";
+import { getLiveInventory, getLiveBrands } from "../utils/inventory";
 
 // Mocks
 const categories = [
@@ -54,6 +53,7 @@ const features = [
 export function Home() {
   const { formatPrice } = useCurrency();
   const allShopProducts = getLiveInventory();
+  const b2bBrands = getLiveBrands();
   return (
     <div className="bg-white">
       {/* Hero section */}

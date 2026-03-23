@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Users, ShoppingBag, PackageSearch, Trash2, Edit, Plus, CheckCircle2, Search, Filter, RotateCcw, X, UploadCloud } from "lucide-react";
+import { Users, ShoppingBag, PackageSearch, Trash2, Edit, Plus, CheckCircle2, Search, Filter, RotateCcw, X, UploadCloud, Store } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { Input } from "../components/ui/Input";
 import { useCurrency } from "../contexts/CurrencyContext";
-import { getLiveInventory, saveLiveInventory } from "../utils/inventory";
+import { getLiveInventory, saveLiveInventory, getLiveBrands, saveLiveBrands } from "../utils/inventory";
 
 // Shared initial mock state
 const initialMockOrders = [
@@ -44,7 +44,7 @@ const mockAccounts = [
 
 export function AdminDashboard() {
   const { formatPrice } = useCurrency();
-  const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory">("orders");
+  const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory" | "brands">("orders");
   const [orders, setOrders] = useState(initialMockOrders);
   const [accounts, setAccounts] = useState(mockAccounts);
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
@@ -56,6 +56,11 @@ export function AdminDashboard() {
   const [inventorySearch, setInventorySearch] = useState("");
   const [inventoryBrandFilter, setInventoryBrandFilter] = useState("All");
   const [isDragging, setIsDragging] = useState(false);
+  
+  const [brands, setBrands] = useState<any[]>(() => getLiveBrands());
+  const [editingBrandName, setEditingBrandName] = useState<string | null>(null);
+  const [editBrandPayload, setEditBrandPayload] = useState<any>({});
+  const [isDraggingBrand, setIsDraggingBrand] = useState(false);
   
   // Combine some real data strings for the inventory tab
   const [inventory, setInventory] = useState<any[]>(() => {
@@ -179,7 +184,15 @@ export function AdminDashboard() {
                 activeTab === "inventory" ? "border-primary-600 text-primary-800" : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
               }`}
             >
-              <PackageSearch className="w-4 h-4" /> Inventory & Brands
+              <PackageSearch className="w-4 h-4" /> Inventory & Products
+            </button>
+            <button
+              onClick={() => setActiveTab("brands")}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
+                activeTab === "brands" ? "border-primary-600 text-primary-800" : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              <Store className="w-4 h-4" /> Brands
             </button>
           </nav>
         </div>
@@ -577,6 +590,135 @@ export function AdminDashboard() {
                   </table>
                 </div>
               </>
+            )}
+          </div>
+        )}
+
+        {/* Tab Content: Brands */}
+        {activeTab === "brands" && (
+          <div className="space-y-6 animate-fade-in">
+            {editingBrandName ? (
+              <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-8">
+                <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+                  <h3 className="text-2xl font-bold font-serif text-gray-900">Edit Brand Profile</h3>
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={() => setEditingBrandName(null)}>Cancel</Button>
+                    <Button onClick={() => {
+                      const updated = brands.map(b => b.name === editingBrandName ? { ...b, ...editBrandPayload } : b);
+                      setBrands(updated);
+                      saveLiveBrands(updated);
+                      setEditingBrandName(null);
+                    }}>Save Changes</Button>
+                  </div>
+                </div>
+                
+                <form className="grid grid-cols-1 md:grid-cols-2 gap-8" onSubmit={(e) => e.preventDefault()}>
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Brand Image</label>
+                      <div 
+                        className={`relative w-full h-48 rounded-lg border-2 border-dashed transition-colors flex flex-col items-center justify-center mb-3 group overflow-hidden ${isDraggingBrand ? 'border-primary-500 bg-primary-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'}`}
+                        onDragEnter={(e) => { e.preventDefault(); }}
+                        onDragOver={(e) => { e.preventDefault(); setIsDraggingBrand(true); }}
+                        onDragLeave={(e) => { e.preventDefault(); setIsDraggingBrand(false); }}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          setIsDraggingBrand(false);
+                          if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                            const file = e.dataTransfer.files[0];
+                            const reader = new FileReader();
+                            reader.onload = (event) => setEditBrandPayload({ ...editBrandPayload, image: event.target?.result as string });
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      >
+                        {editBrandPayload.image ? (
+                          <>
+                            <img src={editBrandPayload.image} alt="Preview" className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
+                              <button 
+                                type="button"
+                                onClick={() => setEditBrandPayload({ ...editBrandPayload, image: "" })}
+                                className="bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg"
+                              >
+                                <X className="w-6 h-6" />
+                              </button>
+                              <span className="text-white text-sm font-medium mt-2">Click to Remove</span>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="text-center p-4 cursor-pointer">
+                            <UploadCloud className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                            <p className="text-sm text-gray-500 font-medium">Drag and drop an image here</p>
+                            <p className="text-xs text-gray-400 mt-1">or provide a URL below</p>
+                          </div>
+                        )}
+                      </div>
+                      <Input 
+                        value={editBrandPayload.image || ""} 
+                        onChange={e => setEditBrandPayload({...editBrandPayload, image: e.target.value})} 
+                        placeholder="Image URL (or drag & drop above)"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-6 bg-gray-50/50 p-6 rounded-xl border border-gray-100">
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Brand Name</label>
+                      <Input 
+                        value={editBrandPayload.name || ""} 
+                        onChange={e => setEditBrandPayload({...editBrandPayload, name: e.target.value})} 
+                        disabled
+                      />
+                      <span className="text-xs text-gray-500 mt-1 block">Brand name is not editable as it links to existing products.</span>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Description</label>
+                      <textarea 
+                        className="w-full rounded-md border-0 py-2.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 resize-none h-32"
+                        value={editBrandPayload.description || ""} 
+                        onChange={e => setEditBrandPayload({...editBrandPayload, description: e.target.value})}
+                        placeholder="Brand description..."
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Logo/Image</th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Brand Name</th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Description</th>
+                      <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 bg-white">
+                    {brands.map((b) => (
+                      <tr key={b.name} className="hover:bg-gray-50">
+                        <td className="whitespace-nowrap px-6 py-3">
+                          <div className="h-12 w-24 flex-shrink-0 bg-gray-100 rounded border border-gray-200 flex items-center justify-center overflow-hidden">
+                            {b.image ? (
+                              <img className="h-full w-full object-cover" src={b.image} alt={b.name} />
+                            ) : (
+                              <Store className="w-5 h-5 text-gray-400" />
+                            )}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">{b.name}</td>
+                        <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{b.description}</td>
+                        <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                          <button onClick={() => { setEditingBrandName(b.name); setEditBrandPayload(b); }} className="text-primary-600 hover:text-primary-900 transition-colors font-semibold flex items-center justify-end gap-1 w-full">
+                            <Edit className="w-4 h-4" /> Edit
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         )}

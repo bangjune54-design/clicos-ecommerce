@@ -3,8 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, ShoppingBag, Globe, Search, User } from "lucide-react";
 import { Button } from "../ui/Button";
 
-import { getLiveInventory } from "../../utils/inventory";
-import { b2bBrands } from "../../pages/WholesaleBrands";
+import { getLiveInventory, getLiveBrands } from "../../utils/inventory";
 
 interface NavItem {
   name: string;
@@ -86,8 +85,9 @@ export function Navbar() {
   // Filter recommendations
   // Filter recommendations
   const getRecommendations = () => {
-    if (!searchQuery.trim()) return { retail: [], b2b: [], retailBrands: [], b2bBrands: [] };
+    if (!searchQuery.trim()) return { retail: [] as any[], b2b: [] as any[], retailBrands: [] as any[], b2bBrands: [] as any[] };
     const query = searchQuery.toLowerCase();
+    const b2bBrands = getLiveBrands();
     
     return {
       retail: [],

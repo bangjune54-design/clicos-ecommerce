@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { b2bBrands } from "./WholesaleBrands";
+import { getLiveBrands } from "../utils/inventory";
 import { fweeProducts } from "../data/fweeProducts";
 import { torridenProducts } from "../data/torridenProducts";
 import { ddalmomdeProducts } from "../data/ddalmomdeProducts";
@@ -115,6 +115,7 @@ const generateMockProducts = (brandName: string): Product[] => {
 };
 
 export function WholesaleBrandDetail() {
+  const b2bBrands = getLiveBrands();
   const { formatPrice } = useCurrency();
   const { brandId } = useParams();
   const [brandSearchQuery, setBrandSearchQuery] = useState("");
