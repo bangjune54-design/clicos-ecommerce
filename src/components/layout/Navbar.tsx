@@ -127,35 +127,41 @@ export function Navbar() {
         </div>
 
         <div className="hidden lg:flex lg:gap-x-8">
-          {navigation.map((item) => (
-            <div key={item.name} className="relative group/nav py-6 -my-6 flex items-center">
-              <Link
-                to={item.href}
-                className={`text-sm font-semibold leading-6 transition-colors hover:text-primary-600 ${
-                  location.pathname === item.href || (location.pathname === '/' && item.href === '/') || (item.href !== '/' && location.pathname.startsWith(item.href))
-                    ? "text-primary-800 relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-500"
-                    : "text-gray-900"
-                }`}
-              >
-                {item.name}
-              </Link>
-              {item.submenu && (
-                <div className="absolute left-0 top-full mt-0 w-48 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-200 border border-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 overflow-hidden transform group-hover/nav:translate-y-0 translate-y-1">
-                  <div className="py-2">
-                    {item.submenu.map((subitem) => (
-                      <Link
-                        key={subitem.name}
-                        to={subitem.href}
-                        className="block w-full px-4 py-2.5 text-left text-sm font-bold text-gray-800 hover:bg-primary-50 hover:text-primary-900 transition-colors"
-                      >
-                        {subitem.name}
-                      </Link>
-                    ))}
+          {isAdmin ? (
+            <Link to="/admin" className="text-sm font-semibold leading-6 text-primary-800 relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-500">
+              Admin Dashboard
+            </Link>
+          ) : (
+            navigation.map((item) => (
+              <div key={item.name} className="relative group/nav py-6 -my-6 flex items-center">
+                <Link
+                  to={item.href}
+                  className={`text-sm font-semibold leading-6 transition-colors hover:text-primary-600 ${
+                    location.pathname === item.href || (location.pathname === '/' && item.href === '/') || (item.href !== '/' && location.pathname.startsWith(item.href))
+                      ? "text-primary-800 relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-500"
+                      : "text-gray-900"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+                {item.submenu && (
+                  <div className="absolute left-0 top-full mt-0 w-48 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-200 border border-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 overflow-hidden transform group-hover/nav:translate-y-0 translate-y-1">
+                    <div className="py-2">
+                      {item.submenu.map((subitem) => (
+                        <Link
+                          key={subitem.name}
+                          to={subitem.href}
+                          className="block w-full px-4 py-2.5 text-left text-sm font-bold text-gray-800 hover:bg-primary-50 hover:text-primary-900 transition-colors"
+                        >
+                          {subitem.name}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            ))
+          )}
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4">
@@ -407,20 +413,30 @@ export function Navbar() {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
-                  {navigation.map((item) => (
+                  {isAdmin ? (
                     <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-primary-50 transition-colors ${
-                        location.pathname === item.href
-                          ? "text-primary-800 bg-primary-50"
-                          : "text-gray-900"
-                      }`}
+                      to="/admin"
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-primary-800 bg-primary-50"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      {item.name}
+                      Admin Dashboard
                     </Link>
-                  ))}
+                  ) : (
+                    navigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-primary-50 transition-colors ${
+                          location.pathname === item.href
+                            ? "text-primary-800 bg-primary-50"
+                            : "text-gray-900"
+                        }`}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    ))
+                  )}
                 </div>
                 <div className="py-6 flex flex-col gap-4">
                   <div className="flex items-center gap-4 border-b border-gray-100 pb-4">

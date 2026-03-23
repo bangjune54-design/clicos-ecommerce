@@ -12,23 +12,20 @@ const categories = [
   {
     name: "Skincare",
     href: "/shop?category=skincare",
-    imageSrc:
-      "https://images.unsplash.com/photo-1599305090598-fe179d501334?q=80&w=600&auto=format&fit=crop",
+    imageSrc: "/skincare.png",
     description: "Premium serums, toners, and moisturizers for glass skin.",
   },
   {
     name: "Hair Care",
     href: "/shop?category=haircare",
-    imageSrc:
-      "https://images.unsplash.com/photo-1582211927806-cae15918b958?q=80&w=600&auto=format&fit=crop",
+    imageSrc: "/haircare.png",
     description: "Nourishing shampoos and treatments for healthy hair.",
   },
   {
-    name: "Styling",
-    href: "/shop?category=styling",
-    imageSrc:
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600&auto=format&fit=crop",
-    description: "Professional tools and styling products from Seoul.",
+    name: "Makeup",
+    href: "/shop?category=makeup",
+    imageSrc: "/makeup.png",
+    description: "Trendy color cosmetics and tools for expressive makeup.",
   },
 ];
 
@@ -118,20 +115,22 @@ export function Home() {
             allShopProducts.find(p => p.isBestseller && p.brand === "Beauty of Joseon")
           ].filter(Boolean).map((product) => (
             <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
-              <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
-                <img src={product.imageSrc} alt={product.name} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
-                <Badge variant="accent" className="absolute top-3 left-3 shadow-sm">Bestseller</Badge>
-              </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
-                <h3 className="text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
-                <div className="mt-auto pt-4 flex items-center justify-between">
-                  <p className="text-lg font-bold text-gray-900">{formatPrice(product?.price || 0)}</p>
-                  <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50">
-                    <ShoppingBag className="w-4 h-4" />
-                  </Button>
+              <Link to={`/product/${product.id}`} className="block h-full flex flex-col">
+                <div className="aspect-square overflow-hidden bg-gray-100 relative">
+                  <img src={product.imageSrc} alt={product.name} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                  <Badge variant="accent" className="absolute top-3 left-3 shadow-sm">Bestseller</Badge>
                 </div>
-              </div>
+                <div className="p-4 flex flex-col flex-grow">
+                  <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
+                  <h3 className="text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
+                  <div className="mt-auto pt-4 flex items-center justify-between">
+                    <p className="text-lg font-bold text-gray-900">{formatPrice(product?.price || 0)}</p>
+                    <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50" onClick={(e) => e.preventDefault()}>
+                      <ShoppingBag className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </Link>
             </Card>
           ))}
         </div>
@@ -176,19 +175,21 @@ export function Home() {
             allShopProducts.find(p => !p.isBestseller && p.brand === "AESTURA")
           ].filter(Boolean).map((product) => (
             <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
-              <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
-                <img src={product.imageSrc} alt={product.name} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
-              </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
-                <h3 className="text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
-                <div className="mt-auto pt-4 flex items-center justify-between">
-                  <p className="text-lg font-bold text-gray-900">{formatPrice(product?.price || 0)}</p>
-                  <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50">
-                    <ShoppingBag className="w-4 h-4" />
-                  </Button>
+              <Link to={`/product/${product.id}`} className="block h-full flex flex-col">
+                <div className="aspect-square overflow-hidden bg-gray-100 relative">
+                  <img src={product.imageSrc} alt={product.name} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
                 </div>
-              </div>
+                <div className="p-4 flex flex-col flex-grow">
+                  <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
+                  <h3 className="text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
+                  <div className="mt-auto pt-4 flex items-center justify-between">
+                    <p className="text-lg font-bold text-gray-900">{formatPrice(product?.price || 0)}</p>
+                    <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50" onClick={(e) => e.preventDefault()}>
+                      <ShoppingBag className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </Link>
             </Card>
           ))}
         </div>

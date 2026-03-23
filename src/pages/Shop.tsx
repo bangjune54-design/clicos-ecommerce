@@ -9,9 +9,9 @@ import { getLiveInventory } from "../utils/inventory";
 
 // Mocks
 const categories = ["All", "Skincare", "Makeup", "Hair Care", "Styling Tools", "Body Care", "Sun Care"];
-export const allShopProducts = getLiveInventory();
 
 export function Shop() {
+  const allShopProducts = getLiveInventory();
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get("category");
@@ -28,6 +28,7 @@ export function Shop() {
   
   // Track quantities independently for each product card
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   
   const getQty = (id: string) => quantities[id] || 1;
   const updateQty = (id: string, delta: number) => {
@@ -39,13 +40,22 @@ export function Shop() {
     const qty = getQty(product.id);
     const userType = localStorage.getItem("userType") || "retail"; // default guests to retail
     
+    const optionsList = product.options || product.colors;
+    const hasOptions = optionsList && optionsList.length > 0;
+    const selectedOption = selectedOptions[product.id] || (hasOptions ? optionsList[0] : undefined);
+
+    if (hasOptions && !selectedOption) {
+      alert(`Please select an option for ${product.name}`);
+      return;
+    }
+
     if (isB2B) {
       if (userType !== "wholesale") {
         alert("Only Wholesale Partners can add wholesale items. Please login as a Wholesale Partner.");
         return;
       }
       const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
-      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && !item.color);
+      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
       if (existingItem) {
         existingItem.boxQty += qty;
       } else {
@@ -56,7 +66,9 @@ export function Shop() {
           price: product.wholesalePrice,
           inboxQty: product.moq,
           boxQty: qty,
-          image: product.imageSrc
+          image: product.imageSrc,
+          optionName: product.optionName || "Color / Option",
+          optionValue: selectedOption || undefined
         });
       }
       localStorage.setItem('b2bCart', JSON.stringify(currentB2BCart));
@@ -67,7 +79,7 @@ export function Shop() {
         return;
       }
       const currentRetailCart = JSON.parse(localStorage.getItem('retailCart') || '[]');
-      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && !item.color);
+      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
       if (existingItem) {
         existingItem.quantity += qty;
       } else {
@@ -77,7 +89,9 @@ export function Shop() {
           brand: product.brand,
           price: product.price,
           quantity: qty,
-          image: product.imageSrc
+          image: product.imageSrc,
+          optionName: product.optionName || "Color / Option",
+          optionValue: selectedOption || undefined
         });
       }
       localStorage.setItem('retailCart', JSON.stringify(currentRetailCart));
@@ -85,6 +99,7 @@ export function Shop() {
     }
     // Reset quantity after adding
     setQuantities(prev => ({ ...prev, [product.id]: 1 }));
+    setSelectedOptions(prev => { const next = {...prev}; delete next[product.id]; return next; });
     // Dispatch an event so Navbar can update its badge immediately
     window.dispatchEvent(new Event("storage"));
   };
@@ -202,7 +217,7 @@ export function Shop() {
               {filteredProducts.map((product) => (
                 <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
                   <Link to={`/product/${product.id}`} className="block">
-                    <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
+                    <div className="aspect-square overflow-hidden bg-gray-100 relative">
                       <img
                         src={product.imageSrc}
                         alt={product.name}
@@ -236,17 +251,20 @@ export function Shop() {
                       </h3>
                     </Link>
                     
-                    {product.colors && product.colors.length > 0 && (
+                    {((product.options && product.options.length > 0) || (product.colors && product.colors.length > 0)) && (
                       <div className="mb-4">
-                        <label htmlFor={`color-${product.id}`} className="sr-only">Choose a color</label>
+                        <label htmlFor={`option-${product.id}`} className="sr-only">Choose an option</label>
                         <select
-                          id={`color-${product.id}`}
+                          id={`option-${product.id}`}
                           className="mt-1 block w-full rounded-md border-gray-300 py-1.5 pl-3 pr-10 text-xs focus:border-primary-500 focus:outline-none focus:ring-primary-500 bg-gray-50 bg-white shadow-sm transition-colors border max-w-full truncate"
                           defaultValue=""
+                          onChange={(e) => {
+                             setSelectedOptions(prev => ({...prev, [product.id]: e.target.value}));
+                          }}
                         >
                           <option value="" disabled>Select option...</option>
-                          {product.colors.map((color: string) => (
-                            <option key={color} value={color}>{color}</option>
+                          {(product.options || product.colors).map((opt: string) => (
+                            <option key={opt} value={opt}>{opt}</option>
                           ))}
                         </select>
                       </div>

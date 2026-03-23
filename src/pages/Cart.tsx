@@ -129,6 +129,11 @@ export function Cart() {
                             <p className="ml-4 whitespace-nowrap">{formatPrice(item.price * item.quantity)}</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">{item.brand}</p>
+                          {(item.optionValue || item.color) && (
+                            <p className="mt-1 text-xs text-gray-500 font-medium bg-gray-100 inline-block px-2 py-0.5 rounded-sm">
+                              {item.optionName || "Color / Option"}: {item.optionValue || item.color}
+                            </p>
+                          )}
                         </div>
                         <div className="flex flex-1 items-end justify-between text-sm">
                           <div className="flex items-center border border-gray-300 rounded-md">
@@ -191,6 +196,11 @@ export function Cart() {
                             <p className="ml-4 whitespace-nowrap">{formatPrice(item.price * item.boxQty * item.inboxQty)}</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">{item.brand}</p>
+                          {(item.optionValue || item.color) && (
+                            <p className="mt-1 text-xs text-gray-500 font-medium bg-gray-100 inline-block px-2 py-0.5 rounded-sm">
+                              {item.optionName || "Color / Option"}: {item.optionValue || item.color}
+                            </p>
+                          )}
                           <p className="mt-1 text-xs text-gray-400">Price per unit: {formatPrice(item.price)}</p>
                         </div>
                         <div className="flex flex-1 items-end justify-between text-sm mt-2">

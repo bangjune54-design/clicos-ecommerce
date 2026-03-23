@@ -4,7 +4,7 @@ import { ShoppingBag, ArrowLeft, Star, Truck, ShieldCheck } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { Badge } from "../components/ui/Badge";
-import { allShopProducts } from "./Shop";
+import { getLiveInventory } from "../utils/inventory";
 
 export function ProductDetail() {
   const { formatPrice } = useCurrency();
@@ -12,10 +12,10 @@ export function ProductDetail() {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType") || "retail";
   
-  const product = allShopProducts.find((p) => p.id === id || p.id === `b2b-${p.brand.toLowerCase()}-${id}`);
+  const product = getLiveInventory().find((p) => p.id === id || p.id === `b2b-${p.brand.toLowerCase()}-${id}`);
   
   const [quantity, setQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedOption, setSelectedOption] = useState("");
 
   if (!product) {
     return (
@@ -42,14 +42,15 @@ export function ProductDetail() {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     
-    if (product.colors && product.colors.length > 0 && !selectedColor) {
-      alert("Please select a color/option before adding to cart.");
+    const hasOptions = (product.options && product.options.length > 0) || (product.colors && product.colors.length > 0);
+    if (hasOptions && !selectedOption) {
+      alert(`Please select an option before adding to cart.`);
       return;
     }
 
     if (isB2B) {
       const currentB2BCart = JSON.parse(localStorage.getItem("b2bCart") || "[]");
-      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.color || "") === (selectedColor || ""));
+      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
       if (existingItem) {
         existingItem.boxQty += quantity;
       } else {
@@ -61,14 +62,15 @@ export function ProductDetail() {
           inboxQty: product.moq,
           boxQty: quantity,
           image: product.imageSrc,
-          color: selectedColor || undefined
+          optionName: product.optionName || "Color / Option",
+          optionValue: selectedOption || undefined
         });
       }
       localStorage.setItem("b2bCart", JSON.stringify(currentB2BCart));
       alert(`Added ${quantity} boxes of ${product.name} to Wholesale Quote!`);
     } else {
       const currentRetailCart = JSON.parse(localStorage.getItem("retailCart") || "[]");
-      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.color || "") === (selectedColor || ""));
+      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
       if (existingItem) {
         existingItem.quantity += quantity;
       } else {
@@ -79,7 +81,8 @@ export function ProductDetail() {
           price: product.price,
           quantity: quantity,
           image: product.imageSrc,
-          color: selectedColor || undefined
+          optionName: product.optionName || "Color / Option",
+          optionValue: selectedOption || undefined
         });
       }
       localStorage.setItem("retailCart", JSON.stringify(currentRetailCart));
@@ -108,7 +111,7 @@ export function ProductDetail() {
           
           {/* Image Gallery (Right now, just single image) */}
           <div className="flex flex-col gap-4">
-            <div className="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm border border-gray-100">
+            <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm border border-gray-100">
               <img
                 src={product.imageSrc}
                 alt={product.name}
@@ -160,23 +163,23 @@ export function ProductDetail() {
             </p>
 
             <form className="mt-auto">
-              {/* Colors Dropdown */}
-              {product.colors && product.colors.length > 0 && (
+              {/* Options Dropdown */}
+              {((product.options && product.options.length > 0) || (product.colors && product.colors.length > 0)) && (
                 <div className="mb-6">
-                  <h3 className="text-sm font-medium text-gray-900 mb-3">Color / Option</h3>
+                  <h3 className="text-sm font-medium text-gray-900 mb-3">{product.optionName || "Color / Option"}</h3>
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    {product.colors.map((color: string) => (
+                    {(product.options || product.colors).map((opt: string) => (
                       <button
-                        key={color}
+                        key={opt}
                         type="button"
-                        onClick={() => setSelectedColor(color)}
+                        onClick={() => setSelectedOption(opt)}
                         className={`flex items-center justify-center rounded-md border py-3 px-3 text-sm font-semibold uppercase sm:flex-1 transition-all ${
-                          selectedColor === color
+                          selectedOption === opt
                             ? "border-primary-600 bg-primary-50 text-primary-900 ring-1 ring-primary-600 shadow-sm"
                             : "border-gray-300 bg-white text-gray-900 hover:bg-gray-50"
                         }`}
                       >
-                        {color}
+                        {opt}
                       </button>
                     ))}
                   </div>

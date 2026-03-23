@@ -29,90 +29,11 @@ interface Product {
   imageSrc: string;
   isBestseller: boolean;
   colors?: string[];
+  options?: string[];
+  optionName?: string;
 }
 
-// Mock products generator based on brand name
-const generateMockProducts = (brandName: string): Product[] => {
-  if (brandName === "FWEE") {
-    return fweeProducts;
-  }
-  if (brandName === "Torriden") {
-    return torridenProducts;
-  }
-  if (brandName === "DDALMOMDE") {
-    return ddalmomdeProducts;
-  }
-  if (brandName === "4PM") {
-    return fourPmProducts;
-  }
-  if (brandName === "MEDICUBE") {
-    return medicubeProducts;
-  }
-  if (brandName === "Beauty of Joseon") {
-    return beautyOfJoseonProducts;
-  }
-  if (brandName === "Ma:nyo") {
-    return manyoProducts;
-  }
-  if (brandName === "NUMBUZIN") {
-    return numbuzinProducts;
-  }
-  if (brandName === "Meditherapy") {
-    return meditherapyProducts;
-  }
-  if (brandName === "AESTURA") {
-    return aesturaProducts;
-  }
-  if (brandName === "Kerasys") {
-    return kerasysProducts;
-  }
-  if (brandName === "ATS") {
-    return atsProducts;
-  }
-  
-  return [
-    {
-      id: "mock-1",
-      name: `${brandName} Signature Serum`,
-      category: "Skincare",
-      wholesalePrice: 22.5,
-      moq: 50,
-      imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop",
-      isBestseller: true,
-      colors: []
-    },
-    {
-      id: "mock-2",
-      name: `${brandName} Barrier Cream`,
-      category: "Skincare",
-      wholesalePrice: 28.0,
-      moq: 20,
-      imageSrc: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=400&auto=format&fit=crop",
-      isBestseller: false,
-      colors: []
-    },
-    {
-      id: "mock-3",
-      name: `${brandName} Gentle Cleanser`,
-      category: "Skincare",
-      wholesalePrice: 15.0,
-      moq: 100,
-      imageSrc: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=400&auto=format&fit=crop",
-      isBestseller: true,
-      colors: []
-    },
-    {
-      id: "mock-4",
-      name: `${brandName} Hydrating Toner`,
-      category: "Skincare",
-      wholesalePrice: 18.0,
-      moq: 50,
-      imageSrc: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=400&auto=format&fit=crop",
-      isBestseller: false,
-      colors: []
-    }
-  ];
-};
+// Removed static mock generator, now relying on global inventory to show LIVE edits.
 
 export function WholesaleBrandDetail() {
   const b2bBrands = getLiveBrands();
@@ -122,6 +43,7 @@ export function WholesaleBrandDetail() {
   
   // Track quantities independently for each product card
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   
   const getQty = (id: string) => quantities[id] || 1;
   const updateQty = (id: string, delta: number) => {
@@ -137,9 +59,18 @@ export function WholesaleBrandDetail() {
       alert("Only Wholesale Partners can add wholesale items. Please login as a Wholesale Partner.");
       return;
     }
+
+    const optionsList = product.options || product.colors;
+    const hasOptions = optionsList && optionsList.length > 0;
+    const selectedOption = selectedOptions[product.id] || (hasOptions ? optionsList[0] : undefined);
+
+    if (hasOptions && !selectedOption) {
+      alert(`Please select an option for ${product.name}`);
+      return;
+    }
     
     const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
-    const existingItem = currentB2BCart.find((item: any) => item.id === product.id && !item.color);
+    const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
     if (existingItem) {
       existingItem.boxQty += qty;
     } else {
@@ -150,7 +81,9 @@ export function WholesaleBrandDetail() {
         price: product.wholesalePrice,
         inboxQty: product.moq,
         boxQty: qty,
-        image: product.imageSrc
+        image: product.imageSrc,
+        optionName: product.optionName || "Color / Option",
+        optionValue: selectedOption || undefined
       });
     }
     localStorage.setItem('b2bCart', JSON.stringify(currentB2BCart));
@@ -158,6 +91,7 @@ export function WholesaleBrandDetail() {
     
     // Reset quantity after adding
     setQuantities(prev => ({ ...prev, [product.id]: 1 }));
+    setSelectedOptions(prev => { const next = {...prev}; delete next[product.id]; return next; });
     // Dispatch an event so Navbar can update its badge immediately
     window.dispatchEvent(new Event("storage"));
   };
@@ -176,7 +110,7 @@ export function WholesaleBrandDetail() {
     );
   }
 
-  const products = generateMockProducts(brand.name);
+  const products = getLiveInventory().filter(p => p.brand === brand.name);
 
   const filteredProducts = products.filter(p => 
     p.name.toLowerCase().includes(brandSearchQuery.toLowerCase())
@@ -236,7 +170,7 @@ export function WholesaleBrandDetail() {
           {products.map((product) => (
             <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
               <Link to={`/product/${product.id}`} className="block">
-                <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
+                <div className="aspect-square overflow-hidden bg-gray-100 relative">
                   <img
                     src={product.imageSrc}
                     alt={product.name}
@@ -269,21 +203,24 @@ export function WholesaleBrandDetail() {
                   </h3>
                 </Link>
 
-                {product.colors && product.colors.length > 0 && (
-                  <div className="mb-4">
-                    <label htmlFor={`color-${product.id}`} className="sr-only">Choose a color</label>
-                    <select
-                      id={`color-${product.id}`}
-                      className="mt-1 block w-full rounded-md border-gray-300 py-1.5 pl-3 pr-10 text-xs focus:border-primary-500 focus:outline-none focus:ring-primary-500 bg-gray-50 bg-white shadow-sm transition-colors border max-w-full truncate"
-                      defaultValue=""
-                    >
-                      <option value="" disabled>Select option...</option>
-                      {product.colors.map(color => (
-                        <option key={color} value={color}>{color}</option>
-                      ))}
-                    </select>
-                  </div>
-                )}
+                    {((product.options && product.options.length > 0) || (product.colors && product.colors.length > 0)) && (
+                      <div className="mb-4">
+                        <label htmlFor={`option-${product.id}`} className="sr-only">Choose an option</label>
+                        <select
+                          id={`option-${product.id}`}
+                          className="mt-1 block w-full rounded-md border-gray-300 py-1.5 pl-3 pr-10 text-xs focus:border-primary-500 focus:outline-none focus:ring-primary-500 bg-gray-50 bg-white shadow-sm transition-colors border max-w-full truncate"
+                          defaultValue=""
+                          onChange={(e) => {
+                             setSelectedOptions(prev => ({...prev, [product.id]: e.target.value}));
+                          }}
+                        >
+                          <option value="" disabled>Select option...</option>
+                          {(product.options || product.colors).map((opt: string) => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
                                 <div className="mt-auto flex items-end justify-between">
                     <div>
                       <p className="text-xl font-bold text-primary-800">{formatPrice(product.wholesalePrice)}</p>

@@ -1,9 +1,21 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 
 export function AppLayout() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userEmail = localStorage.getItem("userEmail");
+    const isAdmin = userEmail === "info@clicos.co.kr" || userEmail === "wholesale@clicos.co.kr";
+    
+    // If the user is an admin and tries to access anything other than admin or login, redirect to admin
+    if (isAdmin && location.pathname !== "/admin" && location.pathname !== "/login") {
+      navigate("/admin", { replace: true });
+    }
+  }, [location.pathname, navigate]);
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <Navbar />

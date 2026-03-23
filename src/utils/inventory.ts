@@ -25,7 +25,8 @@ const mapB2BProducts = (b2bList: any[], brandName: string, categoryName: string 
     description: p.description || `Discover the beauty of carefully crafted authentic Korean formulas. This ${p.category || categoryName} essentially targets optimal results, ensuring your absolute satisfaction with every use. Premium ingredients combined with advanced technology deliver visible improvements.`,
     rating: 4.5 + Math.random() * 0.5,
     isBestseller: p.isBestseller || false,
-    colors: p.colors || undefined,
+    optionName: p.optionName || (p.colors ? "Color / Option" : undefined),
+    options: p.options || p.colors || undefined,
   }));
 };
 

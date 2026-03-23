@@ -46,7 +46,12 @@ export function AdminDashboard() {
   const { formatPrice } = useCurrency();
   const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory" | "brands">("orders");
   const [orders, setOrders] = useState(initialMockOrders);
-  const [accounts, setAccounts] = useState(mockAccounts);
+  const [accounts, setAccounts] = useState<any[]>(() => {
+    const saved = localStorage.getItem("allAccounts");
+    if (saved) return JSON.parse(saved);
+    localStorage.setItem("allAccounts", JSON.stringify(mockAccounts));
+    return mockAccounts;
+  });
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
   const [editingOrderId, setEditingOrderId] = useState<string | null>(null);
   const [editOrderTotal, setEditOrderTotal] = useState<number>(0);
@@ -84,7 +89,9 @@ export function AdminDashboard() {
   };
 
   const handleDeleteAccount = (accountId: string) => {
-    setAccounts(accounts.filter(a => a.id !== accountId));
+    const updated = accounts.filter(a => a.id !== accountId);
+    setAccounts(updated);
+    localStorage.setItem("allAccounts", JSON.stringify(updated));
   };
 
   const handleDeleteProduct = (productId: string) => {
@@ -112,8 +119,8 @@ export function AdminDashboard() {
   const handleSaveProduct = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     const updated = inventory.map(p => p.id === editingProductId ? { ...p, ...editProductPayload } : p);
+    try { saveLiveInventory(updated); } catch (e) { alert("Save error: image might be too large"); return; }
     setInventory(updated);
-    saveLiveInventory(updated);
     setEditingProductId(null);
   };
 
@@ -375,9 +382,9 @@ export function AdminDashboard() {
               <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-8">
                 <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
                   <h3 className="text-2xl font-bold font-serif text-gray-900">Edit Product Profile</h3>
-                  <div className="flex gap-3">
-                    <Button variant="outline" onClick={() => setEditingProductId(null)}>Cancel</Button>
-                    <Button onClick={handleSaveProduct}>Save Changes</Button>
+                  <div className="flex gap-3 relative z-50">
+                    <Button type="button" variant="outline" onClick={() => setEditingProductId(null)}>Cancel</Button>
+                    <Button type="button" onClick={handleSaveProduct}>Save Changes</Button>
                   </div>
                 </div>
                 
@@ -397,7 +404,40 @@ export function AdminDashboard() {
                           if (e.dataTransfer.files && e.dataTransfer.files[0]) {
                             const file = e.dataTransfer.files[0];
                             const reader = new FileReader();
-                            reader.onload = (event) => setEditProductPayload({ ...editProductPayload, imageSrc: event.target?.result as string });
+                            reader.onload = (event) => {
+                              const img = new Image();
+                              img.onload = () => {
+                                const canvas = document.createElement("canvas");
+                                const MAX_WIDTH = 800;
+                                const MAX_HEIGHT = 800;
+                                let width = img.width;
+                                let height = img.height;
+
+                                if (width > height) {
+                                  if (width > MAX_WIDTH) {
+                                    height = Math.round((height * MAX_WIDTH) / width);
+                                    width = MAX_WIDTH;
+                                  }
+                                } else {
+                                  if (height > MAX_HEIGHT) {
+                                    width = Math.round((width * MAX_HEIGHT) / height);
+                                    height = MAX_HEIGHT;
+                                  }
+                                }
+                                canvas.width = width;
+                                canvas.height = height;
+                                const ctx = canvas.getContext("2d");
+                                ctx?.drawImage(img, 0, 0, width, height);
+                                
+                                let mimeType = file.type;
+                                if (!['image/jpeg', 'image/png', 'image/webp'].includes(mimeType)) {
+                                  mimeType = 'image/jpeg';
+                                }
+                                const dataUrl = canvas.toDataURL(mimeType, 0.8);
+                                setEditProductPayload({ ...editProductPayload, imageSrc: dataUrl });
+                              };
+                              img.src = event.target?.result as string;
+                            };
                             reader.readAsDataURL(file);
                           }
                         }}
@@ -488,6 +528,26 @@ export function AdminDashboard() {
                         type="number"
                         value={editProductPayload.moq || 1} 
                         onChange={e => setEditProductPayload({...editProductPayload, moq: parseInt(e.target.value)})} 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Option Name (e.g. Volume)</label>
+                      <Input 
+                        value={editProductPayload.optionName || ""} 
+                        onChange={e => setEditProductPayload({...editProductPayload, optionName: e.target.value})} 
+                        placeholder="Leave blank if no options"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Options (Comma-separated)</label>
+                      <Input 
+                        value={(editProductPayload.options || editProductPayload.colors || []).join(", ")} 
+                        onChange={e => {
+                          const val = e.target.value;
+                          const arr = val ? val.split(",").map(s => s.trim()).filter(Boolean) : undefined;
+                          setEditProductPayload({...editProductPayload, options: arr});
+                        }} 
+                        placeholder="e.g. 50ml, 100ml, 150ml"
                       />
                     </div>
                   </div>
@@ -601,13 +661,13 @@ export function AdminDashboard() {
               <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-8">
                 <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
                   <h3 className="text-2xl font-bold font-serif text-gray-900">Edit Brand Profile</h3>
-                  <div className="flex gap-3">
-                    <Button variant="outline" onClick={() => setEditingBrandName(null)}>Cancel</Button>
-                    <Button onClick={() => {
-                      const updated = brands.map(b => b.name === editingBrandName ? { ...b, ...editBrandPayload } : b);
-                      setBrands(updated);
-                      saveLiveBrands(updated);
-                      setEditingBrandName(null);
+                  <div className="flex gap-3 relative z-50">
+                    <Button type="button" variant="outline" onClick={() => setEditingBrandName(null)}>Cancel</Button>
+                    <Button type="button" onClick={() => {
+                        const updated = brands.map(b => b.name === editingBrandName ? { ...b, ...editBrandPayload } : b);
+                        try { saveLiveBrands(updated); } catch(e) { alert("Save error: image might be too large"); return; }
+                        setBrands(updated);
+                        setEditingBrandName(null);
                     }}>Save Changes</Button>
                   </div>
                 </div>
@@ -627,7 +687,40 @@ export function AdminDashboard() {
                           if (e.dataTransfer.files && e.dataTransfer.files[0]) {
                             const file = e.dataTransfer.files[0];
                             const reader = new FileReader();
-                            reader.onload = (event) => setEditBrandPayload({ ...editBrandPayload, image: event.target?.result as string });
+                            reader.onload = (event) => {
+                              const img = new Image();
+                              img.onload = () => {
+                                const canvas = document.createElement("canvas");
+                                const MAX_WIDTH = 800;
+                                const MAX_HEIGHT = 800;
+                                let width = img.width;
+                                let height = img.height;
+
+                                if (width > height) {
+                                  if (width > MAX_WIDTH) {
+                                    height = Math.round((height * MAX_WIDTH) / width);
+                                    width = MAX_WIDTH;
+                                  }
+                                } else {
+                                  if (height > MAX_HEIGHT) {
+                                    width = Math.round((width * MAX_HEIGHT) / height);
+                                    height = MAX_HEIGHT;
+                                  }
+                                }
+                                canvas.width = width;
+                                canvas.height = height;
+                                const ctx = canvas.getContext("2d");
+                                ctx?.drawImage(img, 0, 0, width, height);
+                                
+                                let mimeType = file.type;
+                                if (!['image/jpeg', 'image/png', 'image/webp'].includes(mimeType)) {
+                                  mimeType = 'image/jpeg';
+                                }
+                                const dataUrl = canvas.toDataURL(mimeType, 0.8);
+                                setEditBrandPayload({ ...editBrandPayload, image: dataUrl });
+                              };
+                              img.src = event.target?.result as string;
+                            };
                             reader.readAsDataURL(file);
                           }
                         }}

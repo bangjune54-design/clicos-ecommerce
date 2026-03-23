@@ -19,8 +19,14 @@ export function Signup() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // Mock list of existing emails to demonstrate email checking
-  const existingEmails = ["test@example.com", "admin@clicos.com"];
+  // Load existing accounts dynamically
+  const savedAccounts = JSON.parse(localStorage.getItem("allAccounts") || "[]");
+  const defaultAccounts = [
+    { email: "jane.doe@example.com" }, 
+    { email: "retail_shop@b2b.com" }, 
+    { email: "info@clicos.co.kr" }
+  ];
+  const allAccountsToMerge = savedAccounts.length > 0 ? savedAccounts : defaultAccounts;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -34,8 +40,15 @@ export function Signup() {
     e.preventDefault();
     setError("");
 
-    if (existingEmails.includes(formData.email)) {
+    const isEmailTaken = allAccountsToMerge.some((a: any) => a.email.toLowerCase() === formData.email.toLowerCase());
+    if (isEmailTaken) {
       setError("An account with this email already exists.");
+      return;
+    }
+
+    const isPhoneTaken = allAccountsToMerge.some((a: any) => a.phone && a.phone === formData.phone);
+    if (isPhoneTaken) {
+      setError("An account with this phone number already exists.");
       return;
     }
 
@@ -45,8 +58,27 @@ export function Signup() {
     }
 
     // Success state
+    const saved = localStorage.getItem("allAccounts");
+    const accounts = saved ? JSON.parse(saved) : [
+      { id: "USR-001", name: "Jane Doe", email: "jane.doe@example.com", type: "Retail", joined: "Jan 12, 2026", status: "Active" },
+      { id: "USR-002", name: "John Smith", email: "retail_shop@b2b.com", type: "Wholesale", joined: "Feb 05, 2026", status: "Active" },
+      { id: "USR-003", name: "Admin Setup", email: "info@clicos.co.kr", type: "Admin", joined: "Dec 01, 2025", status: "Active" },
+    ];
+    
+    const newAccount = {
+      id: `USR-${Math.floor(Math.random() * 900 + 100)}`,
+      name: `${formData.firstName} ${formData.lastName}`.trim(),
+      email: formData.email,
+      phone: formData.phone,
+      type: activeTab === "general" ? "Retail" : "Wholesale",
+      joined: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+      status: "Active"
+    };
+    
+    const updatedAccounts = [...accounts, newAccount];
+    localStorage.setItem("allAccounts", JSON.stringify(updatedAccounts));
+
     setSuccess(true);
-    // In a real app, you would send formData to your backend here
   };
 
   if (success) {
