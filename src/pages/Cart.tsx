@@ -273,9 +273,11 @@ export function Cart() {
             </dl>
 
             <div className="mt-6">
-              <Button className="w-full">
-                Proceed to Checkout
-              </Button>
+              <Link to="/checkout" className="block w-full">
+                <Button className="w-full">
+                  Proceed to Checkout
+                </Button>
+              </Link>
             </div>
             
             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">

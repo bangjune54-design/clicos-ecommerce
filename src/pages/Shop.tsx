@@ -8,7 +8,20 @@ import { useCurrency } from "../contexts/CurrencyContext";
 import { getLiveInventory } from "../utils/inventory";
 
 // Mocks
-const categories = ["All", "Skincare", "Makeup", "Hair Care", "Styling Tools", "Body Care", "Sun Care"];
+// Categories structure
+const CATEGORY_STRUCTURE = [
+  { name: "All" },
+  {
+    name: "Skincare",
+    subcategories: ["Sun Care", "Cleansing", "Serum & Ampoule", "Cream", "Toner", "Mask"]
+  },
+  { name: "Makeup" },
+  { name: "Hair Care" },
+  { name: "Body Care" }
+];
+
+// Flattened list for URL matching if needed
+const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap(c => [c.name, ...(c.subcategories || [])]);
 
 export function Shop() {
   const allShopProducts = getLiveInventory();
@@ -18,8 +31,12 @@ export function Shop() {
   
   const [activeCategory, setActiveCategory] = useState(
     initialCategory 
-      ? categories.find(c => c.toLowerCase().replace(" ", "") === initialCategory) || "All"
+      ? ALL_CATEGORIES.find(c => c.toLowerCase().replace(/ & /g, "").replace(/ /g, "") === initialCategory) || "All"
       : "All"
+  );
+  
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(
+    CATEGORY_STRUCTURE.find(c => c.name === activeCategory || c.subcategories?.includes(activeCategory))?.name || null
   );
   
   // Toggle between retail and wholesale views for testing purposes
@@ -105,7 +122,21 @@ export function Shop() {
   };
 
   const filteredProducts = allShopProducts.filter(p => {
-    const matchesCategory = activeCategory === "All" || p.category === activeCategory;
+    let matchesCategory = false;
+    
+    if (activeCategory === "All") {
+      matchesCategory = true;
+    } else {
+      // If clicking a parent category like "Skincare", it should show products that are "Skincare" OR any of its subcategories.
+      const parentCat = CATEGORY_STRUCTURE.find(c => c.name === activeCategory);
+      if (parentCat && parentCat.subcategories) {
+        matchesCategory = p.category === activeCategory || parentCat.subcategories.includes(p.category);
+      } else {
+        // Otherwise exact match for subcategories or basic categories
+        matchesCategory = p.category === activeCategory;
+      }
+    }
+
     const matchesSearch = p.name.toLowerCase().includes(shopSearchQuery.toLowerCase()) || 
                           p.brand.toLowerCase().includes(shopSearchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
@@ -153,28 +184,67 @@ export function Shop() {
               <div className="border-t border-gray-200 py-6">
                 <h4 className="font-semibold text-gray-900 mb-4">Category</h4>
                 <div className="space-y-3">
-                  {categories.map((category) => (
-                    <div key={category} className="flex items-center">
-                      <button
-                        onClick={() => {
-                          setActiveCategory(category);
-                          if (category === "All") {
-                            searchParams.delete("category");
-                          } else {
-                            searchParams.set("category", category.toLowerCase().replace(" ", ""));
-                          }
-                          setSearchParams(searchParams);
-                        }}
-                        className={`text-sm ${
-                          activeCategory === category
-                            ? "font-bold text-primary-800"
-                            : "text-gray-600 hover:text-primary-800"
-                        } transition-colors`}
-                      >
-                        {category}
-                      </button>
-                    </div>
-                  ))}
+                  {CATEGORY_STRUCTURE.map((category) => {
+                    const isExpanded = expandedCategory === category.name;
+                    const isActive = activeCategory === category.name;
+                    const hasSubcategories = !!category.subcategories;
+
+                    return (
+                      <div key={category.name} className="flex flex-col">
+                        <button
+                          onClick={() => {
+                            if (hasSubcategories) {
+                              setExpandedCategory(isExpanded ? null : category.name);
+                            } else {
+                              setExpandedCategory(null);
+                            }
+                            
+                            setActiveCategory(category.name);
+                            if (category.name === "All") {
+                              searchParams.delete("category");
+                            } else {
+                              searchParams.set("category", category.name.toLowerCase().replace(/ & /g, "").replace(/ /g, ""));
+                            }
+                            setSearchParams(searchParams);
+                          }}
+                          className={`text-sm flex items-center justify-between w-full text-left py-1 ${
+                            isActive
+                              ? "font-bold text-primary-800"
+                              : "text-gray-600 hover:text-primary-800"
+                          } transition-colors`}
+                        >
+                          {category.name}
+                          {hasSubcategories && (
+                            <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                          )}
+                        </button>
+                        
+                        {/* Subcategories Dropdown */}
+                        {hasSubcategories && isExpanded && (
+                          <div className="pl-4 mt-2 space-y-2 border-l-2 border-primary-100 ml-1">
+                            {category.subcategories?.map(sub => {
+                              const isSubActive = activeCategory === sub;
+                              return (
+                                <button
+                                  key={sub}
+                                  onClick={() => {
+                                    setActiveCategory(sub);
+                                    searchParams.set("category", sub.toLowerCase().replace(/ & /g, "").replace(/ /g, ""));
+                                    setSearchParams(searchParams);
+                                  }}
+                                  className={`block text-sm text-left w-full py-1 ${
+                                    isSubActive ? "font-bold text-primary-700" : "text-gray-500 hover:text-primary-700"
+                                  } transition-colors`}
+                                >
+                                  {sub}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 

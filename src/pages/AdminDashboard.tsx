@@ -44,7 +44,7 @@ const mockAccounts = [
 
 export function AdminDashboard() {
   const { formatPrice } = useCurrency();
-  const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory" | "brands">("orders");
+  const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory" | "brands" | "settings">("orders");
   const [orders, setOrders] = useState(initialMockOrders);
   const [accounts, setAccounts] = useState<any[]>(() => {
     const saved = localStorage.getItem("allAccounts");
@@ -150,6 +150,16 @@ export function AdminDashboard() {
     }
   };
 
+  const [bankSettings, setBankSettings] = useState(() => {
+    return JSON.parse(localStorage.getItem("adminBankSettings") || '{"bankName":"","accountName":"","accountNumber":"","routingNumber":""}');
+  });
+
+  const handleSaveBankSettings = (e: React.FormEvent) => {
+    e.preventDefault();
+    localStorage.setItem("adminBankSettings", JSON.stringify(bankSettings));
+    alert("Bank settings saved successfully.");
+  };
+
   return (
     <div className="bg-gray-50 min-h-[calc(100vh-80px)] py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -200,6 +210,14 @@ export function AdminDashboard() {
               }`}
             >
               <Store className="w-4 h-4" /> Brands
+            </button>
+            <button
+              onClick={() => setActiveTab("settings")}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
+                activeTab === "settings" ? "border-primary-600 text-primary-800" : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              <Users className="w-4 h-4" /> Settings
             </button>
           </nav>
         </div>
@@ -807,6 +825,61 @@ export function AdminDashboard() {
                 </table>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Tab Content: Settings */}
+        {activeTab === "settings" && (
+          <div className="space-y-6 animate-fade-in">
+            <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-8 max-w-2xl">
+              <div className="mb-6 border-b border-gray-100 pb-4">
+                <h3 className="text-2xl font-bold font-serif text-gray-900">Payment Settings</h3>
+                <p className="text-sm text-gray-500 mt-1">Configure the bank account information to receive incoming payments.</p>
+              </div>
+              
+              <form onSubmit={handleSaveBankSettings} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-900">Bank Name</label>
+                  <Input 
+                    value={bankSettings.bankName} 
+                    onChange={e => setBankSettings({...bankSettings, bankName: e.target.value})} 
+                    placeholder="e.g. Chase Bank"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2 text-gray-900">Account Holder Name</label>
+                  <Input 
+                    value={bankSettings.accountName} 
+                    onChange={e => setBankSettings({...bankSettings, accountName: e.target.value})} 
+                    placeholder="e.g. CLICOS Inc."
+                    required
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold mb-2 text-gray-900">Account Number</label>
+                    <Input 
+                      value={bankSettings.accountNumber} 
+                      onChange={e => setBankSettings({...bankSettings, accountNumber: e.target.value})} 
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold mb-2 text-gray-900">Routing Number / Sort Code</label>
+                    <Input 
+                      value={bankSettings.routingNumber} 
+                      onChange={e => setBankSettings({...bankSettings, routingNumber: e.target.value})} 
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="pt-4 flex justify-end">
+                  <Button type="submit">Save Settings</Button>
+                </div>
+              </form>
+            </div>
           </div>
         )}
 

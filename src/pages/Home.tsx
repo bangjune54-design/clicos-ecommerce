@@ -210,7 +210,7 @@ export function Home() {
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
-          <div className="group aspect-[2/1] overflow-hidden rounded-2xl sm:aspect-auto sm:row-span-2 relative">
+          <Link to={categories[0].href} className="group aspect-[2/1] overflow-hidden rounded-2xl sm:aspect-auto sm:row-span-2 relative block cursor-pointer">
             <img
               src={categories[0].imageSrc}
               alt={categories[0].name}
@@ -220,12 +220,12 @@ export function Home() {
             <div className="absolute bottom-0 p-8 w-full">
               <h3 className="text-2xl font-bold text-white font-serif">{categories[0].name}</h3>
               <p className="mt-2 text-primary-100 text-sm max-w-sm">{categories[0].description}</p>
-              <Link to={categories[0].href} className="mt-4 inline-block text-white font-semibold text-sm hover:text-accent">
+              <span className="mt-4 inline-block text-white font-semibold text-sm group-hover:text-accent transition-colors">
                 Shop now &rarr;
-              </Link>
+              </span>
             </div>
-          </div>
-          <div className="group aspect-[2/1] overflow-hidden rounded-2xl sm:aspect-auto relative">
+          </Link>
+          <Link to={categories[1].href} className="group aspect-[2/1] overflow-hidden rounded-2xl sm:aspect-auto relative block cursor-pointer">
             <img
               src={categories[1].imageSrc}
               alt={categories[1].name}
@@ -235,12 +235,12 @@ export function Home() {
             <div className="absolute bottom-0 p-6 w-full">
               <h3 className="text-xl font-bold text-white font-serif">{categories[1].name}</h3>
               <p className="mt-1 text-primary-100 text-sm">{categories[1].description}</p>
-              <Link to={categories[1].href} className="mt-2 inline-block text-white font-semibold text-sm hover:text-accent">
+              <span className="mt-2 inline-block text-white font-semibold text-sm group-hover:text-accent transition-colors">
                 Shop now &rarr;
-              </Link>
+              </span>
             </div>
-          </div>
-          <div className="group aspect-[2/1] overflow-hidden rounded-2xl sm:aspect-auto relative">
+          </Link>
+          <Link to={categories[2].href} className="group aspect-[2/1] overflow-hidden rounded-2xl sm:aspect-auto relative block cursor-pointer">
             <img
               src={categories[2].imageSrc}
               alt={categories[2].name}
@@ -250,11 +250,11 @@ export function Home() {
             <div className="absolute bottom-0 p-6 w-full">
               <h3 className="text-xl font-bold text-white font-serif">{categories[2].name}</h3>
               <p className="mt-1 text-primary-100 text-sm">{categories[2].description}</p>
-              <Link to={categories[2].href} className="mt-2 inline-block text-white font-semibold text-sm hover:text-accent">
+              <span className="mt-2 inline-block text-white font-semibold text-sm group-hover:text-accent transition-colors">
                 Shop now &rarr;
-              </Link>
+              </span>
             </div>
-          </div>
+          </Link>
         </div>
 
         <div className="mt-6 sm:hidden">
@@ -309,10 +309,12 @@ export function Home() {
               Join our wholesale program to access exclusive pricing, low MOQs, and dedicated account support for your retail store or distribution business.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Button variant="secondary" size="lg">
-                Apply for Wholesale
-              </Button>
-              <Link to="/wholesale/login" className="text-sm font-semibold leading-6 text-white hover:text-accent transition-colors">
+              <Link to="/wholesale">
+                <Button variant="secondary" size="lg">
+                  Apply for Wholesale
+                </Button>
+              </Link>
+              <Link to="/login" className="text-sm font-semibold leading-6 text-white hover:text-accent transition-colors">
                 Partner Login <span aria-hidden="true">→</span>
               </Link>
             </div>
