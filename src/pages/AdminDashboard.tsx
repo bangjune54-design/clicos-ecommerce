@@ -408,8 +408,8 @@ export function AdminDashboard() {
                               const img = new Image();
                               img.onload = () => {
                                 const canvas = document.createElement("canvas");
-                                const MAX_WIDTH = 800;
-                                const MAX_HEIGHT = 800;
+                                const MAX_WIDTH = 500;
+                                const MAX_HEIGHT = 500;
                                 let width = img.width;
                                 let height = img.height;
 
@@ -429,11 +429,8 @@ export function AdminDashboard() {
                                 const ctx = canvas.getContext("2d");
                                 ctx?.drawImage(img, 0, 0, width, height);
                                 
-                                let mimeType = file.type;
-                                if (!['image/jpeg', 'image/png', 'image/webp'].includes(mimeType)) {
-                                  mimeType = 'image/jpeg';
-                                }
-                                const dataUrl = canvas.toDataURL(mimeType, 0.8);
+                                // Force webp for better compression and transparency support
+                                const dataUrl = canvas.toDataURL('image/webp', 0.6);
                                 setEditProductPayload({ ...editProductPayload, imageSrc: dataUrl });
                               };
                               img.src = event.target?.result as string;
@@ -691,8 +688,8 @@ export function AdminDashboard() {
                               const img = new Image();
                               img.onload = () => {
                                 const canvas = document.createElement("canvas");
-                                const MAX_WIDTH = 800;
-                                const MAX_HEIGHT = 800;
+                                const MAX_WIDTH = 500;
+                                const MAX_HEIGHT = 500;
                                 let width = img.width;
                                 let height = img.height;
 
@@ -712,11 +709,8 @@ export function AdminDashboard() {
                                 const ctx = canvas.getContext("2d");
                                 ctx?.drawImage(img, 0, 0, width, height);
                                 
-                                let mimeType = file.type;
-                                if (!['image/jpeg', 'image/png', 'image/webp'].includes(mimeType)) {
-                                  mimeType = 'image/jpeg';
-                                }
-                                const dataUrl = canvas.toDataURL(mimeType, 0.8);
+                                // Force webp for better compression and transparency support
+                                const dataUrl = canvas.toDataURL('image/webp', 0.6);
                                 setEditBrandPayload({ ...editBrandPayload, image: dataUrl });
                               };
                               img.src = event.target?.result as string;
