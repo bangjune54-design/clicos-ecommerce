@@ -400,8 +400,11 @@ export function Navbar() {
                         localStorage.removeItem("isLoggedIn");
                         localStorage.removeItem("userEmail");
                         localStorage.removeItem("userType");
+                        localStorage.removeItem("retailCart");
+                        localStorage.removeItem("b2bCart");
                         setIsLoggedIn(false);
                         navigate("/");
+                        window.dispatchEvent(new Event("storage"));
                       }}
                     >
                       Sign Out

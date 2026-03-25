@@ -15,6 +15,11 @@ export function Login() {
     localStorage.setItem("userType", activeTab === "wholesale" ? "wholesale" : "retail");
     localStorage.setItem("userEmail", email);
     
+    // Clear guests/previous session cart for account-specific fresh session
+    localStorage.removeItem("retailCart");
+    localStorage.removeItem("b2bCart");
+    window.dispatchEvent(new Event("storage"));
+    
     if (email === "info@clicos.co.kr" || email === "wholesale@clicos.co.kr") {
       window.location.href = "/admin";
     } else {

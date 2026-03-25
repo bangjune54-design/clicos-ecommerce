@@ -57,6 +57,12 @@ export function Shop() {
   const handleAddToCart = (e: React.MouseEvent, product: any) => {
     e.preventDefault();
     const qty = getQty(product.id);
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      alert("Please log in to add items to your cart.");
+      window.location.href = "/login";
+      return;
+    }
     const userType = localStorage.getItem("userType") || "retail"; // default guests to retail
     
     if (userType === "wholesale") {
