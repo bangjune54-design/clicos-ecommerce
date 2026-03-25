@@ -5,8 +5,10 @@ import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { Badge } from "../components/ui/Badge";
 import { getLiveInventory } from "../utils/inventory";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function ProductDetail() {
+  const { t } = useLanguage();
   const { formatPrice } = useCurrency();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -20,12 +22,12 @@ export function ProductDetail() {
   if (!product) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center px-4 py-24 text-center">
-        <h2 className="text-3xl font-serif font-bold text-gray-900 mb-4">Product Not Found</h2>
+        <h2 className="text-3xl font-serif font-bold text-gray-900 mb-4">{t('product_not_found')}</h2>
         <p className="text-gray-500 mb-8 max-w-md">
-          We couldn't find the product you're looking for. It may have been removed or the link might be broken.
+          {t('product_not_found_desc')}
         </p>
         <Button onClick={() => navigate(-1)} variant="outline" className="gap-2">
-          <ArrowLeft className="w-4 h-4" /> Go Back
+          <ArrowLeft className="w-4 h-4" /> {t('go_back')}
         </Button>
       </div>
     );
@@ -105,10 +107,10 @@ export function ProductDetail() {
         
         {/* Breadcrumb */}
         <nav className="flex items-center text-sm text-gray-500 mb-8 gap-2">
-          <Link to="/" className="hover:text-primary-800 transition-colors">Home</Link>
+          <Link to="/" className="hover:text-primary-800 transition-colors">{t('home')}</Link>
           <span>/</span>
           <Link to={isB2B ? "/wholesale/brands" : "/shop"} className="hover:text-primary-800 transition-colors">
-            {isB2B ? "Wholesale Brands" : "Shop"}
+            {isB2B ? t('wholesale_brands') : t('shop')}
           </Link>
           <span>/</span>
           <span className="text-gray-900 font-medium truncate max-w-xs">{product.name}</span>
@@ -126,7 +128,7 @@ export function ProductDetail() {
               />
               {product.isBestseller && (
                 <Badge variant="accent" className="absolute top-4 left-4 shadow-md px-3 py-1 text-sm">
-                  Bestseller
+                  {t('bestseller')}
                 </Badge>
               )}
             </div>
@@ -154,11 +156,11 @@ export function ProductDetail() {
               <span className="text-sm text-gray-500 font-medium">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
               <span className="text-gray-300">|</span>
               <a href="#reviews" onClick={(e) => { e.preventDefault(); document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-sm text-gray-500 hover:text-primary-700 cursor-pointer underline underline-offset-4 decoration-gray-300 hover:decoration-primary-700 transition-colors">
-                {Math.floor((product.name.length * 17) % 200) + 45} Reviews
+                {Math.floor((product.name.length * 17) % 200) + 45} {t('reviews')}
               </a>
               <span className="text-gray-300">|</span>
               <span className="text-sm font-semibold text-primary-600 bg-primary-50 px-2 py-0.5 rounded">
-                {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ sold
+                {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ {t('sold')}
               </span>
             </div>
 
@@ -166,23 +168,23 @@ export function ProductDetail() {
               <p className="text-3xl font-bold text-gray-900">{formatPrice(displayPrice)}</p>
               {isB2B ? (
                 <div className="flex flex-col ml-2 border-l border-gray-200 pl-4 py-1">
-                  <span className="text-gray-500 line-through">{formatPrice(product.price)} MSRP</span>
+                  <span className="text-gray-500 line-through">{formatPrice(product.price)} {t('msrp')}</span>
                   <span className="text-sm font-semibold text-accent mt-1">
-                    Whole Sale Price ({product.moq} MOQ)
+                    {t('wholesale_price')} ({product.moq} {t('moq')})
                   </span>
                 </div>
               ) : (
                 <div className="flex flex-col ml-2 border-l border-gray-200 pl-4 py-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-500">Wholesale B2B: <span className="text-accent font-bold">{formatPrice(product.wholesalePrice)}</span></span>
+                    <span className="text-sm font-medium text-gray-500">{t('wholesale')} B2B: <span className="text-accent font-bold">{formatPrice(product.wholesalePrice)}</span></span>
                     <span className="text-xs bg-green-100 text-green-700 font-bold px-1.5 py-0.5 rounded shadow-sm">
-                      Save {Math.round((1 - product.wholesalePrice / product.price) * 100)}%
+                      {t('save')} {Math.round((1 - product.wholesalePrice / product.price) * 100)}%
                     </span>
                   </div>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-gray-500">MOQ: {product.moq} boxes</span>
+                    <span className="text-xs text-gray-500">{t('moq')}: {product.moq} {t('boxes')}</span>
                     <Link to="/wholesale/brands" className="text-xs text-primary-600 hover:text-primary-800 font-medium underline">
-                      Apply for B2B portal →
+                      {t('apply_b2b')} →
                     </Link>
                   </div>
                 </div>
@@ -219,7 +221,7 @@ export function ProductDetail() {
 
               <div className="flex flex-col sm:flex-row gap-4 items-end mt-8">
                 <div className="w-full sm:w-1/3">
-                  <h3 className="text-sm font-medium text-gray-900 mb-3">Quantity {isB2B && "(Boxes)"}</h3>
+                  <h3 className="text-sm font-medium text-gray-900 mb-3">{t('quantity')} {isB2B && `(${t('boxes')})`}</h3>
                   <div className="flex items-center justify-between border border-gray-300 rounded-md bg-white shadow-sm h-12">
                     <button 
                       type="button" 
@@ -242,7 +244,7 @@ export function ProductDetail() {
                 <div className="w-full sm:w-2/3 h-12">
                   <Button size="lg" className="w-full h-full text-base font-bold gap-2 shadow-lg" onClick={handleAddToCart}>
                     <ShoppingBag className="w-5 h-5" /> 
-                    {isB2B ? "Add to Wholesale Quote" : "Add to Cart"}
+                    {isB2B ? t('add_to_quote') : t('add_to_cart')}
                   </Button>
                 </div>
               </div>
@@ -251,11 +253,11 @@ export function ProductDetail() {
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-200 pt-8">
               <div className="flex gap-3 text-sm text-gray-600">
                 <Truck className="w-5 h-5 flex-shrink-0 text-primary-600" />
-                <span>Free shipping on all global orders over {isB2B ? '$1,500' : '$100'}.</span>
+                <span>{t('free_shipping')} {isB2B ? '$1,500' : '$100'}.</span>
               </div>
               <div className="flex gap-3 text-sm text-gray-600">
                 <ShieldCheck className="w-5 h-5 flex-shrink-0 text-primary-600" />
-                <span>100% Authentic Korean Cosmetics. Guaranteed.</span>
+                <span>{t('authentic_guarantee')}</span>
               </div>
             </div>
 
@@ -264,7 +266,7 @@ export function ProductDetail() {
 
         {/* Reviews Section */}
         <section id="reviews" className="mt-24 pt-16 border-t border-gray-200 scroll-mt-24">
-          <h2 className="text-3xl font-bold font-serif text-gray-900 mb-10">Customer Reviews</h2>
+          <h2 className="text-3xl font-bold font-serif text-gray-900 mb-10">{t('customer_reviews')}</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {/* Review Summary */}
@@ -275,7 +277,7 @@ export function ProductDetail() {
                   <Star key={star} className={`w-5 h-5 ${star <= Math.floor(product.rating || 5) ? 'fill-current' : 'text-gray-300'}`} />
                 ))}
               </div>
-              <p className="text-sm text-gray-500">Based on {Math.floor((product.name.length * 17) % 200) + 45} reviews</p>
+              <p className="text-sm text-gray-500">{t('based_on')} {Math.floor((product.name.length * 17) % 200) + 45} {t('reviews')}</p>
             </div>
             
             {/* Reviews List */}

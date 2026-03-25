@@ -4,6 +4,7 @@ import { Menu, X, ShoppingBag, Globe, Search, User } from "lucide-react";
 import { Button } from "../ui/Button";
 
 import { getLiveInventory, getLiveBrands } from "../../utils/inventory";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface NavItem {
   name: string;
@@ -48,10 +49,10 @@ const languages = [
 ];
 
 export function Navbar() {
+  const { language, setLanguage, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currency, setCurrency] = useState("USD");
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
-  const [language, setLanguage] = useState("EN");
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("isLoggedIn") === "true");
   const userEmail = localStorage.getItem("userEmail");
@@ -139,7 +140,7 @@ export function Navbar() {
         <div className="hidden lg:flex lg:gap-x-8">
           {isAdmin ? (
             <Link to="/admin" className="text-sm font-semibold leading-6 text-primary-800 relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-500">
-              Admin Dashboard
+              {t('admin_dashboard')}
             </Link>
           ) : (
             navigation.map((item) => (
@@ -152,7 +153,7 @@ export function Navbar() {
                       : "text-gray-900"
                   }`}
                 >
-                  {item.name}
+                  {t(item.name.toLowerCase().replace(/ \/ /g, "_").replace(/ /g, "_"))}
                 </Link>
                 {item.submenu && (
                   <div className="absolute left-0 top-full mt-0 w-48 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-200 border border-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 overflow-hidden transform group-hover/nav:translate-y-0 translate-y-1">
@@ -163,7 +164,7 @@ export function Navbar() {
                           to={subitem.href}
                           className="block w-full px-4 py-2.5 text-left text-sm font-bold text-gray-800 hover:bg-primary-50 hover:text-primary-900 transition-colors"
                         >
-                          {subitem.name}
+                          {t(subitem.name.toLowerCase().replace(/ \/ /g, "_").replace(/ /g, "_"))}
                         </Link>
                       ))}
                     </div>
@@ -191,7 +192,7 @@ export function Navbar() {
                     <button
                       key={l.code}
                       onClick={() => {
-                        setLanguage(l.code);
+                        setLanguage(l.code as any);
                         setShowLanguageDropdown(false);
                       }}
                       className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-900 transition-colors"
@@ -247,7 +248,7 @@ export function Navbar() {
                   <input
                     type="text"
                     autoFocus
-                    placeholder="Search items or brands..."
+                    placeholder={t('search_placeholder')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-48 lg:w-64 rounded-full border border-primary-200 bg-white px-4 py-1.5 pr-8 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 placeholder-gray-400"
@@ -386,13 +387,13 @@ export function Navbar() {
                       to="/my-page"
                       className="block w-full px-4 py-2 text-left text-sm font-medium text-gray-700 hover:bg-primary-50 hover:text-primary-900 transition-colors"
                     >
-                      My Account
+                      {t('my_account')}
                     </Link>
                     <Link
                       to="/orders"
                       className="block w-full px-4 py-2 text-left text-sm font-medium text-gray-700 hover:bg-primary-50 hover:text-primary-900 transition-colors"
                     >
-                      Orders
+                      {t('orders')}
                     </Link>
                     <button
                       className="block w-full px-4 py-2 text-left text-sm font-bold text-gray-800 hover:bg-red-50 hover:text-red-900 transition-colors"
@@ -407,7 +408,7 @@ export function Navbar() {
                         window.dispatchEvent(new Event("storage"));
                       }}
                     >
-                      Sign Out
+                      {t('sign_out')}
                     </button>
                   </>
                 ) : (
@@ -432,7 +433,7 @@ export function Navbar() {
             }} 
             className="text-gray-700 hover:text-primary-800 transition-colors relative block"
           >
-            <span className="sr-only">Cart</span>
+            <span className="sr-only">{t('cart')}</span>
             <ShoppingBag className="h-5 w-5" />
             {cartCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-accent text-white rounded-full h-4 w-4 flex items-center justify-center text-[10px] font-bold">
@@ -496,7 +497,7 @@ export function Navbar() {
                     <select
                       className="text-sm font-semibold bg-transparent focus:outline-none"
                       value={language}
-                      onChange={(e) => setLanguage(e.target.value)}
+                      onChange={(e) => setLanguage(e.target.value as any)}
                     >
                       {languages.map((l) => (
                         <option key={l.code} value={l.code}>{l.name}</option>
@@ -529,10 +530,10 @@ export function Navbar() {
                         navigate("/login");
                       }
                     }}>
-                      <User className="h-4 w-4" /> {isLoggedIn ? "Sign Out" : "Login"}
+                      <User className="h-4 w-4" /> {isLoggedIn ? t('sign_out') : t('login')}
                     </Button>
                     <Button variant="primary" className="flex-1 justify-center gap-2" onClick={() => { setMobileMenuOpen(false); navigate("/cart"); }}>
-                      <ShoppingBag className="h-4 w-4" /> Cart ({cartCount})
+                      <ShoppingBag className="h-4 w-4" /> {t('cart')} ({cartCount})
                     </Button>
                   </div>
                 </div>
