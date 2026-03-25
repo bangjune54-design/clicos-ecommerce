@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
@@ -38,6 +38,12 @@ const mockB2BItems = [
 
 export function Cart() {
   const { formatPrice } = useCurrency();
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+
   const [retailItems, setRetailItems] = useState<any[]>(() => {
     return JSON.parse(localStorage.getItem('retailCart') || '[]');
   });
@@ -273,9 +279,9 @@ export function Cart() {
             </dl>
 
             <div className="mt-6">
-              <Link to="/checkout" className="block w-full">
-                <Button className="w-full">
-                  Proceed to Checkout
+              <Link to={userType === 'wholesale' ? '/wholesale' : '/checkout'} className="block w-full">
+                <Button className="w-full text-lg shadow-md">
+                  {userType === 'wholesale' ? 'Submit Wholesale Order' : 'Proceed to Checkout'}
                 </Button>
               </Link>
             </div>

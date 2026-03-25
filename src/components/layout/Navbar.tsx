@@ -38,11 +38,21 @@ const navigation: NavItem[] = [
 ];
 
 const currencies = ["USD", "EUR", "KRW", "JPY", "GBP", "BRL"];
+const languages = [
+  { code: 'EN', name: 'English' },
+  { code: 'KO', name: 'Korean' },
+  { code: 'PT', name: 'Portuguese' },
+  { code: 'ES', name: 'Spanish' },
+  { code: 'ZH', name: 'Chinese' },
+  { code: 'JA', name: 'Japanese' }
+];
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currency, setCurrency] = useState("USD");
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
+  const [language, setLanguage] = useState("EN");
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("isLoggedIn") === "true");
   const userEmail = localStorage.getItem("userEmail");
   const isAdmin = userEmail === "info@clicos.co.kr" || userEmail === "wholesale@clicos.co.kr";
@@ -167,10 +177,38 @@ export function Navbar() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4">
           <div className="relative">
             <button
-              onClick={() => setShowCurrencyDropdown(!showCurrencyDropdown)}
-              className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-primary-800 transition-colors"
+              onClick={() => { setShowLanguageDropdown(!showLanguageDropdown); setShowCurrencyDropdown(false); }}
+              className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-primary-800 transition-colors uppercase"
             >
               <Globe className="h-4 w-4" />
+              {language}
+            </button>
+            
+            {showLanguageDropdown && (
+              <div className="absolute right-0 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                <div className="py-1">
+                  {languages.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        setLanguage(l.code);
+                        setShowLanguageDropdown(false);
+                      }}
+                      className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-900 transition-colors"
+                    >
+                      {l.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="relative">
+            <button
+              onClick={() => { setShowCurrencyDropdown(!showCurrencyDropdown); setShowLanguageDropdown(false); }}
+              className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-primary-800 transition-colors"
+            >
               {currency}
             </button>
             
@@ -360,6 +398,8 @@ export function Navbar() {
                       className="block w-full px-4 py-2 text-left text-sm font-bold text-gray-800 hover:bg-red-50 hover:text-red-900 transition-colors"
                       onClick={() => {
                         localStorage.removeItem("isLoggedIn");
+                        localStorage.removeItem("userEmail");
+                        localStorage.removeItem("userType");
                         setIsLoggedIn(false);
                         navigate("/");
                       }}
@@ -379,7 +419,16 @@ export function Navbar() {
             </div>
           </div>
 
-          <Link to="/cart" className="text-gray-700 hover:text-primary-800 transition-colors relative block">
+          <button 
+            onClick={() => {
+              if (isLoggedIn) {
+                navigate("/cart");
+              } else {
+                navigate("/login");
+              }
+            }} 
+            className="text-gray-700 hover:text-primary-800 transition-colors relative block"
+          >
             <span className="sr-only">Cart</span>
             <ShoppingBag className="h-5 w-5" />
             {cartCount > 0 && (
@@ -387,7 +436,7 @@ export function Navbar() {
                 {cartCount}
               </span>
             )}
-          </Link>
+          </button>
         </div>
       </nav>
 
@@ -439,7 +488,19 @@ export function Navbar() {
                   )}
                 </div>
                 <div className="py-6 flex flex-col gap-4">
-                  <div className="flex items-center gap-4 border-b border-gray-100 pb-4">
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                    <span className="text-sm font-medium text-gray-500">Language</span>
+                    <select
+                      className="text-sm font-semibold bg-transparent focus:outline-none"
+                      value={language}
+                      onChange={(e) => setLanguage(e.target.value)}
+                    >
+                      {languages.map((l) => (
+                        <option key={l.code} value={l.code}>{l.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-4">
                     <span className="text-sm font-medium text-gray-500">Currency</span>
                     <select
                       className="text-sm font-semibold bg-transparent focus:outline-none"
@@ -452,8 +513,20 @@ export function Navbar() {
                     </select>
                   </div>
                   <div className="flex gap-4">
-                    <Button variant="outline" className="flex-1 justify-center gap-2" onClick={() => navigate(isLoggedIn ? "/my-page" : "/login")}>
-                      <User className="h-4 w-4" /> {isLoggedIn ? "Account" : "Login"}
+                    <Button variant="outline" className="flex-1 justify-center gap-2" onClick={() => {
+                      if (isLoggedIn) {
+                        localStorage.removeItem("isLoggedIn");
+                        localStorage.removeItem("userEmail");
+                        localStorage.removeItem("userType");
+                        setIsLoggedIn(false);
+                        setMobileMenuOpen(false);
+                        navigate("/");
+                      } else {
+                        setMobileMenuOpen(false);
+                        navigate("/login");
+                      }
+                    }}>
+                      <User className="h-4 w-4" /> {isLoggedIn ? "Sign Out" : "Login"}
                     </Button>
                     <Button variant="primary" className="flex-1 justify-center gap-2" onClick={() => { setMobileMenuOpen(false); navigate("/cart"); }}>
                       <ShoppingBag className="h-4 w-4" /> Cart ({cartCount})

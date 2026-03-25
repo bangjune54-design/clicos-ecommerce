@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Filter, ChevronDown, ShoppingBag, Search } from "lucide-react";
+import { Filter, ChevronDown, ShoppingBag, Search, Star } from "lucide-react";
 import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
@@ -28,19 +28,21 @@ export function Shop() {
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get("category");
+  const initialBrand = searchParams.get("brand");
   
   const [activeCategory, setActiveCategory] = useState(
     initialCategory 
       ? ALL_CATEGORIES.find(c => c.toLowerCase().replace(/ & /g, "").replace(/ /g, "") === initialCategory) || "All"
       : "All"
   );
+
+  const [activeBrand, setActiveBrand] = useState(initialBrand || null);
   
   const [expandedCategory, setExpandedCategory] = useState<string | null>(
     CATEGORY_STRUCTURE.find(c => c.name === activeCategory || c.subcategories?.includes(activeCategory))?.name || null
   );
   
-  // Toggle between retail and wholesale views for testing purposes
-  const [isWholesaleView, setIsWholesaleView] = useState(false);
+  // Shop is strictly retail
   const [shopSearchQuery, setShopSearchQuery] = useState("");
   
   // Track quantities independently for each product card
@@ -52,11 +54,15 @@ export function Shop() {
     setQuantities(prev => ({ ...prev, [id]: Math.max(1, (prev[id] || 1) + delta) }));
   };
 
-  const handleAddToCart = (e: React.MouseEvent, product: any, isB2B: boolean) => {
+  const handleAddToCart = (e: React.MouseEvent, product: any) => {
     e.preventDefault();
     const qty = getQty(product.id);
     const userType = localStorage.getItem("userType") || "retail"; // default guests to retail
     
+    if (userType === "wholesale") {
+      alert("Wholesale Partners should use the Wholesale portal for bulk orders. Redirecting to Cart...");
+    }
+
     const optionsList = product.options || product.colors;
     const hasOptions = optionsList && optionsList.length > 0;
     const selectedOption = selectedOptions[product.id] || (hasOptions ? optionsList[0] : undefined);
@@ -66,54 +72,25 @@ export function Shop() {
       return;
     }
 
-    if (isB2B) {
-      if (userType !== "wholesale") {
-        alert("Only Wholesale Partners can add wholesale items. Please login as a Wholesale Partner.");
-        return;
-      }
-      const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
-      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
-      if (existingItem) {
-        existingItem.boxQty += qty;
-      } else {
-        currentB2BCart.push({
-          id: product.id,
-          name: product.name,
-          brand: product.brand,
-          price: product.wholesalePrice,
-          inboxQty: product.moq,
-          boxQty: qty,
-          image: product.imageSrc,
-          optionName: product.optionName || "Color / Option",
-          optionValue: selectedOption || undefined
-        });
-      }
-      localStorage.setItem('b2bCart', JSON.stringify(currentB2BCart));
-      alert(`Added ${qty} boxes of ${product.name} to Wholesale Quote!`);
+    const currentRetailCart = JSON.parse(localStorage.getItem('retailCart') || '[]');
+    const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
+    if (existingItem) {
+      existingItem.quantity += qty;
     } else {
-      if (userType === "wholesale") {
-        alert("Wholesale Partners cannot add retail items to the cart.");
-        return;
-      }
-      const currentRetailCart = JSON.parse(localStorage.getItem('retailCart') || '[]');
-      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
-      if (existingItem) {
-        existingItem.quantity += qty;
-      } else {
-        currentRetailCart.push({
-          id: product.id,
-          name: product.name,
-          brand: product.brand,
-          price: product.price,
-          quantity: qty,
-          image: product.imageSrc,
-          optionName: product.optionName || "Color / Option",
-          optionValue: selectedOption || undefined
-        });
-      }
-      localStorage.setItem('retailCart', JSON.stringify(currentRetailCart));
-      alert(`Added ${qty}x ${product.name} to Cart!`);
+      currentRetailCart.push({
+        id: product.id,
+        name: product.name,
+        brand: product.brand,
+        price: product.price,
+        quantity: qty,
+        image: product.imageSrc,
+        optionName: product.optionName || "Color / Option",
+        optionValue: selectedOption || undefined
+      });
     }
+    localStorage.setItem('retailCart', JSON.stringify(currentRetailCart));
+    alert(`Added ${qty}x ${product.name} to Cart!`);
+
     // Reset quantity after adding
     setQuantities(prev => ({ ...prev, [product.id]: 1 }));
     setSelectedOptions(prev => { const next = {...prev}; delete next[product.id]; return next; });
@@ -139,7 +116,10 @@ export function Shop() {
 
     const matchesSearch = p.name.toLowerCase().includes(shopSearchQuery.toLowerCase()) || 
                           p.brand.toLowerCase().includes(shopSearchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    
+    const matchesBrand = !activeBrand || p.brand.toLowerCase() === activeBrand.toLowerCase();
+    
+    return matchesCategory && matchesSearch && matchesBrand;
   });
 
   return (
@@ -155,22 +135,7 @@ export function Shop() {
             </p>
           </div>
 
-          <div className="mt-4 md:mt-0 flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <label htmlFor="view-toggle" className="text-sm font-medium text-gray-700">
-                View:
-              </label>
-              <select
-                id="view-toggle"
-                className="rounded-md border-gray-300 py-1.5 pl-3 pr-8 text-sm focus:ring-primary-500 bg-primary-50"
-                value={isWholesaleView ? "wholesale" : "retail"}
-                onChange={(e) => setIsWholesaleView(e.target.value === "wholesale")}
-              >
-                <option value="retail">Retail</option>
-                <option value="wholesale">Wholesale B2B</option>
-              </select>
-            </div>
-          </div>
+
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -248,16 +213,7 @@ export function Shop() {
                 </div>
               </div>
 
-              {isWholesaleView && (
-                <div className="mt-6 p-4 bg-primary-50 rounded-lg border border-primary-100">
-                  <h4 className="font-semibold text-primary-900 text-sm mb-2">B2B Quick Info</h4>
-                  <ul className="text-xs text-primary-800 space-y-2">
-                    <li>• Free international shipping on orders over $1,500.</li>
-                    <li>• Average dispatch time: 2-4 business days.</li>
-                    <li>• Custom branding available for MOQ &gt; 1,000.</li>
-                  </ul>
-                </div>
-              )}
+
             </div>
           </div>
 
@@ -267,6 +223,18 @@ export function Shop() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-4 border-b border-gray-100 mb-8 gap-4">
               <div className="flex items-center gap-2 text-sm text-gray-500">
                 <span className="font-medium text-gray-900">{filteredProducts.length}</span> Products
+                {activeBrand && (
+                  <button 
+                    onClick={() => {
+                      setActiveBrand(null);
+                      searchParams.delete("brand");
+                      setSearchParams(searchParams);
+                    }}
+                    className="ml-2 flex items-center gap-1 bg-primary-50 text-primary-700 px-2.5 py-1 rounded-full text-xs font-semibold hover:bg-primary-100 transition-colors"
+                  >
+                    Brand: {activeBrand} <span className="ml-1 text-[10px] opacity-70">✕</span>
+                  </button>
+                )}
               </div>
               
               <div className="relative w-full sm:w-64">
@@ -291,7 +259,7 @@ export function Shop() {
                       <img
                         src={product.imageSrc}
                         alt={product.name}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-contain p-6 mix-blend-multiply object-center group-hover:scale-105 transition-transform duration-500"
                       />
                       {product.isBestseller && (
                         <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
@@ -308,18 +276,38 @@ export function Shop() {
                         <span className="px-2 py-1.5 text-sm font-bold text-gray-900 w-1/3 text-center border-x border-gray-300">{getQty(product.id)}</span>
                         <button type="button" className="px-3 py-1.5 text-gray-600 hover:bg-gray-100 transition-colors w-1/3 text-center rounded-r-md" onClick={(e) => { e.preventDefault(); updateQty(product.id, 1); }}>+</button>
                       </div>
-                      <Button className="w-full gap-2 shadow-md" onClick={(e) => handleAddToCart(e, product, isWholesaleView)}>
+                      <Button className="w-full gap-2 shadow-md" onClick={(e) => handleAddToCart(e, product)}>
                         <ShoppingBag className="w-4 h-4" /> 
-                        {isWholesaleView ? "Add to Quote" : "Add to Cart"}
+                        Add to Cart
                       </Button>
                     </div>
                   
-                    <p className="text-xs text-gray-500 mb-1">{product.brand}</p>
+                    <Link 
+                      to={`/shop?brand=${encodeURIComponent(product.brand.toLowerCase())}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setActiveBrand(product.brand);
+                        searchParams.set("brand", product.brand.toLowerCase());
+                        setSearchParams(searchParams);
+                      }}
+                      className="text-xs text-gray-400 mb-1 hover:text-primary-600 transition-colors inline-block"
+                    >
+                      {product.brand}
+                    </Link>
                     <Link to={`/product/${product.id}`} className="hover:text-primary-800 transition-colors group-hover:underline">
-                      <h3 className="text-base font-bold text-gray-900 mb-2 leading-tight">
+                      <h3 className="text-base font-bold text-gray-900 mb-1 leading-tight">
                         {product.name}
                       </h3>
                     </Link>
+                    
+                    <div className="flex items-center gap-1.5 mt-1 mb-3 text-xs text-gray-500">
+                      <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
+                      <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
+                      <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
+                      <span className="ml-auto text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded">
+                        {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ sold
+                      </span>
+                    </div>
                     
                     {((product.options && product.options.length > 0) || (product.colors && product.colors.length > 0)) && (
                       <div className="mb-4">
@@ -340,20 +328,17 @@ export function Shop() {
                       </div>
                     )}
 
-                    <div className="mt-auto flex items-end justify-between">
-                      {isWholesaleView ? (
-                        <div>
-                          <div className="flex items-center gap-2 mb-3">
-                            <p className="text-sm text-gray-500 line-through">{formatPrice(product.price)} MSRP</p>
-                            <p className="text-xl font-bold text-primary-800">{formatPrice(product.wholesalePrice)}</p>
-                          </div>
-                          <p className="text-xs text-accent font-semibold mt-1">MOQ: {product.moq} units</p>
+                    <div className="mt-auto flex flex-col mb-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-lg font-bold text-gray-900">{formatPrice(product.price)}</p>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 mt-0.5">
+                        <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap">B2B: <span className="text-accent">{formatPrice(product.wholesalePrice)}</span></span>
+                        <div className="flex items-center gap-1">
+                          <span className="text-[9px] bg-green-100 text-green-700 font-bold px-1 rounded shadow-sm whitespace-nowrap">Save {Math.round((1 - product.wholesalePrice / product.price) * 100)}%</span>
+                          <span className="text-[9px] text-gray-400 whitespace-nowrap">MOQ {product.moq}</span>
                         </div>
-                      ) : (
-                        <div className="flex items-center justify-between mt-auto mb-3">
-                          <p className="text-lg font-bold text-gray-900">{formatPrice(product.price)}</p>
-                        </div>
-                      )}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>

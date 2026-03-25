@@ -3,13 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { useCurrency } from "../contexts/CurrencyContext";
-import { ArrowLeft, CheckCircle2, CreditCard } from "lucide-react";
+import { ArrowLeft, CheckCircle2, CreditCard, Wallet, X } from "lucide-react";
 
 export function Checkout() {
   const navigate = useNavigate();
   const { formatPrice } = useCurrency();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'payoneer'>('card');
+  const [adminSettings] = useState(() => JSON.parse(localStorage.getItem('adminBankSettings') || '{}'));
+  const [email, setEmail] = useState('');
+  const [showRetailError, setShowRetailError] = useState(false);
   
   const [retailItems, setRetailItems] = useState<any[]>(() => {
     return JSON.parse(localStorage.getItem('retailCart') || '[]');
@@ -38,12 +42,21 @@ export function Checkout() {
 
   const handlePlaceOrder = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (userType !== "wholesale") {
+      setShowRetailError(true);
+      return;
+    }
+
     setIsSubmitting(true);
     
     // Simulate API call and payment processing
     setTimeout(() => {
       setIsSubmitting(false);
       setOrderComplete(true);
+      
+      // Simulate sending email
+      console.log(`[SIMULATION] Email sent to ${email}: Thank you for your order! We will get back to you as soon as possible.`);
       
       // Clear cart
       if (userType !== "wholesale") {
@@ -64,11 +77,39 @@ export function Checkout() {
           </div>
           <h2 className="text-3xl font-bold font-serif text-gray-900 mb-4">Order Confirmed!</h2>
           <p className="text-gray-500 mb-8 leading-relaxed">
-            Thank you for your purchase. We have received your order and payment successfully. You will receive an email confirmation shortly.
+            Thank you for your order! We will contact you in 1-2 business days with further details. 
+            An email summary has been sent to <span className="font-bold text-gray-900">{email}</span>.
           </p>
           <Button onClick={() => navigate('/shop')} className="w-full">
             Continue Shopping
           </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (showRetailError) {
+    return (
+      <div className="bg-gray-50 min-h-[calc(100vh-80px)] py-16 flex items-center justify-center">
+        <div className="bg-white p-10 py-16 rounded-2xl shadow-sm border border-gray-100 max-w-md w-full text-center mx-4">
+          <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <X className="w-10 h-10 text-red-500" />
+          </div>
+          <h2 className="text-2xl font-bold font-serif text-gray-900 mb-4">Action Required</h2>
+          <p className="text-gray-500 mb-8 leading-relaxed">
+            You cannot request a wholesale order with a retail account. Only approved wholesale partners can submit order requests.
+          </p>
+          <div className="space-y-4">
+            <Button onClick={() => navigate('/wholesale')} className="w-full">
+              Create Wholesale Account
+            </Button>
+            <button 
+              onClick={() => setShowRetailError(false)} 
+              className="text-sm font-semibold text-gray-500 hover:text-gray-800 transition-colors"
+            >
+              Go back to Cart
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -104,7 +145,13 @@ export function Checkout() {
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold mb-2 text-gray-900">Email Address</label>
-                    <Input type="email" required placeholder="jane.doe@example.com" />
+                    <Input 
+                      type="email" 
+                      required 
+                      placeholder="jane.doe@example.com" 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold mb-2 text-gray-900">Address line 1</label>
@@ -139,31 +186,72 @@ export function Checkout() {
               <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
                   <CreditCard className="w-6 h-6 text-primary-600" />
-                  <h2 className="text-xl font-bold font-serif text-gray-900">Bank Card Information</h2>
+                  <h2 className="text-xl font-bold font-serif text-gray-900">Payment Information</h2>
                 </div>
                 
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-900">Card Number</label>
-                    <Input required placeholder="0000 0000 0000 0000" maxLength={19} pattern="[0-9\s]{13,19}" />
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-900">Expiration Date (MM/YY)</label>
-                      <Input required placeholder="MM/YY" maxLength={5} />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-900">CVC</label>
-                      <Input required placeholder="123" maxLength={4} pattern="[0-9]{3,4}" />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-semibold mb-2 text-gray-900">Name on Card</label>
-                    <Input required placeholder="JANE DOE" />
-                  </div>
+                <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'card' ? 'border-primary-600 bg-primary-50 ring-1 ring-primary-600 shadow-sm' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
+                    <input 
+                      type="radio" name="paymentMethod" value="card" checked={paymentMethod === 'card'} 
+                      onChange={() => setPaymentMethod('card')} className="text-primary-600 focus:ring-primary-600 w-4 h-4 cursor-pointer" 
+                    />
+                    <CreditCard className={`w-5 h-5 ${paymentMethod === 'card' ? 'text-primary-600' : 'text-gray-500'}`} />
+                    <span className="font-semibold text-gray-900">Bank Card</span>
+                  </label>
+                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'payoneer' ? 'border-primary-600 bg-primary-50 ring-1 ring-primary-600 shadow-sm' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
+                    <input 
+                      type="radio" name="paymentMethod" value="payoneer" checked={paymentMethod === 'payoneer'} 
+                      onChange={() => setPaymentMethod('payoneer')} className="text-primary-600 focus:ring-primary-600 w-4 h-4 cursor-pointer" 
+                    />
+                    <Wallet className={`w-5 h-5 ${paymentMethod === 'payoneer' ? 'text-primary-600' : 'text-gray-500'}`} />
+                    <span className="font-semibold text-gray-900">Payoneer Transfer</span>
+                  </label>
                 </div>
+
+                {paymentMethod === 'card' ? (
+                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Card Number</label>
+                      <Input required placeholder="0000 0000 0000 0000" maxLength={19} pattern="[0-9\s]{13,19}" />
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-semibold mb-2 text-gray-900">Expiration Date (MM/YY)</label>
+                        <Input required placeholder="MM/YY" maxLength={5} />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold mb-2 text-gray-900">CVC</label>
+                        <Input required placeholder="123" maxLength={4} pattern="[0-9]{3,4}" />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Name on Card</label>
+                      <Input required placeholder="JANE DOE" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <div className="bg-primary-50 rounded-xl p-5 border border-primary-100 flex items-start gap-4">
+                      <div className="bg-white p-2 rounded-lg shrink-0">
+                        <Wallet className="w-6 h-6 text-primary-600" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-primary-900 mb-1">Send the <strong className="font-bold">Total Amount</strong> via Payoneer to:</p>
+                        <p className="text-lg font-bold font-mono text-primary-800 tracking-tight">
+                          {adminSettings?.payoneerEmail || 'payments@clicos.co.kr'}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Your Payoneer Email Address</label>
+                      <Input required type="email" placeholder="example@business.com" />
+                      <p className="text-xs text-gray-500 mt-2">We will use this email to verify that your payment was received.</p>
+                    </div>
+                  </div>
+                )}
               </section>
             </form>
           </div>

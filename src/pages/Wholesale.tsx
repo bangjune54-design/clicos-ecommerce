@@ -50,7 +50,20 @@ export function Wholesale() {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
-  const [orderItems, setOrderItems] = useState<{brand: string, product: string, quantity: number, inboxQty: number}[]>([]);
+  const [orderItems, setOrderItems] = useState<{brand: string, product: string, quantity: number, inboxQty: number}[]>(() => {
+    try {
+      const cart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
+      if (cart.length > 0) {
+        return cart.map((item: any) => ({
+          brand: item.brand,
+          product: `${item.name}${item.optionValue ? ` (${item.optionValue})` : ''}`,
+          quantity: item.boxQty,
+          inboxQty: item.inboxQty || 1
+        }));
+      }
+    } catch {}
+    return [];
+  });
 
   const handleAddItem = () => {
     if (selectedBrand && selectedProduct && selectedQuantity > 0) {
@@ -132,7 +145,43 @@ export function Wholesale() {
               Fill out the form below to apply for a wholesale account. Our B2B team will review your application and get back to you within 1-2 business days.
             </p>
 
-            <form action="#" method="POST" className="space-y-6">
+            <form action="https://formspree.io/f/xpqyvkra" method="POST" className="space-y-6" onSubmit={async (e) => {
+              e.preventDefault();
+              const form = e.currentTarget;
+              const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+              if (submitBtn) { submitBtn.textContent = 'Submitting...'; submitBtn.disabled = true; }
+              
+              const formData = new FormData(form);
+              
+              // Format the selected items into a readable string for the email
+              const itemsList = orderItems.length > 0 
+                ? orderItems.map(item => `- ${item.quantity} box(es) of ${item.brand} ${item.product} (${item.quantity * item.inboxQty} items total)`).join('\n')
+                : 'No specific items selected.';
+                
+              formData.append("Selected_Items_List", itemsList);
+
+              try {
+                const response = await fetch(form.action, {
+                  method: form.method,
+                  body: formData,
+                  headers: { 'Accept': 'application/json' }
+                });
+                
+                if (response.ok) {
+                  alert(`Wholesale Quote submitted successfully with ${orderItems.length} items! Our B2B team will contact you shortly.`);
+                  setOrderItems([]);
+                  localStorage.removeItem('b2bCart');
+                  window.dispatchEvent(new Event('storage'));
+                  window.location.href = '/';
+                } else {
+                  alert("Oops! There was a problem submitting your application. Please try again.");
+                  if (submitBtn) { submitBtn.textContent = 'Submit Application'; submitBtn.disabled = false; }
+                }
+              } catch (error) {
+                alert("Network error. Please try again.");
+                if (submitBtn) { submitBtn.textContent = 'Submit Application'; submitBtn.disabled = false; }
+              }
+            }}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900 mb-2">

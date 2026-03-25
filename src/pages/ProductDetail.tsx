@@ -42,6 +42,13 @@ export function ProductDetail() {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      alert("Please log in to add items to your cart.");
+      navigate("/login");
+      return;
+    }
+    
     const hasOptions = (product.options && product.options.length > 0) || (product.colors && product.colors.length > 0);
     if (hasOptions && !selectedOption) {
       alert(`Please select an option before adding to cart.`);
@@ -115,7 +122,7 @@ export function ProductDetail() {
               <img
                 src={product.imageSrc}
                 alt={product.name}
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-contain p-8 mix-blend-multiply object-center"
               />
               {product.isBestseller && (
                 <Badge variant="accent" className="absolute top-4 left-4 shadow-md px-3 py-1 text-sm">
@@ -127,7 +134,10 @@ export function ProductDetail() {
 
           {/* Product Info */}
           <div className="mt-10 px-2 sm:px-0 lg:mt-0 flex flex-col h-full">
-            <Link to={`/brands/${product.brand.toLowerCase()}`} className="text-lg font-bold tracking-widest text-primary-600 uppercase mb-2 hover:text-primary-800 transition-colors">
+            <Link 
+              to={isB2B ? `/wholesale/brands/${encodeURIComponent(product.brand)}` : `/shop?brand=${encodeURIComponent(product.brand.toLowerCase())}`}
+              className="text-lg font-bold tracking-widest text-primary-400 uppercase mb-2 hover:text-primary-600 transition-colors"
+            >
               {product.brand}
             </Link>
             <h1 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 tracking-tight mb-4">
@@ -154,12 +164,27 @@ export function ProductDetail() {
 
             <div className="flex items-center gap-4 mb-6">
               <p className="text-3xl font-bold text-gray-900">{formatPrice(displayPrice)}</p>
-              {isB2B && (
-                <div className="flex flex-col">
+              {isB2B ? (
+                <div className="flex flex-col ml-2 border-l border-gray-200 pl-4 py-1">
                   <span className="text-gray-500 line-through">{formatPrice(product.price)} MSRP</span>
                   <span className="text-sm font-semibold text-accent mt-1">
                     Whole Sale Price ({product.moq} MOQ)
                   </span>
+                </div>
+              ) : (
+                <div className="flex flex-col ml-2 border-l border-gray-200 pl-4 py-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-500">Wholesale B2B: <span className="text-accent font-bold">{formatPrice(product.wholesalePrice)}</span></span>
+                    <span className="text-xs bg-green-100 text-green-700 font-bold px-1.5 py-0.5 rounded shadow-sm">
+                      Save {Math.round((1 - product.wholesalePrice / product.price) * 100)}%
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xs text-gray-500">MOQ: {product.moq} boxes</span>
+                    <Link to="/wholesale/brands" className="text-xs text-primary-600 hover:text-primary-800 font-medium underline">
+                      Apply for B2B portal →
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>

@@ -121,11 +121,36 @@ export function Home() {
                   <Badge variant="accent" className="absolute top-3 left-3 shadow-sm">Bestseller</Badge>
                 </div>
                 <div className="p-4 flex flex-col flex-grow">
-                  <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
+                  <Link 
+                    to={`/shop?brand=${encodeURIComponent(product.brand.toLowerCase())}`}
+                    className="text-[10px] text-primary-400 font-bold uppercase tracking-widest mb-1 hover:text-primary-600 transition-colors inline-block"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {product.brand}
+                  </Link>
                   <h3 className="text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
-                  <div className="mt-auto pt-4 flex items-center justify-between">
-                    <p className="text-lg font-bold text-gray-900">{formatPrice(product?.price || 0)}</p>
-                    <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50" onClick={(e) => e.preventDefault()}>
+                  
+                  <div className="flex items-center gap-1 mt-1 mb-1 text-xs text-gray-500">
+                    <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
+                    <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
+                    <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
+                    <span className="ml-auto text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded whitespace-nowrap">
+                      {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ sold
+                    </span>
+                  </div>
+
+                  <div className="mt-auto pt-2 flex items-end justify-between gap-1 w-full overflow-hidden">
+                    <div className="flex flex-col truncate">
+                      <p className="text-lg font-bold text-gray-900">{formatPrice(product?.price || 0)}</p>
+                      <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 mt-0.5">
+                        <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap">B2B: <span className="text-accent">{formatPrice(product?.wholesalePrice || 0)}</span></span>
+                        <div className="flex items-center gap-1">
+                          <span className="text-[9px] bg-green-100 text-green-700 font-bold px-1 rounded whitespace-nowrap">-{Math.round((1 - (product?.wholesalePrice || 0) / (product?.price || 1)) * 100)}%</span>
+                          <span className="text-[9px] text-gray-400 whitespace-nowrap">MOQ {product?.moq}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50 shrink-0 mb-1" onClick={(e) => e.preventDefault()}>
                       <ShoppingBag className="w-4 h-4" />
                     </Button>
                   </div>
@@ -177,7 +202,7 @@ export function Home() {
             <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
               <Link to={`/product/${product.id}`} className="block h-full flex flex-col">
                 <div className="aspect-square overflow-hidden bg-gray-100 relative">
-                  <img src={product.imageSrc} alt={product.name} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                  <img src={product.imageSrc} alt={product.name} className="w-full h-full object-contain p-6 mix-blend-multiply object-center group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-4 flex flex-col flex-grow">
                   <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
