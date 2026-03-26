@@ -245,7 +245,7 @@ export function WholesaleBrandDetail() {
                     )}
                                 <div className="mt-auto flex items-end justify-between">
                     <div>
-                      <p className="text-xl font-bold text-primary-800">{formatPrice(product.wholesalePrice)}</p>
+                      <p className="text-xl font-bold text-primary-800">{formatPrice(product.wholesalePrice, product.currencyWholesalePrices)}</p>
                       <p className="text-xs text-accent font-semibold mt-1">MOQ: {product.moq} units</p>
                     </div>
                 </div>

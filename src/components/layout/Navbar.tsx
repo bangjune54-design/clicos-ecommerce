@@ -33,6 +33,7 @@ const navigation: NavItem[] = [
     href: "/wholesale",
     submenu: [
       { name: "Order", translationKey: "order", href: "/wholesale" },
+      { name: "All B2B Items", translationKey: "all_b2b_items", href: "/wholesale/all" },
       { name: "B2B Brands", translationKey: "b2b_brands", href: "/wholesale/brands" },
     ]
   },
@@ -59,6 +60,9 @@ export function Navbar() {
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("isLoggedIn") === "true");
   const userEmail = localStorage.getItem("userEmail");
+  const allAccounts = JSON.parse(localStorage.getItem("allAccounts") || "[]");
+  const currentUser = allAccounts.find((a: any) => a.email.toLowerCase() === userEmail?.toLowerCase());
+  const userName = currentUser?.name || userEmail?.split('@')[0] || "Account";
   const isAdmin = userEmail === "info@clicos.co.kr" || userEmail === "wholesale@clicos.co.kr";
   
   // Search state
@@ -377,9 +381,10 @@ export function Navbar() {
           </div>
 
           <div className="relative group/user py-6 -my-6 flex items-center">
-            <button className="text-gray-700 hover:text-primary-800 transition-colors">
+            <button className="text-gray-700 hover:text-primary-800 transition-colors flex items-center gap-1.5 focus:outline-none">
               <span className="sr-only">Account</span>
               <User className="h-5 w-5" />
+              {isLoggedIn && <span className="hidden sm:inline-block text-sm font-semibold">{userName}</span>}
             </button>
             <div className="absolute right-0 top-full mt-0 w-40 opacity-0 invisible group-hover/user:opacity-100 group-hover/user:visible transition-all duration-200 border border-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 overflow-hidden transform group-hover/user:translate-y-0 translate-y-1">
               <div className="py-2">

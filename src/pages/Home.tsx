@@ -107,7 +107,7 @@ export function Home() {
             <div className="hidden sm:mb-8 sm:flex sm:justify-center">
               <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-primary-200 ring-1 ring-white/20 hover:ring-white/40 transition-colors bg-white/5 backdrop-blur-md">
                 {t('bulk_title')}{" "}
-                <Link to="/wholesale" className="font-semibold text-white">
+                <Link to="/wholesale/all" className="font-semibold text-white">
                   <span className="absolute inset-0" aria-hidden="true" />
                   {t('view_all')} <span aria-hidden="true">&rarr;</span>
                 </Link>
@@ -248,7 +248,7 @@ export function Home() {
                   <div className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">{product.brand}</div>
                   <h3 className="text-sm font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
                   <div className="mt-auto pt-4 flex items-center justify-between">
-                    <p className="text-lg font-bold text-gray-900">{formatPrice(product?.price || 0)}</p>
+                    <p className="text-lg font-bold text-gray-900">{formatPrice(product?.price || 0, product?.currencyPrices)}</p>
                     <Button size="sm" variant="outline" className="rounded-full shadow-sm hover:bg-primary-50" onClick={(e) => e.preventDefault()}>
                       <ShoppingBag className="w-4 h-4" />
                     </Button>

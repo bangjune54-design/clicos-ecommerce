@@ -6,6 +6,8 @@ const EXCHANGE_RATES: Record<string, number> = {
   KRW: 1350.50,
   EUR: 0.92,
   JPY: 151.20,
+  GBP: 0.79,
+  BRL: 5.06,
 };
 
 const CURRENCY_SYMBOLS: Record<string, string> = {
@@ -13,12 +15,17 @@ const CURRENCY_SYMBOLS: Record<string, string> = {
   KRW: "₩",
   EUR: "€",
   JPY: "¥",
+  GBP: "£",
+  BRL: "R$",
 };
 
 interface CurrencyContextType {
   currency: string;
   setCurrency: (currency: string) => void;
-  formatPrice: (priceUSD: number) => string;
+  getLocalPrice: (basePriceUSD: number, overrides?: Record<string, number>) => number;
+  formatLocalPrice: (localAmount: number) => string;
+  formatPrice: (priceUSD: number, overrides?: Record<string, number>) => string;
+  currencies: string[];
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
@@ -34,21 +41,31 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     setCurrencyState(newCurrency);
   };
 
-  const formatPrice = (priceUSD: number) => {
-    const rate = EXCHANGE_RATES[currency] || 1.0;
-    const symbol = CURRENCY_SYMBOLS[currency] || "$";
-    const converted = priceUSD * rate;
-    
-    // For KRW and JPY, typically we do not show decimals
-    if (currency === "KRW" || currency === "JPY") {
-      return `${symbol} ${Math.round(converted).toLocaleString()}`;
+  const getLocalPrice = (basePriceUSD: number, overrides?: Record<string, number>) => {
+    if (overrides && overrides[currency] !== undefined && overrides[currency] !== null) {
+      return Number(overrides[currency]);
     }
-    
-    return `${symbol} ${converted.toFixed(2)}`;
+    const rate = EXCHANGE_RATES[currency] || 1.0;
+    return basePriceUSD * rate;
   };
 
+  const formatLocalPrice = (localAmount: number) => {
+    const symbol = CURRENCY_SYMBOLS[currency] || "$";
+    if (currency === "KRW" || currency === "JPY") {
+      return `${symbol} ${Math.round(localAmount).toLocaleString()}`;
+    }
+    return `${symbol} ${localAmount.toFixed(2)}`;
+  };
+
+  const formatPrice = (priceUSD: number, overrides?: Record<string, number>) => {
+    const localAmount = getLocalPrice(priceUSD, overrides);
+    return formatLocalPrice(localAmount);
+  };
+
+  const availableCurrencies = Object.keys(EXCHANGE_RATES);
+
   return (
-    <CurrencyContext.Provider value={{ currency, setCurrency, formatPrice }}>
+    <CurrencyContext.Provider value={{ currency, setCurrency, getLocalPrice, formatLocalPrice, formatPrice, currencies: availableCurrencies }}>
       {children}
     </CurrencyContext.Provider>
   );

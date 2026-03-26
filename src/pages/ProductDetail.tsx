@@ -4,7 +4,7 @@ import { ShoppingBag, ArrowLeft, Star, Truck, ShieldCheck, Plus, Minus } from "l
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { Badge } from "../components/ui/Badge";
-import { getLiveInventory } from "../utils/inventory";
+import { getLiveInventory, getLiveBrands } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export function ProductDetail() {
@@ -47,7 +47,9 @@ export function ProductDetail() {
     );
   }
 
-  const isB2B = userType === "wholesale";
+  const isB2BUser = userType === "wholesale";
+  const isWholesaleBrand = getLiveBrands().some(b => b.name === product.brand);
+  const isB2B = isB2BUser || isWholesaleBrand;
   
   // If a retail user tries to view a strictly wholesale product (not available in retail usually, but here they are merged), 
   // they would see retail pricing per the requirement unless restricted.
@@ -177,10 +179,10 @@ export function ProductDetail() {
             </div>
 
             <div className="flex items-center gap-4 mb-6">
-              <p className="text-3xl font-bold text-gray-900">{formatPrice(displayPrice)}</p>
+              <p className="text-3xl font-bold text-gray-900">{formatPrice(displayPrice, isB2B ? product.currencyWholesalePrices : product.currencyPrices)}</p>
               {isB2B ? (
                 <div className="flex flex-col ml-2 border-l border-gray-200 pl-4 py-1">
-                  <span className="text-gray-500 line-through">{formatPrice(product.price)} {t('msrp')}</span>
+                  <span className="text-gray-500 line-through">{formatPrice(product.price, product.currencyPrices)} {t('msrp')}</span>
                   <span className="text-sm font-semibold text-accent mt-1">
                     {t('wholesale_price')} ({product.moq} {t('moq')})
                   </span>
@@ -188,7 +190,7 @@ export function ProductDetail() {
               ) : (
                 <div className="flex flex-col ml-2 border-l border-gray-200 pl-4 py-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-500">{t('wholesale')} B2B: <span className="text-accent font-bold">{formatPrice(product.wholesalePrice)}</span></span>
+                    <span className="text-sm font-medium text-gray-500">{t('wholesale')} B2B: <span className="text-accent font-bold">{formatPrice(product.wholesalePrice, product.currencyWholesalePrices)}</span></span>
                     <span className="text-xs bg-green-100 text-green-700 font-bold px-1.5 py-0.5 rounded shadow-sm">
                       {t('save')} {Math.round((1 - product.wholesalePrice / product.price) * 100)}%
                     </span>

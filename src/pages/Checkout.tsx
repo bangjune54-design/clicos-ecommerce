@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { useCurrency } from "../contexts/CurrencyContext";
+import { getLiveInventory } from "../utils/inventory";
 import { ArrowLeft, CheckCircle2, CreditCard, Wallet, X, ShieldCheck } from "lucide-react";
+import { sendAdminNotification } from "../utils/email";
 
 export function Checkout() {
   const navigate = useNavigate();
-  const { formatPrice } = useCurrency();
+  const { getLocalPrice, formatLocalPrice } = useCurrency();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'paypal'>('stripe');
@@ -22,13 +24,23 @@ export function Checkout() {
   });
 
   const userType = localStorage.getItem("userType") || "retail";
+  const liveInventory = getLiveInventory();
+  const getProductData = (id: string) => liveInventory.find(p => p.id === id);
 
   const retailTotal = userType !== "wholesale" 
-    ? retailItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    ? retailItems.reduce((acc, item) => {
+        const liveMatch = getProductData(item.id);
+        const activePrice = liveMatch ? getLocalPrice(liveMatch.price, liveMatch.currencyPrices) : getLocalPrice(item.price);
+        return acc + activePrice * item.quantity;
+      }, 0)
     : 0;
   
   const b2bTotal = userType === "wholesale" 
-    ? b2bItems.reduce((acc, item) => acc + item.price * (item.boxQty * item.inboxQty), 0)
+    ? b2bItems.reduce((acc, item) => {
+        const liveMatch = getProductData(item.id);
+        const activePrice = liveMatch ? getLocalPrice(liveMatch.wholesalePrice, liveMatch.currencyWholesalePrices) : getLocalPrice(item.price);
+        return acc + activePrice * (item.boxQty * item.inboxQty);
+      }, 0)
     : 0;
 
   const orderTotal = retailTotal + b2bTotal;
@@ -61,7 +73,12 @@ export function Checkout() {
   const processOrder = () => {
     setOrderComplete(true);
     // Simulate sending email
-    console.log(`[SIMULATION] Email sent to ${email}: Thank you for your order! We will get back to you as soon as possible.`);
+    sendAdminNotification("New Order Placed", {
+      customerEmail: email,
+      orderTotal: formatLocalPrice(orderTotal),
+      orderType: userType,
+      items: userType === "wholesale" ? b2bItems : retailItems
+    });
     
     // Clear cart
     localStorage.removeItem('retailCart');
@@ -92,18 +109,23 @@ export function Checkout() {
                     <span className="text-gray-600 line-clamp-1">{item.name}</span>
                   </div>
                   <span className="font-semibold text-gray-900">
-                    {formatPrice(
-                      userType === "wholesale" 
-                        ? item.price * (item.boxQty * item.inboxQty) 
-                        : item.price * item.quantity
-                    )}
+                    {(() => {
+                      const liveMatch = getProductData(item.id);
+                      if (userType === "wholesale") {
+                        const activePrice = liveMatch ? getLocalPrice(liveMatch.wholesalePrice, liveMatch.currencyWholesalePrices) : getLocalPrice(item.price);
+                        return formatLocalPrice(activePrice * item.boxQty * item.inboxQty);
+                      } else {
+                        const activePrice = liveMatch ? getLocalPrice(liveMatch.price, liveMatch.currencyPrices) : getLocalPrice(item.price);
+                        return formatLocalPrice(activePrice * item.quantity);
+                      }
+                    })()}
                   </span>
                 </li>
               ))}
             </ul>
             <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center font-bold">
               <span className="text-gray-900">Total Paid</span>
-              <span className="text-lg text-primary-900">{formatPrice(orderTotal)}</span>
+              <span className="text-lg text-primary-900">{formatLocalPrice(orderTotal)}</span>
             </div>
           </div>
 
@@ -301,11 +323,16 @@ export function Checkout() {
                       <span className="font-medium text-gray-900 line-clamp-2">{item.name}</span>
                     </div>
                     <span className="font-semibold text-gray-900">
-                      {formatPrice(
-                        userType === "wholesale" 
-                          ? item.price * (item.boxQty * item.inboxQty) 
-                          : item.price * item.quantity
-                      )}
+                      {(() => {
+                        const liveMatch = getProductData(item.id);
+                        if (userType === "wholesale") {
+                          const activePrice = liveMatch ? getLocalPrice(liveMatch.wholesalePrice, liveMatch.currencyWholesalePrices) : getLocalPrice(item.price);
+                          return formatLocalPrice(activePrice * item.boxQty * item.inboxQty);
+                        } else {
+                          const activePrice = liveMatch ? getLocalPrice(liveMatch.price, liveMatch.currencyPrices) : getLocalPrice(item.price);
+                          return formatLocalPrice(activePrice * item.quantity);
+                        }
+                      })()}
                     </span>
                   </li>
                 ))}
@@ -314,7 +341,7 @@ export function Checkout() {
               <dl className="space-y-4 text-sm text-gray-600 border-t border-gray-100 pt-6 mb-6">
                 <div className="flex justify-between items-center">
                   <dt>Subtotal</dt>
-                  <dd className="font-medium text-gray-900">{formatPrice(orderTotal)}</dd>
+                  <dd className="font-medium text-gray-900">{formatLocalPrice(orderTotal)}</dd>
                 </div>
                 <div className="flex justify-between items-center">
                   <dt>Shipping</dt>
@@ -324,11 +351,11 @@ export function Checkout() {
 
               <div className="border-t border-gray-100 pt-6 mb-8 flex items-center justify-between">
                 <span className="text-xl font-bold text-gray-900">Total</span>
-                <span className="text-2xl font-bold font-serif text-primary-900">{formatPrice(orderTotal)}</span>
+                <span className="text-2xl font-bold font-serif text-primary-900">{formatLocalPrice(orderTotal)}</span>
               </div>
 
               <Button form="checkout-form" type="submit" disabled={isSubmitting} className="w-full text-lg py-4">
-                {isSubmitting ? "Processing Payment..." : `Pay ${formatPrice(orderTotal)}`}
+                {isSubmitting ? "Processing Payment..." : `Pay ${formatLocalPrice(orderTotal)}`}
               </Button>
             </div>
           </div>

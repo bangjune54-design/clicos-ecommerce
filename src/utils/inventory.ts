@@ -177,7 +177,7 @@ export const INITIAL_BRANDS = [
   { name: "FWEE", description: "Trendy color cosmetics focused on expressive makeup." },
   { name: "Torriden", description: "Clean beauty brand focusing on deep hydration with hyaluronic acid." },
   { name: "Beauty of Joseon", description: "Hanbang (traditional Korean herbal medicine) skincare for modern routines." },
-  { name: "Kerasys", description: "Premium hair clinics and body care with rich, perfumed scents.", image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=400&auto=format&fit=crop" },
+  { name: "Kerasys", description: "Premium hair clinics and body care with rich, perfumed scents." },
 ];
 
 export function getLiveBrands(): any[] {

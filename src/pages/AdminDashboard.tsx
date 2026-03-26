@@ -459,7 +459,7 @@ export function AdminDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {mockAccounts.map((acc) => (
+                {accounts.map((acc) => (
                   <tr key={acc.id} className="hover:bg-gray-50">
                     <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">{acc.id}</td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 font-semibold">{acc.name}</td>
@@ -665,6 +665,50 @@ export function AdminDashboard() {
                         }} 
                         placeholder="e.g. 50ml, 100ml, 150ml"
                       />
+                    </div>
+                  </div>
+                  
+                  {/* Advanced Pricing */}
+                  <div className="col-span-1 md:col-span-2 pt-6 mt-4 border-t border-gray-200">
+                    <h3 className="text-lg font-bold font-serif text-gray-900 mb-2">Advanced Pricing (Per-Currency Overrides)</h3>
+                    <p className="text-sm text-gray-500 mb-4">Set specific local prices. Leave a field blank to automatically calculate via exchange rate.</p>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-gray-50 p-5 rounded-xl border border-gray-100 shadow-inner">
+                      {(["KRW", "EUR", "JPY", "GBP", "BRL"]).map(curr => (
+                        <div key={curr} className="p-3 bg-white rounded-lg shadow-sm border border-gray-200">
+                          <h4 className="font-bold text-gray-800 mb-3 border-b pb-2">{curr} Local Price</h4>
+                          <div className="flex flex-col gap-3">
+                            <div>
+                              <label className="block text-xs font-semibold mb-1 text-gray-600">Retail</label>
+                              <Input 
+                                type="number" step="any" placeholder="Auto calc" className="h-8 text-sm"
+                                value={editProductPayload.currencyPrices?.[curr] ?? ""} 
+                                onChange={e => {
+                                  const val = e.target.value;
+                                  setEditProductPayload({
+                                    ...editProductPayload, 
+                                    currencyPrices: { ...(editProductPayload.currencyPrices || {}), [curr]: val ? parseFloat(val) : null }
+                                  });
+                                }} 
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs font-semibold mb-1 text-primary-700">Wholesale (B2B)</label>
+                              <Input 
+                                type="number" step="any" placeholder="Auto calc" className="h-8 text-sm border-primary-200 focus:border-primary-500"
+                                value={editProductPayload.currencyWholesalePrices?.[curr] ?? ""} 
+                                onChange={e => {
+                                  const val = e.target.value;
+                                  setEditProductPayload({
+                                    ...editProductPayload, 
+                                    currencyWholesalePrices: { ...(editProductPayload.currencyWholesalePrices || {}), [curr]: val ? parseFloat(val) : null }
+                                  });
+                                }} 
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </form>

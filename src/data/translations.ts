@@ -66,6 +66,7 @@ export const translations: Record<string, Record<string, string>> = {
     wholesale_brands: "Wholesale Brands",
     save: "Save",
     apply_b2b: "Apply for B2B portal",
+    all_b2b_items: "All B2B Items",
   },
   KO: {
     home: "홈",
@@ -134,6 +135,7 @@ export const translations: Record<string, Record<string, string>> = {
     wholesale_brands: "도매 브랜드",
     save: "할인",
     apply_b2b: "B2B 포털 신청하기",
+    all_b2b_items: "모든 B2B 상품",
   },
   PT: {
     home: "Início",
@@ -172,6 +174,7 @@ export const translations: Record<string, Record<string, string>> = {
     sold: "vendidos",
     quantity: "Quantidade",
     select_option: "Selecionar opção...",
+    all_b2b_items: "Todos os Itens B2B",
   },
   ES: {
     home: "Inicio",
@@ -210,6 +213,7 @@ export const translations: Record<string, Record<string, string>> = {
     sold: "vendidos",
     quantity: "Cantidad",
     select_option: "Seleccionar opción...",
+    all_b2b_items: "Todos los Artículos B2B",
   },
   ZH: {
     home: "首页",
@@ -248,6 +252,7 @@ export const translations: Record<string, Record<string, string>> = {
     sold: "已售出",
     quantity: "数量",
     select_option: "选择选项...",
+    all_b2b_items: "所有 B2B 商品",
   },
   JA: {
     home: "ホーム",
@@ -286,5 +291,6 @@ export const translations: Record<string, Record<string, string>> = {
     sold: "販売済み",
     quantity: "数量",
     select_option: "オプションを選択...",
+    all_b2b_items: "すべてのB2B商品",
   }
 };

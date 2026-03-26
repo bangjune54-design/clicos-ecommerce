@@ -21,9 +21,9 @@ export function Login() {
     window.dispatchEvent(new Event("storage"));
     
     if (email === "info@clicos.co.kr" || email === "wholesale@clicos.co.kr") {
-      window.location.href = "/admin";
+      navigate("/admin");
     } else {
-      window.location.href = "/my-page";
+      navigate("/");
     }
   };
 

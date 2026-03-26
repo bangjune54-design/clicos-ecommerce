@@ -2,9 +2,23 @@ import React, { useState } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
+import { sendAdminNotification } from "../utils/email";
 
 export function Contact() {
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data: Record<string, any> = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    
+    sendAdminNotification(`New Inquiry: ${data.subject || 'Contact Form'}`, data);
+    setSuccess(true);
+  };
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-32">
@@ -66,7 +80,17 @@ export function Contact() {
             </div>
 
             {/* Contact Form */}
-            <form action="#" method="POST" className="space-y-6">
+            {success ? (
+              <div className="bg-green-50 text-green-800 p-8 py-16 rounded-3xl flex flex-col items-center justify-center text-center border border-green-200 h-full">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                  <Mail className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-3xl font-bold font-serif mb-4">Message Sent!</h3>
+                <p className="text-green-700 max-w-sm mb-8">Thank you for reaching out. We have received your inquiry and will reply to you as soon as possible.</p>
+                <Button onClick={() => setSuccess(false)} variant="outline" className="border-green-300 text-green-800 hover:bg-green-100">Send Another Message</Button>
+              </div>
+            ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
@@ -175,6 +199,7 @@ export function Contact() {
                 Send Message
               </Button>
             </form>
+            )}
           </div>
         </div>
       </div>

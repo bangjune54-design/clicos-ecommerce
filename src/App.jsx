@@ -8,6 +8,7 @@ import { Shop } from "@/pages/Shop";
 import { Wholesale } from "@/pages/Wholesale";
 import { WholesaleBrands } from "@/pages/WholesaleBrands";
 import { WholesaleBrandDetail } from "@/pages/WholesaleBrandDetail";
+import { WholesaleAllItems } from "@/pages/WholesaleAllItems";
 import { Brands } from "@/pages/Brands";
 import { Login } from "@/pages/Login";
 import { Signup } from "@/pages/Signup";
@@ -55,6 +56,7 @@ function App() {
               <Route path="/shop" element={<Shop />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/wholesale" element={<Wholesale />} />
+              <Route path="/wholesale/all" element={<WholesaleAllItems />} />
               <Route path="/wholesale/brands" element={<WholesaleBrands />} />
               <Route path="/wholesale/brands/:brandId" element={<WholesaleBrandDetail />} />
               <Route path="/brands" element={<Brands />} />

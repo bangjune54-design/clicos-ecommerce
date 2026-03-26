@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
+import { getLiveInventory } from "../utils/inventory";
 
 // Mock data for Cart
 const mockRetailItems = [
@@ -37,7 +38,7 @@ const mockB2BItems = [
 ];
 
 export function Cart() {
-  const { formatPrice } = useCurrency();
+  const { getLocalPrice, formatLocalPrice } = useCurrency();
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   
   if (!isLoggedIn) {
@@ -52,14 +53,23 @@ export function Cart() {
   });
 
   const userType = localStorage.getItem("userType") || "retail";
+  const liveInventory = getLiveInventory();
+  const getProductData = (id: string) => liveInventory.find(p => p.id === id);
 
   const retailTotal = userType !== "wholesale" 
-    ? retailItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    ? retailItems.reduce((acc, item) => {
+        const liveMatch = getProductData(item.id);
+        const activePrice = liveMatch ? getLocalPrice(liveMatch.price, liveMatch.currencyPrices) : getLocalPrice(item.price);
+        return acc + activePrice * item.quantity;
+      }, 0)
     : 0;
   
-  // B2B pricing logic could be different, here we assume price is per item * (boxQty * inboxQty)
   const b2bTotal = userType === "wholesale" 
-    ? b2bItems.reduce((acc, item) => acc + item.price * (item.boxQty * item.inboxQty), 0)
+    ? b2bItems.reduce((acc, item) => {
+        const liveMatch = getProductData(item.id);
+        const activePrice = liveMatch ? getLocalPrice(liveMatch.wholesalePrice, liveMatch.currencyWholesalePrices) : getLocalPrice(item.price);
+        return acc + activePrice * (item.boxQty * item.inboxQty);
+      }, 0)
     : 0;
 
   const handleRemoveRetail = (id: string | number) => {
@@ -132,7 +142,13 @@ export function Cart() {
                         <div>
                           <div className="flex justify-between text-base font-medium text-gray-900">
                             <h3 className="line-clamp-2 pr-4">{item.name}</h3>
-                            <p className="ml-4 whitespace-nowrap">{formatPrice(item.price * item.quantity)}</p>
+                            <p className="ml-4 whitespace-nowrap">{
+                              (() => {
+                                const liveMatch = getProductData(item.id);
+                                const activePrice = liveMatch ? getLocalPrice(liveMatch.price, liveMatch.currencyPrices) : getLocalPrice(item.price);
+                                return formatLocalPrice(activePrice * item.quantity);
+                              })()
+                            }</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">{item.brand}</p>
                           {(item.optionValue || item.color) && (
@@ -181,7 +197,7 @@ export function Cart() {
             {(userType === "wholesale" || b2bItems.length > 0) && (
             <section className="glass p-6 rounded-2xl">
               <div className="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
-                <h2 className="text-xl font-bold font-serif text-gray-900">B2B Wholesale Items</h2>
+                <h2 className="text-xl font-bold font-serif text-gray-900">Shop Items (Wholesale/B2B)</h2>
                 <span className="text-sm text-gray-500">{b2bItems.length} items</span>
               </div>
               
@@ -199,7 +215,13 @@ export function Cart() {
                         <div>
                           <div className="flex justify-between text-base font-medium text-gray-900">
                             <h3 className="line-clamp-2 pr-4">{item.name}</h3>
-                            <p className="ml-4 whitespace-nowrap">{formatPrice(item.price * item.boxQty * item.inboxQty)}</p>
+                            <p className="ml-4 whitespace-nowrap">{
+                              (() => {
+                                const liveMatch = getProductData(item.id);
+                                const activePrice = liveMatch ? getLocalPrice(liveMatch.wholesalePrice, liveMatch.currencyWholesalePrices) : getLocalPrice(item.price);
+                                return formatLocalPrice(activePrice * item.boxQty * item.inboxQty);
+                              })()
+                            }</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">{item.brand}</p>
                           {(item.optionValue || item.color) && (
@@ -207,7 +229,13 @@ export function Cart() {
                               {item.optionName || "Color / Option"}: {item.optionValue || item.color}
                             </p>
                           )}
-                          <p className="mt-1 text-xs text-gray-400">Price per unit: {formatPrice(item.price)}</p>
+                          <p className="mt-1 text-xs text-gray-400">Price per unit: {
+                            (() => {
+                              const liveMatch = getProductData(item.id);
+                              const activePrice = liveMatch ? getLocalPrice(liveMatch.wholesalePrice, liveMatch.currencyWholesalePrices) : getLocalPrice(item.price);
+                              return formatLocalPrice(activePrice);
+                            })()
+                          }</p>
                         </div>
                         <div className="flex flex-1 items-end justify-between text-sm mt-2">
                           <div className="text-gray-500 flex items-center gap-3">
@@ -257,13 +285,13 @@ export function Cart() {
               {(userType !== "wholesale" || retailItems.length > 0) && retailTotal > 0 && (
                 <div className="flex items-center justify-between">
                   <dt>Retail Subtotal</dt>
-                  <dd className="font-medium text-gray-900">{formatPrice(retailTotal)}</dd>
+                  <dd className="font-medium text-gray-900">{formatLocalPrice(retailTotal)}</dd>
                 </div>
               )}
               {(userType === "wholesale" || b2bItems.length > 0) && b2bTotal > 0 && (
                 <div className="flex items-center justify-between">
                   <dt>Wholesale Subtotal</dt>
-                  <dd className="font-medium text-gray-900">{formatPrice(b2bTotal)}</dd>
+                  <dd className="font-medium text-gray-900">{formatLocalPrice(b2bTotal)}</dd>
                 </div>
               )}
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
@@ -274,16 +302,30 @@ export function Cart() {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="text-base font-bold text-gray-900">Order Total</dt>
-                <dd className="text-base font-bold text-gray-900">{formatPrice(retailTotal + b2bTotal)}</dd>
+                <dd className="text-base font-bold text-gray-900">{formatLocalPrice(retailTotal + b2bTotal)}</dd>
               </div>
             </dl>
 
-            <div className="mt-6">
-              <Link to={userType === 'wholesale' ? '/wholesale' : '/checkout'} className="block w-full">
-                <Button className="w-full text-lg shadow-md">
-                  {userType === 'wholesale' ? 'Submit Wholesale Order' : 'Proceed to Checkout'}
+            <div className="mt-6 flex flex-col gap-3">
+              {(userType !== "wholesale" || retailItems.length > 0) && retailItems.length > 0 && (
+                <Link to="/checkout" className="block w-full">
+                  <Button className="w-full text-lg shadow-md bg-gray-900 hover:bg-gray-800 text-white border-0">
+                    Proceed to Retail Checkout
+                  </Button>
+                </Link>
+              )}
+              {(userType === "wholesale" || b2bItems.length > 0) && b2bItems.length > 0 && (
+                <Link to="/wholesale" className="block w-full">
+                  <Button className="w-full text-lg shadow-md" variant="primary">
+                    Submit Wholesale Order
+                  </Button>
+                </Link>
+              )}
+              {retailItems.length === 0 && b2bItems.length === 0 && (
+                <Button className="w-full text-lg shadow-md" disabled>
+                  Cart is Empty
                 </Button>
-              </Link>
+              )}
             </div>
             
             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">

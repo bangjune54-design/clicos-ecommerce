@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { CheckCircle2 } from "lucide-react";
+import { sendAdminNotification } from "../utils/email";
 
 export function Signup() {
   const navigate = useNavigate();
@@ -77,6 +78,8 @@ export function Signup() {
     
     const updatedAccounts = [...accounts, newAccount];
     localStorage.setItem("allAccounts", JSON.stringify(updatedAccounts));
+
+    sendAdminNotification("New Account Registration", newAccount);
 
     setSuccess(true);
   };

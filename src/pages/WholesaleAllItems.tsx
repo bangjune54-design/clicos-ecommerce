@@ -5,7 +5,7 @@ import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
-import { getLiveInventory } from "../utils/inventory";
+import { getLiveInventory, getLiveBrands } from "../utils/inventory";
 
 // Mocks
 // Categories structure
@@ -23,8 +23,9 @@ const CATEGORY_STRUCTURE = [
 // Flattened list for URL matching if needed
 const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap(c => [c.name, ...(c.subcategories || [])]);
 
-export function Shop() {
-  const allShopProducts = getLiveInventory();
+export function WholesaleAllItems() {
+  const b2bBrandNames = new Set(getLiveBrands().map(b => b.name));
+  const allShopProducts = getLiveInventory().filter(p => b2bBrandNames.has(p.brand));
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get("category");
@@ -60,9 +61,7 @@ export function Shop() {
     const qty = getQty(product.id);
     const userType = localStorage.getItem("userType") || "retail"; // default guests to retail
     
-    if (userType === "wholesale") {
-      alert("Wholesale Partners should use the Wholesale portal for bulk orders. Redirecting to Cart...");
-    }
+    // No need to alert wholesale users, this is the B2B catalog.
 
     const optionsList = product.options || product.colors;
     const hasOptions = optionsList && optionsList.length > 0;
@@ -74,25 +73,26 @@ export function Shop() {
     }
 
     try {
-      const currentRetailCart = JSON.parse(localStorage.getItem('retailCart') || '[]');
-      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
+      const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
+      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
       if (existingItem) {
-        existingItem.quantity += qty;
+        existingItem.boxQty += qty;
       } else {
-        currentRetailCart.push({
+        currentB2BCart.push({
           id: product.id,
           name: product.name,
           brand: product.brand,
-          price: product.price,
-          quantity: qty,
+          price: product.wholesalePrice,
+          inboxQty: product.moq,
+          boxQty: qty,
           image: product.imageSrc,
           optionName: product.optionName || "Color / Option",
           optionValue: selectedOption || undefined
         });
       }
-      localStorage.setItem('retailCart', JSON.stringify(currentRetailCart));
+      localStorage.setItem('b2bCart', JSON.stringify(currentB2BCart));
       
-      window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: `Added ${qty}x ${product.name} to Cart!` } }));
+      window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: `Added ${qty} boxes of ${product.name} to Wholesale Quote!` } }));
 
       // Reset quantity after adding
       setQuantities(prev => ({ ...prev, [product.id]: 1 }));
@@ -135,10 +135,10 @@ export function Shop() {
         <div className="flex flex-col md:flex-row md:items-baseline md:justify-between border-b border-gray-200 pb-6 mb-8">
           <div>
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 font-serif">
-              Shop All Products
+              All B2B Items
             </h1>
             <p className="mt-2 text-primary-600">
-              Discover authentic Korean beauty shipped directly to your door.
+              Discover authentic Korean beauty exclusively for B2B distributors.
             </p>
           </div>
 
@@ -285,7 +285,7 @@ export function Shop() {
                       </div>
                       <Button className="w-full gap-2 shadow-md" onClick={(e) => handleAddToCart(e, product)}>
                         <ShoppingBag className="w-4 h-4" /> 
-                        Add to Cart
+                        Add to Quote
                       </Button>
                     </div>
                   
