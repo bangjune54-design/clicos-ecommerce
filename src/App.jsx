@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { ToastProvider } from "@/components/ui/Toast";
 import { Home } from "@/pages/Home";
 import { Shop } from "@/pages/Shop";
 import { Wholesale } from "@/pages/Wholesale";
@@ -21,10 +23,30 @@ import { AdminDashboard } from "@/pages/AdminDashboard";
 import { Checkout } from "@/pages/Checkout";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { initializeStorage } from "@/utils/inventory";
 
 function App() {
+  const [isReady, setIsReady] = React.useState(false);
+
+  React.useEffect(() => {
+    initializeStorage().then(() => setIsReady(true));
+  }, []);
+
+  if (!isReady) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-white">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-primary-600 border-t-transparent mb-4"></div>
+          <p className="text-gray-400 text-sm font-medium">Loading catalog...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <BrowserRouter>
+      <ScrollToTop />
+      <ToastProvider />
       <LanguageProvider>
         <CurrencyProvider>
           <Routes>

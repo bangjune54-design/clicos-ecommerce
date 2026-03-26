@@ -62,21 +62,21 @@ export function Cart() {
     ? b2bItems.reduce((acc, item) => acc + item.price * (item.boxQty * item.inboxQty), 0)
     : 0;
 
-  const handleRemoveRetail = (id: number) => {
+  const handleRemoveRetail = (id: string | number) => {
     const updated = retailItems.filter(item => item.id !== id);
     setRetailItems(updated);
     localStorage.setItem('retailCart', JSON.stringify(updated));
     window.dispatchEvent(new Event("storage"));
   };
 
-  const handleRemoveB2B = (id: number) => {
+  const handleRemoveB2B = (id: string | number) => {
     const updated = b2bItems.filter(item => item.id !== id);
     setB2BItems(updated);
     localStorage.setItem('b2bCart', JSON.stringify(updated));
     window.dispatchEvent(new Event("storage"));
   };
 
-  const updateRetailQuantity = (id: number, delta: number) => {
+  const updateRetailQuantity = (id: string | number, delta: number) => {
     const updated = retailItems.map(item => {
       if (item.id === id) {
         const newQty = Math.max(1, item.quantity + delta);
@@ -89,7 +89,7 @@ export function Cart() {
     window.dispatchEvent(new Event("storage"));
   };
 
-  const updateB2BQuantity = (id: number, delta: number) => {
+  const updateB2BQuantity = (id: string | number, delta: number) => {
     const updated = b2bItems.map(item => {
       if (item.id === id) {
         const newBoxQty = Math.max(1, item.boxQty + delta);
@@ -110,8 +110,8 @@ export function Cart() {
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
           <div className="lg:col-span-8 space-y-12">
             
-            {/* RETAIL SECTION */}
-            {userType !== "wholesale" && (
+            {/* RETAIL SECTION - Always show if it contains items, or if user is NOT wholesale */}
+            {(userType !== "wholesale" || retailItems.length > 0) && (
               <section className="glass p-6 rounded-2xl">
                 <div className="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
                   <h2 className="text-xl font-bold font-serif text-gray-900">Shop Items (Retail)</h2>
@@ -177,8 +177,8 @@ export function Cart() {
             </section>
             )}
 
-            {/* B2B SECTION */}
-            {userType === "wholesale" && (
+            {/* B2B SECTION - Always show if it contains items, or if user is wholesale */}
+            {(userType === "wholesale" || b2bItems.length > 0) && (
             <section className="glass p-6 rounded-2xl">
               <div className="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
                 <h2 className="text-xl font-bold font-serif text-gray-900">B2B Wholesale Items</h2>
@@ -254,13 +254,13 @@ export function Cart() {
             <h2 className="text-lg font-bold font-serif text-gray-900 mb-6">Order Summary</h2>
 
             <dl className="space-y-4 text-sm text-gray-600">
-              {userType !== "wholesale" && (
+              {(userType !== "wholesale" || retailItems.length > 0) && retailTotal > 0 && (
                 <div className="flex items-center justify-between">
                   <dt>Retail Subtotal</dt>
                   <dd className="font-medium text-gray-900">{formatPrice(retailTotal)}</dd>
                 </div>
               )}
-              {userType === "wholesale" && (
+              {(userType === "wholesale" || b2bItems.length > 0) && b2bTotal > 0 && (
                 <div className="flex items-center justify-between">
                   <dt>Wholesale Subtotal</dt>
                   <dd className="font-medium text-gray-900">{formatPrice(b2bTotal)}</dd>

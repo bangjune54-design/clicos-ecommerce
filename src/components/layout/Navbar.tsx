@@ -8,34 +8,37 @@ import { useLanguage } from "../../contexts/LanguageContext";
 
 interface NavItem {
   name: string;
+  translationKey?: string;
   href: string;
-  submenu?: { name: string; href: string }[];
+  submenu?: { name: string; translationKey?: string; href: string }[];
 }
 
 const navigation: NavItem[] = [
-  { name: "Home", href: "/" },
+  { name: "Home", translationKey: "home", href: "/" },
   { 
     name: "Shop", 
+    translationKey: "shop",
     href: "/shop",
     submenu: [
-      { name: "All", href: "/shop" },
-      { name: "Skincare", href: "/shop?category=skincare" },
-      { name: "Makeup", href: "/shop?category=makeup" },
-      { name: "Haircare", href: "/shop?category=hair-and-body" },
-      { name: "Brands", href: "/brands" },
+      { name: "All", translationKey: "all", href: "/shop" },
+      { name: "Skincare", translationKey: "skincare", href: "/shop?category=skincare" },
+      { name: "Makeup", translationKey: "makeup", href: "/shop?category=makeup" },
+      { name: "Haircare", translationKey: "haircare", href: "/shop?category=hair-and-body" },
+      { name: "Brands", translationKey: "brands", href: "/brands" },
     ]
   },
   { 
     name: "Wholesale / B2B", 
+    translationKey: "wholesale",
     href: "/wholesale",
     submenu: [
-      { name: "Order", href: "/wholesale" },
-      { name: "B2B Brands", href: "/wholesale/brands" },
+      { name: "Order", translationKey: "order", href: "/wholesale" },
+      { name: "B2B Brands", translationKey: "b2b_brands", href: "/wholesale/brands" },
     ]
   },
-  { name: "About Us", href: "/about" },
-  { name: "Blog", href: "/blog" },
-  { name: "Contact", href: "/contact" },
+  { name: "About Us", translationKey: "about", href: "/about" },
+  { name: "Blog", translationKey: "blog", href: "/blog" },
+  { name: "Contact", translationKey: "contact", href: "/contact" },
 ];
 
 const currencies = ["USD", "EUR", "KRW", "JPY", "GBP", "BRL"];
@@ -153,7 +156,7 @@ export function Navbar() {
                       : "text-gray-900"
                   }`}
                 >
-                  {t(item.name.toLowerCase().replace(/ \/ /g, "_").replace(/ /g, "_"))}
+                  {t(item.translationKey || item.name.toLowerCase().replace(/ \/ /g, "_").replace(/ /g, "_"))}
                 </Link>
                 {item.submenu && (
                   <div className="absolute left-0 top-full mt-0 w-48 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-200 border border-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50 overflow-hidden transform group-hover/nav:translate-y-0 translate-y-1">
@@ -164,7 +167,7 @@ export function Navbar() {
                           to={subitem.href}
                           className="block w-full px-4 py-2.5 text-left text-sm font-bold text-gray-800 hover:bg-primary-50 hover:text-primary-900 transition-colors"
                         >
-                          {t(subitem.name.toLowerCase().replace(/ \/ /g, "_").replace(/ /g, "_"))}
+                          {t(subitem.translationKey || subitem.name.toLowerCase().replace(/ \/ /g, "_").replace(/ /g, "_"))}
                         </Link>
                       ))}
                     </div>
@@ -175,8 +178,8 @@ export function Navbar() {
           )}
         </div>
 
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4">
-          <div className="relative">
+        <div className="flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4 gap-3">
+          <div className="relative hidden sm:block">
             <button
               onClick={() => { setShowLanguageDropdown(!showLanguageDropdown); setShowCurrencyDropdown(false); }}
               className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-primary-800 transition-colors uppercase"
@@ -431,7 +434,7 @@ export function Navbar() {
                 navigate("/login");
               }
             }} 
-            className="text-gray-700 hover:text-primary-800 transition-colors relative block"
+            className="text-gray-700 hover:text-primary-800 transition-colors relative flex items-center"
           >
             <span className="sr-only">{t('cart')}</span>
             <ShoppingBag className="h-5 w-5" />
@@ -486,7 +489,7 @@ export function Navbar() {
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        {item.name}
+                        {t(item.translationKey || item.name)}
                       </Link>
                     ))
                   )}

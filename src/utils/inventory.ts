@@ -45,7 +45,108 @@ const INITIAL_INVENTORY = [
   ...mapB2BProducts(atsProducts, "ATS", "Hair Care"),
 ];
 
+// Global cache for synchronous access
+let inventoryCache: any[] | null = null;
+let brandsCache: any[] | null = null;
+let isInitialized = false;
+
+// IndexedDB Constants
+const DB_NAME = "ClicosStore";
+const STORE_NAME = "appData";
+
+// Helper to open IndexedDB
+const openDB = (): Promise<IDBDatabase> => {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, 1);
+    request.onupgradeneeded = (e: IDBVersionChangeEvent) => {
+      const db = (e.target as IDBOpenDBRequest).result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME);
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+};
+
+// Helper for DB operations
+const dbGet = async (key: string): Promise<any> => {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(STORE_NAME, "readonly");
+    const store = transaction.objectStore(STORE_NAME);
+    const request = store.get(key);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+};
+
+const dbSet = async (key: string, value: any): Promise<void> => {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(STORE_NAME, "readwrite");
+    const store = transaction.objectStore(STORE_NAME);
+    const request = store.put(value, key);
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+};
+
+export async function initializeStorage() {
+  if (isInitialized) return;
+
+  try {
+    // 1. Try to load from IndexedDB
+    const inv = await dbGet("globalInventory");
+    const brd = await dbGet("globalBrands");
+
+    // 2. Fallback to localStorage + Migration
+    if (!inv) {
+      const localInv = localStorage.getItem("globalInventory");
+      if (localInv) {
+        inventoryCache = JSON.parse(localInv);
+        await dbSet("globalInventory", inventoryCache);
+        // Clear legacy once migrated to free up space for cart
+        localStorage.removeItem("globalInventory");
+      }
+    } else {
+      inventoryCache = inv;
+      // Also clear if it still exists after successful migration
+      localStorage.removeItem("globalInventory");
+    }
+
+    if (!brd) {
+      const localBrd = localStorage.getItem("globalBrands");
+      if (localBrd) {
+        brandsCache = JSON.parse(localBrd);
+        await dbSet("globalBrands", brandsCache);
+        // Clear legacy once migrated
+        localStorage.removeItem("globalBrands");
+      }
+    } else {
+      brandsCache = brd;
+      // Also clear if it still exists
+      localStorage.removeItem("globalBrands");
+    }
+  } catch (e) {
+    console.error("Storage Initialization Error:", e);
+  }
+
+  // 3. Last fallback to INITIAL constants
+  if (!inventoryCache) inventoryCache = INITIAL_INVENTORY;
+  if (!brandsCache) brandsCache = INITIAL_BRANDS;
+  
+  isInitialized = true;
+}
+
+export function isStorageReady() {
+  return isInitialized;
+}
+
 export function getLiveInventory(): any[] {
+  // If initialized, use cache. If not, try localStorage for immediate sync needs (SSR or race conditions)
+  if (isInitialized && inventoryCache) return inventoryCache;
+  
   const local = localStorage.getItem("globalInventory");
   if (local) {
     try {
@@ -58,7 +159,10 @@ export function getLiveInventory(): any[] {
 }
 
 export function saveLiveInventory(inventory: any[]) {
-  localStorage.setItem("globalInventory", JSON.stringify(inventory));
+  inventoryCache = inventory;
+  dbSet("globalInventory", inventory).catch(console.error);
+  
+  // Redundant LCD save removed to prevent quota issues for cart/other small data
 }
 
 export const INITIAL_BRANDS = [
@@ -77,6 +181,8 @@ export const INITIAL_BRANDS = [
 ];
 
 export function getLiveBrands(): any[] {
+  if (isInitialized && brandsCache) return brandsCache;
+
   const local = localStorage.getItem("globalBrands");
   if (local) {
     try {
@@ -89,6 +195,9 @@ export function getLiveBrands(): any[] {
 }
 
 export function saveLiveBrands(brands: any[]) {
-  localStorage.setItem("globalBrands", JSON.stringify(brands));
+  brandsCache = brands;
+  dbSet("globalBrands", brands).catch(console.error);
+
+  // Redundant LCD save removed
 }
 

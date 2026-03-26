@@ -56,13 +56,8 @@ export function Shop() {
 
   const handleAddToCart = (e: React.MouseEvent, product: any) => {
     e.preventDefault();
+    e.stopPropagation();
     const qty = getQty(product.id);
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (!isLoggedIn) {
-      alert("Please log in to add items to your cart.");
-      window.location.href = "/login";
-      return;
-    }
     const userType = localStorage.getItem("userType") || "retail"; // default guests to retail
     
     if (userType === "wholesale") {
@@ -78,30 +73,36 @@ export function Shop() {
       return;
     }
 
-    const currentRetailCart = JSON.parse(localStorage.getItem('retailCart') || '[]');
-    const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
-    if (existingItem) {
-      existingItem.quantity += qty;
-    } else {
-      currentRetailCart.push({
-        id: product.id,
-        name: product.name,
-        brand: product.brand,
-        price: product.price,
-        quantity: qty,
-        image: product.imageSrc,
-        optionName: product.optionName || "Color / Option",
-        optionValue: selectedOption || undefined
-      });
-    }
-    localStorage.setItem('retailCart', JSON.stringify(currentRetailCart));
-    alert(`Added ${qty}x ${product.name} to Cart!`);
+    try {
+      const currentRetailCart = JSON.parse(localStorage.getItem('retailCart') || '[]');
+      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
+      if (existingItem) {
+        existingItem.quantity += qty;
+      } else {
+        currentRetailCart.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          price: product.price,
+          quantity: qty,
+          image: product.imageSrc,
+          optionName: product.optionName || "Color / Option",
+          optionValue: selectedOption || undefined
+        });
+      }
+      localStorage.setItem('retailCart', JSON.stringify(currentRetailCart));
+      
+      window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: `Added ${qty}x ${product.name} to Cart!` } }));
 
-    // Reset quantity after adding
-    setQuantities(prev => ({ ...prev, [product.id]: 1 }));
-    setSelectedOptions(prev => { const next = {...prev}; delete next[product.id]; return next; });
-    // Dispatch an event so Navbar can update its badge immediately
-    window.dispatchEvent(new Event("storage"));
+      // Reset quantity after adding
+      setQuantities(prev => ({ ...prev, [product.id]: 1 }));
+      setSelectedOptions(prev => { const next = {...prev}; delete next[product.id]; return next; });
+      // Dispatch an event so Navbar can update its badge immediately
+      window.dispatchEvent(new Event("storage"));
+    } catch (err) {
+      console.error("Retail cart update failed:", err);
+      alert("Failed to update cart. Please check your browser storage settings.");
+    }
   };
 
   const filteredProducts = allShopProducts.filter(p => {
@@ -288,32 +289,35 @@ export function Shop() {
                       </Button>
                     </div>
                   
-                    <Link 
-                      to={`/shop?brand=${encodeURIComponent(product.brand.toLowerCase())}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setActiveBrand(product.brand);
-                        searchParams.set("brand", product.brand.toLowerCase());
-                        setSearchParams(searchParams);
-                      }}
-                      className="text-xs text-gray-400 mb-1 hover:text-primary-600 transition-colors inline-block"
-                    >
-                      {product.brand}
-                    </Link>
                     <Link to={`/product/${product.id}`} className="hover:text-primary-800 transition-colors group-hover:underline">
                       <h3 className="text-base font-bold text-gray-900 mb-1 leading-tight">
+                        <span 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setActiveBrand(product.brand);
+                            searchParams.set("brand", product.brand.toLowerCase());
+                            setSearchParams(searchParams);
+                          }}
+                          className="text-gray-400 font-medium hover:text-primary-600 transition-colors mr-1 cursor-pointer"
+                        >
+                          {product.brand}
+                        </span>
                         {product.name}
                       </h3>
                     </Link>
                     
-                    <div className="flex items-center gap-1.5 mt-1 mb-3 text-xs text-gray-500">
+                    <Link 
+                      to={`/product/${product.id}#reviews`}
+                      className="flex items-center gap-1.5 mt-1 mb-3 text-xs text-gray-500 hover:text-primary-700 transition-colors"
+                    >
                       <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
                       <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
                       <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
                       <span className="ml-auto text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded">
                         {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ sold
                       </span>
-                    </div>
+                    </Link>
                     
                     {((product.options && product.options.length > 0) || (product.colors && product.colors.length > 0)) && (
                       <div className="mb-4">

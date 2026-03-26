@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { ShoppingBag, ArrowLeft, Star, Truck, ShieldCheck } from "lucide-react";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
+import { ShoppingBag, ArrowLeft, Star, Truck, ShieldCheck, Plus, Minus } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { Badge } from "../components/ui/Badge";
@@ -11,13 +11,27 @@ export function ProductDetail() {
   const { t } = useLanguage();
   const { formatPrice } = useCurrency();
   const { id } = useParams<{ id: string }>();
+  const { hash } = useLocation();
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType") || "retail";
   
   const product = getLiveInventory().find((p) => p.id === id || p.id === `b2b-${p.brand.toLowerCase()}-${id}`);
   
-  const [quantity, setQuantity] = useState(1);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [quantity, setQuantity] = React.useState(1);
+  const [selectedOption, setSelectedOption] = React.useState("");
+
+  React.useEffect(() => {
+    if (hash === "#reviews") {
+      setTimeout(() => {
+        const element = document.getElementById("reviews");
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
+  }, [hash, product]);
 
   if (!product) {
     return (
@@ -44,61 +58,59 @@ export function ProductDetail() {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (!isLoggedIn) {
-      alert("Please log in to add items to your cart.");
-      navigate("/login");
-      return;
-    }
-    
     const hasOptions = (product.options && product.options.length > 0) || (product.colors && product.colors.length > 0);
     if (hasOptions && !selectedOption) {
       alert(`Please select an option before adding to cart.`);
       return;
     }
 
-    if (isB2B) {
-      const currentB2BCart = JSON.parse(localStorage.getItem("b2bCart") || "[]");
-      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
-      if (existingItem) {
-        existingItem.boxQty += quantity;
+    try {
+      if (isB2B) {
+        const currentB2BCart = JSON.parse(localStorage.getItem("b2bCart") || "[]");
+        const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
+        if (existingItem) {
+          existingItem.boxQty += quantity;
+        } else {
+          currentB2BCart.push({
+            id: product.id,
+            name: product.name,
+            brand: product.brand,
+            price: product.wholesalePrice,
+            inboxQty: product.moq,
+            boxQty: quantity,
+            image: product.imageSrc,
+            optionName: product.optionName || "Color / Option",
+            optionValue: selectedOption || undefined
+          });
+        }
+        localStorage.setItem("b2bCart", JSON.stringify(currentB2BCart));
+        window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: `Added ${quantity} boxes of ${product.name} to Wholesale Quote!` } }));
       } else {
-        currentB2BCart.push({
-          id: product.id,
-          name: product.name,
-          brand: product.brand,
-          price: product.wholesalePrice,
-          inboxQty: product.moq,
-          boxQty: quantity,
-          image: product.imageSrc,
-          optionName: product.optionName || "Color / Option",
-          optionValue: selectedOption || undefined
-        });
+        const currentRetailCart = JSON.parse(localStorage.getItem("retailCart") || "[]");
+        const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
+        if (existingItem) {
+          existingItem.quantity += quantity;
+        } else {
+          currentRetailCart.push({
+            id: product.id,
+            name: product.name,
+            brand: product.brand,
+            price: product.price,
+            quantity: quantity,
+            image: product.imageSrc,
+            optionName: product.optionName || "Color / Option",
+            optionValue: selectedOption || undefined
+          });
+        }
+        localStorage.setItem("retailCart", JSON.stringify(currentRetailCart));
+        window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: `Added ${quantity}x ${product.name} to Cart!` } }));
       }
-      localStorage.setItem("b2bCart", JSON.stringify(currentB2BCart));
-      alert(`Added ${quantity} boxes of ${product.name} to Wholesale Quote!`);
-    } else {
-      const currentRetailCart = JSON.parse(localStorage.getItem("retailCart") || "[]");
-      const existingItem = currentRetailCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
-      if (existingItem) {
-        existingItem.quantity += quantity;
-      } else {
-        currentRetailCart.push({
-          id: product.id,
-          name: product.name,
-          brand: product.brand,
-          price: product.price,
-          quantity: quantity,
-          image: product.imageSrc,
-          optionName: product.optionName || "Color / Option",
-          optionValue: selectedOption || undefined
-        });
-      }
-      localStorage.setItem("retailCart", JSON.stringify(currentRetailCart));
-      alert(`Added ${quantity}x ${product.name} to Cart!`);
+      
+      window.dispatchEvent(new Event("storage"));
+    } catch (err) {
+      console.error("Cart update failed:", err);
+      alert("Failed to update cart. Please check if your browser allows cookies/local storage.");
     }
-    
-    window.dispatchEvent(new Event("storage"));
   };
 
   return (
@@ -183,7 +195,7 @@ export function ProductDetail() {
                   </div>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="text-xs text-gray-500">{t('moq')}: {product.moq} {t('boxes')}</span>
-                    <Link to="/wholesale/brands" className="text-xs text-primary-600 hover:text-primary-800 font-medium underline">
+                    <Link to={`/wholesale/brands/${encodeURIComponent(product.brand)}?search=${encodeURIComponent(product.name)}`} className="text-xs text-primary-600 hover:text-primary-800 font-medium underline">
                       {t('apply_b2b')} →
                     </Link>
                   </div>
@@ -226,17 +238,17 @@ export function ProductDetail() {
                     <button 
                       type="button" 
                       className="px-4 h-full text-gray-600 hover:bg-gray-100 transition-colors rounded-l-md flex items-center justify-center font-bold" 
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      onClick={(e) => { e.preventDefault(); setQuantity(Math.max(1, quantity - 1)); }}
                     >
-                      -
+                      <Minus className="w-4 h-4" />
                     </button>
                     <span className="px-4 font-bold text-gray-900 border-x border-gray-300 w-full text-center">{quantity}</span>
                     <button 
                       type="button" 
                       className="px-4 h-full text-gray-600 hover:bg-gray-100 transition-colors rounded-r-md flex items-center justify-center font-bold" 
-                      onClick={() => setQuantity(quantity + 1)}
+                      onClick={(e) => { e.preventDefault(); setQuantity(quantity + 1); }}
                     >
-                      +
+                      <Plus className="w-4 h-4" />
                     </button>
                   </div>
                 </div>

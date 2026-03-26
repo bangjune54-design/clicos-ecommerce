@@ -42,6 +42,40 @@ const mockAccounts = [
   { id: "USR-003", name: "Admin Setup", email: "info@clicos.co.kr", type: "Admin", joined: "Dec 01, 2025", status: "Active" },
 ];
 
+const compressImageBase64 = (base64Str: string, maxWidth = 400, maxHeight = 400, quality = 0.4): Promise<string> => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = base64Str;
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      let width = img.width;
+      let height = img.height;
+
+      if (width > height) {
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width = Math.round((width * maxHeight) / height);
+          height = maxHeight;
+        }
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+      }
+      resolve(canvas.toDataURL("image/jpeg", quality));
+    };
+    img.onerror = () => resolve(base64Str);
+  });
+};
+
 export function AdminDashboard() {
   const { formatPrice } = useCurrency();
   const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory" | "brands" | "settings">("orders");
@@ -66,11 +100,10 @@ export function AdminDashboard() {
   const [editingBrandName, setEditingBrandName] = useState<string | null>(null);
   const [editBrandPayload, setEditBrandPayload] = useState<any>({});
   const [isDraggingBrand, setIsDraggingBrand] = useState(false);
+  const [isOptimizing, setIsOptimizing] = useState(false);
   
   // Combine some real data strings for the inventory tab
-  const [inventory, setInventory] = useState<any[]>(() => {
-    return getLiveInventory();
-  });
+  const [inventory, setInventory] = useState<any[]>(() => getLiveInventory());
 
   // Security check mapping
   useEffect(() => {
@@ -124,7 +157,9 @@ export function AdminDashboard() {
       setInventory(updated);
       setEditingProductId(null);
     } catch (e) { 
-      alert("CRITICAL: Storage Full. Your browser is out of space for this site. To fix this, try: 1. Reducing image sizes of other products. 2. Deleting unused products. 3. Resetting to default (Last Resort)."); 
+      // With IndexedDB, we shouldn't hit the 5MB limit anymore.
+      console.error("Save error:", e);
+      alert("An error occurred while saving. Please try again or check your browser storage settings.");
     }
   };
 
@@ -149,7 +184,11 @@ export function AdminDashboard() {
   const handleResetInventory = () => {
     if (window.confirm("Are you sure you want to reset the inventory to the default catalog? All custom edits and added products will be lost.")) {
       localStorage.removeItem("globalInventory");
-      setInventory(getLiveInventory());
+      // Note: In a real app we'd also clear the IndexedDB key, 
+      // but saveLiveInventory with the initial state will overwrite it anyway.
+      const initial = getLiveInventory(); 
+      setInventory(initial);
+      saveLiveInventory(initial);
       alert("Inventory has been fully restored to default.");
     }
   };
@@ -165,17 +204,56 @@ export function AdminDashboard() {
   };
 
   const handleOptimizeStorage = () => {
-    if (window.confirm("This will compress all existing product images to save space. Some image quality might be slightly reduced. Proceed?")) {
-      const updatedInventory = inventory.map(p => {
-        if (p.imageSrc && p.imageSrc.startsWith("data:image")) {
-          // If we had a compression utility, we'd use it here. 
-          // Since we are in the browser, we can't easily re-compress without a canvas link for each.
-          // But we can at least alert that we've tried or just provide the tool for FUTURE saves.
+    if (window.confirm("This will compress all existing product and brand images to save space. Some image quality might be slightly reduced. Proceed?")) {
+      setIsOptimizing(true);
+      
+      setTimeout(async () => {
+        try {
+          let inventoryChanged = false;
+          const updatedInventory = await Promise.all(inventory.map(async (p) => {
+            if (p.imageSrc && p.imageSrc.startsWith("data:image")) {
+              const compressed = await compressImageBase64(p.imageSrc);
+              if (compressed !== p.imageSrc) {
+                inventoryChanged = true;
+                return { ...p, imageSrc: compressed };
+              }
+            }
+            return p;
+          }));
+
+          let brandsChanged = false;
+          const updatedBrands = await Promise.all(brands.map(async (b) => {
+            if (b.image && b.image.startsWith("data:image")) {
+              const compressed = await compressImageBase64(b.image);
+              if (compressed !== b.image) {
+                brandsChanged = true;
+                return { ...b, image: compressed };
+              }
+            }
+            return b;
+          }));
+
+          if (inventoryChanged) {
+            setInventory(updatedInventory);
+            saveLiveInventory(updatedInventory);
+          }
+          if (brandsChanged) {
+            setBrands(updatedBrands);
+            saveLiveBrands(updatedBrands);
+          }
+
+          setIsOptimizing(false);
+          setTimeout(() => {
+            alert("Storage optimization complete! All existing images have been compressed.");
+          }, 10);
+        } catch (error) {
+          console.error("Optimization error:", error);
+          setIsOptimizing(false);
+          setTimeout(() => {
+            alert("An error occurred during optimization. Please try again.");
+          }, 10);
         }
-        return p;
-      });
-      // For now, the best "optimization" is making sure NEW saves are highly compressed.
-      alert("Storage optimization engaged for future uploads and edits. Compression settings have been tightened (400x400, 0.4 quality).");
+      }, 100);
     }
   };
 
@@ -623,8 +701,8 @@ export function AdminDashboard() {
                   </div>
 
                   <div className="flex items-center gap-3 w-full sm:w-auto shrink-0 justify-end">
-                    <Button onClick={handleOptimizeStorage} variant="outline" className="flex items-center gap-2 text-primary-600 border-primary-100 hover:bg-primary-50">
-                      Optimize Storage
+                    <Button onClick={handleOptimizeStorage} disabled={isOptimizing} variant="outline" className="flex items-center gap-2 text-primary-600 border-primary-100 hover:bg-primary-50 disabled:opacity-50">
+                      {isOptimizing ? "Optimizing..." : "Optimize Storage"}
                     </Button>
                     <Button onClick={handleResetInventory} variant="outline" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
                       <RotateCcw className="w-4 h-4" /> Reset Default

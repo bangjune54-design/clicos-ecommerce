@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useSearchParams } from "react-router-dom";
 import { getLiveBrands } from "../utils/inventory";
 import { fweeProducts } from "../data/fweeProducts";
 import { torridenProducts } from "../data/torridenProducts";
@@ -39,7 +39,8 @@ export function WholesaleBrandDetail() {
   const b2bBrands = getLiveBrands();
   const { formatPrice } = useCurrency();
   const { brandId } = useParams();
-  const [brandSearchQuery, setBrandSearchQuery] = useState("");
+  const [searchParams] = useSearchParams();
+  const [brandSearchQuery, setBrandSearchQuery] = useState(searchParams.get("search") || "");
   
   // Track quantities independently for each product card
   const [quantities, setQuantities] = useState<Record<string, number>>({});
@@ -69,31 +70,36 @@ export function WholesaleBrandDetail() {
       return;
     }
     
-    const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
-    const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
-    if (existingItem) {
-      existingItem.boxQty += qty;
-    } else {
-      currentB2BCart.push({
-        id: product.id,
-        name: product.name,
-        brand: product.brand,
-        price: product.wholesalePrice,
-        inboxQty: product.moq,
-        boxQty: qty,
-        image: product.imageSrc,
-        optionName: product.optionName || "Color / Option",
-        optionValue: selectedOption || undefined
-      });
+    try {
+      const currentB2BCart = JSON.parse(localStorage.getItem('b2bCart') || '[]');
+      const existingItem = currentB2BCart.find((item: any) => item.id === product.id && (item.optionValue || item.color || "") === (selectedOption || ""));
+      if (existingItem) {
+        existingItem.boxQty += qty;
+      } else {
+        currentB2BCart.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          price: product.wholesalePrice,
+          inboxQty: product.moq,
+          boxQty: qty,
+          image: product.imageSrc,
+          optionName: product.optionName || "Color / Option",
+          optionValue: selectedOption || undefined
+        });
+      }
+      localStorage.setItem('b2bCart', JSON.stringify(currentB2BCart));
+      window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: `Added ${qty} boxes of ${product.name} to Wholesale Quote!` } }));
+      
+      // Reset quantity after adding
+      setQuantities(prev => ({ ...prev, [product.id]: 1 }));
+      setSelectedOptions(prev => { const next = {...prev}; delete next[product.id]; return next; });
+      // Dispatch an event so Navbar can update its badge immediately
+      window.dispatchEvent(new Event("storage"));
+    } catch (err) {
+      console.error("Wholesale cart update failed:", err);
+      alert("Failed to update cart. Please check your browser storage settings.");
     }
-    localStorage.setItem('b2bCart', JSON.stringify(currentB2BCart));
-    alert(`Added ${qty} boxes of ${product.name} to Wholesale Quote!`);
-    
-    // Reset quantity after adding
-    setQuantities(prev => ({ ...prev, [product.id]: 1 }));
-    setSelectedOptions(prev => { const next = {...prev}; delete next[product.id]; return next; });
-    // Dispatch an event so Navbar can update its badge immediately
-    window.dispatchEvent(new Event("storage"));
   };
   
   const brandName = brandId ? decodeURIComponent(brandId) : "";
@@ -196,26 +202,28 @@ export function WholesaleBrandDetail() {
                   </Button>
                 </div>
               
-                <Link 
-                  to={`/wholesale/brands/${encodeURIComponent(brand.name)}`}
-                  className="text-xs text-gray-400 mb-1 hover:text-primary-600 transition-colors inline-block"
-                >
-                  {brand.name}
-                </Link>
                 <Link to={`/product/${product.id}`} className="hover:text-primary-800 transition-colors group-hover:underline">
                   <h3 className="text-base font-bold text-gray-900 mb-1 leading-tight">
+                    <span 
+                      className="text-gray-400 font-medium mr-1"
+                    >
+                      {brand.name}
+                    </span>
                     {product.name}
                   </h3>
                 </Link>
 
-                <div className="flex items-center gap-1.5 mt-1 mb-3 text-xs text-gray-500">
+                <Link 
+                  to={`/product/${product.id}#reviews`}
+                  className="flex items-center gap-1.5 mt-1 mb-3 text-xs text-gray-500 hover:text-primary-700 transition-colors"
+                >
                   <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
                   <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
                   <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
                   <span className="ml-auto text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded">
                     {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ sold
                   </span>
-                </div>
+                </Link>
 
                     {((product.options && product.options.length > 0) || (product.colors && product.colors.length > 0)) && (
                       <div className="mb-4">
