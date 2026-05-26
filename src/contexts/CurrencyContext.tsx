@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 // Mock Exchange Rates against USD base
 const EXCHANGE_RATES: Record<string, number> = {
@@ -10,7 +10,7 @@ const EXCHANGE_RATES: Record<string, number> = {
   BRL: 5.06,
 };
 
-const CURRENCY_SYMBOLS: Record<string, string> = {
+export const CURRENCY_SYMBOLS: Record<string, string> = {
   USD: "$",
   KRW: "₩",
   EUR: "€",
@@ -22,9 +22,9 @@ const CURRENCY_SYMBOLS: Record<string, string> = {
 interface CurrencyContextType {
   currency: string;
   setCurrency: (currency: string) => void;
-  getLocalPrice: (basePriceUSD: number, overrides?: Record<string, number>) => number;
+  getLocalPrice: (basePriceUSD: number, overrides?: Record<string, number | null | undefined>) => number;
   formatLocalPrice: (localAmount: number) => string;
-  formatPrice: (priceUSD: number, overrides?: Record<string, number>) => string;
+  formatPrice: (priceUSD: number, overrides?: Record<string, number | null | undefined>) => string;
   currencies: string[];
 }
 
@@ -36,12 +36,28 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     return localStorage.getItem("preferredCurrency") || "USD";
   });
 
-  const setCurrency = (newCurrency: string) => {
-    localStorage.setItem("preferredCurrency", newCurrency);
-    setCurrencyState(newCurrency);
+  // Effect to save currency to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("preferredCurrency", currency);
+  }, [currency]);
+
+  // Sync across tabs
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "preferredCurrency" && e.newValue && e.newValue !== currency) {
+        setCurrencyState(e.newValue);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, [currency]);
+
+  const setCurrency = (c: string) => {
+    setCurrencyState(c);
   };
 
-  const getLocalPrice = (basePriceUSD: number, overrides?: Record<string, number>) => {
+  const getLocalPrice = (basePriceUSD: number, overrides?: Record<string, number | null | undefined>) => {
     if (overrides && overrides[currency] !== undefined && overrides[currency] !== null) {
       return Number(overrides[currency]);
     }
@@ -57,7 +73,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     return `${symbol} ${localAmount.toFixed(2)}`;
   };
 
-  const formatPrice = (priceUSD: number, overrides?: Record<string, number>) => {
+  const formatPrice = (priceUSD: number, overrides?: Record<string, number | null | undefined>) => {
     const localAmount = getLocalPrice(priceUSD, overrides);
     return formatLocalPrice(localAmount);
   };

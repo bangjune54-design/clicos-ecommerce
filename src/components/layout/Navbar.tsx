@@ -4,6 +4,7 @@ import { Menu, X, ShoppingBag, Globe, Search, User } from "lucide-react";
 import { Button } from "../ui/Button";
 
 import { getLiveInventory, getLiveBrands } from "../../utils/inventory";
+import { useCurrency } from "../../contexts/CurrencyContext";
 import { useLanguage } from "../../contexts/LanguageContext";
 
 interface NavItem {
@@ -54,8 +55,8 @@ const languages = [
 
 export function Navbar() {
   const { language, setLanguage, t } = useLanguage();
+  const { currency, setCurrency } = useCurrency();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [currency, setCurrency] = useState("USD");
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("isLoggedIn") === "true");
@@ -83,22 +84,23 @@ export function Navbar() {
     };
     document.addEventListener("mousedown", handleClickOutside);
     
-    // Add cart syncing logic
-    const updateCartCount = () => {
+    // Add cart and auth syncing logic
+    const syncState = () => {
       const userType = localStorage.getItem('userType') || 'retail';
       const retail = JSON.parse(localStorage.getItem('retailCart') || '[]');
       const b2b = JSON.parse(localStorage.getItem('b2bCart') || '[]');
       
       setCartCount(userType === 'wholesale' ? b2b.length : retail.length);
+      setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
     };
-    updateCartCount();
-    window.addEventListener("storage", updateCartCount);
-
+    syncState();
+    window.addEventListener("storage", syncState);
+    
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      window.removeEventListener("storage", updateCartCount);
+      window.removeEventListener("storage", syncState);
     };
-  }, []);
+  }, [location.pathname]);
 
   // Filter recommendations
   // Filter recommendations
@@ -381,7 +383,10 @@ export function Navbar() {
           </div>
 
           <div className="relative group/user py-6 -my-6 flex items-center">
-            <button className="text-gray-700 hover:text-primary-800 transition-colors flex items-center gap-1.5 focus:outline-none">
+            <button 
+              className="text-gray-700 hover:text-primary-800 transition-colors flex items-center gap-1.5 focus:outline-none"
+              onClick={() => navigate(isLoggedIn ? "/my-page" : "/login")}
+            >
               <span className="sr-only">Account</span>
               <User className="h-5 w-5" />
               {isLoggedIn && <span className="hidden sm:inline-block text-sm font-semibold">{userName}</span>}

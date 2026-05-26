@@ -3,8 +3,9 @@ import { Users, ShoppingBag, PackageSearch, Trash2, Edit, Plus, CheckCircle2, Se
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { Input } from "../components/ui/Input";
-import { useCurrency } from "../contexts/CurrencyContext";
+import { useCurrency, CURRENCY_SYMBOLS } from "../contexts/CurrencyContext";
 import { getLiveInventory, saveLiveInventory, getLiveBrands, saveLiveBrands } from "../utils/inventory";
+import { getLiveBanners, saveLiveBanners, getLiveTickers, saveLiveTickers, Banner } from "../utils/homepage";
 
 // Shared initial mock state
 const initialMockOrders = [
@@ -77,8 +78,8 @@ const compressImageBase64 = (base64Str: string, maxWidth = 400, maxHeight = 400,
 };
 
 export function AdminDashboard() {
-  const { formatPrice } = useCurrency();
-  const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory" | "brands" | "settings">("orders");
+  const { formatPrice, currency } = useCurrency();
+  const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory" | "brands" | "homepage" | "settings">("orders");
   const [orders, setOrders] = useState(initialMockOrders);
   const [accounts, setAccounts] = useState<any[]>(() => {
     const saved = localStorage.getItem("allAccounts");
@@ -104,6 +105,14 @@ export function AdminDashboard() {
   
   // Combine some real data strings for the inventory tab
   const [inventory, setInventory] = useState<any[]>(() => getLiveInventory());
+
+  // Homepage custom states
+  const [banners, setBanners] = useState<Banner[]>(() => getLiveBanners());
+  const [tickers, setTickers] = useState<string[]>(() => getLiveTickers());
+  const [editingBannerId, setEditingBannerId] = useState<string | null>(null);
+  const [editBannerPayload, setEditBannerPayload] = useState<any>({});
+  const [isDraggingBanner, setIsDraggingBanner] = useState(false);
+  const [newTickerMessage, setNewTickerMessage] = useState("");
 
   // Security check mapping
   useEffect(() => {
@@ -192,6 +201,62 @@ export function AdminDashboard() {
       alert("Inventory has been fully restored to default.");
     }
   };
+
+  // Banner slide controls
+  const handleAddNewBanner = () => {
+    setEditingBannerId("new");
+    setEditBannerPayload({
+      id: `banner-${Date.now()}`,
+      title: "New Banner Slide Title",
+      subtitle: "Click to edit this subtitle message.",
+      image: "",
+      link: "#contact"
+    });
+  };
+
+  const handleSaveBanner = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    let updated: Banner[];
+    if (editingBannerId === "new") {
+      updated = [...banners, editBannerPayload];
+    } else {
+      updated = banners.map(b => b.id === editingBannerId ? { ...b, ...editBannerPayload } : b);
+    }
+    saveLiveBanners(updated);
+    setBanners(updated);
+    setEditingBannerId(null);
+  };
+
+  const handleDeleteBanner = (bannerId: string) => {
+    if (window.confirm("Are you sure you want to delete this banner slide?")) {
+      const updated = banners.filter(b => b.id !== bannerId);
+      saveLiveBanners(updated);
+      setBanners(updated);
+    }
+  };
+
+  // Ticker message controls
+  const handleAppendTickerItem = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTickerMessage.trim()) return;
+    const updated = [...tickers, newTickerMessage.trim()];
+    saveLiveTickers(updated);
+    setTickers(updated);
+    setNewTickerMessage("");
+  };
+
+  const handleDeleteTickerItem = (idx: number) => {
+    const updated = tickers.filter((_, i) => i !== idx);
+    saveLiveTickers(updated);
+    setTickers(updated);
+  };
+
+  const handleUpdateTickerItem = (idx: number, newVal: string) => {
+    const updated = tickers.map((t, i) => i === idx ? newVal : t);
+    saveLiveTickers(updated);
+    setTickers(updated);
+  };
+
 
   const [bankSettings, setBankSettings] = useState(() => {
     return JSON.parse(localStorage.getItem("adminBankSettings") || '{"bankName":"","accountName":"","accountNumber":"","routingNumber":"","payoneerEmail":""}');
@@ -309,6 +374,14 @@ export function AdminDashboard() {
               <Store className="w-4 h-4" /> Brands
             </button>
             <button
+              onClick={() => setActiveTab("homepage")}
+              className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
+                activeTab === "homepage" ? "border-primary-600 text-primary-800" : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              <Store className="w-4 h-4" /> Homepage Content
+            </button>
+            <button
               onClick={() => setActiveTab("settings")}
               className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
                 activeTab === "settings" ? "border-primary-600 text-primary-800" : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -346,7 +419,7 @@ export function AdminDashboard() {
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 font-semibold">
                       {editingOrderId === order.id ? (
                         <div className="flex items-center gap-2">
-                          <span className="text-gray-500">$</span>
+                          <span className="text-gray-500">{CURRENCY_SYMBOLS[currency]}</span>
                           <input 
                             type="number" 
                             className="w-24 px-2 py-1 text-sm border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
@@ -622,7 +695,7 @@ export function AdminDashboard() {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold mb-2 text-gray-900">Retail Price ($)</label>
+                        <label className="block text-sm font-semibold mb-2 text-gray-900">Retail Price ({CURRENCY_SYMBOLS[currency]})</label>
                         <Input 
                           type="number" step="0.01"
                           value={editProductPayload.price || 0} 
@@ -630,7 +703,7 @@ export function AdminDashboard() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold mb-2 text-primary-800">B2B Price ($)</label>
+                        <label className="block text-sm font-semibold mb-2 text-primary-800">B2B Price ({CURRENCY_SYMBOLS[currency]})</label>
                         <Input 
                           type="number" step="0.01"
                           value={editProductPayload.wholesalePrice || 0} 
@@ -792,10 +865,10 @@ export function AdminDashboard() {
                             {item.brand || "CLICOS"}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}>
-                            {formatPrice(item.price)}
+                            {formatPrice(item.price, item.currencyPrices)}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-sm text-primary-800 font-bold cursor-pointer hover:bg-gray-100 transition-colors" onClick={() => { setEditingProductId(item.id); setEditProductPayload(item); }}>
-                            {formatPrice(item.wholesalePrice)}
+                            {formatPrice(item.wholesalePrice, item.currencyWholesalePrices)}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                             <div className="flex items-center justify-end gap-3">
@@ -975,6 +1048,221 @@ export function AdminDashboard() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Tab Content: Homepage Management */}
+        {activeTab === "homepage" && (
+          <div className="space-y-8 animate-fade-in">
+            {editingBannerId ? (
+              <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-8">
+                <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
+                  <h3 className="text-2xl font-bold font-serif text-gray-900">
+                    {editingBannerId === "new" ? "Create Banner Slide" : "Edit Banner Slide"}
+                  </h3>
+                  <div className="flex gap-3 relative z-50">
+                    <Button type="button" variant="outline" onClick={() => setEditingBannerId(null)}>Cancel</Button>
+                    <Button type="button" onClick={handleSaveBanner}>Save Slide</Button>
+                  </div>
+                </div>
+
+                <form className="grid grid-cols-1 md:grid-cols-2 gap-8" onSubmit={handleSaveBanner}>
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Slide Background Image</label>
+                      <div 
+                        className={`relative w-full h-48 rounded-lg border-2 border-dashed transition-colors flex flex-col items-center justify-center mb-3 group overflow-hidden ${
+                          isDraggingBanner ? 'border-primary-500 bg-primary-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
+                        }`}
+                        onDragOver={(e) => { e.preventDefault(); setIsDraggingBanner(true); }}
+                        onDragLeave={(e) => { e.preventDefault(); setIsDraggingBanner(false); }}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          setIsDraggingBanner(false);
+                          if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                            const file = e.dataTransfer.files[0];
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                              compressImageBase64(event.target?.result as string, 1200, 800, 0.4).then((compressed) => {
+                                setEditBannerPayload({ ...editBannerPayload, image: compressed });
+                              });
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      >
+                        {editBannerPayload.image ? (
+                          <>
+                            <img src={editBannerPayload.image} alt="Preview" className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
+                              <button 
+                                type="button"
+                                onClick={() => setEditBannerPayload({ ...editBannerPayload, image: "" })}
+                                className="bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg"
+                              >
+                                <X className="w-6 h-6" />
+                              </button>
+                              <span className="text-white text-sm font-medium mt-2">Click to Remove</span>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="text-center p-4">
+                            <UploadCloud className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                            <p className="text-sm text-gray-500 font-medium">Drag & drop a banner image here</p>
+                            <p className="text-xs text-gray-400 mt-1">or provide a URL below</p>
+                          </div>
+                        )}
+                      </div>
+                      <input 
+                        type="file" 
+                        accept="image/*"
+                        className="hidden" 
+                        id="banner-file-upload" 
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            const file = e.target.files[0];
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                              compressImageBase64(event.target?.result as string, 1200, 800, 0.4).then((compressed) => {
+                                setEditBannerPayload({ ...editBannerPayload, image: compressed });
+                              });
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                      <div className="flex gap-2">
+                        <Button type="button" variant="outline" className="flex-1 text-xs" onClick={() => document.getElementById("banner-file-upload")?.click()}>
+                          Select Image File
+                        </Button>
+                        <Input 
+                          value={editBannerPayload.image || ""} 
+                          onChange={e => setEditBannerPayload({...editBannerPayload, image: e.target.value})} 
+                          placeholder="Or paste external image URL"
+                          className="flex-grow h-9 text-xs"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Slide Main Headline</label>
+                      <Input 
+                        value={editBannerPayload.title || ""} 
+                        onChange={e => setEditBannerPayload({...editBannerPayload, title: e.target.value})} 
+                        placeholder="e.g. Exporting Premium Cosmetics"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Slide Subtitle / Description</label>
+                      <textarea 
+                        className="w-full rounded-md border-0 py-2.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 resize-none h-24"
+                        value={editBannerPayload.subtitle || ""} 
+                        onChange={e => setEditBannerPayload({...editBannerPayload, subtitle: e.target.value})}
+                        placeholder="Curated selection directly from authorized labs in Seoul..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">CTA Link Target</label>
+                      <Input 
+                        value={editBannerPayload.link || ""} 
+                        onChange={e => setEditBannerPayload({...editBannerPayload, link: e.target.value})} 
+                        placeholder="e.g. #contact (to scroll) or /shop"
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Banners List (7 Columns) */}
+                <div className="lg:col-span-7 bg-white p-6 rounded-xl border border-gray-100 shadow-sm space-y-6">
+                  <div className="flex justify-between items-center pb-4 border-b border-gray-100">
+                    <div>
+                      <h3 className="text-xl font-bold font-serif text-gray-900">Auto-Sliding Banners</h3>
+                      <p className="text-xs text-gray-400 mt-0.5">Manage slides rotated at the top of the homepage.</p>
+                    </div>
+                    <Button onClick={handleAddNewBanner} className="flex items-center gap-2 text-xs py-2 shadow-sm">
+                      <Plus className="w-3.5 h-3.5" /> Add Slide
+                    </Button>
+                  </div>
+
+                  <div className="space-y-4">
+                    {banners.map((b, idx) => (
+                      <div key={b.id} className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50/50 rounded-2xl border border-gray-100 items-center justify-between">
+                        <div className="flex items-center gap-4 w-full sm:w-[70%]">
+                          <div className="w-16 h-12 flex-shrink-0 bg-gradient-to-tr from-primary-950 to-primary-900 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center text-white/50">
+                            {b.image ? (
+                              <img src={b.image} alt="" className="w-full h-full object-cover" />
+                            ) : (
+                              <Store className="w-5 h-5 text-accent" />
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <h4 className="text-sm font-bold text-gray-900 truncate leading-snug">{b.title}</h4>
+                            <p className="text-xs text-gray-400 truncate mt-0.5">{b.subtitle}</p>
+                            <span className="text-[10px] bg-primary-100 text-primary-800 font-bold px-1.5 py-0.5 rounded mt-1 inline-block uppercase tracking-wider">{b.link}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-2 shrink-0">
+                          <Button size="sm" variant="outline" className="flex items-center gap-1" onClick={() => { setEditingBannerId(b.id); setEditBannerPayload(b); }}>
+                            <Edit className="w-3.5 h-3.5" /> Edit
+                          </Button>
+                          <Button size="sm" variant="ghost" className="flex items-center gap-1 text-red-500 hover:text-red-700" onClick={() => handleDeleteBanner(b.id)}>
+                            <Trash2 className="w-3.5 h-3.5" /> Delete
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Ticker List (5 Columns) */}
+                <div className="lg:col-span-5 bg-white p-6 rounded-xl border border-gray-100 shadow-sm space-y-6 flex flex-col justify-between">
+                  <div>
+                    <div className="pb-4 border-b border-gray-100 mb-6">
+                      <h3 className="text-xl font-bold font-serif text-gray-900">Marquee Ticker</h3>
+                      <p className="text-xs text-gray-400 mt-0.5">Edit scrolling messages below the banners.</p>
+                    </div>
+
+                    <div className="space-y-4 max-h-[350px] overflow-y-auto pr-1">
+                      {tickers.map((t, idx) => (
+                        <div key={idx} className="flex gap-2 items-center">
+                          <input 
+                            type="text" 
+                            className="flex-grow rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-900 focus:border-primary-500 focus:outline-none"
+                            value={t}
+                            onChange={(e) => handleUpdateTickerItem(idx, e.target.value)}
+                          />
+                          <button 
+                            type="button" 
+                            className="w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 flex items-center justify-center transition-colors shrink-0"
+                            onClick={() => handleDeleteTickerItem(idx)}
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <form onSubmit={handleAppendTickerItem} className="pt-6 border-t border-gray-100 flex gap-2">
+                    <input 
+                      type="text" 
+                      placeholder="Add new scrolling announcement..."
+                      className="flex-grow rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs text-gray-900 focus:border-primary-500 focus:outline-none"
+                      value={newTickerMessage}
+                      onChange={(e) => setNewTickerMessage(e.target.value)}
+                    />
+                    <Button type="submit" className="text-xs px-4 py-2 shrink-0 shadow-sm">
+                      <Plus className="w-4 h-4" /> Add
+                    </Button>
+                  </form>
+                </div>
               </div>
             )}
           </div>

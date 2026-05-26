@@ -267,7 +267,7 @@ export function ProductDetail() {
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-200 pt-8">
               <div className="flex gap-3 text-sm text-gray-600">
                 <Truck className="w-5 h-5 flex-shrink-0 text-primary-600" />
-                <span>{t('free_shipping')} {isB2B ? '$1,500' : '$100'}.</span>
+                <span>{t('free_shipping')} {isB2B ? formatPrice(1500) : formatPrice(100)}.</span>
               </div>
               <div className="flex gap-3 text-sm text-gray-600">
                 <ShieldCheck className="w-5 h-5 flex-shrink-0 text-primary-600" />

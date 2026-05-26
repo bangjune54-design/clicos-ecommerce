@@ -10,17 +10,22 @@ export function Login() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    const cleanEmail = email.trim();
+    
     // Simulate successful login
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("userType", activeTab === "wholesale" ? "wholesale" : "retail");
-    localStorage.setItem("userEmail", email);
+    localStorage.setItem("userEmail", cleanEmail);
     
     // Clear guests/previous session cart for account-specific fresh session
     localStorage.removeItem("retailCart");
     localStorage.removeItem("b2bCart");
     window.dispatchEvent(new Event("storage"));
     
-    if (email === "info@clicos.co.kr" || email === "wholesale@clicos.co.kr") {
+    // Show success feedback
+    window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: "Successfully logged in!" } }));
+    
+    if (cleanEmail === "info@clicos.co.kr" || cleanEmail === "wholesale@clicos.co.kr") {
       navigate("/admin");
     } else {
       navigate("/");

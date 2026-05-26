@@ -6,6 +6,8 @@ export const atsProducts = [
     category: "Hair Care",
     price: 35.0,
     wholesalePrice: 18.0,
+    currencyPrices: { KRW: 46000, JPY: 5200, EUR: 32 },
+    currencyWholesalePrices: { KRW: 24000, JPY: 2700, EUR: 16.5 },
     moq: 30,
     imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=600",
     isBestseller: true,
