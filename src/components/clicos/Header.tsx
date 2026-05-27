@@ -25,6 +25,30 @@ export function Header({ activeSection }: HeaderProps) {
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
   const [mobileWholesaleOpen, setMobileWholesaleOpen] = useState(false);
   
+  // Big search overlay states
+  const [showBigSearch, setShowBigSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  
+  // Keyboard event listener for Escape key to close search overlay
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowBigSearch(false);
+        setSearchQuery("");
+      }
+    };
+    if (showBigSearch) {
+      window.addEventListener("keydown", handleKeyDown);
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 50);
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showBigSearch]);
+
   const [searchParams] = useSearchParams();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
@@ -168,7 +192,7 @@ export function Header({ activeSection }: HeaderProps) {
                 : "text-gray-600"
             }`}
           >
-            Home
+            {t('home')}
           </Link>
 
           {/* Products */}
@@ -180,7 +204,7 @@ export function Header({ activeSection }: HeaderProps) {
                 : "text-gray-600"
             }`}
           >
-            Products
+            {t('products')}
           </Link>
 
           {/* Categories Dropdown Wrapper */}
@@ -197,7 +221,7 @@ export function Header({ activeSection }: HeaderProps) {
                   : "text-gray-600"
               }`}
             >
-              Categories
+              {t('categories')}
               <ChevronDown className="w-3.5 h-3.5 opacity-60" />
             </Link>
             {hoveredDropdown === "categories" && (
@@ -207,25 +231,25 @@ export function Header({ activeSection }: HeaderProps) {
                     to="/shop?category=skincare"
                     className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
-                    Skincare
+                    {t('skincare')}
                   </Link>
                   <Link
                     to="/shop?category=makeup"
                     className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
-                    Makeup
+                    {t('makeup')}
                   </Link>
                   <Link
                     to="/shop?category=haircare"
                     className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
-                    Hair Care
+                    {t('hair_care')}
                   </Link>
                   <Link
                     to="/shop?category=bodycare"
                     className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
-                    Body Care
+                    {t('body_care')}
                   </Link>
                 </div>
               </div>
@@ -241,7 +265,7 @@ export function Header({ activeSection }: HeaderProps) {
                 : "text-gray-600"
             }`}
           >
-            Brands
+            {t('brands')}
           </Link>
 
           {/* Contact */}
@@ -265,7 +289,7 @@ export function Header({ activeSection }: HeaderProps) {
                 : "text-gray-600"
             }`}
           >
-            Contact
+            {t('contact')}
           </Link>
 
           {/* Wholesales Dropdown Wrapper */}
@@ -282,7 +306,7 @@ export function Header({ activeSection }: HeaderProps) {
                   : "text-gray-600"
               }`}
             >
-              Wholesales
+              {t('wholesales')}
               <ChevronDown className="w-3.5 h-3.5 opacity-60" />
             </Link>
             {hoveredDropdown === "wholesale" && (
@@ -292,13 +316,13 @@ export function Header({ activeSection }: HeaderProps) {
                     to="/wholesale"
                     className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
-                    Order Form
+                    {t('order_form')}
                   </Link>
                   <Link
                     to="/wholesale/all"
                     className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
-                    Wholesale Products
+                    {t('wholesale_products')}
                   </Link>
                 </div>
               </div>
@@ -313,7 +337,7 @@ export function Header({ activeSection }: HeaderProps) {
             <button
               onClick={() => setShowLangDropdown(!showLangDropdown)}
               className="flex items-center gap-1 text-gray-700 hover:text-primary-850 transition-colors uppercase font-semibold text-xs tracking-wide focus:outline-none"
-              title="Change Language / Currency"
+              title={t("language") + " / " + t("currency")}
             >
               <Globe className="h-4.5 w-4.5" />
               <span>{language}</span>
@@ -325,7 +349,7 @@ export function Header({ activeSection }: HeaderProps) {
               <div className="absolute right-0 mt-3 w-56 rounded-2xl bg-white border border-gray-100 shadow-2xl p-4 z-50 flex flex-col gap-4 animate-slide-up">
                 {/* Language Picker */}
                 <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2 border-b pb-1.5">Language</h4>
+                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2 border-b pb-1.5">{t("language")}</h4>
                   <div className="grid grid-cols-2 gap-1.5">
                     {languages.map((l) => (
                       <button
@@ -348,7 +372,7 @@ export function Header({ activeSection }: HeaderProps) {
 
                 {/* Currency Picker */}
                 <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2 border-b pb-1.5">Currency</h4>
+                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2 border-b pb-1.5">{t("currency")}</h4>
                   <div className="grid grid-cols-3 gap-1.5">
                     {currencies.map((c) => (
                       <button
@@ -373,13 +397,13 @@ export function Header({ activeSection }: HeaderProps) {
           </div>
 
           {/* Search Trigger */}
-          <Link
-            to="/shop"
-            className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none"
-            title="Search Catalog"
+          <button
+            onClick={() => setShowBigSearch(true)}
+            className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
+            title={t("search_catalog")}
           >
             <Search className="h-4.5 w-4.5" />
-          </Link>
+          </button>
 
           {/* Profile Trigger Wrapper */}
           <div
@@ -390,7 +414,7 @@ export function Header({ activeSection }: HeaderProps) {
             <button
               onClick={() => navigate(isLoggedIn ? "/my-page" : "/login")}
               className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
-              title={isLoggedIn ? "My Profile" : "Login / Signup"}
+              title={isLoggedIn ? t("my_account") : t("login")}
             >
               <User className="h-4.5 w-4.5" />
             </button>
@@ -403,7 +427,7 @@ export function Header({ activeSection }: HeaderProps) {
                       onClick={() => setHoveredDropdown(null)}
                       className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
                     >
-                      Login
+                      {t("login")}
                     </Link>
                   ) : (
                     <>
@@ -412,7 +436,7 @@ export function Header({ activeSection }: HeaderProps) {
                         onClick={() => setHoveredDropdown(null)}
                         className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
                       >
-                        Account
+                        {t("account")}
                       </Link>
                       <button
                         onClick={() => {
@@ -426,7 +450,7 @@ export function Header({ activeSection }: HeaderProps) {
                         }}
                         className="px-3 py-2 text-xs font-semibold rounded-xl text-red-600 hover:bg-red-50 transition-colors block text-left w-full"
                       >
-                        Log Out
+                        {t("sign_out")}
                       </button>
                     </>
                   )}
@@ -444,7 +468,7 @@ export function Header({ activeSection }: HeaderProps) {
             <button
               onClick={() => navigate(isLoggedIn ? "/cart" : "/login")}
               className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
-              title="Cart"
+              title={t("cart")}
             >
               <ShoppingBag className="h-4.5 w-4.5" />
               {cartCount > 0 && (
@@ -457,11 +481,11 @@ export function Header({ activeSection }: HeaderProps) {
               <div className="absolute right-0 top-full pt-2 z-50 w-72">
                 <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-4 flex flex-col gap-3 animate-slide-up">
                   <h4 className="text-xs font-bold text-gray-900 border-b border-gray-100 pb-2">
-                    Cart Items ({cartCount})
+                    {t("cart_items")} ({cartCount})
                   </h4>
                   {cartItems.length === 0 ? (
                     <div className="text-center py-4 text-xs text-gray-400">
-                      Your cart is empty.
+                      {t("empty_cart")}
                     </div>
                   ) : (
                     <>
@@ -487,7 +511,7 @@ export function Header({ activeSection }: HeaderProps) {
                       </div>
                       
                       <div className="border-t border-gray-100 pt-3 flex items-center justify-between">
-                        <span className="text-xs font-bold text-gray-500">Total Price:</span>
+                        <span className="text-xs font-bold text-gray-500">{t("total_price")}</span>
                         <span className="text-sm font-bold text-primary-900">
                           {formatPrice(cartTotal)}
                         </span>
@@ -500,7 +524,7 @@ export function Header({ activeSection }: HeaderProps) {
                         }}
                         className="w-full text-center py-2.5 bg-primary-800 text-white rounded-xl text-xs font-semibold hover:bg-primary-900 transition-colors shadow-sm mt-1"
                       >
-                        View Full Cart
+                        {t("view_full_cart")}
                       </button>
                     </>
                   )}
@@ -571,7 +595,7 @@ export function Header({ activeSection }: HeaderProps) {
                       : "text-gray-700 hover:text-primary-700 hover:bg-gray-50/50"
                   }`}
                 >
-                  Home
+                  {t('home')}
                 </Link>
 
                 {/* Products */}
@@ -584,7 +608,7 @@ export function Header({ activeSection }: HeaderProps) {
                       : "text-gray-700 hover:text-primary-700 hover:bg-gray-50/50"
                   }`}
                 >
-                  Products
+                  {t('products')}
                 </Link>
 
                 {/* Categories Accordion */}
@@ -593,7 +617,7 @@ export function Header({ activeSection }: HeaderProps) {
                     onClick={() => setMobileCategoriesOpen(!mobileCategoriesOpen)}
                     className="flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-base font-semibold text-gray-700 hover:text-primary-700 hover:bg-gray-50/50 transition-all focus:outline-none"
                   >
-                    <span>Categories</span>
+                    <span>{t('categories')}</span>
                     <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileCategoriesOpen ? "rotate-180" : ""}`} />
                   </button>
                   {mobileCategoriesOpen && (
@@ -603,35 +627,35 @@ export function Header({ activeSection }: HeaderProps) {
                         onClick={() => setMobileMenuOpen(false)}
                         className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
                       >
-                        All Categories
+                        {t('all')}
                       </Link>
                       <Link
                         to="/shop?category=skincare"
                         onClick={() => setMobileMenuOpen(false)}
                         className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
                       >
-                        Skincare
+                        {t('skincare')}
                       </Link>
                       <Link
                         to="/shop?category=makeup"
                         onClick={() => setMobileMenuOpen(false)}
                         className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
                       >
-                        Makeup
+                        {t('makeup')}
                       </Link>
                       <Link
                         to="/shop?category=haircare"
                         onClick={() => setMobileMenuOpen(false)}
                         className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
                       >
-                        Hair Care
+                        {t('hair_care')}
                       </Link>
                       <Link
                         to="/shop?category=bodycare"
                         onClick={() => setMobileMenuOpen(false)}
                         className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
                       >
-                        Body Care
+                        {t('body_care')}
                       </Link>
                     </div>
                   )}
@@ -647,7 +671,7 @@ export function Header({ activeSection }: HeaderProps) {
                       : "text-gray-700 hover:text-primary-700 hover:bg-gray-50/50"
                   }`}
                 >
-                  Brands
+                  {t('brands')}
                 </Link>
 
                 {/* Contact */}
@@ -672,7 +696,7 @@ export function Header({ activeSection }: HeaderProps) {
                       : "text-gray-700 hover:text-primary-700 hover:bg-gray-50/50"
                   }`}
                 >
-                  Contact
+                  {t('contact')}
                 </Link>
 
                 {/* Wholesales Accordion */}
@@ -681,7 +705,7 @@ export function Header({ activeSection }: HeaderProps) {
                     onClick={() => setMobileWholesaleOpen(!mobileWholesaleOpen)}
                     className="flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-base font-semibold text-gray-700 hover:text-primary-700 hover:bg-gray-50/50 transition-all focus:outline-none"
                   >
-                    <span>Wholesales</span>
+                    <span>{t('wholesales')}</span>
                     <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileWholesaleOpen ? "rotate-180" : ""}`} />
                   </button>
                   {mobileWholesaleOpen && (
@@ -691,14 +715,14 @@ export function Header({ activeSection }: HeaderProps) {
                         onClick={() => setMobileMenuOpen(false)}
                         className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
                       >
-                        Order Form
+                        {t('order_form')}
                       </Link>
                       <Link
                         to="/wholesale/all"
                         onClick={() => setMobileMenuOpen(false)}
                         className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
                       >
-                        Wholesale Products
+                        {t('wholesale_products')}
                       </Link>
                     </div>
                   )}
@@ -711,7 +735,7 @@ export function Header({ activeSection }: HeaderProps) {
               {/* Language & Currency Selection */}
               <div className="grid grid-cols-2 gap-4 border-b border-gray-50 pb-4">
                 <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Language</span>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">{t('language')}</span>
                   <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value as any)}
@@ -721,7 +745,7 @@ export function Header({ activeSection }: HeaderProps) {
                   </select>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Currency</span>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">{t('currency')}</span>
                   <select
                     value={currency}
                     onChange={(e) => setCurrency(e.target.value)}
@@ -735,16 +759,19 @@ export function Header({ activeSection }: HeaderProps) {
               {/* Utility shortcuts */}
               <div className="flex gap-4">
                 <button 
-                  onClick={() => { setMobileMenuOpen(false); navigate("/shop"); }}
+                  onClick={() => { 
+                    setMobileMenuOpen(false); 
+                    setShowBigSearch(true); 
+                  }}
                   className="flex-1 py-2.5 rounded-xl border border-gray-100 text-xs font-bold text-gray-750 flex items-center justify-center gap-1.5 bg-gray-50/30"
                 >
-                  <Search className="w-4 h-4" /> Search
+                  <Search className="w-4 h-4" /> {t('search_catalog')}
                 </button>
                 <button 
                   onClick={() => { setMobileMenuOpen(false); navigate(isLoggedIn ? "/my-page" : "/login"); }}
                   className="flex-1 py-2.5 rounded-xl border border-gray-100 text-xs font-bold text-gray-750 flex items-center justify-center gap-1.5 bg-gray-50/30"
                 >
-                  <User className="w-4 h-4" /> {isLoggedIn ? "Account" : "Login"}
+                  <User className="w-4 h-4" /> {isLoggedIn ? t('account') : t('login')}
                 </button>
               </div>
 
@@ -754,8 +781,64 @@ export function Header({ activeSection }: HeaderProps) {
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary-800 py-3 text-center text-sm font-semibold uppercase tracking-widest text-white hover:bg-primary-900 shadow-md transition-colors"
               >
                 <ShoppingBag className="w-4 h-4" />
-                Cart ({cartCount})
+                {t('cart')} ({cartCount})
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Big Search Overlay */}
+      {showBigSearch && (
+        <div className="absolute top-0 left-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-2xl z-50 animate-slide-down">
+          <div className="mx-auto max-w-4xl px-6 py-10 relative">
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchQuery.trim()) {
+                  navigate(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
+                  setShowBigSearch(false);
+                }
+              }} 
+              className="flex items-center gap-4 border-b-2 border-primary-100 focus-within:border-primary-650 transition-colors pb-2"
+            >
+              <Search className="h-6 w-6 text-primary-600 flex-shrink-0" />
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={t("search_items_brands")}
+                className="w-full text-xl font-medium bg-transparent border-0 focus:ring-0 placeholder:text-gray-400 py-1 outline-none focus:outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  setShowBigSearch(false);
+                  setSearchQuery("");
+                }}
+                className="rounded-full p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all focus:outline-none flex-shrink-0"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </form>
+            
+            {/* Quick Links / Suggestions for a premium e-commerce feel */}
+            <div className="mt-4 flex flex-wrap items-center gap-2.5 text-xs">
+              <span className="text-gray-400 font-bold uppercase tracking-wider">{t("trending")}:</span>
+              {["Beauty of Joseon", "Manyo", "Torriden", "Medicube", "FWEE", "Aestura"].map((brand) => (
+                <button
+                  key={brand}
+                  onClick={() => {
+                    setSearchQuery(brand);
+                    navigate(`/shop?search=${encodeURIComponent(brand)}`);
+                    setShowBigSearch(false);
+                  }}
+                  className="px-3.5 py-1.5 bg-primary-50 hover:bg-primary-100 text-primary-800 font-semibold rounded-full transition-all hover:scale-105"
+                >
+                  {brand}
+                </button>
+              ))}
             </div>
           </div>
         </div>

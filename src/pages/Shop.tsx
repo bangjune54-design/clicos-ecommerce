@@ -32,6 +32,7 @@ export function Shop() {
   const initialCategory = searchParams.get("category");
   const initialBrand = searchParams.get("brand");
   const initialCollection = searchParams.get("collection") || "all";
+  const initialSearch = searchParams.get("search") || "";
   
   const [activeCategory, setActiveCategory] = useState(
     initialCategory 
@@ -46,8 +47,8 @@ export function Shop() {
     CATEGORY_STRUCTURE.find(c => c.name === activeCategory || c.subcategories?.includes(activeCategory))?.name || null
   );
   
-  // Shop is strictly retail
-  const [shopSearchQuery, setShopSearchQuery] = useState("");
+  // Shop is strictly retail, synced with search parameter
+  const [shopSearchQuery, setShopSearchQuery] = useState(initialSearch);
   
   // Track quantities independently for each product card
   const [quantities, setQuantities] = useState<Record<string, number>>({});
@@ -58,7 +59,7 @@ export function Shop() {
     setQuantities(prev => ({ ...prev, [id]: Math.max(1, (prev[id] || 1) + delta) }));
   };
 
-  // Sync state if search params change externally (e.g. via clicking header categories dropdown)
+  // Sync state if search params change externally (e.g. via clicking header categories dropdown or global search input)
   React.useEffect(() => {
     if (initialCategory) {
       const matched = ALL_CATEGORIES.find(c => c.toLowerCase().replace(/ & /g, "").replace(/ /g, "") === initialCategory);
@@ -70,7 +71,8 @@ export function Shop() {
     
     setActiveBrand(initialBrand || null);
     setActiveCollection(initialCollection);
-  }, [initialCategory, initialBrand, initialCollection]);
+    setShopSearchQuery(initialSearch);
+  }, [initialCategory, initialBrand, initialCollection, initialSearch]);
 
   const handleAddToCart = (e: React.MouseEvent, product: any) => {
     e.preventDefault();
