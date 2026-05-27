@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Banner } from "../../utils/homepage";
 
 interface BannerCarouselProps {
@@ -8,6 +9,7 @@ interface BannerCarouselProps {
 
 export function BannerCarousel({ banners }: BannerCarouselProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (banners.length <= 1) return;
@@ -33,7 +35,9 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
     setCurrentIdx(idx);
   };
 
-  const scrollToSection = (e: React.MouseEvent, link: string) => {
+  const handleBannerClick = (e: React.MouseEvent, link: string) => {
+    if (!link) return;
+    
     if (link.startsWith("#")) {
       e.preventDefault();
       const id = link.substring(1);
@@ -48,6 +52,8 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
           behavior: "smooth"
         });
       }
+    } else {
+      navigate(link);
     }
   };
 
@@ -63,21 +69,19 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
           return (
             <div
               key={banner.id}
-              className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out flex items-center justify-center ${
+              onClick={(e) => handleBannerClick(e, banner.link)}
+              className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out flex items-center justify-center cursor-pointer ${
                 isActive ? "opacity-100 scale-100 z-10" : "opacity-0 scale-95 z-0 pointer-events-none"
               }`}
             >
               {/* Background Layer: Custom uploaded Base64 image OR Premium cosmetics gradient */}
-              <div className="absolute inset-0 z-0">
+              <div className="absolute inset-0 z-0 select-none pointer-events-none">
                 {banner.image ? (
-                  <>
-                    <img
-                      src={banner.image}
-                      alt={banner.title}
-                      className="w-full h-full object-cover object-center opacity-40 select-none"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-primary-950/60 via-primary-950/80 to-primary-950"></div>
-                  </>
+                  <img
+                    src={banner.image}
+                    alt={banner.title}
+                    className="w-full h-full object-cover object-center opacity-100 select-none"
+                  />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-950">
                     {/* Abstract ambient decorative light spheres */}
@@ -85,30 +89,17 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
                     <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-radial-gradient from-transparent to-primary-950/70 pointer-events-none"></div>
               </div>
 
               {/* Foreground Content */}
-              <div className="relative z-10 mx-auto max-w-4xl px-6 text-center flex flex-col items-center">
-                <h1 className="text-3xl font-serif font-bold tracking-tight text-white sm:text-5xl md:text-6xl leading-[1.15] drop-shadow-sm transition-transform duration-1000 delay-100 transform translate-y-0">
+              <div className="relative z-10 mx-auto max-w-4xl px-6 text-center flex flex-col items-center pointer-events-none select-none">
+                <h1 className="text-3xl font-serif font-bold tracking-tight text-white sm:text-5xl md:text-6xl leading-[1.15] drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)] transition-transform duration-1000 delay-100 transform translate-y-0">
                   {banner.title}
                 </h1>
                 
-                <p className="mt-6 text-base sm:text-lg md:text-xl leading-relaxed text-primary-100 max-w-2xl font-medium opacity-90 transition-transform duration-1000 delay-200 transform translate-y-0">
+                <p className="mt-6 text-base sm:text-lg md:text-xl leading-relaxed text-primary-100 max-w-2xl font-medium opacity-90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)] transition-transform duration-1000 delay-200 transform translate-y-0">
                   {banner.subtitle}
                 </p>
-
-                {/* CTA Button */}
-                <div className="mt-8 transition-transform duration-1000 delay-300 transform translate-y-0">
-                  <a
-                    href={banner.link}
-                    onClick={(e) => scrollToSection(e, banner.link)}
-                    className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-xs sm:text-sm font-semibold uppercase tracking-widest text-primary-950 bg-white hover:bg-primary-50 active:bg-primary-100 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
-                  >
-                    Explore Now
-                    <ArrowRight className="w-4 h-4 text-primary-800" />
-                  </a>
-                </div>
               </div>
             </div>
           );

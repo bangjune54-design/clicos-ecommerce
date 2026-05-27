@@ -16,7 +16,7 @@ export function Header({ activeSection }: HeaderProps) {
   const { language, setLanguage, t } = useLanguage();
   const { currency, setCurrency, formatPrice } = useCurrency();
   const [showLangDropdown, setShowLangDropdown] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("isLoggedIn") === "true");
   const [cartCount, setCartCount] = useState(0);
   const [cartItems, setCartItems] = useState<any[]>([]);
   
