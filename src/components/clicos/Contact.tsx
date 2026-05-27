@@ -4,6 +4,8 @@ import { sendAdminNotification } from "../../utils/email";
 
 export function Contact() {
   const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [globalError, setGlobalError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -31,8 +33,10 @@ export function Contact() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setGlobalError("");
+    setSuccess(false);
     
     // Simple Validation
     let hasError = false;
@@ -59,18 +63,35 @@ export function Contact() {
       return;
     }
 
-    // TODO: Connect this frontend form submission with your production backend/email delivery API (e.g. Resend, EmailJS, NodeMailer).
-    // Currently, we use the local simulated email notifier that logs details to the console and generates a UI Toast.
-    sendAdminNotification(`CLICOS Contact Inquiry: From ${formData.name} (${formData.company || "Individual"})`, {
-      name: formData.name,
-      email: formData.email,
-      company: formData.company || "Not provided",
-      message: formData.message,
-      submittedAt: new Date().toISOString()
-    });
+    setIsSubmitting(true);
 
-    setSuccess(true);
-    setFormData({ name: "", email: "", company: "", message: "" });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message,
+          subject: `CLICOS Contact Inquiry from ${formData.name}`
+        })
+      });
+
+      if (response.ok) {
+        setSuccess(true);
+        setFormData({ name: "", email: "", company: "", message: "" });
+      } else {
+        const resData = await response.json().catch(() => ({}));
+        setGlobalError(resData.message || "Something went wrong. Please try again later.");
+      }
+    } catch (err) {
+      setGlobalError("Something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -173,10 +194,10 @@ export function Contact() {
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 font-serif mb-2">
-                  Message Transmitted!
+                  Message Sent!
                 </h3>
                 <p className="text-sm text-gray-500 font-medium max-w-sm mb-8 leading-relaxed">
-                  Thank you for reaching out. We have logged your request. Our export and supply team will get back to you shortly.
+                  Your message has been sent successfully.
                 </p>
                 <button
                   onClick={() => setSuccess(false)}
@@ -187,6 +208,12 @@ export function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {globalError && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl text-sm text-center">
+                    {globalError}
+                  </div>
+                )}
+
                 <div>
                   <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
                     Name <span className="text-red-500">*</span>
@@ -270,9 +297,10 @@ export function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-primary-800 hover:bg-primary-900 text-white font-semibold py-3.5 text-xs uppercase tracking-widest shadow-md hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                  disabled={isSubmitting}
+                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-primary-800 hover:bg-primary-900 text-white font-semibold py-3.5 text-xs uppercase tracking-widest shadow-md hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Inquiry
+                  {isSubmitting ? "Sending..." : "Send Inquiry"}
                   <Send className="w-3.5 h-3.5" />
                 </button>
               </form>

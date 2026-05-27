@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: `Method ${req.method} Not Allowed` });
   }
 
-  const { name, email, message, customerType, country, subject } = req.body;
+  const { name, email, message, customerType, country, subject, company } = req.body;
 
   // Backend validation safeguards
   if (!name || !name.trim()) {
@@ -59,6 +59,7 @@ export default async function handler(req, res) {
 Name: ${name.trim()}
 Email: ${email.trim()}
 Phone: N/A (Field does not exist in form)
+Company: ${company || "N/A"}
 Subject: ${subject || "General Inquiry"}
 Customer Type: ${customerType || "N/A"}
 Country: ${country || "N/A"}
