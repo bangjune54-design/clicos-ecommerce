@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Globe, Search, User, ShoppingBag } from "lucide-react";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Menu, X, Globe, Search, User, ShoppingBag, ChevronDown } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useCurrency } from "../../contexts/CurrencyContext";
 
@@ -19,6 +19,12 @@ export function Header({ activeSection }: HeaderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   
+  // Dropdown hover & mobile accordion states
+  const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
+  const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
+  const [mobileWholesaleOpen, setMobileWholesaleOpen] = useState(false);
+  
+  const [searchParams] = useSearchParams();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -141,26 +147,158 @@ export function Header({ activeSection }: HeaderProps) {
         </div>
 
         {/* Desktop Menu (Home, Products, Categories, Brands, Contact, Wholesales) */}
-        <div className="hidden md:flex md:gap-x-10">
-          {navItems.map((item) => {
-            const isWholesaleActive = item.id === "wholesale" && location.pathname === "/wholesale";
-            const isItemActive = activeSection === item.id || isWholesaleActive;
-            
-            return (
-              <a
-                key={item.id}
-                href={item.id === "wholesale" ? "/wholesale" : (isLandingPage ? `#${item.id}` : `/#${item.id}`)}
-                onClick={(e) => handleNavClick(e, item.id)}
-                className={`text-sm font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1 ${
-                  isItemActive
-                    ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
-                    : "text-gray-600"
-                }`}
-              >
-                {item.name}
-              </a>
-            );
-          })}
+        <div className="hidden md:flex md:gap-x-10 items-center">
+          {/* Home */}
+          <Link
+            to="/"
+            onClick={(e) => {
+              if (isLandingPage) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            className={`text-sm font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1 ${
+              location.pathname === "/" && activeSection === "home"
+                ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
+                : "text-gray-600"
+            }`}
+          >
+            Home
+          </Link>
+
+          {/* Products */}
+          <Link
+            to="/shop"
+            className={`text-sm font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1 ${
+              location.pathname === "/shop" && !searchParams.get("category") && !searchParams.get("brand") && !searchParams.get("collection")
+                ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
+                : "text-gray-600"
+            }`}
+          >
+            Products
+          </Link>
+
+          {/* Categories Dropdown Wrapper */}
+          <div
+            className="relative py-1"
+            onMouseEnter={() => setHoveredDropdown("categories")}
+            onMouseLeave={() => setHoveredDropdown(null)}
+          >
+            <Link
+              to="/shop"
+              className={`text-sm font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+                location.pathname === "/shop" && searchParams.get("category")
+                  ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
+                  : "text-gray-600"
+              }`}
+            >
+              Categories
+              <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+            </Link>
+            {hoveredDropdown === "categories" && (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-48">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-2 flex flex-col gap-0.5 animate-slide-up">
+                  <Link
+                    to="/shop?category=skincare"
+                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                  >
+                    Skincare
+                  </Link>
+                  <Link
+                    to="/shop?category=makeup"
+                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                  >
+                    Makeup
+                  </Link>
+                  <Link
+                    to="/shop?category=haircare"
+                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                  >
+                    Hair Care
+                  </Link>
+                  <Link
+                    to="/shop?category=bodycare"
+                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                  >
+                    Body Care
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Brands */}
+          <Link
+            to="/brands"
+            className={`text-sm font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1 ${
+              location.pathname === "/brands" || (location.pathname === "/shop" && searchParams.get("brand"))
+                ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
+                : "text-gray-600"
+            }`}
+          >
+            Brands
+          </Link>
+
+          {/* Contact */}
+          <Link
+            to="/contact"
+            onClick={(e) => {
+              if (isLandingPage) {
+                e.preventDefault();
+                const element = document.getElementById("contact");
+                if (element) {
+                  const offset = 80;
+                  const elementPosition = element.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.pageYOffset - offset;
+                  window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+              }
+            }}
+            className={`text-sm font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1 ${
+              location.pathname === "/contact" || (location.pathname === "/" && activeSection === "contact")
+                ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
+                : "text-gray-600"
+            }`}
+          >
+            Contact
+          </Link>
+
+          {/* Wholesales Dropdown Wrapper */}
+          <div
+            className="relative py-1"
+            onMouseEnter={() => setHoveredDropdown("wholesale")}
+            onMouseLeave={() => setHoveredDropdown(null)}
+          >
+            <Link
+              to="/wholesale"
+              className={`text-sm font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+                location.pathname.startsWith("/wholesale")
+                  ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
+                  : "text-gray-600"
+              }`}
+            >
+              Wholesales
+              <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+            </Link>
+            {hoveredDropdown === "wholesale" && (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-48">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-2 flex flex-col gap-0.5 animate-slide-up">
+                  <Link
+                    to="/wholesale"
+                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                  >
+                    Order Form
+                  </Link>
+                  <Link
+                    to="/wholesale/all"
+                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                  >
+                    Wholesale Products
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Far Right Section: Language/Currency, Search, Profile, Cart */}
@@ -312,21 +450,149 @@ export function Header({ activeSection }: HeaderProps) {
               </div>
 
               {/* Mobile Nav Links */}
-              <div className="mt-8 space-y-4">
-                {navItems.map((item) => (
-                  <a
-                    key={item.id}
-                    href={item.id === "wholesale" ? "/wholesale" : (isLandingPage ? `#${item.id}` : `/#${item.id}`)}
-                    onClick={(e) => handleNavClick(e, item.id)}
-                    className={`block rounded-xl px-4 py-3 text-base font-semibold transition-all ${
-                      activeSection === item.id
-                        ? "text-primary-800 bg-primary-50/70"
-                        : "text-gray-700 hover:text-primary-700 hover:bg-gray-50/50"
-                    }`}
+              <div className="mt-8 space-y-1.5">
+                {/* Home */}
+                <Link
+                  to="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block rounded-xl px-4 py-2.5 text-base font-semibold transition-all ${
+                    location.pathname === "/" && activeSection === "home"
+                      ? "text-primary-800 bg-primary-50/70"
+                      : "text-gray-700 hover:text-primary-700 hover:bg-gray-50/50"
+                  }`}
+                >
+                  Home
+                </Link>
+
+                {/* Products */}
+                <Link
+                  to="/shop"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block rounded-xl px-4 py-2.5 text-base font-semibold transition-all ${
+                    location.pathname === "/shop" && !searchParams.get("category") && !searchParams.get("brand")
+                      ? "text-primary-800 bg-primary-50/70"
+                      : "text-gray-700 hover:text-primary-700 hover:bg-gray-50/50"
+                  }`}
+                >
+                  Products
+                </Link>
+
+                {/* Categories Accordion */}
+                <div>
+                  <button
+                    onClick={() => setMobileCategoriesOpen(!mobileCategoriesOpen)}
+                    className="flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-base font-semibold text-gray-700 hover:text-primary-700 hover:bg-gray-50/50 transition-all focus:outline-none"
                   >
-                    {item.name}
-                  </a>
-                ))}
+                    <span>Categories</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileCategoriesOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {mobileCategoriesOpen && (
+                    <div className="pl-6 pr-4 py-1.5 space-y-1 bg-primary-50/30 rounded-xl mt-1 ml-4 border-l border-primary-100">
+                      <Link
+                        to="/shop"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                      >
+                        All Categories
+                      </Link>
+                      <Link
+                        to="/shop?category=skincare"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                      >
+                        Skincare
+                      </Link>
+                      <Link
+                        to="/shop?category=makeup"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                      >
+                        Makeup
+                      </Link>
+                      <Link
+                        to="/shop?category=haircare"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                      >
+                        Hair Care
+                      </Link>
+                      <Link
+                        to="/shop?category=bodycare"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                      >
+                        Body Care
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {/* Brands */}
+                <Link
+                  to="/brands"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block rounded-xl px-4 py-2.5 text-base font-semibold transition-all ${
+                    location.pathname === "/brands"
+                      ? "text-primary-800 bg-primary-50/70"
+                      : "text-gray-700 hover:text-primary-700 hover:bg-gray-50/50"
+                  }`}
+                >
+                  Brands
+                </Link>
+
+                {/* Contact */}
+                <Link
+                  to="/contact"
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    if (isLandingPage) {
+                      e.preventDefault();
+                      const element = document.getElementById("contact");
+                      if (element) {
+                        const offset = 80;
+                        const elementPosition = element.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - offset;
+                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                      }
+                    }
+                  }}
+                  className={`block rounded-xl px-4 py-2.5 text-base font-semibold transition-all ${
+                    location.pathname === "/contact"
+                      ? "text-primary-800 bg-primary-50/70"
+                      : "text-gray-700 hover:text-primary-700 hover:bg-gray-50/50"
+                  }`}
+                >
+                  Contact
+                </Link>
+
+                {/* Wholesales Accordion */}
+                <div>
+                  <button
+                    onClick={() => setMobileWholesaleOpen(!mobileWholesaleOpen)}
+                    className="flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-base font-semibold text-gray-700 hover:text-primary-700 hover:bg-gray-50/50 transition-all focus:outline-none"
+                  >
+                    <span>Wholesales</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileWholesaleOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {mobileWholesaleOpen && (
+                    <div className="pl-6 pr-4 py-1.5 space-y-1 bg-primary-50/30 rounded-xl mt-1 ml-4 border-l border-primary-100">
+                      <Link
+                        to="/wholesale"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                      >
+                        Order Form
+                      </Link>
+                      <Link
+                        to="/wholesale/all"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                      >
+                        Wholesale Products
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 

@@ -5,7 +5,7 @@ import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
-import { getLiveInventory } from "../utils/inventory";
+import { getLiveInventory, getLiveBrands } from "../utils/inventory";
 
 // Mocks
 // Categories structure
@@ -25,10 +25,13 @@ const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap(c => [c.name, ...(c.subcategor
 
 export function Shop() {
   const allShopProducts = getLiveInventory();
+  const b2bBrands = getLiveBrands();
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
+  
   const initialCategory = searchParams.get("category");
   const initialBrand = searchParams.get("brand");
+  const initialCollection = searchParams.get("collection") || "all";
   
   const [activeCategory, setActiveCategory] = useState(
     initialCategory 
@@ -37,6 +40,7 @@ export function Shop() {
   );
 
   const [activeBrand, setActiveBrand] = useState(initialBrand || null);
+  const [activeCollection, setActiveCollection] = useState<string>(initialCollection);
   
   const [expandedCategory, setExpandedCategory] = useState<string | null>(
     CATEGORY_STRUCTURE.find(c => c.name === activeCategory || c.subcategories?.includes(activeCategory))?.name || null
@@ -53,6 +57,20 @@ export function Shop() {
   const updateQty = (id: string, delta: number) => {
     setQuantities(prev => ({ ...prev, [id]: Math.max(1, (prev[id] || 1) + delta) }));
   };
+
+  // Sync state if search params change externally (e.g. via clicking header categories dropdown)
+  React.useEffect(() => {
+    if (initialCategory) {
+      const matched = ALL_CATEGORIES.find(c => c.toLowerCase().replace(/ & /g, "").replace(/ /g, "") === initialCategory);
+      setActiveCategory(matched || "All");
+      setExpandedCategory(CATEGORY_STRUCTURE.find(c => c.name === matched || c.subcategories?.includes(matched))?.name || null);
+    } else {
+      setActiveCategory("All");
+    }
+    
+    setActiveBrand(initialBrand || null);
+    setActiveCollection(initialCollection);
+  }, [initialCategory, initialBrand, initialCollection]);
 
   const handleAddToCart = (e: React.MouseEvent, product: any) => {
     e.preventDefault();
@@ -126,7 +144,16 @@ export function Shop() {
     
     const matchesBrand = !activeBrand || p.brand.toLowerCase() === activeBrand.toLowerCase();
     
-    return matchesCategory && matchesSearch && matchesBrand;
+    let matchesCollection = true;
+    if (activeCollection === "new-arrivals") {
+      // Filter first 8 items in catalog as new arrivals
+      const newArrivalIds = allShopProducts.slice(0, 8).map(prod => prod.id);
+      matchesCollection = newArrivalIds.includes(p.id);
+    } else if (activeCollection === "best-sellers") {
+      matchesCollection = !!p.isBestseller;
+    }
+    
+    return matchesCategory && matchesSearch && matchesBrand && matchesCollection;
   });
 
   return (
@@ -148,14 +175,75 @@ export function Shop() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
           <div className="lg:w-1/4">
-            <div className="sticky top-24">
-              <h3 className="flex items-center gap-2 text-lg font-bold font-serif mb-4">
+            <div className="sticky top-24 space-y-6">
+              <h3 className="flex items-center gap-2 text-lg font-bold font-serif border-b border-gray-100 pb-3">
                 <Filter className="w-5 h-5" /> Filters
               </h3>
               
-              <div className="border-t border-gray-200 py-6">
-                <h4 className="font-semibold text-gray-900 mb-4">Category</h4>
-                <div className="space-y-3">
+              {/* Collection Quick Filters */}
+              <div className="py-2">
+                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs">Collection</h4>
+                <div className="space-y-1">
+                  <button
+                    onClick={() => {
+                      setActiveCollection("all");
+                      searchParams.delete("collection");
+                      setSearchParams(searchParams);
+                    }}
+                    className={`flex items-center justify-between w-full text-left text-sm py-2 px-3 rounded-xl transition-all ${
+                      activeCollection === "all"
+                        ? "bg-primary-50 font-bold text-primary-800"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    }`}
+                  >
+                    <span>All Products</span>
+                    <span className="text-xs bg-gray-100 text-gray-500 py-0.5 px-2 rounded-full font-semibold">
+                      {allShopProducts.length}
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveCollection("new-arrivals");
+                      searchParams.set("collection", "new-arrivals");
+                      setSearchParams(searchParams);
+                    }}
+                    className={`flex items-center justify-between w-full text-left text-sm py-2 px-3 rounded-xl transition-all ${
+                      activeCollection === "new-arrivals"
+                        ? "bg-primary-50 font-bold text-primary-800"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    }`}
+                  >
+                    <span>New Arrivals</span>
+                    <span className="text-xs bg-gray-100 text-gray-500 py-0.5 px-2 rounded-full font-semibold">
+                      8
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setActiveCollection("best-sellers");
+                      searchParams.set("collection", "best-sellers");
+                      setSearchParams(searchParams);
+                    }}
+                    className={`flex items-center justify-between w-full text-left text-sm py-2 px-3 rounded-xl transition-all ${
+                      activeCollection === "best-sellers"
+                        ? "bg-primary-50 font-bold text-primary-800"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    }`}
+                  >
+                    <span>Best Sellers</span>
+                    <span className="text-xs bg-gray-100 text-gray-500 py-0.5 px-2 rounded-full font-semibold">
+                      {allShopProducts.filter(p => p.isBestseller).length}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Categories Filter */}
+              <div className="border-t border-gray-100 pt-5">
+                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs">Category</h4>
+                <div className="space-y-2">
                   {CATEGORY_STRUCTURE.map((category) => {
                     const isExpanded = expandedCategory === category.name;
                     const isActive = activeCategory === category.name;
@@ -179,21 +267,21 @@ export function Shop() {
                             }
                             setSearchParams(searchParams);
                           }}
-                          className={`text-sm flex items-center justify-between w-full text-left py-1 ${
+                          className={`text-sm flex items-center justify-between w-full text-left py-1.5 px-2.5 rounded-lg ${
                             isActive
-                              ? "font-bold text-primary-800"
-                              : "text-gray-600 hover:text-primary-800"
+                              ? "font-bold text-primary-800 bg-primary-50/40"
+                              : "text-gray-600 hover:text-primary-800 hover:bg-gray-50/50"
                           } transition-colors`}
                         >
-                          {category.name}
+                          <span>{category.name}</span>
                           {hasSubcategories && (
-                            <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
+                            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
                           )}
                         </button>
                         
                         {/* Subcategories Dropdown */}
                         {hasSubcategories && isExpanded && (
-                          <div className="pl-4 mt-2 space-y-2 border-l-2 border-primary-100 ml-1">
+                          <div className="pl-4 mt-1.5 space-y-1 border-l-2 border-primary-100 ml-3">
                             {category.subcategories?.map(sub => {
                               const isSubActive = activeCategory === sub;
                               return (
@@ -204,8 +292,8 @@ export function Shop() {
                                     searchParams.set("category", sub.toLowerCase().replace(/ & /g, "").replace(/ /g, ""));
                                     setSearchParams(searchParams);
                                   }}
-                                  className={`block text-sm text-left w-full py-1 ${
-                                    isSubActive ? "font-bold text-primary-700" : "text-gray-500 hover:text-primary-700"
+                                  className={`block text-xs text-left w-full py-1.5 px-2 rounded-md ${
+                                    isSubActive ? "font-bold text-primary-750 bg-primary-50/30" : "text-gray-500 hover:text-primary-750 hover:bg-gray-50/30"
                                   } transition-colors`}
                                 >
                                   {sub}
@@ -220,7 +308,58 @@ export function Shop() {
                 </div>
               </div>
 
-
+              {/* Brands Filter */}
+              <div className="border-t border-gray-100 pt-5">
+                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs flex items-center justify-between">
+                  <span>Brands</span>
+                  {activeBrand && (
+                    <button
+                      onClick={() => {
+                        setActiveBrand(null);
+                        searchParams.delete("brand");
+                        setSearchParams(searchParams);
+                      }}
+                      className="text-[10px] text-primary-650 hover:text-primary-850 font-bold lowercase tracking-normal"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </h4>
+                <div className="max-h-64 overflow-y-auto pr-1 space-y-1 scrollbar-thin">
+                  {b2bBrands.map((brand) => {
+                    const isBrandActive = activeBrand?.toLowerCase() === brand.name.toLowerCase();
+                    const brandProductsCount = allShopProducts.filter(p => p.brand.toLowerCase() === brand.name.toLowerCase()).length;
+                    
+                    if (brandProductsCount === 0) return null;
+                    
+                    return (
+                      <button
+                        key={brand.name}
+                        onClick={() => {
+                          if (isBrandActive) {
+                            setActiveBrand(null);
+                            searchParams.delete("brand");
+                          } else {
+                            setActiveBrand(brand.name);
+                            searchParams.set("brand", brand.name.toLowerCase());
+                          }
+                          setSearchParams(searchParams);
+                        }}
+                        className={`flex items-center justify-between w-full text-left text-xs py-1.5 px-2.5 rounded-lg transition-all ${
+                          isBrandActive
+                            ? "bg-primary-50 font-bold text-primary-800"
+                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        }`}
+                      >
+                        <span className="truncate">{brand.name}</span>
+                        <span className="text-[10px] text-gray-400 font-semibold bg-gray-50 py-0.5 px-1.5 rounded-full">
+                          {brandProductsCount}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
 
