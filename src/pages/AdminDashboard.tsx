@@ -181,7 +181,7 @@ export function AdminDashboard() {
       price: 25.0,
       wholesalePrice: 12.0,
       moq: 50,
-      imageSrc: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=200",
+      imageSrc: "/placeholder-product.svg",
       isBestseller: false,
     };
     const updated = [newProduct, ...inventory];

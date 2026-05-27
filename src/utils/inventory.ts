@@ -99,14 +99,55 @@ export async function initializeStorage() {
 
   try {
     // 1. Try to load from IndexedDB
-    const inv = await dbGet("globalInventory");
-    const brd = await dbGet("globalBrands");
+    let inv = await dbGet("globalInventory");
+    let brd = await dbGet("globalBrands");
+
+    // Clear legacy unauthenticated pictures from loaded inventory cache
+    if (inv && Array.isArray(inv)) {
+      let needsReset = false;
+      inv = inv.map(p => {
+        // If imageSrc is present, is not placeholder, and is not a base64 user upload, clear it
+        if (p.imageSrc && p.imageSrc !== "/placeholder-product.svg" && !p.imageSrc.startsWith("data:")) {
+          needsReset = true;
+          return { ...p, imageSrc: "/placeholder-product.svg" };
+        }
+        return p;
+      });
+      if (needsReset) {
+        await dbSet("globalInventory", inv);
+      }
+    }
+
+    // Clear brand images as well to use typographic icons by default
+    if (brd && Array.isArray(brd)) {
+      let needsReset = false;
+      brd = brd.map(b => {
+        if (b.image) {
+          needsReset = true;
+          const { image, ...rest } = b;
+          return rest;
+        }
+        return b;
+      });
+      if (needsReset) {
+        await dbSet("globalBrands", brd);
+      }
+    }
 
     // 2. Fallback to localStorage + Migration
     if (!inv) {
       const localInv = localStorage.getItem("globalInventory");
       if (localInv) {
-        inventoryCache = JSON.parse(localInv);
+        let parsedInv = JSON.parse(localInv);
+        if (Array.isArray(parsedInv)) {
+          parsedInv = parsedInv.map(p => {
+            if (p.imageSrc && p.imageSrc !== "/placeholder-product.svg" && !p.imageSrc.startsWith("data:")) {
+              return { ...p, imageSrc: "/placeholder-product.svg" };
+            }
+            return p;
+          });
+        }
+        inventoryCache = parsedInv;
         await dbSet("globalInventory", inventoryCache);
         // Clear legacy once migrated to free up space for cart
         localStorage.removeItem("globalInventory");
@@ -120,7 +161,17 @@ export async function initializeStorage() {
     if (!brd) {
       const localBrd = localStorage.getItem("globalBrands");
       if (localBrd) {
-        brandsCache = JSON.parse(localBrd);
+        let parsedBrd = JSON.parse(localBrd);
+        if (Array.isArray(parsedBrd)) {
+          parsedBrd = parsedBrd.map(b => {
+            if (b.image) {
+              const { image, ...rest } = b;
+              return rest;
+            }
+            return b;
+          });
+        }
+        brandsCache = parsedBrd;
         await dbSet("globalBrands", brandsCache);
         // Clear legacy once migrated
         localStorage.removeItem("globalBrands");
@@ -168,11 +219,11 @@ export function saveLiveInventory(inventory: any[]) {
 }
 
 export const INITIAL_BRANDS = [
-  { name: "4PM", description: "Premium, functional skincare solutions.", image: "/4pm-b2b.jpg" },
-  { name: "AESTURA", description: "Derma-cosmetics representing dermatology-grade barrier repair.", image: "/aestura-b2b.png" },
-  { name: "DDALMOMDE", description: "Innovative beauty focused on natural radiance.", image: "https://ecimg.cafe24img.com/pg296b84565315057/ddalmomde/web/product/big/20250601/286db4d145a35e2181a733b08b008e16.jpg" },
+  { name: "4PM", description: "Premium, functional skincare solutions." },
+  { name: "AESTURA", description: "Derma-cosmetics representing dermatology-grade barrier repair." },
+  { name: "DDALMOMDE", description: "Innovative beauty focused on natural radiance." },
   { name: "ATS", description: "Professional hair and scalp care brand." },
-  { name: "MEDICUBE", description: "Clinically tested dermocosmetics for sensitive and troubled skin.", image: "https://themedicube.com.sg/cdn/shop/products/86e27ee7b7a7a18211c0bd6d5ecf4d2c.png" },
+  { name: "MEDICUBE", description: "Clinically tested dermocosmetics for sensitive and troubled skin." },
   { name: "NUMBUZIN", description: "Number-based customized skincare solutions." },
   { name: "Ma:nyo", description: "Pure ingredient-oriented skincare brand for a healthy barrier." },
   { name: "Meditherapy", description: "Home-care healing solutions merging devices and cosmetics." },
