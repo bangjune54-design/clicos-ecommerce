@@ -271,20 +271,8 @@ export function Header({ activeSection }: HeaderProps) {
           {/* Contact */}
           <Link
             to="/contact"
-            onClick={(e) => {
-              if (isLandingPage) {
-                e.preventDefault();
-                const element = document.getElementById("contact");
-                if (element) {
-                  const offset = 80;
-                  const elementPosition = element.getBoundingClientRect().top;
-                  const offsetPosition = elementPosition + window.pageYOffset - offset;
-                  window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-                }
-              }
-            }}
             className={`text-[15px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
-              location.pathname === "/contact" || (location.pathname === "/" && activeSection === "contact")
+              location.pathname === "/contact"
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
             }`}
@@ -677,19 +665,7 @@ export function Header({ activeSection }: HeaderProps) {
                 {/* Contact */}
                 <Link
                   to="/contact"
-                  onClick={(e) => {
-                    setMobileMenuOpen(false);
-                    if (isLandingPage) {
-                      e.preventDefault();
-                      const element = document.getElementById("contact");
-                      if (element) {
-                        const offset = 80;
-                        const elementPosition = element.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - offset;
-                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-                      }
-                    }
-                  }}
+                  onClick={() => setMobileMenuOpen(false)}
                   className={`block rounded-xl px-4 py-2.5 text-base font-semibold transition-all ${
                     location.pathname === "/contact"
                       ? "text-primary-800 bg-primary-50/70"

@@ -7,7 +7,6 @@ import { BestSellers } from "../components/clicos/BestSellers";
 import { About } from "../components/clicos/About";
 import { BrandGrid } from "../components/clicos/BrandGrid";
 import { WhyChooseUs } from "../components/clicos/WhyChooseUs";
-import { Contact } from "../components/clicos/Contact";
 import { getLiveBanners, getLiveTickers } from "../utils/homepage";
 
 export function Home() {
@@ -56,9 +55,6 @@ export function Home() {
       <About />
       <BrandGrid />
       <WhyChooseUs />
-      
-      {/* Inquiry Form */}
-      <Contact />
     </div>
   );
 }
