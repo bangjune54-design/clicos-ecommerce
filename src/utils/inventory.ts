@@ -102,6 +102,12 @@ export async function initializeStorage() {
     let inv = await dbGet("globalInventory");
     let brd = await dbGet("globalBrands");
 
+    // Guarantee English by default for returning users migrating from legacy KO default versions
+    const savedLang = localStorage.getItem("language");
+    if (!savedLang || savedLang === "KO") {
+      localStorage.setItem("language", "EN");
+    }
+
     // Clear legacy unauthenticated pictures from loaded inventory cache
     if (inv && Array.isArray(inv)) {
       let needsReset = false;
