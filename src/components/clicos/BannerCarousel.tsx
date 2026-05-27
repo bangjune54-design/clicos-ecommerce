@@ -91,16 +91,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
                 )}
               </div>
 
-              {/* Foreground Content */}
-              <div className="relative z-10 mx-auto max-w-4xl px-6 text-center flex flex-col items-center pointer-events-none select-none">
-                <h1 className="text-3xl font-serif font-bold tracking-tight text-white sm:text-5xl md:text-6xl leading-[1.15] drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)] transition-transform duration-1000 delay-100 transform translate-y-0">
-                  {banner.title}
-                </h1>
-                
-                <p className="mt-6 text-base sm:text-lg md:text-xl leading-relaxed text-primary-100 max-w-2xl font-medium opacity-90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)] transition-transform duration-1000 delay-200 transform translate-y-0">
-                  {banner.subtitle}
-                </p>
-              </div>
+              {/* Foreground Content removed to prevent covering the banner image */}
             </div>
           );
         })}
