@@ -16,6 +16,15 @@ export function Checkout() {
   const [email, setEmail] = useState('');
   const [isRedirecting, setIsRedirecting] = useState(false);
   
+  // Shipping input state bindings
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [stateVal, setStateVal] = useState('');
+  const [zip, setZip] = useState('');
+  const [country, setCountry] = useState('United States');
+  
   const [retailItems, setRetailItems] = useState<any[]>(() => {
     return JSON.parse(localStorage.getItem('retailCart') || '[]');
   });
@@ -79,6 +88,59 @@ export function Checkout() {
       orderType: userType,
       items: userType === "wholesale" ? b2bItems : retailItems
     });
+    
+    // Save order in globalOrders array inside localStorage for Administrator Dashboard
+    try {
+      const savedOrders = localStorage.getItem("globalOrders");
+      const currentOrders = savedOrders ? JSON.parse(savedOrders) : [
+        { 
+          id: "KOR-8X912-39L", date: "March 15, 2026", status: "Processing", 
+          customerName: "Jane Doe", customerEmail: "jane.doe@example.com", total: 345.50,
+          address: "123 Main St, New York, NY 10001, USA",
+          items: [
+            { name: "Torriden DIVE-IN Low Molecular Hyaluronic Acid Serum 50ml", qty: 2, price: 21.00 },
+            { name: "FWEE Lip & Cheek Blurry Pudding Pot", qty: 3, price: 18.00 }
+          ]
+        },
+        { 
+          id: "KOR-7B421-99A", date: "February 28, 2026", status: "Delivered", 
+          customerName: "John Smith", customerEmail: "retail_shop@b2b.com", total: 128.00,
+          address: "88 Retail Ave, Los Angeles, CA 90015, USA",
+          items: [
+            { name: "CosRX Advanced Snail 96 Mucin Power Essence", qty: 5, price: 16.00 }
+          ]
+        },
+        { 
+          id: "KOR-9C111-22B", date: "March 18, 2026", status: "In Transit", 
+          customerName: "Admin Setup", customerEmail: "wholesale@clicos.co.kr", total: 450.00,
+          address: "1 Clicos Warehouse, Seoul, South Korea",
+          items: [
+            { name: "Beauty of Joseon Relief Sun : Rice + Probiotics", qty: 20, price: 14.50 },
+            { name: "Laneige Lip Sleeping Mask", qty: 10, price: 16.00 }
+          ]
+        }
+      ];
+      
+      const newOrder = {
+        id: `KOR-${Math.floor(Math.random() * 90000 + 10000)}-${Math.floor(Math.random() * 90 + 10)}${userType === "wholesale" ? "W" : "R"}`.toUpperCase(),
+        date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        status: "Processing",
+        customerName: `${firstName} ${lastName}`.trim() || "Retail Customer",
+        customerEmail: email,
+        total: Number(orderTotal.toFixed(2)),
+        address: `${address}, ${city}, ${stateVal} ${zip}, ${country}`,
+        items: (userType === "wholesale" ? b2bItems : retailItems).map((item: any) => ({
+          name: item.name,
+          qty: userType === "wholesale" ? item.boxQty : item.quantity,
+          price: item.price
+        }))
+      };
+      
+      const updatedOrders = [newOrder, ...currentOrders];
+      localStorage.setItem("globalOrders", JSON.stringify(updatedOrders));
+    } catch (e) {
+      console.error("Failed to persist order to admin console:", e);
+    }
     
     // Clear cart
     localStorage.removeItem('retailCart');
@@ -176,11 +238,11 @@ export function Checkout() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold mb-2 text-gray-900">First Name</label>
-                    <Input required placeholder="Jane" />
+                    <Input required placeholder="Jane" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold mb-2 text-gray-900">Last Name</label>
-                    <Input required placeholder="Doe" />
+                    <Input required placeholder="Doe" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold mb-2 text-gray-900">Email Address</label>
@@ -194,23 +256,27 @@ export function Checkout() {
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold mb-2 text-gray-900">Address line 1</label>
-                    <Input required placeholder="123 Shopping Avenue" />
+                    <Input required placeholder="123 Shopping Avenue" value={address} onChange={(e) => setAddress(e.target.value)} />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold mb-2 text-gray-900">City</label>
-                    <Input required placeholder="New York" />
+                    <Input required placeholder="New York" value={city} onChange={(e) => setCity(e.target.value)} />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold mb-2 text-gray-900">State / Province</label>
-                    <Input required placeholder="NY" />
+                    <Input required placeholder="NY" value={stateVal} onChange={(e) => setStateVal(e.target.value)} />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold mb-2 text-gray-900">Zip / Postal code</label>
-                    <Input required placeholder="10001" />
+                    <Input required placeholder="10001" value={zip} onChange={(e) => setZip(e.target.value)} />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold mb-2 text-gray-900">Country</label>
-                    <select className="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6">
+                    <select 
+                      value={country} 
+                      onChange={(e) => setCountry(e.target.value)}
+                      className="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6"
+                    >
                       <option>United States</option>
                       <option>South Korea</option>
                       <option>Canada</option>

@@ -80,7 +80,12 @@ const compressImageBase64 = (base64Str: string, maxWidth = 400, maxHeight = 400,
 export function AdminDashboard() {
   const { formatPrice, currency } = useCurrency();
   const [activeTab, setActiveTab] = useState<"orders" | "accounts" | "inventory" | "brands" | "homepage" | "settings">("orders");
-  const [orders, setOrders] = useState(initialMockOrders);
+  const [orders, setOrders] = useState<any[]>(() => {
+    const saved = localStorage.getItem("globalOrders");
+    if (saved) return JSON.parse(saved);
+    localStorage.setItem("globalOrders", JSON.stringify(initialMockOrders));
+    return initialMockOrders;
+  });
   const [accounts, setAccounts] = useState<any[]>(() => {
     const saved = localStorage.getItem("allAccounts");
     if (saved) return JSON.parse(saved);
@@ -123,11 +128,15 @@ export function AdminDashboard() {
   }, []);
 
   const handleStatusChange = (orderId: string, newStatus: string) => {
-    setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+    const updated = orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o);
+    setOrders(updated);
+    localStorage.setItem("globalOrders", JSON.stringify(updated));
   };
 
   const handleDeleteOrder = (orderId: string) => {
-    setOrders(orders.filter(o => o.id !== orderId));
+    const updated = orders.filter(o => o.id !== orderId);
+    setOrders(updated);
+    localStorage.setItem("globalOrders", JSON.stringify(updated));
   };
 
   const handleDeleteAccount = (accountId: string) => {
@@ -154,7 +163,9 @@ export function AdminDashboard() {
   };
 
   const handleSaveOrder = (id: string) => {
-    setOrders(orders.map(o => o.id === id ? { ...o, total: editOrderTotal } : o));
+    const updated = orders.map(o => o.id === id ? { ...o, total: editOrderTotal } : o);
+    setOrders(updated);
+    localStorage.setItem("globalOrders", JSON.stringify(updated));
     setEditingOrderId(null);
   };
 
