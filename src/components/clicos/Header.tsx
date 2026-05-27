@@ -14,10 +14,11 @@ export function Header({ activeSection }: HeaderProps) {
   
   // Dynamic e-commerce states
   const { language, setLanguage, t } = useLanguage();
-  const { currency, setCurrency } = useCurrency();
+  const { currency, setCurrency, formatPrice } = useCurrency();
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState<any[]>([]);
   
   // Dropdown hover & mobile accordion states
   const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
@@ -67,7 +68,9 @@ export function Header({ activeSection }: HeaderProps) {
       const userType = localStorage.getItem("userType") || "retail";
       const retail = JSON.parse(localStorage.getItem("retailCart") || "[]");
       const b2b = JSON.parse(localStorage.getItem("b2bCart") || "[]");
-      setCartCount(userType === "wholesale" ? b2b.length : retail.length);
+      const activeItems = userType === "wholesale" ? b2b : retail;
+      setCartItems(activeItems);
+      setCartCount(activeItems.reduce((sum: number, item: any) => sum + item.quantity, 0));
     };
 
     syncState();
@@ -118,6 +121,8 @@ export function Header({ activeSection }: HeaderProps) {
       }
     }
   };
+
+  const cartTotal = cartItems.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
 
   return (
     <header
@@ -376,28 +381,133 @@ export function Header({ activeSection }: HeaderProps) {
             <Search className="h-4.5 w-4.5" />
           </Link>
 
-          {/* Profile Trigger */}
-          <button
-            onClick={() => navigate(isLoggedIn ? "/my-page" : "/login")}
-            className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none"
-            title={isLoggedIn ? "My Profile" : "Login / Signup"}
+          {/* Profile Trigger Wrapper */}
+          <div
+            className="relative py-2"
+            onMouseEnter={() => setHoveredDropdown("profile")}
+            onMouseLeave={() => setHoveredDropdown(null)}
           >
-            <User className="h-4.5 w-4.5" />
-          </button>
-
-          {/* Cart Trigger with dynamic Red Badge */}
-          <button
-            onClick={() => navigate(isLoggedIn ? "/cart" : "/login")}
-            className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
-            title="Cart"
-          >
-            <ShoppingBag className="h-4.5 w-4.5" />
-            {cartCount > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center text-[9px] font-bold shadow-sm">
-                {cartCount}
-              </span>
+            <button
+              onClick={() => navigate(isLoggedIn ? "/my-page" : "/login")}
+              className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
+              title={isLoggedIn ? "My Profile" : "Login / Signup"}
+            >
+              <User className="h-4.5 w-4.5" />
+            </button>
+            {hoveredDropdown === "profile" && (
+              <div className="absolute right-0 top-full pt-2 z-50 w-40">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-2 flex flex-col gap-0.5 animate-slide-up">
+                  {!isLoggedIn ? (
+                    <Link
+                      to="/login"
+                      onClick={() => setHoveredDropdown(null)}
+                      className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                    >
+                      Login
+                    </Link>
+                  ) : (
+                    <>
+                      <Link
+                        to="/my-page"
+                        onClick={() => setHoveredDropdown(null)}
+                        className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                      >
+                        Account
+                      </Link>
+                      <button
+                        onClick={() => {
+                          setHoveredDropdown(null);
+                          localStorage.removeItem("isLoggedIn");
+                          localStorage.removeItem("userType");
+                          localStorage.removeItem("retailCart");
+                          localStorage.removeItem("b2bCart");
+                          window.dispatchEvent(new Event("storage"));
+                          navigate("/");
+                        }}
+                        className="px-3 py-2 text-xs font-semibold rounded-xl text-red-600 hover:bg-red-50 transition-colors block text-left w-full"
+                      >
+                        Log Out
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
             )}
-          </button>
+          </div>
+
+          {/* Cart Trigger Wrapper with dynamic Red Badge and hover dropdown */}
+          <div
+            className="relative py-2"
+            onMouseEnter={() => setHoveredDropdown("cart")}
+            onMouseLeave={() => setHoveredDropdown(null)}
+          >
+            <button
+              onClick={() => navigate(isLoggedIn ? "/cart" : "/login")}
+              className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
+              title="Cart"
+            >
+              <ShoppingBag className="h-4.5 w-4.5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center text-[9px] font-bold shadow-sm">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+            {hoveredDropdown === "cart" && (
+              <div className="absolute right-0 top-full pt-2 z-50 w-72">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-4 flex flex-col gap-3 animate-slide-up">
+                  <h4 className="text-xs font-bold text-gray-900 border-b border-gray-100 pb-2">
+                    Cart Items ({cartCount})
+                  </h4>
+                  {cartItems.length === 0 ? (
+                    <div className="text-center py-4 text-xs text-gray-400">
+                      Your cart is empty.
+                    </div>
+                  ) : (
+                    <>
+                      <div className="max-h-48 overflow-y-auto space-y-3 pr-1 scrollbar-thin">
+                        {cartItems.map((item, idx) => (
+                          <div key={item.id + (item.optionValue || idx)} className="flex items-center gap-2">
+                            <div className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 p-1 flex items-center justify-center flex-shrink-0">
+                              <img src={item.image || "/placeholder-product.svg"} alt="" className="max-w-full max-h-full object-contain" />
+                            </div>
+                            <div className="flex-grow min-w-0">
+                              <p className="text-[11px] font-bold text-gray-900 truncate">
+                                {item.name}
+                              </p>
+                              <p className="text-[9px] text-gray-400 truncate">
+                                {item.brand} {item.optionValue ? `| ${item.optionValue}` : ""}
+                              </p>
+                              <p className="text-[10px] text-primary-700 font-semibold mt-0.5">
+                                {item.quantity} x {formatPrice(item.price, item.currencyPrices)}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="border-t border-gray-100 pt-3 flex items-center justify-between">
+                        <span className="text-xs font-bold text-gray-500">Total Price:</span>
+                        <span className="text-sm font-bold text-primary-900">
+                          {formatPrice(cartTotal)}
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          setHoveredDropdown(null);
+                          navigate(isLoggedIn ? "/cart" : "/login");
+                        }}
+                        className="w-full text-center py-2.5 bg-primary-800 text-white rounded-xl text-xs font-semibold hover:bg-primary-900 transition-colors shadow-sm mt-1"
+                      >
+                        View Full Cart
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Mobile Hamburger Trigger */}
