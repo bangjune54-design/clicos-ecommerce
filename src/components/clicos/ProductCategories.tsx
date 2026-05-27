@@ -9,7 +9,7 @@ import { ArrowRight } from "lucide-react";
 // 1. Sun Care Icon
 function SunCareIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Sun Background */}
       <circle cx="20" cy="22" r="11" fill="#FEF08A" stroke="#374151" strokeWidth="2.5" />
       <path d="M20 6v3 M20 35v3 M6 22h3 M31 22h3 M10 12l2 2 M28 30l2 2 M10 32l2-2 M28 12l2-2" stroke="#374151" strokeWidth="2.5" strokeLinecap="round" />
@@ -28,7 +28,7 @@ function SunCareIcon() {
 // 2. Cleansing Icon
 function CleansingIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Pump Bottle Base */}
       <path d="M20 22h16v24H20z" fill="#FCA5A5" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       {/* Bottle Neck & Cap */}
@@ -48,7 +48,7 @@ function CleansingIcon() {
 // 3. Serum & Ampoule Icon
 function SerumAmpouleIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Ampoule Bottle */}
       <path d="M32 28h16v22H32z" fill="#86EFAC" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M36 22h8v6h-8z" fill="#94A3B8" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
@@ -68,7 +68,7 @@ function SerumAmpouleIcon() {
 // 4. Cream Icon
 function CreamIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Jar base */}
       <path d="M12 28h40v18H12z" fill="#94A3B8" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       {/* Lid */}
@@ -83,7 +83,7 @@ function CreamIcon() {
 // 5. Toner Icon
 function TonerIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Toner Bottle */}
       <path d="M20 20h16v28H20z" fill="#E0F2FE" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       {/* Pink stripe on bottle */}
@@ -99,7 +99,7 @@ function TonerIcon() {
 // 6. Mask Icon
 function MaskIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Sheet Mask Face */}
       <rect x="12" y="10" width="40" height="44" rx="20" fill="#CCFBF1" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       {/* Eye Cutouts */}
@@ -116,7 +116,7 @@ function MaskIcon() {
 // 7. Lip Makeup Icon
 function LipMakeupIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Lipstick Base Case */}
       <path d="M14 36h12v18H14z" fill="#64748B" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       {/* Metal Collar */}
@@ -137,7 +137,7 @@ function LipMakeupIcon() {
 // 8. Face Makeup Icon
 function FaceMakeupIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Compact Powder Base */}
       <ellipse cx="26" cy="46" rx="16" ry="8" fill="#64748B" stroke="#374151" strokeWidth="2.5" />
       {/* Powder Inside */}
@@ -160,7 +160,7 @@ function FaceMakeupIcon() {
 // 9. Hair Care Icon
 function HairCareIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Shampoo Bottle */}
       <path d="M16 22h14v26H16z" fill="#A7F3D0" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       {/* Cap */}
@@ -179,7 +179,7 @@ function HairCareIcon() {
 // 10. Body Care Icon
 function BodyCareIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-20 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Body Lotion Bottle */}
       <path d="M12 24h14v22H12z" fill="#E2E8F0" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M15 18h8v6h-8z" fill="#94A3B8" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
@@ -302,15 +302,16 @@ export function ProductCategories() {
             const IconComponent = cat.icon;
             
             return (
-              <div
+              <Link
                 key={idx}
-                className="group flex flex-col justify-between overflow-hidden rounded-3xl bg-white border border-gray-100 hover:border-primary-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1"
+                to={cat.href}
+                className="group flex flex-col justify-between overflow-hidden rounded-3xl bg-white border border-gray-100 hover:border-primary-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 text-left"
               >
                 <div>
                   {/* Category Gradient Vector Box */}
                   <div className={`aspect-[16/10] w-full flex items-center justify-center relative bg-gradient-to-tr ${cat.gradient}`}>
                     {/* Floating Premium Icon */}
-                    <div className="flex items-center justify-center w-20 h-20 rounded-2xl shadow-inner border border-white/50 group-hover:scale-110 transition-transform duration-500">
+                    <div className="flex items-center justify-center w-24 h-24 rounded-2xl shadow-inner border border-white/50 group-hover:scale-110 transition-transform duration-500 bg-white/40 backdrop-blur-[2px]">
                       <IconComponent />
                     </div>
                     <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[9px] font-bold text-primary-900 px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
@@ -331,15 +332,14 @@ export function ProductCategories() {
 
                 {/* Footer Action */}
                 <div className="px-5 pb-5 pt-1">
-                  <Link
-                    to={cat.href}
-                    className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-primary-700 hover:text-accent group-hover:translate-x-0.5 transition-all"
+                  <div
+                    className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-primary-700 group-hover:text-accent group-hover:translate-x-0.5 transition-all"
                   >
                     Shop Now
                     <ArrowRight className="w-3 h-3" />
-                  </Link>
+                  </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
