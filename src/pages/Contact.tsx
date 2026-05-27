@@ -7,17 +7,73 @@ import { sendAdminNotification } from "../utils/email";
 export function Contact() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrorMsg("");
+    setSuccess(false);
+
     const formData = new FormData(e.currentTarget);
-    const data: Record<string, any> = {};
-    formData.forEach((value, key) => {
-      data[key] = value;
-    });
-    
-    sendAdminNotification(`New Inquiry: ${data.subject || 'Contact Form'}`, data);
-    setSuccess(true);
+    const firstName = (formData.get("first-name") as string || "").trim();
+    const lastName = (formData.get("last-name") as string || "").trim();
+    const name = `${firstName} ${lastName}`.trim();
+    const email = (formData.get("email") as string || "").trim();
+    const message = (formData.get("message") as string || "").trim();
+    const customerType = formData.get("customer-type") as string || "";
+    const country = formData.get("country") as string || "";
+    const manualCountry = formData.get("manual-country") as string || "";
+    const subject = formData.get("subject") as string || "";
+
+    // Frontend validations
+    if (!name) {
+      setErrorMsg("First name and Last name are required.");
+      return;
+    }
+    if (!email) {
+      setErrorMsg("Email address is required.");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+    if (!message) {
+      setErrorMsg("Message is required.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          customerType,
+          country: country === "OTHER" ? manualCountry : country,
+          subject
+        })
+      });
+
+      if (response.ok) {
+        setSuccess(true);
+      } else {
+        const resData = await response.json().catch(() => ({}));
+        setErrorMsg(resData.message || "Something went wrong. Please try again later.");
+      }
+    } catch (err) {
+      setErrorMsg("Something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <div className="bg-white">
@@ -81,16 +137,22 @@ export function Contact() {
 
             {/* Contact Form */}
             {success ? (
-              <div className="bg-green-50 text-green-800 p-8 py-16 rounded-3xl flex flex-col items-center justify-center text-center border border-green-200 h-full">
+              <div className="bg-green-50 text-green-800 p-8 py-16 rounded-3xl flex flex-col items-center justify-center text-center border border-green-200 h-full animate-fade-in">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
                   <Mail className="w-10 h-10 text-green-600" />
                 </div>
                 <h3 className="text-3xl font-bold font-serif mb-4">Message Sent!</h3>
-                <p className="text-green-700 max-w-sm mb-8">Thank you for reaching out. We have received your inquiry and will reply to you as soon as possible.</p>
-                <Button onClick={() => setSuccess(false)} variant="outline" className="border-green-300 text-green-800 hover:bg-green-100">Send Another Message</Button>
+                <p className="text-green-700 max-w-sm mb-8">Your message has been sent successfully.</p>
+                <Button onClick={() => { setSuccess(false); setErrorMsg(""); }} variant="outline" className="border-green-300 text-green-800 hover:bg-green-100">Send Another Message</Button>
               </div>
             ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
+              {errorMsg && (
+                <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl text-sm text-center">
+                  {errorMsg}
+                </div>
+              )}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
@@ -195,8 +257,8 @@ export function Contact() {
                 />
               </div>
 
-              <Button type="submit" size="lg" className="w-full">
-                Send Message
+              <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
             </form>
             )}
