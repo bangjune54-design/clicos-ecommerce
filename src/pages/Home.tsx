@@ -52,8 +52,8 @@ export function Home() {
       <BestSellers />
 
       {/* Sourcing Corporate Values */}
-      <About />
       <BrandGrid />
+      <About />
       <WhyChooseUs />
     </div>
   );

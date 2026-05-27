@@ -33,8 +33,30 @@ export function About() {
               <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-accent/15 blur-2xl pointer-events-none"></div>
               <div className="absolute bottom-12 left-6 w-24 h-24 rounded-full bg-primary-300/10 blur-xl pointer-events-none"></div>
               
+              {/* High-Tech Global Map Background */}
+              <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center p-6">
+                <svg className="w-full h-full text-primary-200/40" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round">
+                  <circle cx="50" cy="50" r="45" strokeDasharray="3 3" />
+                  <ellipse cx="50" cy="50" rx="45" ry="18" />
+                  <ellipse cx="50" cy="50" rx="45" ry="32" />
+                  <ellipse cx="50" cy="50" rx="18" ry="45" />
+                  <ellipse cx="50" cy="50" rx="32" ry="45" />
+                  <line x1="5" y1="50" x2="95" y2="50" />
+                  <line x1="50" y1="5" x2="50" y2="95" />
+                  <path d="M20 50 Q 50 20 80 50" strokeDasharray="2 2" strokeWidth="1.2" />
+                  <path d="M25 60 Q 50 35 75 40" strokeDasharray="2 2" strokeWidth="1.2" />
+                  <path d="M15 40 Q 50 65 85 45" strokeDasharray="2 2" strokeWidth="1.2" />
+                  <circle cx="20" cy="50" r="2.5" fill="currentColor" />
+                  <circle cx="80" cy="50" r="2.5" fill="currentColor" />
+                  <circle cx="25" cy="60" r="2" fill="currentColor" />
+                  <circle cx="75" cy="40" r="2.5" fill="currentColor" />
+                  <circle cx="50" cy="27" r="2" fill="currentColor" />
+                  <circle cx="50" cy="65" r="3" fill="#FDA4AF" />
+                </svg>
+              </div>
+
               {/* Premium Vector Bottle Illustration */}
-              <div className="flex-grow flex items-center justify-center relative">
+              <div className="flex-grow flex items-center justify-center relative z-10">
                 <svg className="w-36 h-36 text-primary-200/30 group-hover:scale-105 transition-transform duration-500 ease-out" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round">
                   <rect x="32" y="40" width="36" height="46" rx="8" />
                   <path d="M43 40V24c0-2 2-3 4-3h6c2 0 4 1 4 3v16" strokeWidth="1.5" />
