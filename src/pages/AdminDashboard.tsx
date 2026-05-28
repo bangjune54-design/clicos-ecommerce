@@ -43,7 +43,7 @@ const mockAccounts = [
   { id: "USR-003", name: "Admin Setup", email: "info@clicos.co.kr", type: "Admin", joined: "Dec 01, 2025", status: "Active" },
 ];
 
-const compressImageBase64 = (base64Str: string, maxWidth = 1920, maxHeight = 1080, quality = 0.92): Promise<string> => {
+const compressImageBase64 = (base64Str: string, maxWidth = 2560, maxHeight = 1440, quality = 0.95): Promise<string> => {
   return new Promise((resolve) => {
     const img = new Image();
     img.src = base64Str;
@@ -67,9 +67,21 @@ const compressImageBase64 = (base64Str: string, maxWidth = 1920, maxHeight = 108
         ctx.imageSmoothingQuality = "high";
         ctx.drawImage(img, 0, 0, width, height);
       }
-      // Prefer WebP for better quality-to-size; fall back to JPEG
+      
+      // Detect original format to handle transparency properly
+      const isPng = base64Str.startsWith("data:image/png");
       const webpSupported = canvas.toDataURL("image/webp").startsWith("data:image/webp");
-      resolve(canvas.toDataURL(webpSupported ? "image/webp" : "image/jpeg", quality));
+      
+      if (webpSupported) {
+        // WebP has beautiful transparency support and high quality
+        resolve(canvas.toDataURL("image/webp", quality));
+      } else if (isPng) {
+        // Fallback for transparent PNGs
+        resolve(canvas.toDataURL("image/png"));
+      } else {
+        // Fallback for JPEGs
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      }
     };
     img.onerror = () => resolve(base64Str);
   });
@@ -602,39 +614,9 @@ export function AdminDashboard() {
                             const file = e.dataTransfer.files[0];
                             const reader = new FileReader();
                             reader.onload = (event) => {
-                              const img = new Image();
-                              img.onload = () => {
-                                const canvas = document.createElement("canvas");
-                                const MAX_WIDTH = 400;
-                                const MAX_HEIGHT = 400;
-                                let width = img.width;
-                                let height = img.height;
-
-                                if (width > height) {
-                                  if (width > MAX_WIDTH) {
-                                    height = Math.round((height * MAX_WIDTH) / width);
-                                    width = MAX_WIDTH;
-                                  }
-                                } else {
-                                  if (height > MAX_HEIGHT) {
-                                    width = Math.round((width * MAX_HEIGHT) / height);
-                                    height = MAX_HEIGHT;
-                                  }
-                                }
-                                canvas.width = width;
-                                canvas.height = height;
-                                const ctx = canvas.getContext("2d");
-                                if (ctx) {
-                                  ctx.fillStyle = "#ffffff";
-                                  ctx.fillRect(0, 0, width, height);
-                                  ctx.drawImage(img, 0, 0, width, height);
-                                }
-                                
-                                // Force jpeg for guaranteed compression across all browsers (Safari fallback fix)
-                                const dataUrl = canvas.toDataURL('image/jpeg', 0.4);
-                                setEditProductPayload({ ...editProductPayload, imageSrc: dataUrl });
-                              };
-                              img.src = event.target?.result as string;
+                              compressImageBase64(event.target?.result as string, 1000, 1000, 0.95).then((compressed) => {
+                                setEditProductPayload({ ...editProductPayload, imageSrc: compressed });
+                              });
                             };
                             reader.readAsDataURL(file);
                           }
@@ -662,10 +644,33 @@ export function AdminDashboard() {
                           </div>
                         )}
                       </div>
+                      <div className="flex gap-2 mb-3">
+                        <Button type="button" variant="outline" className="flex-1 text-xs" onClick={() => document.getElementById("product-file-upload")?.click()}>
+                          Select Image File
+                        </Button>
+                        <input 
+                          type="file" 
+                          accept="image/*"
+                          className="hidden" 
+                          id="product-file-upload" 
+                          onChange={(e) => {
+                            if (e.target.files && e.target.files[0]) {
+                              const file = e.target.files[0];
+                              const reader = new FileReader();
+                              reader.onload = (event) => {
+                                compressImageBase64(event.target?.result as string, 1000, 1000, 0.95).then((compressed) => {
+                                  setEditProductPayload({ ...editProductPayload, imageSrc: compressed });
+                                });
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                      </div>
                       <Input 
                         value={editProductPayload.imageSrc || ""} 
                         onChange={e => setEditProductPayload({...editProductPayload, imageSrc: e.target.value})} 
-                        placeholder="Image URL (or drag & drop above)"
+                        placeholder="Image URL (or drag & drop / upload above)"
                       />
                     </div>
                     <div>
@@ -1094,7 +1099,7 @@ export function AdminDashboard() {
                             const file = e.dataTransfer.files[0];
                             const reader = new FileReader();
                             reader.onload = (event) => {
-                              compressImageBase64(event.target?.result as string, 1920, 1080, 0.92).then((compressed) => {
+                              compressImageBase64(event.target?.result as string, 2560, 1440, 0.95).then((compressed) => {
                                 setEditBannerPayload({ ...editBannerPayload, image: compressed });
                               });
                             };
@@ -1134,7 +1139,7 @@ export function AdminDashboard() {
                             const file = e.target.files[0];
                             const reader = new FileReader();
                             reader.onload = (event) => {
-                              compressImageBase64(event.target?.result as string, 1920, 1080, 0.92).then((compressed) => {
+                              compressImageBase64(event.target?.result as string, 2560, 1440, 0.95).then((compressed) => {
                                 setEditBannerPayload({ ...editBannerPayload, image: compressed });
                               });
                             };
