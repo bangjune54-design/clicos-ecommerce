@@ -15,7 +15,7 @@ export function NewArrivals() {
 
   return (
     <section id="new-arrivals" className="py-24 sm:py-32 bg-white">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-[1600px] px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 mb-12 border-b border-gray-100 pb-6">

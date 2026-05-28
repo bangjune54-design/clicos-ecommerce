@@ -159,7 +159,7 @@ export function Header({ activeSection }: HeaderProps) {
           : "bg-transparent py-7"
       }`}
     >
-      <nav className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-between">
+      <nav className="mx-auto max-w-[1600px] px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
         <div className="flex lg:flex-1">
           <Link

@@ -160,7 +160,7 @@ export function Shop() {
 
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row md:items-baseline md:justify-between border-b border-gray-200 pb-6 mb-8">
           <div>
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 font-serif">

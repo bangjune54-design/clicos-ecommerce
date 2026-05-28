@@ -20,7 +20,7 @@ export function About() {
       </div>
 
       {/* Content section */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16">
+      <div className="mx-auto max-w-[1600px] px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <img
@@ -55,7 +55,7 @@ export function About() {
 
       {/* Values section */}
       <div className="bg-primary-900 py-24 sm:py-32 mt-16 text-primary-50">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-[1600px] px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl font-serif">
               Our Core Values

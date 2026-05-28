@@ -44,7 +44,7 @@ export function Blog() {
           />
           <div className="absolute inset-0 bg-[#4A3018]/80" />
         </div>
-        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="relative mx-auto max-w-[1600px] px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-5xl font-bold tracking-tight text-white sm:text-6xl font-serif">
               The CLICOS Journal
@@ -56,7 +56,7 @@ export function Blog() {
         </div>
       </div>
       
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-[1600px] px-6 lg:px-8">
         
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {posts.map((post) => (

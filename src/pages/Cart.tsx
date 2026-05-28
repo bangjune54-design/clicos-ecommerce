@@ -114,7 +114,7 @@ export function Cart() {
 
   return (
     <div className="bg-gray-50 min-h-[calc(100vh-80px)] py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-serif font-bold text-gray-900 mb-8">Shopping Cart</h1>
 
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">

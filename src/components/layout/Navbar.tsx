@@ -123,7 +123,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full glass">
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8"
+        className="mx-auto flex max-w-[1600px] items-center justify-between p-4 lg:px-8"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">

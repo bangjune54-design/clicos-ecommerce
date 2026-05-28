@@ -345,7 +345,7 @@ export function AdminDashboard() {
 
   return (
     <div className="bg-gray-50 min-h-[calc(100vh-80px)] py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Admin Header */}
         <div className="md:flex md:items-center md:justify-between mb-8">
