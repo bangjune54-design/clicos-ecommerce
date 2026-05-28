@@ -6,9 +6,8 @@ import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { getLiveInventory, getLiveBrands } from "../utils/inventory";
+import { useLanguage } from "../contexts/LanguageContext";
 
-// Mocks
-// Categories structure
 const CATEGORY_STRUCTURE = [
   { name: "All" },
   {
@@ -20,15 +19,161 @@ const CATEGORY_STRUCTURE = [
   { name: "Body Care" }
 ];
 
-// Flattened list for URL matching if needed
 const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap(c => [c.name, ...(c.subcategories || [])]);
+
+const TRANSLATED_SHOP: Record<string, Record<string, string>> = {
+  EN: {
+    "Shop All Products": "Shop All Products",
+    "Shop Subtitle": "Discover authentic Korean beauty shipped directly to your door.",
+    "Filters": "Filters",
+    "Collection": "Collection",
+    "All Products": "All Products",
+    "New Arrivals": "New Arrivals",
+    "Best Sellers": "Best Sellers",
+    "Category": "Category",
+    "Brand": "Brand",
+    "No products found": "No products found",
+    "Try different category": "Try selecting a different category or search term.",
+    "Add to Cart": "Add to Cart",
+    "Bestseller": "Bestseller",
+    "Search placeholder": "Search products & brands...",
+    "Select option": "Select option...",
+    "sold": "sold",
+    "All": "All",
+    "Products": "Products"
+  },
+  KO: {
+    "Shop All Products": "모든 제품 보기",
+    "Shop Subtitle": "대문 앞까지 직배송되는 믿을 수 있는 K-뷰티 정품을 만나보세요.",
+    "Filters": "필터",
+    "Collection": "컬렉션",
+    "All Products": "모든 상품",
+    "New Arrivals": "신상품",
+    "Best Sellers": "베스트셀러",
+    "Category": "카테고리",
+    "Brand": "브랜드",
+    "No products found": "검색 결과가 없습니다.",
+    "Try different category": "다른 카테고리를 선택하거나 검색어를 변경해 보세요.",
+    "Add to Cart": "장바구니 담기",
+    "Bestseller": "인기 상품",
+    "Search placeholder": "제품 및 브랜드 검색...",
+    "Select option": "옵션 선택...",
+    "sold": "개 판매됨",
+    "All": "전체",
+    "Products": "제품"
+  },
+  PT: {
+    "Shop All Products": "Todos os Produtos",
+    "Shop Subtitle": "Descubra a autêntica beleza coreana enviada diretamente para sua porta.",
+    "Filters": "Filtros",
+    "Collection": "Coleção",
+    "All Products": "Todos os Produtos",
+    "New Arrivals": "Novidades",
+    "Best Sellers": "Mais Vendidos",
+    "Category": "Categoria",
+    "Brand": "Marca",
+    "No products found": "Nenhum produto encontrado",
+    "Try different category": "Tente selecionar uma categoria diferente ou termo de busca.",
+    "Add to Cart": "Comprar",
+    "Bestseller": "Mais Vendido",
+    "Search placeholder": "Buscar produtos e marcas...",
+    "Select option": "Selecionar opção...",
+    "sold": "vendidos",
+    "All": "Todos",
+    "Products": "Produtos"
+  },
+  ES: {
+    "Shop All Products": "Todos los Productos",
+    "Shop Subtitle": "Descubra la auténtica belleza coreana enviada directamente a su puerta.",
+    "Filters": "Filtros",
+    "Collection": "Colección",
+    "All Products": "Todos los Productos",
+    "New Arrivals": "Novedades",
+    "Best Sellers": "Más Vendidos",
+    "Category": "Categoría",
+    "Brand": "Marca",
+    "No products found": "No se encontraron productos",
+    "Try different category": "Intente seleccionar una categoría diferente o término de búsqueda.",
+    "Add to Cart": "Añadir al Carrito",
+    "Bestseller": "Más Vendido",
+    "Search placeholder": "Buscar productos y marcas...",
+    "Select option": "Seleccionar opción...",
+    "sold": "vendidos",
+    "All": "Todos",
+    "Products": "Productos"
+  },
+  ZH: {
+    "Shop All Products": "全部产品",
+    "Shop Subtitle": "探索直接送达您家门口的正宗韩国美妆。",
+    "Filters": "筛选器",
+    "Collection": "系列分类",
+    "All Products": "全部商品",
+    "New Arrivals": "新品上市",
+    "Best Sellers": "畅销明星",
+    "Category": "品类",
+    "Brand": "品牌",
+    "No products found": "未找到相关产品",
+    "Try different category": "请尝试选择其他类别或更改您的搜索词。",
+    "Add to Cart": "加入购物车",
+    "Bestseller": "畅销爆款",
+    "Search placeholder": "搜索产品和品牌...",
+    "Select option": "选择选项...",
+    "sold": "已售",
+    "All": "全部",
+    "Products": "产品"
+  },
+  JA: {
+    "Shop All Products": "全商品一覧",
+    "Shop Subtitle": "ご自宅に直接お届けする、安心の本物韓国コスメをご覧ください。",
+    "Filters": "フィルター",
+    "Collection": "コレクション",
+    "All Products": "すべての商品",
+    "New Arrivals": "新着商品",
+    "Best Sellers": "ベストセラー",
+    "Category": "カテゴリー",
+    "Brand": "ブランド",
+    "No products found": "該当する商品は見つかりませんでした",
+    "Try different category": "別のカテゴリーを選択するか、検索ワードを変更してください。",
+    "Add to Cart": "カートに入れる",
+    "Bestseller": "ベストセラー",
+    "Search placeholder": "製品やブランドを検索...",
+    "Select option": "オプションを選択...",
+    "sold": "個販売",
+    "All": "すべて",
+    "Products": "商品"
+  }
+};
 
 export function Shop() {
   const allShopProducts = getLiveInventory();
   const b2bBrands = getLiveBrands();
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { language, t } = useLanguage();
   
+  const d = (key: string) => {
+    return TRANSLATED_SHOP[language]?.[key] || key;
+  };
+
+  const translateCategory = (catName: string) => {
+    const key = catName.toLowerCase().replace(/ & /g, "_").replace(/ /g, "_");
+    if (key === "all") return d("All");
+    if (key === "skincare") return t("skincare");
+    if (key === "makeup") return t("makeup");
+    if (key === "hair_care" || key === "haircare") return t("hair_care");
+    if (key === "body_care" || key === "bodycare") return t("body_care");
+    
+    // Subcategories
+    if (key === "sun_care") return t("cat_sun_care");
+    if (key === "cleansing") return t("cat_cleansing");
+    if (key === "serum_ampoule") return t("cat_serum");
+    if (key === "cream") return t("cat_cream");
+    if (key === "toner") return t("cat_toner");
+    if (key === "facial_mask" || key === "mask") return t("cat_mask");
+    
+    return t(key) || catName;
+  };
+
   const initialCategory = searchParams.get("category");
   const initialBrand = searchParams.get("brand");
   const initialCollection = searchParams.get("collection") || "all";
@@ -47,10 +192,7 @@ export function Shop() {
     CATEGORY_STRUCTURE.find(c => c.name === activeCategory || c.subcategories?.includes(activeCategory))?.name || null
   );
   
-  // Shop is strictly retail, synced with search parameter
   const [shopSearchQuery, setShopSearchQuery] = useState(initialSearch);
-  
-  // Track quantities independently for each product card
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   
@@ -59,7 +201,6 @@ export function Shop() {
     setQuantities(prev => ({ ...prev, [id]: Math.max(1, (prev[id] || 1) + delta) }));
   };
 
-  // Sync state if search params change externally (e.g. via clicking header categories dropdown or global search input)
   React.useEffect(() => {
     if (initialCategory) {
       const matched = ALL_CATEGORIES.find(c => c.toLowerCase().replace(/ & /g, "").replace(/ /g, "") === initialCategory);
@@ -78,7 +219,7 @@ export function Shop() {
     e.preventDefault();
     e.stopPropagation();
     const qty = getQty(product.id);
-    const userType = localStorage.getItem("userType") || "retail"; // default guests to retail
+    const userType = localStorage.getItem("userType") || "retail";
     
     if (userType === "wholesale") {
       alert("Wholesale Partners should use the Wholesale portal for bulk orders. Redirecting to Cart...");
@@ -114,10 +255,8 @@ export function Shop() {
       
       window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: `Added ${qty}x ${product.name} to Cart!` } }));
 
-      // Reset quantity after adding
       setQuantities(prev => ({ ...prev, [product.id]: 1 }));
       setSelectedOptions(prev => { const next = {...prev}; delete next[product.id]; return next; });
-      // Dispatch an event so Navbar can update its badge immediately
       window.dispatchEvent(new Event("storage"));
     } catch (err) {
       console.error("Retail cart update failed:", err);
@@ -131,12 +270,10 @@ export function Shop() {
     if (activeCategory === "All") {
       matchesCategory = true;
     } else {
-      // If clicking a parent category like "Skincare", it should show products that are "Skincare" OR any of its subcategories.
       const parentCat = CATEGORY_STRUCTURE.find(c => c.name === activeCategory);
       if (parentCat && parentCat.subcategories) {
         matchesCategory = p.category === activeCategory || parentCat.subcategories.includes(p.category);
       } else {
-        // Otherwise exact match for subcategories or basic categories
         matchesCategory = p.category === activeCategory;
       }
     }
@@ -148,7 +285,6 @@ export function Shop() {
     
     let matchesCollection = true;
     if (activeCollection === "new-arrivals") {
-      // Filter first 8 items in catalog as new arrivals
       const newArrivalIds = allShopProducts.slice(0, 8).map(prod => prod.id);
       matchesCollection = newArrivalIds.includes(p.id);
     } else if (activeCollection === "best-sellers") {
@@ -164,14 +300,12 @@ export function Shop() {
         <div className="flex flex-col md:flex-row md:items-baseline md:justify-between border-b border-gray-200 pb-6 mb-8">
           <div>
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 font-serif">
-              Shop All Products
+              {d("Shop All Products")}
             </h1>
             <p className="mt-2 text-primary-600">
-              Discover authentic Korean beauty shipped directly to your door.
+              {d("Shop Subtitle")}
             </p>
           </div>
-
-
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -179,12 +313,12 @@ export function Shop() {
           <div className="lg:w-1/4">
             <div className="sticky top-24 space-y-6">
               <h3 className="flex items-center gap-2 text-lg font-bold font-serif border-b border-gray-100 pb-3">
-                <Filter className="w-5 h-5" /> Filters
+                <Filter className="w-5 h-5" /> {d("Filters")}
               </h3>
               
               {/* Collection Quick Filters */}
               <div className="py-2">
-                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs">Collection</h4>
+                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs">{d("Collection")}</h4>
                 <div className="space-y-1">
                   <button
                     onClick={() => {
@@ -198,7 +332,7 @@ export function Shop() {
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }`}
                   >
-                    <span>All Products</span>
+                    <span>{d("All Products")}</span>
                     <span className="text-xs bg-gray-100 text-gray-500 py-0.5 px-2 rounded-full font-semibold">
                       {allShopProducts.length}
                     </span>
@@ -216,7 +350,7 @@ export function Shop() {
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }`}
                   >
-                    <span>New Arrivals</span>
+                    <span>{d("New Arrivals")}</span>
                     <span className="text-xs bg-gray-100 text-gray-500 py-0.5 px-2 rounded-full font-semibold">
                       8
                     </span>
@@ -234,7 +368,7 @@ export function Shop() {
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }`}
                   >
-                    <span>Best Sellers</span>
+                    <span>{d("Best Sellers")}</span>
                     <span className="text-xs bg-gray-100 text-gray-500 py-0.5 px-2 rounded-full font-semibold">
                       {allShopProducts.filter(p => p.isBestseller).length}
                     </span>
@@ -244,7 +378,7 @@ export function Shop() {
 
               {/* Categories Filter */}
               <div className="border-t border-gray-100 pt-5">
-                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs">Category</h4>
+                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs">{d("Category")}</h4>
                 <div className="space-y-2">
                   {CATEGORY_STRUCTURE.map((category) => {
                     const isExpanded = expandedCategory === category.name;
@@ -260,7 +394,6 @@ export function Shop() {
                             } else {
                               setExpandedCategory(null);
                             }
-                            
                             setActiveCategory(category.name);
                             if (category.name === "All") {
                               searchParams.delete("category");
@@ -269,21 +402,20 @@ export function Shop() {
                             }
                             setSearchParams(searchParams);
                           }}
-                          className={`text-sm flex items-center justify-between w-full text-left py-1.5 px-2.5 rounded-lg ${
+                          className={`text-sm flex items-center justify-between w-full text-left py-1.5 px-2 rounded-xl transition-all ${
                             isActive
-                              ? "font-bold text-primary-800 bg-primary-50/40"
-                              : "text-gray-600 hover:text-primary-800 hover:bg-gray-50/50"
-                          } transition-colors`}
+                              ? "bg-primary-50 font-bold text-primary-800"
+                              : "text-gray-600 hover:bg-gray-50"
+                          }`}
                         >
-                          <span>{category.name}</span>
+                          <span>{translateCategory(category.name)}</span>
                           {hasSubcategories && (
-                            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
+                            <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                           )}
                         </button>
                         
-                        {/* Subcategories Dropdown */}
                         {hasSubcategories && isExpanded && (
-                          <div className="pl-4 mt-1.5 space-y-1 border-l-2 border-primary-100 ml-3">
+                          <div className="pl-4 mt-2 space-y-1.5 border-l-2 border-primary-100 ml-3">
                             {category.subcategories?.map(sub => {
                               const isSubActive = activeCategory === sub;
                               return (
@@ -294,11 +426,11 @@ export function Shop() {
                                     searchParams.set("category", sub.toLowerCase().replace(/ & /g, "").replace(/ /g, ""));
                                     setSearchParams(searchParams);
                                   }}
-                                  className={`block text-xs text-left w-full py-1.5 px-2 rounded-md ${
-                                    isSubActive ? "font-bold text-primary-750 bg-primary-50/30" : "text-gray-500 hover:text-primary-750 hover:bg-gray-50/30"
-                                  } transition-colors`}
+                                  className={`block text-xs text-left w-full py-1 px-2 rounded-lg transition-all ${
+                                    isSubActive ? "bg-primary-50 font-bold text-primary-750" : "text-gray-500 hover:bg-gray-50"
+                                  }`}
                                 >
-                                  {sub}
+                                  {translateCategory(sub)}
                                 </button>
                               );
                             })}
@@ -312,33 +444,15 @@ export function Shop() {
 
               {/* Brands Filter */}
               <div className="border-t border-gray-100 pt-5">
-                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs flex items-center justify-between">
-                  <span>Brands</span>
-                  {activeBrand && (
-                    <button
-                      onClick={() => {
-                        setActiveBrand(null);
-                        searchParams.delete("brand");
-                        setSearchParams(searchParams);
-                      }}
-                      className="text-[10px] text-primary-650 hover:text-primary-850 font-bold lowercase tracking-normal"
-                    >
-                      Clear
-                    </button>
-                  )}
-                </h4>
-                <div className="max-h-64 overflow-y-auto pr-1 space-y-1 scrollbar-thin">
+                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs">{d("Brand")}</h4>
+                <div className="space-y-1.5 max-h-60 overflow-y-auto pr-2 scrollbar-thin">
                   {b2bBrands.map((brand) => {
-                    const isBrandActive = activeBrand?.toLowerCase() === brand.name.toLowerCase();
-                    const brandProductsCount = allShopProducts.filter(p => p.brand.toLowerCase() === brand.name.toLowerCase()).length;
-                    
-                    if (brandProductsCount === 0) return null;
-                    
+                    const isActive = activeBrand?.toLowerCase() === brand.name.toLowerCase();
                     return (
                       <button
-                        key={brand.name}
+                        key={brand.id}
                         onClick={() => {
-                          if (isBrandActive) {
+                          if (isActive) {
                             setActiveBrand(null);
                             searchParams.delete("brand");
                           } else {
@@ -347,16 +461,13 @@ export function Shop() {
                           }
                           setSearchParams(searchParams);
                         }}
-                        className={`flex items-center justify-between w-full text-left text-xs py-1.5 px-2.5 rounded-lg transition-all ${
-                          isBrandActive
+                        className={`flex items-center justify-between w-full text-left text-xs py-1.5 px-2 rounded-lg transition-all ${
+                          isActive
                             ? "bg-primary-50 font-bold text-primary-800"
-                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                            : "text-gray-600 hover:bg-gray-50"
                         }`}
                       >
-                        <span className="truncate">{brand.name}</span>
-                        <span className="text-[10px] text-gray-400 font-semibold bg-gray-50 py-0.5 px-1.5 rounded-full">
-                          {brandProductsCount}
-                        </span>
+                        <span>{brand.name}</span>
                       </button>
                     );
                   })}
@@ -370,7 +481,7 @@ export function Shop() {
             {/* Controls Bar */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-4 border-b border-gray-100 mb-8 gap-4">
               <div className="flex items-center gap-2 text-sm text-gray-500">
-                <span className="font-medium text-gray-900">{filteredProducts.length}</span> Products
+                <span className="font-medium text-gray-900">{filteredProducts.length}</span> {d("Products")}
                 {activeBrand && (
                   <button 
                     onClick={() => {
@@ -380,7 +491,7 @@ export function Shop() {
                     }}
                     className="ml-2 flex items-center gap-1 bg-primary-50 text-primary-700 px-2.5 py-1 rounded-full text-xs font-semibold hover:bg-primary-100 transition-colors"
                   >
-                    Brand: {activeBrand} <span className="ml-1 text-[10px] opacity-70">✕</span>
+                    {d("Brand")}: {activeBrand} <span className="ml-1 text-[10px] opacity-70">✕</span>
                   </button>
                 )}
               </div>
@@ -391,7 +502,7 @@ export function Shop() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Search products & brands..."
+                  placeholder={d("Search placeholder")}
                   value={shopSearchQuery}
                   onChange={(e) => setShopSearchQuery(e.target.value)}
                   className="block w-full rounded-full border-0 py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
@@ -411,7 +522,7 @@ export function Shop() {
                       />
                       {product.isBestseller && (
                         <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
-                          Bestseller
+                          {d("Bestseller")}
                         </Badge>
                       )}
                     </div>
@@ -426,7 +537,7 @@ export function Shop() {
                       </div>
                       <Button className="w-full gap-2 shadow-md" onClick={(e) => handleAddToCart(e, product)}>
                         <ShoppingBag className="w-4 h-4" /> 
-                        Add to Cart
+                        {d("Add to Cart")}
                       </Button>
                     </div>
                   
@@ -456,7 +567,7 @@ export function Shop() {
                       <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
                       <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
                       <span className="ml-auto text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded">
-                        {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ sold
+                        {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ {d("sold")}
                       </span>
                     </Link>
                     
@@ -471,7 +582,7 @@ export function Shop() {
                              setSelectedOptions(prev => ({...prev, [product.id]: e.target.value}));
                           }}
                         >
-                          <option value="" disabled>Select option...</option>
+                          <option value="" disabled>{d("Select option")}</option>
                           {(product.options || product.colors).map((opt: string) => (
                             <option key={opt} value={opt}>{opt}</option>
                           ))}
@@ -483,13 +594,6 @@ export function Shop() {
                       <div className="flex items-center justify-between">
                         <p className="text-lg font-bold text-gray-900">{formatPrice(product.price, product.currencyPrices)}</p>
                       </div>
-                      <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 mt-0.5">
-                        <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap">B2B: <span className="text-accent">{formatPrice(product.wholesalePrice, product.currencyWholesalePrices)}</span></span>
-                        <div className="flex items-center gap-1">
-                          <span className="text-[9px] bg-green-100 text-green-700 font-bold px-1 rounded shadow-sm whitespace-nowrap">Save {Math.round((1 - product.wholesalePrice / product.price) * 100)}%</span>
-                          <span className="text-[9px] text-gray-400 whitespace-nowrap">MOQ {product.moq}</span>
-                        </div>
-                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -497,9 +601,9 @@ export function Shop() {
             </div>
 
             {filteredProducts.length === 0 && (
-              <div className="text-center py-20">
-                <h3 className="text-lg font-medium text-gray-900">No products found</h3>
-                <p className="mt-1 text-gray-500">Try selecting a different category.</p>
+              <div className="text-center py-20 animate-fade-in">
+                <h3 className="text-lg font-medium text-gray-900">{d("No products found")}</h3>
+                <p className="mt-1 text-gray-500">{d("Try different category")}</p>
               </div>
             )}
           </div>

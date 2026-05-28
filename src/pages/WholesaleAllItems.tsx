@@ -6,8 +6,8 @@ import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { getLiveInventory, getLiveBrands } from "../utils/inventory";
+import { useLanguage } from "../contexts/LanguageContext";
 
-// Mocks
 // Categories structure
 const CATEGORY_STRUCTURE = [
   { name: "All" },
@@ -23,11 +23,165 @@ const CATEGORY_STRUCTURE = [
 // Flattened list for URL matching if needed
 const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap(c => [c.name, ...(c.subcategories || [])]);
 
+const TRANSLATED_WHOLESALE_ITEMS: Record<string, Record<string, string>> = {
+  EN: {
+    title: "All B2B Items",
+    subtitle: "Discover authentic Korean beauty exclusively for B2B distributors.",
+    filters: "Filters",
+    category: "Category",
+    productsCount: "Products",
+    searchPlaceholder: "Search products & brands...",
+    brandLabel: "Brand",
+    b2bPrice: "B2B",
+    saveLabel: "Save",
+    moqLabel: "MOQ",
+    addToQuote: "Add to Quote",
+    toastAdded: "Added {qty} boxes of {name} to Wholesale Quote!",
+    noProducts: "No products found",
+    noProductsDesc: "Try selecting a different category.",
+    bestseller: "Bestseller",
+    selectOption: "Select option...",
+    sold: "sold",
+    All: "All",
+    selectOptionWarning: "Please select an option for {name}"
+  },
+  KO: {
+    title: "모든 B2B 상품",
+    subtitle: "B2B 유통업체를 위한 정품 한국 화장품을 만나보세요.",
+    filters: "필터",
+    category: "카테고리",
+    productsCount: "개 제품",
+    searchPlaceholder: "제품 및 브랜드 검색...",
+    brandLabel: "브랜드",
+    b2bPrice: "도매가",
+    saveLabel: "할인",
+    moqLabel: "최소주문",
+    addToQuote: "견적에 추가",
+    toastAdded: "{name} {qty}박스를 도매 견적에 추가했습니다!",
+    noProducts: "검색 결과가 없습니다",
+    noProductsDesc: "다른 카테고리를 선택해 보세요.",
+    bestseller: "베스트셀ラー",
+    selectOption: "옵션 선택...",
+    sold: "개 판매됨",
+    All: "전체",
+    selectOptionWarning: "제품 {name}의 옵션을 선택해 주세요."
+  },
+  PT: {
+    title: "Todos os Itens B2B",
+    subtitle: "Descubra a autêntica beleza coreana exclusivamente para distribuidores B2B.",
+    filters: "Filtros",
+    category: "Categoria",
+    productsCount: "Produtos",
+    searchPlaceholder: "Buscar produtos e marcas...",
+    brandLabel: "Marca",
+    b2bPrice: "B2B",
+    saveLabel: "Economize",
+    moqLabel: "MOQ",
+    addToQuote: "Adicionar à Cotação",
+    toastAdded: "Adicionado {qty} caixas de {name} à Cotação de Atacado!",
+    noProducts: "Nenhum produto encontrado",
+    noProductsDesc: "Tente selecionar uma categoria diferente.",
+    bestseller: "Mais Vendidos",
+    selectOption: "Selecionar opção...",
+    sold: "vendidos",
+    All: "Todos",
+    selectOptionWarning: "Selecione uma opção para {name}"
+  },
+  ES: {
+    title: "Todos los Artículos B2B",
+    subtitle: "Descubra la auténtica belleza coreana exclusivamente para distribuidores B2B.",
+    filters: "Filtros",
+    category: "Categoría",
+    productsCount: "Productos",
+    searchPlaceholder: "Buscar productos y marcas...",
+    brandLabel: "Marca",
+    b2bPrice: "B2B",
+    saveLabel: "Ahorra",
+    moqLabel: "MOQ",
+    addToQuote: "Añadir a Cotización",
+    toastAdded: "¡Añadido {qty} cajas de {name} a la Cotización de Mayoreo!",
+    noProducts: "No se encontraron productos",
+    noProductsDesc: "Intente seleccionar una categoría diferente.",
+    bestseller: "Más Vendido",
+    selectOption: "Seleccionar opción...",
+    sold: "vendidos",
+    All: "Todos",
+    selectOptionWarning: "Seleccione una opción para {name}"
+  },
+  ZH: {
+    title: "所有 B2B 商品",
+    subtitle: "探索专为 B2B 分销商提供的正宗韩国美妆产品。",
+    filters: "筛选器",
+    category: "品类",
+    productsCount: "件商品",
+    searchPlaceholder: "搜索产品和品牌...",
+    brandLabel: "品牌",
+    b2bPrice: "批发价",
+    saveLabel: "节省",
+    moqLabel: "起订量",
+    addToQuote: "加入报价",
+    toastAdded: "已将 {qty} 箱 {name} 加入批发报价！",
+    noProducts: "未找到相关产品",
+    noProductsDesc: "请尝试选择其他类别。",
+    bestseller: "畅销爆款",
+    selectOption: "选择选项...",
+    sold: "已售",
+    All: "全部",
+    selectOptionWarning: "请为 {name} 选择一个选项"
+  },
+  JA: {
+    title: "すべてのB2B商品",
+    subtitle: "B2Bディストリビューター専用の信頼の本物韓国コスメをご覧ください。",
+    filters: "フィルター",
+    category: "カテゴリー",
+    productsCount: "個の商品",
+    searchPlaceholder: "製品やブランドを検索...",
+    brandLabel: "ブランド",
+    b2bPrice: "B2B卸売",
+    saveLabel: "割引",
+    moqLabel: "最小注文数",
+    addToQuote: "見積に追加",
+    toastAdded: "{name}を{qty}箱、卸売見積もりに追加しました！",
+    noProducts: "該当する商品は見つかりませんでした",
+    noProductsDesc: "別のカテゴリーを選択してください。",
+    bestseller: "ベストセラー",
+    selectOption: "オプションを選択...",
+    sold: "個販売",
+    All: "すべて",
+    selectOptionWarning: "製品 {name} のオプションを選択してください。"
+  }
+};
+
 export function WholesaleAllItems() {
   const b2bBrandNames = new Set(getLiveBrands().map(b => b.name));
   const allShopProducts = getLiveInventory().filter(p => b2bBrandNames.has(p.brand));
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { language, t } = useLanguage();
+  
+  const d = (key: string) => {
+    return TRANSLATED_WHOLESALE_ITEMS[language]?.[key] || TRANSLATED_WHOLESALE_ITEMS["EN"]?.[key] || key;
+  };
+
+  const translateCategory = (catName: string) => {
+    const key = catName.toLowerCase().replace(/ & /g, "_").replace(/ /g, "_");
+    if (key === "all") return d("All");
+    if (key === "skincare") return t("skincare");
+    if (key === "makeup") return t("makeup");
+    if (key === "hair_care" || key === "haircare") return t("hair_care");
+    if (key === "body_care" || key === "bodycare") return t("body_care");
+    
+    // Subcategories
+    if (key === "sun_care") return t("cat_sun_care");
+    if (key === "cleansing") return t("cat_cleansing");
+    if (key === "serum_ampoule") return t("cat_serum");
+    if (key === "cream") return t("cat_cream");
+    if (key === "toner") return t("cat_toner");
+    if (key === "facial_mask" || key === "mask") return t("cat_mask");
+    
+    return t(key) || catName;
+  };
+
   const initialCategory = searchParams.get("category");
   const initialBrand = searchParams.get("brand");
   
@@ -43,10 +197,8 @@ export function WholesaleAllItems() {
     CATEGORY_STRUCTURE.find(c => c.name === activeCategory || c.subcategories?.includes(activeCategory))?.name || null
   );
   
-  // Shop is strictly retail
   const [shopSearchQuery, setShopSearchQuery] = useState("");
   
-  // Track quantities independently for each product card
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   
@@ -59,16 +211,13 @@ export function WholesaleAllItems() {
     e.preventDefault();
     e.stopPropagation();
     const qty = getQty(product.id);
-    const userType = localStorage.getItem("userType") || "retail"; // default guests to retail
     
-    // No need to alert wholesale users, this is the B2B catalog.
-
     const optionsList = product.options || product.colors;
     const hasOptions = optionsList && optionsList.length > 0;
     const selectedOption = selectedOptions[product.id] || (hasOptions ? optionsList[0] : undefined);
 
     if (hasOptions && !selectedOption) {
-      alert(`Please select an option for ${product.name}`);
+      alert(d("selectOptionWarning").replace("{name}", product.name));
       return;
     }
 
@@ -92,15 +241,17 @@ export function WholesaleAllItems() {
       }
       localStorage.setItem('b2bCart', JSON.stringify(currentB2BCart));
       
-      window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: `Added ${qty} boxes of ${product.name} to Wholesale Quote!` } }));
+      const addedMsg = d("toastAdded")
+        .replace("{qty}", String(qty))
+        .replace("{name}", product.name);
 
-      // Reset quantity after adding
+      window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: addedMsg } }));
+
       setQuantities(prev => ({ ...prev, [product.id]: 1 }));
       setSelectedOptions(prev => { const next = {...prev}; delete next[product.id]; return next; });
-      // Dispatch an event so Navbar can update its badge immediately
       window.dispatchEvent(new Event("storage"));
     } catch (err) {
-      console.error("Retail cart update failed:", err);
+      console.error("B2B cart update failed:", err);
       alert("Failed to update cart. Please check your browser storage settings.");
     }
   };
@@ -111,12 +262,10 @@ export function WholesaleAllItems() {
     if (activeCategory === "All") {
       matchesCategory = true;
     } else {
-      // If clicking a parent category like "Skincare", it should show products that are "Skincare" OR any of its subcategories.
       const parentCat = CATEGORY_STRUCTURE.find(c => c.name === activeCategory);
       if (parentCat && parentCat.subcategories) {
         matchesCategory = p.category === activeCategory || parentCat.subcategories.includes(p.category);
       } else {
-        // Otherwise exact match for subcategories or basic categories
         matchesCategory = p.category === activeCategory;
       }
     }
@@ -135,14 +284,12 @@ export function WholesaleAllItems() {
         <div className="flex flex-col md:flex-row md:items-baseline md:justify-between border-b border-gray-200 pb-6 mb-8">
           <div>
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 font-serif">
-              All B2B Items
+              {d("title")}
             </h1>
             <p className="mt-2 text-primary-600">
-              Discover authentic Korean beauty exclusively for B2B distributors.
+              {d("subtitle")}
             </p>
           </div>
-
-
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -150,11 +297,11 @@ export function WholesaleAllItems() {
           <div className="lg:w-1/4">
             <div className="sticky top-24">
               <h3 className="flex items-center gap-2 text-lg font-bold font-serif mb-4">
-                <Filter className="w-5 h-5" /> Filters
+                <Filter className="w-5 h-5" /> {d("filters")}
               </h3>
               
               <div className="border-t border-gray-200 py-6">
-                <h4 className="font-semibold text-gray-900 mb-4">Category</h4>
+                <h4 className="font-semibold text-gray-900 mb-4">{d("category")}</h4>
                 <div className="space-y-3">
                   {CATEGORY_STRUCTURE.map((category) => {
                     const isExpanded = expandedCategory === category.name;
@@ -185,7 +332,7 @@ export function WholesaleAllItems() {
                               : "text-gray-600 hover:text-primary-800"
                           } transition-colors`}
                         >
-                          {category.name}
+                          {translateCategory(category.name)}
                           {hasSubcategories && (
                             <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                           )}
@@ -208,7 +355,7 @@ export function WholesaleAllItems() {
                                     isSubActive ? "font-bold text-primary-700" : "text-gray-500 hover:text-primary-700"
                                   } transition-colors`}
                                 >
-                                  {sub}
+                                  {translateCategory(sub)}
                                 </button>
                               );
                             })}
@@ -220,7 +367,6 @@ export function WholesaleAllItems() {
                 </div>
               </div>
 
-
             </div>
           </div>
 
@@ -229,7 +375,7 @@ export function WholesaleAllItems() {
             {/* Controls Bar */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-4 border-b border-gray-100 mb-8 gap-4">
               <div className="flex items-center gap-2 text-sm text-gray-500">
-                <span className="font-medium text-gray-900">{filteredProducts.length}</span> Products
+                <span className="font-medium text-gray-900">{filteredProducts.length}</span> {d("productsCount")}
                 {activeBrand && (
                   <button 
                     onClick={() => {
@@ -239,7 +385,7 @@ export function WholesaleAllItems() {
                     }}
                     className="ml-2 flex items-center gap-1 bg-primary-50 text-primary-700 px-2.5 py-1 rounded-full text-xs font-semibold hover:bg-primary-100 transition-colors"
                   >
-                    Brand: {activeBrand} <span className="ml-1 text-[10px] opacity-70">✕</span>
+                    {d("brandLabel")}: {activeBrand} <span className="ml-1 text-[10px] opacity-70">✕</span>
                   </button>
                 )}
               </div>
@@ -250,7 +396,7 @@ export function WholesaleAllItems() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Search products & brands..."
+                  placeholder={d("searchPlaceholder")}
                   value={shopSearchQuery}
                   onChange={(e) => setShopSearchQuery(e.target.value)}
                   className="block w-full rounded-full border-0 py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
@@ -270,7 +416,7 @@ export function WholesaleAllItems() {
                       />
                       {product.isBestseller && (
                         <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
-                          Bestseller
+                          {d("bestseller")}
                         </Badge>
                       )}
                     </div>
@@ -285,7 +431,7 @@ export function WholesaleAllItems() {
                       </div>
                       <Button className="w-full gap-2 shadow-md" onClick={(e) => handleAddToCart(e, product)}>
                         <ShoppingBag className="w-4 h-4" /> 
-                        Add to Quote
+                        {d("addToQuote")}
                       </Button>
                     </div>
                   
@@ -315,7 +461,7 @@ export function WholesaleAllItems() {
                       <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
                       <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
                       <span className="ml-auto text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded">
-                        {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ sold
+                        {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ {d("sold")}
                       </span>
                     </Link>
                     
@@ -330,7 +476,7 @@ export function WholesaleAllItems() {
                              setSelectedOptions(prev => ({...prev, [product.id]: e.target.value}));
                           }}
                         >
-                          <option value="" disabled>Select option...</option>
+                          <option value="" disabled>{d("selectOption")}</option>
                           {(product.options || product.colors).map((opt: string) => (
                             <option key={opt} value={opt}>{opt}</option>
                           ))}
@@ -343,10 +489,10 @@ export function WholesaleAllItems() {
                         <p className="text-lg font-bold text-gray-900">{formatPrice(product.price, product.currencyPrices)}</p>
                       </div>
                       <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 mt-0.5">
-                        <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap">B2B: <span className="text-accent">{formatPrice(product.wholesalePrice, product.currencyWholesalePrices)}</span></span>
+                        <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap">{d("b2bPrice")}: <span className="text-accent">{formatPrice(product.wholesalePrice, product.currencyWholesalePrices)}</span></span>
                         <div className="flex items-center gap-1">
-                          <span className="text-[9px] bg-green-100 text-green-700 font-bold px-1 rounded shadow-sm whitespace-nowrap">Save {Math.round((1 - product.wholesalePrice / product.price) * 100)}%</span>
-                          <span className="text-[9px] text-gray-400 whitespace-nowrap">MOQ {product.moq}</span>
+                          <span className="text-[9px] bg-green-100 text-green-700 font-bold px-1 rounded shadow-sm whitespace-nowrap">{d("saveLabel")} {Math.round((1 - product.wholesalePrice / product.price) * 100)}%</span>
+                          <span className="text-[9px] text-gray-400 whitespace-nowrap">{d("moqLabel")} {product.moq}</span>
                         </div>
                       </div>
                     </div>
@@ -357,8 +503,8 @@ export function WholesaleAllItems() {
 
             {filteredProducts.length === 0 && (
               <div className="text-center py-20">
-                <h3 className="text-lg font-medium text-gray-900">No products found</h3>
-                <p className="mt-1 text-gray-500">Try selecting a different category.</p>
+                <h3 className="text-lg font-medium text-gray-900">{d("noProducts")}</h3>
+                <p className="mt-1 text-gray-500">{d("noProductsDesc")}</p>
               </div>
             )}
           </div>

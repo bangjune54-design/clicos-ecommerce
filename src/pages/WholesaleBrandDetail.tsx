@@ -19,6 +19,7 @@ import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { ShoppingBag, ArrowLeft, Search, Star } from "lucide-react";
 import { useCurrency } from "../contexts/CurrencyContext";
+import { useLanguage } from "../contexts/LanguageContext";
 
 interface Product {
   id: string;
@@ -33,7 +34,104 @@ interface Product {
   optionName?: string;
 }
 
-// Removed static mock generator, now relying on global inventory to show LIVE edits.
+const TRANSLATED_BRAND_DETAIL: Record<string, Record<string, string>> = {
+  EN: {
+    backToBrands: "Back to Brands",
+    brandNotFound: "Brand not found",
+    wholesaleItems: "Wholesale Items",
+    productsAvailable: "Products Available",
+    searchPlaceholder: "Search products...",
+    bestseller: "Bestseller",
+    addToQuote: "Add to Quote",
+    selectOption: "Select option...",
+    sold: "sold",
+    moq: "MOQ",
+    units: "units",
+    authError: "Only approved Wholesale Partners can request wholesale orders. Please log in with your wholesale account.",
+    selectOptionWarning: "Please select an option for {name}",
+    toastAdded: "Added {qty} boxes of {name} to Wholesale Quote!"
+  },
+  KO: {
+    backToBrands: "브랜드 목록으로 돌아가기",
+    brandNotFound: "브랜드를 찾을 수 없습니다",
+    wholesaleItems: "도매 제품 리스트",
+    productsAvailable: "개의 제품 이용 가능",
+    searchPlaceholder: "제품 검색...",
+    bestseller: "베스트셀러",
+    addToQuote: "견적에 추가",
+    selectOption: "옵션 선택...",
+    sold: "개 판매됨",
+    moq: "최소주문",
+    units: "개",
+    authError: "승인된 도매 파트너만 도매 주문을 신청할 수 있습니다. 도매 계정으로 로그인해 주세요.",
+    selectOptionWarning: "제품 {name}의 옵션을 선택해 주세요.",
+    toastAdded: "{name} {qty}박스를 도매 견적에 추가했습니다!"
+  },
+  PT: {
+    backToBrands: "Voltar para Marcas",
+    brandNotFound: "Marca não encontrada",
+    wholesaleItems: "Itens de Atacado",
+    productsAvailable: "Produtos Disponíveis",
+    searchPlaceholder: "Buscar produtos...",
+    bestseller: "Mais Vendidos",
+    addToQuote: "Adicionar à Cotação",
+    selectOption: "Selecionar opção...",
+    sold: "vendidos",
+    moq: "MOQ",
+    units: "unidades",
+    authError: "Apenas parceiros de atacado aprovados podem solicitar pedidos de atacado. Faça login com sua conta de atacado.",
+    selectOptionWarning: "Selecione uma opção para {name}",
+    toastAdded: "Adicionado {qty} caixas de {name} à Cotação de Atacado!"
+  },
+  ES: {
+    backToBrands: "Volver a Marcas",
+    brandNotFound: "Marca no encontrada",
+    wholesaleItems: "Artículos de Mayoreo",
+    productsAvailable: "Productos Disponibles",
+    searchPlaceholder: "Buscar productos...",
+    bestseller: "Más Vendido",
+    addToQuote: "Añadir a Cotización",
+    selectOption: "Seleccionar opción...",
+    sold: "vendidos",
+    moq: "MOQ",
+    units: "unidades",
+    authError: "Solo los socios de mayoreo aprobados pueden solicitar pedidos al por mayor. Inicie sesión con su cuenta de mayoreo.",
+    selectOptionWarning: "Seleccione una opción para {name}",
+    toastAdded: "¡Añadido {qty} cajas de {name} a la Cotización de Mayoreo!"
+  },
+  ZH: {
+    backToBrands: "返回品牌列表",
+    brandNotFound: "未找到该品牌",
+    wholesaleItems: "批发产品",
+    productsAvailable: "件可选产品",
+    searchPlaceholder: "搜索产品...",
+    bestseller: "畅销爆款",
+    addToQuote: "加入报价",
+    selectOption: "选择选项...",
+    sold: "已售",
+    moq: "起订量",
+    units: "件",
+    authError: "只有经批准的批发合作伙伴才能申请批发订单。请使用您的批发账户登录。",
+    selectOptionWarning: "请为 {name} 选择一个选项",
+    toastAdded: "已将 {qty} 箱 {name} 加入批发报价！"
+  },
+  JA: {
+    backToBrands: "ブランド一覧に戻る",
+    brandNotFound: "ブランドが見つかりません",
+    wholesaleItems: "卸売製品一覧",
+    productsAvailable: "個の製品が利用可能",
+    searchPlaceholder: "製品を検索...",
+    bestseller: "ベストセラー",
+    addToQuote: "見積に追加",
+    selectOption: "オプションを選択...",
+    sold: "個販売",
+    moq: "最小注文数",
+    units: "個",
+    authError: "承認された卸売パートナーのみが卸売注文を申請できます。卸売アカウントでログインしてください。",
+    selectOptionWarning: "製品 {name} のオプションを選択してください。",
+    toastAdded: "{name}を{qty}箱、卸売見積もりに追加しました！"
+  }
+};
 
 export function WholesaleBrandDetail() {
   const b2bBrands = getLiveBrands();
@@ -41,8 +139,12 @@ export function WholesaleBrandDetail() {
   const { brandId } = useParams();
   const [searchParams] = useSearchParams();
   const [brandSearchQuery, setBrandSearchQuery] = useState(searchParams.get("search") || "");
+  const { language } = useLanguage();
   
-  // Track quantities independently for each product card
+  const d = (key: string) => {
+    return TRANSLATED_BRAND_DETAIL[language]?.[key] || TRANSLATED_BRAND_DETAIL["EN"]?.[key] || key;
+  };
+
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   
@@ -57,7 +159,7 @@ export function WholesaleBrandDetail() {
     const userType = localStorage.getItem("userType") || "retail";
     
     if (userType !== "wholesale") {
-      alert("Only approved Wholesale Partners can request wholesale orders. Please log in with your wholesale account.");
+      alert(d("authError"));
       return;
     }
 
@@ -66,7 +168,7 @@ export function WholesaleBrandDetail() {
     const selectedOption = selectedOptions[product.id] || (hasOptions ? optionsList[0] : undefined);
 
     if (hasOptions && !selectedOption) {
-      alert(`Please select an option for ${product.name}`);
+      alert(d("selectOptionWarning").replace("{name}", product.name));
       return;
     }
     
@@ -89,12 +191,15 @@ export function WholesaleBrandDetail() {
         });
       }
       localStorage.setItem('b2bCart', JSON.stringify(currentB2BCart));
-      window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: `Added ${qty} boxes of ${product.name} to Wholesale Quote!` } }));
       
-      // Reset quantity after adding
+      const addedMsg = d("toastAdded")
+        .replace("{qty}", String(qty))
+        .replace("{name}", product.name);
+
+      window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: addedMsg } }));
+      
       setQuantities(prev => ({ ...prev, [product.id]: 1 }));
       setSelectedOptions(prev => { const next = {...prev}; delete next[product.id]; return next; });
-      // Dispatch an event so Navbar can update its badge immediately
       window.dispatchEvent(new Event("storage"));
     } catch (err) {
       console.error("Wholesale cart update failed:", err);
@@ -108,9 +213,9 @@ export function WholesaleBrandDetail() {
   if (!brand) {
     return (
       <div className="py-32 text-center text-gray-900">
-        <h2 className="text-2xl font-bold font-serif">Brand not found</h2>
+        <h2 className="text-2xl font-bold font-serif">{d("brandNotFound")}</h2>
         <Link to="/wholesale/brands" className="text-primary-600 hover:text-primary-800 mt-4 inline-block">
-          &larr; Back to Brands
+          &larr; {d("backToBrands")}
         </Link>
       </div>
     );
@@ -136,7 +241,7 @@ export function WholesaleBrandDetail() {
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 text-center px-4 w-full max-w-[1800px] mx-auto">
           <Link to="/wholesale/brands" className="absolute top-0 sm:-top-8 left-4 sm:left-6 text-white/80 hover:text-white flex items-center gap-2 text-sm font-medium transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Back to Brands
+            <ArrowLeft className="w-4 h-4" /> {d("backToBrands")}
           </Link>
           <h1 className="text-4xl sm:text-5xl font-bold font-serif text-white tracking-widest uppercase mb-4 mt-8 sm:mt-0 drop-shadow-lg">
             {brand.name}
@@ -151,8 +256,8 @@ export function WholesaleBrandDetail() {
       <div className="mx-auto max-w-[1800px] px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 border-b border-gray-200 pb-4 gap-4">
           <div>
-            <h2 className="text-2xl font-bold font-serif text-gray-900">Wholesale Items</h2>
-            <span className="text-sm text-gray-500 font-medium">{filteredProducts.length} Products Available</span>
+            <h2 className="text-2xl font-bold font-serif text-gray-900">{d("wholesaleItems")}</h2>
+            <span className="text-sm text-gray-500 font-medium">{filteredProducts.length} {d("productsAvailable")}</span>
           </div>
 
           {/* Search Input for items in brand */}
@@ -165,7 +270,7 @@ export function WholesaleBrandDetail() {
               name="search"
               id="search"
               className="block w-full sm:w-64 rounded-full border-0 py-2 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
-              placeholder="Search products..."
+              placeholder={d("searchPlaceholder")}
               value={brandSearchQuery}
               onChange={(e) => setBrandSearchQuery(e.target.value)}
             />
@@ -173,7 +278,7 @@ export function WholesaleBrandDetail() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
               <Link to={`/product/${product.id}`} className="block">
                 <div className="aspect-square overflow-hidden bg-gray-100 relative">
@@ -184,7 +289,7 @@ export function WholesaleBrandDetail() {
                   />
                   {product.isBestseller && (
                     <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
-                      Bestseller
+                      {d("bestseller")}
                     </Badge>
                   )}
                 </div>
@@ -198,7 +303,7 @@ export function WholesaleBrandDetail() {
                     <button type="button" className="px-3 py-1.5 text-gray-600 hover:bg-gray-100 transition-colors w-1/3 text-center rounded-r-md" onClick={(e) => { e.preventDefault(); updateQty(product.id, 1); }}>+</button>
                   </div>
                   <Button className="w-full gap-2 shadow-md" onClick={(e) => handleAddToCart(e, product)}>
-                    <ShoppingBag className="w-4 h-4" /> Add to Quote
+                    <ShoppingBag className="w-4 h-4" /> {d("addToQuote")}
                   </Button>
                 </div>
               
@@ -221,33 +326,34 @@ export function WholesaleBrandDetail() {
                   <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
                   <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
                   <span className="ml-auto text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded">
-                    {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ sold
+                    {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ {d("sold")}
                   </span>
                 </Link>
 
-                    {((product.options && product.options.length > 0) || (product.colors && product.colors.length > 0)) && (
-                      <div className="mb-4">
-                        <label htmlFor={`option-${product.id}`} className="sr-only">Choose an option</label>
-                        <select
-                          id={`option-${product.id}`}
-                          className="mt-1 block w-full rounded-md border-gray-300 py-1.5 pl-3 pr-10 text-xs focus:border-primary-500 focus:outline-none focus:ring-primary-500 bg-gray-50 bg-white shadow-sm transition-colors border max-w-full truncate"
-                          defaultValue=""
-                          onChange={(e) => {
-                             setSelectedOptions(prev => ({...prev, [product.id]: e.target.value}));
-                          }}
-                        >
-                          <option value="" disabled>Select option...</option>
-                          {(product.options || product.colors).map((opt: string) => (
-                            <option key={opt} value={opt}>{opt}</option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
-                                <div className="mt-auto flex items-end justify-between">
-                    <div>
-                      <p className="text-xl font-bold text-primary-800">{formatPrice(product.wholesalePrice, product.currencyWholesalePrices)}</p>
-                      <p className="text-xs text-accent font-semibold mt-1">MOQ: {product.moq} units</p>
-                    </div>
+                {((product.options && product.options.length > 0) || (product.colors && product.colors.length > 0)) && (
+                  <div className="mb-4">
+                    <label htmlFor={`option-${product.id}`} className="sr-only">Choose an option</label>
+                    <select
+                      id={`option-${product.id}`}
+                      className="mt-1 block w-full rounded-md border-gray-300 py-1.5 pl-3 pr-10 text-xs focus:border-primary-500 focus:outline-none focus:ring-primary-500 bg-gray-50 bg-white shadow-sm transition-colors border max-w-full truncate"
+                      defaultValue=""
+                      onChange={(e) => {
+                         setSelectedOptions(prev => ({...prev, [product.id]: e.target.value}));
+                      }}
+                    >
+                      <option value="" disabled>{d("selectOption")}</option>
+                      {(product.options || product.colors).map((opt: string) => (
+                        <option key={opt} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                
+                <div className="mt-auto flex items-end justify-between">
+                  <div>
+                    <p className="text-xl font-bold text-primary-800">{formatPrice(product.wholesalePrice, product.currencyWholesalePrices)}</p>
+                    <p className="text-xs text-accent font-semibold mt-1">{d("moq")}: {product.moq} {d("units")}</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
