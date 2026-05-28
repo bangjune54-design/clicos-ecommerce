@@ -60,7 +60,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
   if (!banners || banners.length === 0) return null;
 
   return (
-    <section id="home" className="relative w-full h-[75vh] sm:h-[80vh] bg-primary-950 overflow-hidden pt-20">
+    <section id="home" className="relative w-full h-[75vh] sm:h-[80vh] bg-primary-950 overflow-hidden">
       {/* Slides Container */}
       <div className="relative w-full h-full">
         {banners.map((banner, idx) => {
@@ -74,8 +74,8 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
                 isActive ? "opacity-100 scale-100 z-10" : "opacity-0 scale-95 z-0 pointer-events-none"
               }`}
             >
-              {/* Background Layer: Custom uploaded Base64 image OR Premium cosmetics gradient */}
-              <div className="absolute inset-0 z-0 select-none pointer-events-none">
+              {/* Background Layer: image starts below the fixed header so the full image is visible */}
+              <div className="absolute inset-x-0 bottom-0 top-[72px] z-0 select-none pointer-events-none">
                 {banner.image ? (
                   <img
                     src={banner.image}
@@ -102,14 +102,14 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
         <>
           <button
             onClick={handlePrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:scale-105 active:scale-95 transition-all"
+            className="absolute left-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:scale-105 active:scale-95 transition-all"
             aria-label="Previous Slide"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:scale-105 active:scale-95 transition-all"
+            className="absolute right-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:scale-105 active:scale-95 transition-all"
             aria-label="Next Slide"
           >
             <ChevronRight className="w-5 h-5" />

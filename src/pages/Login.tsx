@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
+import { restoreCartForAccount } from "../utils/cart";
 
 export function Login() {
   const [activeTab, setActiveTab] = useState<"general" | "wholesale">("general");
@@ -10,27 +11,36 @@ export function Login() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanEmail = email.trim();
-    
-    // Simulate successful login
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Look up the registered account to get the first name
+    const allAccounts: any[] = JSON.parse(localStorage.getItem("allAccounts") || "[]");
+    const account = allAccounts.find(
+      (a: any) => a.email?.toLowerCase() === cleanEmail
+    );
+    const firstName = account?.name?.split(" ")[0] || "";
+
+    // Persist session
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("userType", activeTab === "wholesale" ? "wholesale" : "retail");
     localStorage.setItem("userEmail", cleanEmail);
-    
-    // Clear guests/previous session cart for account-specific fresh session
-    localStorage.removeItem("retailCart");
-    localStorage.removeItem("b2bCart");
+    if (firstName) localStorage.setItem("userFirstName", firstName);
+
+    // Restore this account's previously saved cart (not wipe it)
+    restoreCartForAccount(cleanEmail);
+
     window.dispatchEvent(new Event("storage"));
-    
+
     // Show success feedback
     window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: "Successfully logged in!" } }));
-    
+
     if (cleanEmail === "info@clicos.co.kr" || cleanEmail === "wholesale@clicos.co.kr") {
       navigate("/admin");
     } else {
       navigate("/");
     }
   };
+
 
   return (
     <div className="bg-white min-h-[calc(100vh-80px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

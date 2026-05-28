@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Outer decorative ring -->
+  <circle cx="32" cy="32" r="30" stroke="#1a1a2e" stroke-width="2.5" fill="none" opacity="0.15"/>
+  <!-- Bold "C" lettermark, centred, transparent background -->
+  <text
+    x="33"
+    y="46"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="46"
+    font-weight="700"
+    fill="#1a1a2e"
+    letter-spacing="-1"
+  >C</text>
+</svg>

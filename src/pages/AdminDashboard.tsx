@@ -43,7 +43,7 @@ const mockAccounts = [
   { id: "USR-003", name: "Admin Setup", email: "info@clicos.co.kr", type: "Admin", joined: "Dec 01, 2025", status: "Active" },
 ];
 
-const compressImageBase64 = (base64Str: string, maxWidth = 400, maxHeight = 400, quality = 0.4): Promise<string> => {
+const compressImageBase64 = (base64Str: string, maxWidth = 1920, maxHeight = 1080, quality = 0.92): Promise<string> => {
   return new Promise((resolve) => {
     const img = new Image();
     img.src = base64Str;
@@ -52,26 +52,24 @@ const compressImageBase64 = (base64Str: string, maxWidth = 400, maxHeight = 400,
       let width = img.width;
       let height = img.height;
 
-      if (width > height) {
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
-        }
-      } else {
-        if (height > maxHeight) {
-          width = Math.round((width * maxHeight) / height);
-          height = maxHeight;
-        }
+      // Only downscale if the image exceeds maxWidth/maxHeight — never upscale
+      if (width > maxWidth || height > maxHeight) {
+        const ratio = Math.min(maxWidth / width, maxHeight / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
       }
+
       canvas.width = width;
       canvas.height = height;
       const ctx = canvas.getContext("2d");
       if (ctx) {
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, width, height);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
         ctx.drawImage(img, 0, 0, width, height);
       }
-      resolve(canvas.toDataURL("image/jpeg", quality));
+      // Prefer WebP for better quality-to-size; fall back to JPEG
+      const webpSupported = canvas.toDataURL("image/webp").startsWith("data:image/webp");
+      resolve(canvas.toDataURL(webpSupported ? "image/webp" : "image/jpeg", quality));
     };
     img.onerror = () => resolve(base64Str);
   });
@@ -1096,7 +1094,7 @@ export function AdminDashboard() {
                             const file = e.dataTransfer.files[0];
                             const reader = new FileReader();
                             reader.onload = (event) => {
-                              compressImageBase64(event.target?.result as string, 1200, 800, 0.4).then((compressed) => {
+                              compressImageBase64(event.target?.result as string, 1920, 1080, 0.92).then((compressed) => {
                                 setEditBannerPayload({ ...editBannerPayload, image: compressed });
                               });
                             };
@@ -1136,7 +1134,7 @@ export function AdminDashboard() {
                             const file = e.target.files[0];
                             const reader = new FileReader();
                             reader.onload = (event) => {
-                              compressImageBase64(event.target?.result as string, 1200, 800, 0.4).then((compressed) => {
+                              compressImageBase64(event.target?.result as string, 1920, 1080, 0.92).then((compressed) => {
                                 setEditBannerPayload({ ...editBannerPayload, image: compressed });
                               });
                             };

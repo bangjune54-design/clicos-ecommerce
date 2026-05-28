@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, useSearchParams } from "react-router-do
 import { Menu, X, Globe, Search, User, ShoppingBag, ChevronDown } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useCurrency } from "../../contexts/CurrencyContext";
+import { saveAndClearCartForAccount } from "../../utils/cart";
 
 interface HeaderProps {
   activeSection: string;
@@ -17,6 +18,7 @@ export function Header({ activeSection }: HeaderProps) {
   const { currency, setCurrency, formatPrice } = useCurrency();
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("isLoggedIn") === "true");
+  const [userFirstName, setUserFirstName] = useState(() => localStorage.getItem("userFirstName") || "");
   const [cartCount, setCartCount] = useState(0);
   const [cartItems, setCartItems] = useState<any[]>([]);
   
@@ -89,6 +91,7 @@ export function Header({ activeSection }: HeaderProps) {
     // State syncing logic (cart and auth status)
     const syncState = () => {
       setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+      setUserFirstName(localStorage.getItem("userFirstName") || "");
       const userType = localStorage.getItem("userType") || "retail";
       const retail = JSON.parse(localStorage.getItem("retailCart") || "[]");
       const b2b = JSON.parse(localStorage.getItem("b2bCart") || "[]");
@@ -152,8 +155,8 @@ export function Header({ activeSection }: HeaderProps) {
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm py-5"
-          : "bg-transparent py-8"
+          ? "bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-md py-4"
+          : "bg-transparent py-7"
       }`}
     >
       <nav className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-between">
@@ -169,14 +172,14 @@ export function Header({ activeSection }: HeaderProps) {
             }}
             className="flex items-center gap-2 group"
           >
-            <span className="text-3xl font-serif font-bold tracking-wider text-primary-900 group-hover:text-primary-700 transition-colors">
+            <span className="text-[33px] font-serif font-bold tracking-wider text-primary-900 group-hover:text-primary-700 transition-colors">
               CLICOS
             </span>
           </Link>
         </div>
 
         {/* Desktop Menu (Home, Products, Categories, Brands, Contact, Wholesales) */}
-        <div className="hidden md:flex md:gap-x-12 items-center">
+        <div className="hidden md:flex md:gap-x-10 items-center">
           {/* Home */}
           <Link
             to="/"
@@ -186,7 +189,7 @@ export function Header({ activeSection }: HeaderProps) {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`text-[15px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-[16.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/" && activeSection === "home"
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -198,7 +201,7 @@ export function Header({ activeSection }: HeaderProps) {
           {/* Products */}
           <Link
             to="/shop"
-            className={`text-[15px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-[16.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/shop" && !searchParams.get("category") && !searchParams.get("brand") && !searchParams.get("collection")
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -215,7 +218,7 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/shop"
-              className={`text-[15px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-[16.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname === "/shop" && searchParams.get("category")
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
@@ -259,7 +262,7 @@ export function Header({ activeSection }: HeaderProps) {
           {/* Brands */}
           <Link
             to="/brands"
-            className={`text-[15px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-[16.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/brands" || (location.pathname === "/shop" && searchParams.get("brand"))
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -271,7 +274,7 @@ export function Header({ activeSection }: HeaderProps) {
           {/* Contact */}
           <Link
             to="/contact"
-            className={`text-[15px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-[16.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/contact"
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -288,7 +291,7 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/wholesale"
-              className={`text-[15px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-[16.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname.startsWith("/wholesale")
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
@@ -327,10 +330,10 @@ export function Header({ activeSection }: HeaderProps) {
               className="flex items-center gap-1 text-gray-700 hover:text-primary-850 transition-colors uppercase font-semibold text-xs tracking-wide focus:outline-none"
               title={t("language") + " / " + t("currency")}
             >
-              <Globe className="h-5.5 w-5.5" />
-              <span className="text-[13px]">{language}</span>
+              <Globe className="h-5 w-5" />
+              <span className="text-[14px]">{language}</span>
               <span className="text-[10px] text-gray-400 font-normal">|</span>
-              <span className="text-[13px]">{currency}</span>
+              <span className="text-[14px]">{currency}</span>
             </button>
             
             {showLangDropdown && (
@@ -390,7 +393,7 @@ export function Header({ activeSection }: HeaderProps) {
             className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
             title={t("search_catalog")}
           >
-            <Search className="h-5.5 w-5.5" />
+            <Search className="h-5 w-5" />
           </button>
 
           {/* Profile Trigger Wrapper */}
@@ -404,7 +407,7 @@ export function Header({ activeSection }: HeaderProps) {
               className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
               title={isLoggedIn ? t("my_account") : t("login")}
             >
-              <User className="h-5.5 w-5.5" />
+              <User className="h-5 w-5" />
             </button>
             {hoveredDropdown === "profile" && (
               <div className="absolute right-0 top-full pt-2 z-50 w-40">
@@ -424,15 +427,17 @@ export function Header({ activeSection }: HeaderProps) {
                         onClick={() => setHoveredDropdown(null)}
                         className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
                       >
-                        {t("account")}
+                        {userFirstName ? `${userFirstName}'s Account` : t("account")}
                       </Link>
                       <button
                         onClick={() => {
                           setHoveredDropdown(null);
+                          const email = localStorage.getItem("userEmail") || "";
+                          saveAndClearCartForAccount(email);
                           localStorage.removeItem("isLoggedIn");
                           localStorage.removeItem("userType");
-                          localStorage.removeItem("retailCart");
-                          localStorage.removeItem("b2bCart");
+                          localStorage.removeItem("userEmail");
+                          localStorage.removeItem("userFirstName");
                           window.dispatchEvent(new Event("storage"));
                           navigate("/");
                         }}
@@ -458,7 +463,7 @@ export function Header({ activeSection }: HeaderProps) {
               className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
               title={t("cart")}
             >
-              <ShoppingBag className="h-5.5 w-5.5" />
+              <ShoppingBag className="h-5 w-5" />
               {cartCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center text-[9px] font-bold shadow-sm">
                   {cartCount}
