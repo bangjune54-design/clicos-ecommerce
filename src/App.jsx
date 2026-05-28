@@ -24,6 +24,7 @@ import { AdminDashboard } from "@/pages/AdminDashboard";
 import { Checkout } from "@/pages/Checkout";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { CountryProvider } from "@/contexts/CountryContext";
 import { initializeStorage } from "@/utils/inventory";
 
 function App() {
@@ -50,32 +51,34 @@ function App() {
       <ToastProvider />
       <LanguageProvider>
         <CurrencyProvider>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/shop" element={<Shop />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/wholesale" element={<Wholesale />} />
-              <Route path="/wholesale/all" element={<WholesaleAllItems />} />
-              <Route path="/wholesale/brands" element={<WholesaleBrands />} />
-              <Route path="/wholesale/brands/:brandId" element={<WholesaleBrandDetail />} />
-              <Route path="/brands" element={<Brands />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/my-page" element={<MyPage />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/checkout" element={<Checkout />} />
-              
-              {/* Catch-all route to home for demo purposes */}
-              <Route path="*" element={<Home />} />
-            </Route>
-          </Routes>
+          <CountryProvider>
+            <Routes>
+              <Route element={<AppLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/wholesale" element={<Wholesale />} />
+                <Route path="/wholesale/all" element={<WholesaleAllItems />} />
+                <Route path="/wholesale/brands" element={<WholesaleBrands />} />
+                <Route path="/wholesale/brands/:brandId" element={<WholesaleBrandDetail />} />
+                <Route path="/brands" element={<Brands />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/my-page" element={<MyPage />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:id" element={<BlogPost />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/checkout" element={<Checkout />} />
+                
+                {/* Catch-all route to home for demo purposes */}
+                <Route path="*" element={<Home />} />
+              </Route>
+            </Routes>
+          </CountryProvider>
         </CurrencyProvider>
       </LanguageProvider>
     </BrowserRouter>

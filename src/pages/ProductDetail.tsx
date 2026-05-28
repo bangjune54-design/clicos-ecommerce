@@ -6,6 +6,7 @@ import { useCurrency } from "../contexts/CurrencyContext";
 import { Badge } from "../components/ui/Badge";
 import { getLiveInventory, getLiveBrands } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useCountry } from "../contexts/CountryContext";
 
 const TRANSLATED_DETAIL: Record<string, Record<string, string>> = {
   EN: {
@@ -55,12 +56,14 @@ const TRANSLATED_DETAIL: Record<string, Record<string, string>> = {
 export function ProductDetail() {
   const { t, language } = useLanguage();
   const { formatPrice } = useCurrency();
+  const { getLocalizedProduct, formatProductPrice } = useCountry();
   const { id } = useParams<{ id: string }>();
   const { hash } = useLocation();
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType") || "retail";
   
-  const product = getLiveInventory().find((p) => p.id === id || p.id === `b2b-${p.brand.toLowerCase()}-${id}`);
+  const rawProduct = getLiveInventory().find((p) => p.id === id || p.id === `b2b-${p.brand.toLowerCase()}-${id}`);
+  const product = getLocalizedProduct(rawProduct);
   
   const [quantity, setQuantity] = React.useState(1);
   const [selectedOption, setSelectedOption] = React.useState("");
@@ -323,10 +326,10 @@ export function ProductDetail() {
             </div>
 
             <div className="flex items-center gap-4 mb-6">
-              <p className="text-3xl font-bold text-gray-900">{formatPrice(displayPrice, isB2B ? product.currencyWholesalePrices : product.currencyPrices)}</p>
+              <p className="text-3xl font-bold text-gray-900">{formatProductPrice(product, isB2B)}</p>
               {isB2B ? (
                 <div className="flex flex-col ml-2 border-l border-gray-200 pl-4 py-1">
-                  <span className="text-gray-500 line-through">{formatPrice(product.price, product.currencyPrices)} {t('msrp')}</span>
+                  <span className="text-gray-500 line-through">{formatProductPrice(product, false)} {t('msrp')}</span>
                   <span className="text-sm font-semibold text-accent mt-1">
                     {t('wholesale_price')} ({product.moq} {t('moq')})
                   </span>
@@ -334,7 +337,7 @@ export function ProductDetail() {
               ) : (
                 <div className="flex flex-col ml-2 border-l border-gray-200 pl-4 py-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-500">{t('wholesale')} B2B: <span className="text-accent font-bold">{formatPrice(product.wholesalePrice, product.currencyWholesalePrices)}</span></span>
+                    <span className="text-sm font-medium text-gray-500">{t('wholesale')} B2B: <span className="text-accent font-bold">{formatProductPrice(product, true)}</span></span>
                     <span className="text-xs bg-green-100 text-green-700 font-bold px-1.5 py-0.5 rounded shadow-sm">
                       {t('save')} {Math.round((1 - product.wholesalePrice / product.price) * 100)}%
                     </span>

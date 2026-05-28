@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, useSearchParams } from "react-router-do
 import { Menu, X, Globe, Search, User, ShoppingBag, ChevronDown } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useCurrency } from "../../contexts/CurrencyContext";
+import { useCountry, COUNTRIES } from "../../contexts/CountryContext";
 import { saveAndClearCartForAccount } from "../../utils/cart";
 
 interface HeaderProps {
@@ -16,6 +17,7 @@ export function Header({ activeSection }: HeaderProps) {
   // Dynamic e-commerce states
   const { language, setLanguage, t } = useLanguage();
   const { currency, setCurrency, formatPrice } = useCurrency();
+  const { country, setCountry, getLocalizedProduct } = useCountry();
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("isLoggedIn") === "true");
   const [userFirstName, setUserFirstName] = useState(() => localStorage.getItem("userFirstName") || "");
@@ -323,65 +325,42 @@ export function Header({ activeSection }: HeaderProps) {
 
         {/* Far Right Section: Language/Currency, Search, Profile, Cart */}
         <div className="hidden md:flex md:flex-1 md:justify-end md:items-center gap-9">
-          {/* Language / Currency Toggle */}
+          {/* Country Selector */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowLangDropdown(!showLangDropdown)}
-              className="flex items-center gap-1 text-gray-700 hover:text-primary-850 transition-colors uppercase font-semibold text-xs tracking-wide focus:outline-none"
-              title={t("language") + " / " + t("currency")}
+              className="flex items-center gap-1.5 text-gray-700 hover:text-primary-850 transition-colors uppercase font-semibold text-xs tracking-wide focus:outline-none"
+              title="Select Country"
             >
-              <Globe className="h-5.5 w-5.5" />
-              <span className="text-[15.5px]">{language}</span>
-              <span className="text-[10px] text-gray-400 font-normal">|</span>
-              <span className="text-[15.5px]">{currency}</span>
+              <Globe className="h-5.5 w-5.5 text-gray-500" />
+              <span className="text-[15.5px]">{COUNTRIES.find(c => c.code === country)?.flag}</span>
+              <span className="text-[15.5px] font-bold">{COUNTRIES.find(c => c.code === country)?.name}</span>
             </button>
             
             {showLangDropdown && (
-              <div className="absolute right-0 mt-3 w-56 rounded-2xl bg-white border border-gray-100 shadow-2xl p-4 z-50 flex flex-col gap-4 animate-slide-up">
-                {/* Language Picker */}
-                <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2 border-b pb-1.5">{t("language")}</h4>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    {languages.map((l) => (
-                      <button
-                        key={l.code}
-                        onClick={() => {
-                          setLanguage(l.code as any);
-                          setShowLangDropdown(false);
-                        }}
-                        className={`px-2 py-1 text-left text-xs font-semibold rounded-lg transition-colors ${
-                          language === l.code
-                            ? "bg-primary-50 text-primary-800"
-                            : "hover:bg-gray-50 text-gray-600 hover:text-gray-900"
-                        }`}
-                      >
-                        {l.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Currency Picker */}
-                <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2 border-b pb-1.5">{t("currency")}</h4>
-                  <div className="grid grid-cols-3 gap-1.5">
-                    {currencies.map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => {
-                          setCurrency(c);
-                          setShowLangDropdown(false);
-                        }}
-                        className={`px-1.5 py-1 text-center text-xs font-bold rounded-lg transition-colors ${
-                          currency === c
-                            ? "bg-accent/20 text-accent-hover"
-                            : "hover:bg-gray-50 text-gray-600 hover:text-gray-900"
-                        }`}
-                      >
-                        {c}
-                      </button>
-                    ))}
-                  </div>
+              <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-white border border-gray-100 shadow-2xl p-3 z-50 flex flex-col gap-1 animate-slide-up">
+                <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 px-3 py-1.5 border-b mb-1">Select Country</h4>
+                <div className="max-h-60 overflow-y-auto space-y-0.5 scrollbar-thin">
+                  {COUNTRIES.map((c) => (
+                    <button
+                      key={c.code}
+                      onClick={() => {
+                        setCountry(c.code);
+                        setShowLangDropdown(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2 text-xs font-semibold rounded-xl transition-colors ${
+                        country === c.code
+                          ? "bg-primary-50 text-primary-800"
+                          : "hover:bg-gray-50 text-gray-600 hover:text-gray-900"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm">{c.flag}</span>
+                        <span>{c.name}</span>
+                      </div>
+                      <span className="text-[9px] text-gray-400 font-normal uppercase">({c.language} / {c.currency})</span>
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
@@ -490,7 +469,7 @@ export function Header({ activeSection }: HeaderProps) {
                             </div>
                             <div className="flex-grow min-w-0">
                               <p className="text-[11px] font-bold text-gray-900 truncate">
-                                {item.name}
+                                {getLiveInventory().find(p => p.id === item.id) ? getLocalizedProduct(getLiveInventory().find(p => p.id === item.id)).name : item.name}
                               </p>
                               <p className="text-[9px] text-gray-400 truncate">
                                 {item.brand} {item.optionValue ? `| ${item.optionValue}` : ""}
@@ -713,28 +692,20 @@ export function Header({ activeSection }: HeaderProps) {
 
             {/* Mobile Footer Utilities and CTA */}
             <div className="pb-8 pt-6 border-t border-gray-100 space-y-6">
-              {/* Language & Currency Selection */}
-              <div className="grid grid-cols-2 gap-4 border-b border-gray-50 pb-4">
-                <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">{t('language')}</span>
-                  <select
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value as any)}
-                    className="w-full text-xs font-semibold bg-gray-50 border border-gray-100 rounded-lg p-2 focus:outline-none"
-                  >
-                    {languages.map(l => <option key={l.code} value={l.code}>{l.name}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">{t('currency')}</span>
-                  <select
-                    value={currency}
-                    onChange={(e) => setCurrency(e.target.value)}
-                    className="w-full text-xs font-semibold bg-gray-50 border border-gray-100 rounded-lg p-2 focus:outline-none"
-                  >
-                    {currencies.map(c => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                </div>
+              {/* Mobile Country Selection */}
+              <div className="border-b border-gray-55 pb-4">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Select Country</span>
+                <select
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="w-full text-xs font-semibold bg-gray-50 border border-gray-100 rounded-lg p-2 focus:outline-none text-gray-700"
+                >
+                  {COUNTRIES.map(c => (
+                    <option key={c.code} value={c.code}>
+                      {c.flag} {c.name} ({c.language} / {c.currency})
+                    </option>
+                  ))}
+                </select>
               </div>
 
               {/* Utility shortcuts */}

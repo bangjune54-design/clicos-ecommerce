@@ -755,40 +755,67 @@ export function AdminDashboard() {
                     </div>
                   </div>
                   
-                  {/* Advanced Pricing */}
+                  {/* Advanced Country Customization */}
                   <div className="col-span-1 md:col-span-2 pt-6 mt-4 border-t border-gray-200">
-                    <h3 className="text-lg font-bold font-serif text-gray-900 mb-2">Advanced Pricing (Per-Currency Overrides)</h3>
-                    <p className="text-sm text-gray-500 mb-4">Set specific local prices. Leave a field blank to automatically calculate via exchange rate.</p>
+                    <h3 className="text-lg font-bold font-serif text-gray-900 mb-2">Country Specific Names & Prices</h3>
+                    <p className="text-sm text-gray-500 mb-4">Set specific local item names and prices for each country. Leave blank to automatically use standard names and converted prices.</p>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-gray-50 p-5 rounded-xl border border-gray-100 shadow-inner">
-                      {(["KRW", "EUR", "JPY", "GBP", "BRL"]).map(curr => (
-                        <div key={curr} className="p-3 bg-white rounded-lg shadow-sm border border-gray-200">
-                          <h4 className="font-bold text-gray-800 mb-3 border-b pb-2">{curr} Local Price</h4>
+                      {([
+                        { code: "KR", name: "South Korea", flag: "🇰🇷", currency: "KRW" },
+                        { code: "BR", name: "Brazil", flag: "🇧🇷", currency: "BRL" },
+                        { code: "ES", name: "Spain", flag: "🇪🇸", currency: "EUR" },
+                        { code: "CN", name: "China", flag: "🇨🇳", currency: "CNY" },
+                        { code: "JP", name: "Japan", flag: "🇯🇵", currency: "JPY" },
+                      ]).map(c => (
+                        <div key={c.code} className="p-3.5 bg-white rounded-lg shadow-sm border border-gray-200">
+                          <h4 className="font-bold text-gray-800 mb-3 border-b pb-2 flex items-center gap-1.5">
+                            <span>{c.flag}</span>
+                            <span>{c.name} ({c.currency})</span>
+                          </h4>
                           <div className="flex flex-col gap-3">
                             <div>
-                              <label className="block text-xs font-semibold mb-1 text-gray-600">Retail</label>
+                              <label className="block text-xs font-semibold mb-1 text-gray-600">Local Item Name</label>
                               <Input 
-                                type="number" step="any" placeholder="Auto calc" className="h-8 text-sm"
-                                value={editProductPayload.currencyPrices?.[curr] ?? ""} 
+                                type="text" placeholder="Standard name" className="h-8 text-sm"
+                                value={editProductPayload.countryNames?.[c.code] ?? ""} 
                                 onChange={e => {
                                   const val = e.target.value;
                                   setEditProductPayload({
                                     ...editProductPayload, 
-                                    currencyPrices: { ...(editProductPayload.currencyPrices || {}), [curr]: val ? parseFloat(val) : null }
+                                    countryNames: { ...(editProductPayload.countryNames || {}), [c.code]: val || null }
                                   });
                                 }} 
                               />
                             </div>
                             <div>
-                              <label className="block text-xs font-semibold mb-1 text-primary-700">Wholesale (B2B)</label>
+                              <label className="block text-xs font-semibold mb-1 text-gray-600">Retail Price ({c.currency})</label>
                               <Input 
-                                type="number" step="any" placeholder="Auto calc" className="h-8 text-sm border-primary-200 focus:border-primary-500"
-                                value={editProductPayload.currencyWholesalePrices?.[curr] ?? ""} 
+                                type="number" step="any" placeholder="Auto calc" className="h-8 text-sm"
+                                value={editProductPayload.countryPrices?.[c.code] ?? ""} 
                                 onChange={e => {
                                   const val = e.target.value;
+                                  const priceVal = val ? parseFloat(val) : null;
                                   setEditProductPayload({
                                     ...editProductPayload, 
-                                    currencyWholesalePrices: { ...(editProductPayload.currencyWholesalePrices || {}), [curr]: val ? parseFloat(val) : null }
+                                    countryPrices: { ...(editProductPayload.countryPrices || {}), [c.code]: priceVal },
+                                    currencyPrices: { ...(editProductPayload.currencyPrices || {}), [c.currency]: priceVal }
+                                  });
+                                }} 
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs font-semibold mb-1 text-primary-700">Wholesale Price ({c.currency})</label>
+                              <Input 
+                                type="number" step="any" placeholder="Auto calc" className="h-8 text-sm border-primary-200 focus:border-primary-500"
+                                value={editProductPayload.countryWholesalePrices?.[c.code] ?? ""} 
+                                onChange={e => {
+                                  const val = e.target.value;
+                                  const priceVal = val ? parseFloat(val) : null;
+                                  setEditProductPayload({
+                                    ...editProductPayload, 
+                                    countryWholesalePrices: { ...(editProductPayload.countryWholesalePrices || {}), [c.code]: priceVal },
+                                    currencyWholesalePrices: { ...(editProductPayload.currencyWholesalePrices || {}), [c.currency]: priceVal }
                                   });
                                 }} 
                               />

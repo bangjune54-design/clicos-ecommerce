@@ -7,6 +7,7 @@ import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { getLiveInventory, getLiveBrands } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useCountry } from "../contexts/CountryContext";
 
 // Categories structure
 const CATEGORY_STRUCTURE = [
@@ -158,6 +159,7 @@ export function WholesaleAllItems() {
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const { language, t } = useLanguage();
+  const { getLocalizedProduct, formatProductPrice } = useCountry();
   
   const d = (key: string) => {
     return TRANSLATED_WHOLESALE_ITEMS[language]?.[key] || TRANSLATED_WHOLESALE_ITEMS["EN"]?.[key] || key;
@@ -405,8 +407,10 @@ export function WholesaleAllItems() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.map((product) => (
-                <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
+              {filteredProducts.map((p) => {
+                const product = getLocalizedProduct(p);
+                return (
+                  <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
                   <Link to={`/product/${product.id}`} className="block">
                     <div className="aspect-square overflow-hidden bg-gray-100 relative">
                       <img
@@ -486,10 +490,10 @@ export function WholesaleAllItems() {
 
                     <div className="mt-auto flex flex-col mb-3">
                       <div className="flex items-center justify-between">
-                        <p className="text-lg font-bold text-gray-900">{formatPrice(product.price, product.currencyPrices)}</p>
+                        <p className="text-lg font-bold text-gray-900">{formatProductPrice(product, false)}</p>
                       </div>
                       <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 mt-0.5">
-                        <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap">{d("b2bPrice")}: <span className="text-accent">{formatPrice(product.wholesalePrice, product.currencyWholesalePrices)}</span></span>
+                        <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap">{d("b2bPrice")}: <span className="text-accent">{formatProductPrice(product, true)}</span></span>
                         <div className="flex items-center gap-1">
                           <span className="text-[9px] bg-green-100 text-green-700 font-bold px-1 rounded shadow-sm whitespace-nowrap">{d("saveLabel")} {Math.round((1 - product.wholesalePrice / product.price) * 100)}%</span>
                           <span className="text-[9px] text-gray-400 whitespace-nowrap">{d("moqLabel")} {product.moq}</span>
@@ -498,7 +502,8 @@ export function WholesaleAllItems() {
                     </div>
                   </CardContent>
                 </Card>
-              ))}
+                );
+              })}
             </div>
 
             {filteredProducts.length === 0 && (

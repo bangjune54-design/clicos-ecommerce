@@ -15,6 +15,7 @@ import { atsProducts } from "../data/atsProducts";
 import { getLiveInventory } from "../utils/inventory";
 import { meditherapyProducts } from "../data/meditherapyProducts";
 import { Card, CardContent } from "../components/ui/Card";
+import { useCountry } from "../contexts/CountryContext";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { ShoppingBag, ArrowLeft, Search, Star } from "lucide-react";
@@ -140,6 +141,7 @@ export function WholesaleBrandDetail() {
   const [searchParams] = useSearchParams();
   const [brandSearchQuery, setBrandSearchQuery] = useState(searchParams.get("search") || "");
   const { language } = useLanguage();
+  const { getLocalizedProduct, formatProductPrice } = useCountry();
   
   const d = (key: string) => {
     return TRANSLATED_BRAND_DETAIL[language]?.[key] || TRANSLATED_BRAND_DETAIL["EN"]?.[key] || key;
@@ -278,8 +280,10 @@ export function WholesaleBrandDetail() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
-            <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
+          {filteredProducts.map((p) => {
+            const product = getLocalizedProduct(p);
+            return (
+              <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
               <Link to={`/product/${product.id}`} className="block">
                 <div className="aspect-square overflow-hidden bg-gray-100 relative">
                   <img
@@ -351,13 +355,14 @@ export function WholesaleBrandDetail() {
                 
                 <div className="mt-auto flex items-end justify-between">
                   <div>
-                    <p className="text-xl font-bold text-primary-800">{formatPrice(product.wholesalePrice, product.currencyWholesalePrices)}</p>
+                    <p className="text-xl font-bold text-primary-800">{formatProductPrice(product, true)}</p>
                     <p className="text-xs text-accent font-semibold mt-1">{d("moq")}: {product.moq} {d("units")}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

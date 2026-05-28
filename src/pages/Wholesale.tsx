@@ -6,6 +6,7 @@ import { Input } from "../components/ui/Input";
 import { Badge } from "../components/ui/Badge";
 import { getLiveInventory, getLiveBrands } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useCountry } from "../contexts/CountryContext";
 
 interface Product {
   id: string;
@@ -373,6 +374,7 @@ const TRANSLATED_WHOLESALE: Record<string, Record<string, string>> = {
 export function Wholesale() {
   const b2bBrands = getLiveBrands();
   const { language } = useLanguage();
+  const { getLocalizedProduct } = useCountry();
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
@@ -620,7 +622,7 @@ export function Wholesale() {
                     >
                       <option value="">{d("chooseProduct")}</option>
                       {selectedBrand && getBrandProducts(selectedBrand).map(p => (
-                        <option key={p.id} value={p.name}>{p.name}</option>
+                        <option key={p.id} value={p.name}>{getLocalizedProduct(p).name}</option>
                       ))}
                     </select>
                   </div>

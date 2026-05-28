@@ -7,6 +7,7 @@ import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { getLiveInventory, getLiveBrands } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useCountry } from "../contexts/CountryContext";
 
 const CATEGORY_STRUCTURE = [
   { name: "All" },
@@ -150,6 +151,7 @@ export function Shop() {
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const { language, t } = useLanguage();
+  const { getLocalizedProduct, formatProductPrice } = useCountry();
   
   const d = (key: string) => {
     return TRANSLATED_SHOP[language]?.[key] || key;
@@ -511,8 +513,10 @@ export function Shop() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.map((product) => (
-                <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
+              {filteredProducts.map((p) => {
+                const product = getLocalizedProduct(p);
+                return (
+                  <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
                   <Link to={`/product/${product.id}`} className="block">
                     <div className="aspect-square overflow-hidden bg-gray-100 relative">
                       <img
@@ -592,12 +596,13 @@ export function Shop() {
 
                     <div className="mt-auto flex flex-col mb-3">
                       <div className="flex items-center justify-between">
-                        <p className="text-lg font-bold text-gray-900">{formatPrice(product.price, product.currencyPrices)}</p>
+                        <p className="text-lg font-bold text-gray-900">{formatProductPrice(product)}</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
+                );
+              })}
             </div>
 
             {filteredProducts.length === 0 && (

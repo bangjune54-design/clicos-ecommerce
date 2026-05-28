@@ -2,10 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, ShoppingBag } from "lucide-react";
 import { useCurrency } from "../../contexts/CurrencyContext";
+import { useCountry } from "../../contexts/CountryContext";
 import { getLiveInventory } from "../../utils/inventory";
 
 export function BestSellers() {
   const { formatPrice } = useCurrency();
+  const { getLocalizedProduct, formatProductPrice } = useCountry();
   const allProducts = getLiveInventory();
 
   // Filter products that are designated as bestseller in database, limit to 4
@@ -38,64 +40,67 @@ export function BestSellers() {
 
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-          {bestsellerProducts.map((product) => (
-            <div
-              key={product.id}
-              className="group flex flex-col justify-between rounded-3xl bg-white border border-gray-100 hover:border-primary-100 hover:shadow-xl transition-all duration-300 overflow-hidden"
-            >
-              <Link to={`/product/${product.id}`} className="block flex-grow flex flex-col">
-                {/* Image Area with premium vector placeholder */}
-                <div className="aspect-square bg-primary-50/50 flex items-center justify-center p-8 relative overflow-hidden">
-                  <img
-                    src={product.imageSrc}
-                    alt={product.name}
-                    className="w-24 h-24 sm:w-28 sm:h-28 object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
-                    loading="lazy"
-                  />
-                  <span className="absolute top-4 left-4 bg-primary-800 text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
-                    Best Seller
-                  </span>
-                </div>
-
-                {/* Content info */}
-                <div className="p-5 flex flex-col flex-grow">
-                  <span className="text-[10px] font-bold text-accent uppercase tracking-widest mb-1.5">
-                    {product.brand}
-                  </span>
-                  <h3 className="text-sm font-bold text-gray-900 group-hover:text-primary-800 transition-colors line-clamp-2 min-h-[40px] leading-snug font-serif">
-                    {product.name}
-                  </h3>
-                  
-                  {/* Rating indicator */}
-                  <div className="flex items-center gap-1.5 mt-2.5 mb-1 text-xs text-gray-500 font-medium">
-                    <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
-                    <span className="font-semibold text-gray-700">{(product.rating || 4.9).toFixed(1)}</span>
-                    <span className="text-gray-400">({Math.floor((product.name.length * 19) % 100) + 40})</span>
+          {bestsellerProducts.map((p) => {
+            const product = getLocalizedProduct(p);
+            return (
+              <div
+                key={product.id}
+                className="group flex flex-col justify-between rounded-3xl bg-white border border-gray-100 hover:border-primary-100 hover:shadow-xl transition-all duration-300 overflow-hidden"
+              >
+                <Link to={`/product/${product.id}`} className="block flex-grow flex flex-col">
+                  {/* Image Area with premium vector placeholder */}
+                  <div className="aspect-square bg-primary-50/50 flex items-center justify-center p-8 relative overflow-hidden">
+                    <img
+                      src={product.imageSrc}
+                      alt={product.name}
+                      className="w-24 h-24 sm:w-28 sm:h-28 object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
+                      loading="lazy"
+                    />
+                    <span className="absolute top-4 left-4 bg-primary-800 text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
+                      Best Seller
+                    </span>
                   </div>
-                </div>
-              </Link>
 
-              {/* Pricing & Cart Action at Bottom */}
-              <div className="p-5 pt-0 mt-auto flex items-center justify-between border-t border-gray-50">
-                <div className="flex flex-col">
-                  <span className="text-lg font-bold text-gray-900 leading-none">
-                    {formatPrice(product.price, product.currencyPrices)}
-                  </span>
-                  <span className="text-[10px] text-gray-400 font-medium mt-1 uppercase tracking-wider">
-                    MOQ: {product.moq} units
-                  </span>
-                </div>
-                
-                <Link
-                  to={`/product/${product.id}`}
-                  className="w-9 h-9 rounded-full bg-primary-50 text-primary-900 flex items-center justify-center hover:bg-primary-800 hover:text-white transition-all shadow-sm"
-                  title="View details"
-                >
-                  <ShoppingBag className="w-4 h-4" />
+                  {/* Content info */}
+                  <div className="p-5 flex flex-col flex-grow">
+                    <span className="text-[10px] font-bold text-accent uppercase tracking-widest mb-1.5">
+                      {product.brand}
+                    </span>
+                    <h3 className="text-sm font-bold text-gray-900 group-hover:text-primary-800 transition-colors line-clamp-2 min-h-[40px] leading-snug font-serif">
+                      {product.name}
+                    </h3>
+                    
+                    {/* Rating indicator */}
+                    <div className="flex items-center gap-1.5 mt-2.5 mb-1 text-xs text-gray-500 font-medium">
+                      <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                      <span className="font-semibold text-gray-700">{(product.rating || 4.9).toFixed(1)}</span>
+                      <span className="text-gray-400">({Math.floor((product.name.length * 19) % 100) + 40})</span>
+                    </div>
+                  </div>
                 </Link>
+
+                {/* Pricing & Cart Action at Bottom */}
+                <div className="p-5 pt-0 mt-auto flex items-center justify-between border-t border-gray-50">
+                  <div className="flex flex-col">
+                    <span className="text-lg font-bold text-gray-900 leading-none">
+                      {formatProductPrice(product)}
+                    </span>
+                    <span className="text-[10px] text-gray-400 font-medium mt-1 uppercase tracking-wider">
+                      MOQ: {product.moq} units
+                    </span>
+                  </div>
+                  
+                  <Link
+                    to={`/product/${product.id}`}
+                    className="w-9 h-9 rounded-full bg-primary-50 text-primary-900 flex items-center justify-center hover:bg-primary-800 hover:text-white transition-all shadow-sm"
+                    title="View details"
+                  >
+                    <ShoppingBag className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>
