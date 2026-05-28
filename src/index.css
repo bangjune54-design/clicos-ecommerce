@@ -50,6 +50,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    font-size: 109.375%; /* Scales root font size to ~17.5px globally for high visibility and readability */
   }
   body {
     @apply font-sans antialiased text-gray-900 bg-white;
