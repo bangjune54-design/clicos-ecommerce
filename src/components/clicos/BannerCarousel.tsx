@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Banner } from "../../utils/homepage";
@@ -9,17 +9,65 @@ interface BannerCarouselProps {
 
 export function BannerCarousel({ banners }: BannerCarouselProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [draggedDistance, setDraggedDistance] = useState(0);
   const navigate = useNavigate();
+  const autoSlideTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Auto-slide effect that resets whenever the slide changes or dragging starts/ends
   useEffect(() => {
-    if (banners.length <= 1) return;
+    if (banners.length <= 1 || isDragging) {
+      if (autoSlideTimerRef.current) {
+        clearInterval(autoSlideTimerRef.current);
+      }
+      return;
+    }
 
-    const timer = setInterval(() => {
+    autoSlideTimerRef.current = setInterval(() => {
       setCurrentIdx((prev) => (prev + 1) % banners.length);
     }, 5000);
 
-    return () => clearInterval(timer);
-  }, [banners.length]);
+    return () => {
+      if (autoSlideTimerRef.current) {
+        clearInterval(autoSlideTimerRef.current);
+      }
+    };
+  }, [banners.length, isDragging, currentIdx]);
+
+  // Drag and Swipe Handlers
+  const handleDragStart = (clientX: number) => {
+    if (banners.length <= 1) return;
+    setIsDragging(true);
+    setStartX(clientX);
+    setDragOffset(0);
+    setDraggedDistance(0);
+  };
+
+  const handleDragMove = (clientX: number) => {
+    if (!isDragging) return;
+    const diff = clientX - startX;
+    setDragOffset(diff);
+    setDraggedDistance(Math.abs(diff));
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+
+    // Swipe transition threshold (80px or 10% of window size)
+    const threshold = Math.min(window.innerWidth * 0.1, 80);
+    if (dragOffset > threshold) {
+      // Swipe Right -> Show previous banner
+      setCurrentIdx((prev) => (prev - 1 + banners.length) % banners.length);
+    } else if (dragOffset < -threshold) {
+      // Swipe Left -> Show next banner
+      setCurrentIdx((prev) => (prev + 1) % banners.length);
+    }
+
+    setDragOffset(0);
+  };
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -36,6 +84,13 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
   };
 
   const handleBannerClick = (e: React.MouseEvent, link: string) => {
+    // If user dragged more than a tiny threshold, treat it as a swipe gesture instead of a link click
+    if (draggedDistance > 8) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    
     if (!link) return;
     
     if (link.startsWith("#")) {
@@ -60,41 +115,52 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
   if (!banners || banners.length === 0) return null;
 
   return (
-    <section id="home" className="relative w-full h-[75vh] sm:h-[80vh] bg-primary-950 overflow-hidden">
-      {/* Slides Container */}
-      <div className="relative w-full h-full">
-        {banners.map((banner, idx) => {
-          const isActive = idx === currentIdx;
-          
-          return (
-            <div
-              key={banner.id}
-              onClick={(e) => handleBannerClick(e, banner.link)}
-              className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out flex items-center justify-center cursor-pointer ${
-                isActive ? "opacity-100 scale-100 z-10" : "opacity-0 scale-95 z-0 pointer-events-none"
-              }`}
-            >
-              {/* Background Layer: image starts below the fixed header so the full image is visible */}
-              <div className="absolute inset-x-0 bottom-0 top-[72px] z-0 select-none pointer-events-none">
-                {banner.image ? (
-                  <img
-                    src={banner.image}
-                    alt={banner.title}
-                    className="w-full h-full object-cover object-center opacity-100 select-none"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-950">
-                    {/* Abstract ambient decorative light spheres */}
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-accent/10 blur-[100px] animate-pulse"></div>
-                    <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>
-                  </div>
-                )}
-              </div>
-
-              {/* Foreground Content removed to prevent covering the banner image */}
+    <section 
+      id="home" 
+      className="relative w-full h-[75vh] sm:h-[80vh] bg-primary-950 overflow-hidden select-none touch-pan-y"
+    >
+      {/* Draggable Slides Container Track */}
+      <div 
+        className="w-full h-full flex cursor-grab active:cursor-grabbing"
+        style={{
+          transform: `translateX(calc(-${currentIdx * 100}% + ${dragOffset}px))`,
+          transition: isDragging ? "none" : "transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          width: `${banners.length * 100}%`
+        }}
+        onMouseDown={(e) => handleDragStart(e.clientX)}
+        onMouseMove={(e) => handleDragMove(e.clientX)}
+        onMouseUp={handleDragEnd}
+        onMouseLeave={handleDragEnd}
+        onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+        onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
+        onTouchEnd={handleDragEnd}
+      >
+        {banners.map((banner) => (
+          <div
+            key={banner.id}
+            onClick={(e) => handleBannerClick(e, banner.link)}
+            className="h-full flex-shrink-0 flex items-center justify-center relative"
+            style={{ width: `${100 / banners.length}%` }}
+          >
+            {/* Background Layer: image starts below the fixed header */}
+            <div className="absolute inset-x-0 bottom-0 top-[72px] z-0 select-none pointer-events-none">
+              {banner.image ? (
+                <img
+                  src={banner.image}
+                  alt={banner.title}
+                  className="w-full h-full object-cover object-center opacity-100 select-none pointer-events-none"
+                  draggable={false}
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-950">
+                  {/* Abstract ambient decorative light spheres */}
+                  <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-accent/10 blur-[100px] animate-pulse"></div>
+                  <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>
+                </div>
+              )}
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
 
       {/* Navigation Arrows */}
@@ -102,14 +168,14 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
         <>
           <button
             onClick={handlePrev}
-            className="absolute left-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:scale-105 active:scale-95 transition-all"
+            className="absolute left-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:scale-105 active:scale-95 transition-all focus:outline-none"
             aria-label="Previous Slide"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:scale-105 active:scale-95 transition-all"
+            className="absolute right-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:scale-105 active:scale-95 transition-all focus:outline-none"
             aria-label="Next Slide"
           >
             <ChevronRight className="w-5 h-5" />
@@ -124,7 +190,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
             <button
               key={idx}
               onClick={() => handleDotClick(idx)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 focus:outline-none ${
                 idx === currentIdx ? "bg-white w-6" : "bg-white/40 hover:bg-white/60"
               }`}
               aria-label={`Slide ${idx + 1}`}
