@@ -134,7 +134,7 @@ export function WholesaleBrandDetail() {
           />
         )}
         <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 text-center px-4 w-full max-w-[1600px] mx-auto">
+        <div className="relative z-10 text-center px-4 w-full max-w-[1800px] mx-auto">
           <Link to="/wholesale/brands" className="absolute top-0 sm:-top-8 left-4 sm:left-6 text-white/80 hover:text-white flex items-center gap-2 text-sm font-medium transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Brands
           </Link>
@@ -148,7 +148,7 @@ export function WholesaleBrandDetail() {
       </div>
 
       {/* Product List */}
-      <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 py-16">
+      <div className="mx-auto max-w-[1800px] px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 border-b border-gray-200 pb-4 gap-4">
           <div>
             <h2 className="text-2xl font-bold font-serif text-gray-900">Wholesale Items</h2>

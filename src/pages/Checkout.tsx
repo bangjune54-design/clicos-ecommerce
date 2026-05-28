@@ -218,7 +218,7 @@ export function Checkout() {
 
   return (
     <div className="bg-gray-50 min-h-[calc(100vh-80px)] py-12">
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
         <button 
           onClick={() => navigate('/cart')} 
           className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 mb-8 transition-colors"

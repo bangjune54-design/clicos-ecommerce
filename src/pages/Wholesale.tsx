@@ -88,7 +88,7 @@ export function Wholesale() {
     <div className="bg-white">
       {/* Header */}
       <div className="bg-primary-900 py-24 sm:py-32">
-        <div className="mx-auto max-w-[1600px] px-6 lg:px-8 text-center">
+        <div className="mx-auto max-w-[1800px] px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-serif">
             Wholesale & B2B Partnership
           </h1>
@@ -98,7 +98,7 @@ export function Wholesale() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-8 py-24">
+      <div className="mx-auto max-w-[1800px] px-6 lg:px-8 py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           
           {/* Left Column - Info & Portal Login CTA */}

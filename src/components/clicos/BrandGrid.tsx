@@ -72,7 +72,7 @@ export function BrandGrid() {
 
   return (
     <section id="brands" className="py-24 sm:py-32 bg-white">
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-8">
+      <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
         
         {/* Title Block */}
         <div className="text-center max-w-3xl mx-auto mb-16">

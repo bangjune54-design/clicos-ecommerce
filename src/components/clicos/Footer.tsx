@@ -34,7 +34,7 @@ export function Footer() {
         </svg>
       </div>
 
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-8 relative z-10">
+      <div className="mx-auto max-w-[1800px] px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-primary-100">
           
           {/* Brand Tag (5 cols) */}

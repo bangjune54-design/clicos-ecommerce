@@ -22,7 +22,7 @@ export function About() {
 
   return (
     <section id="about" className="py-24 sm:py-32 bg-white overflow-hidden">
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-8">
+      <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
           {/* Left Side: Premium CSS Vector Box (No photos) (5 columns) */}

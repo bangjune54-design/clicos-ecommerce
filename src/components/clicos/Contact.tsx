@@ -96,7 +96,7 @@ export function Contact() {
 
   return (
     <section id="contact" className="py-24 sm:py-32 bg-white relative">
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-8">
+      <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
         
         {/* Title */}
         <div className="text-center max-w-3xl mx-auto mb-16">

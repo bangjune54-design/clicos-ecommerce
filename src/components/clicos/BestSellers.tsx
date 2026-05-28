@@ -15,7 +15,7 @@ export function BestSellers() {
 
   return (
     <section id="best-sellers" className="py-24 sm:py-32 bg-primary-50/50">
-      <div className="mx-auto max-w-[1600px] px-6 lg:px-8">
+      <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 mb-12 border-b border-gray-200 pb-6">
@@ -37,7 +37,7 @@ export function BestSellers() {
         </div>
 
         {/* Product Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8">
           {bestsellerProducts.map((product) => (
             <div
               key={product.id}
