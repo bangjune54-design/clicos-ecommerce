@@ -164,7 +164,7 @@ export function Header({ activeSection }: HeaderProps) {
     >
       <nav className="mx-auto max-w-[1800px] px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex lg:flex-1">
+        <div className="flex lg:flex-initial mr-20">
           <Link
             to="/"
             onClick={(e) => {
@@ -182,7 +182,7 @@ export function Header({ activeSection }: HeaderProps) {
         </div>
 
         {/* Desktop Menu (Home, Products, Categories, Brands, Contact, Wholesales) */}
-        <div className="hidden md:flex md:gap-x-14 items-center">
+        <div className="hidden md:flex md:gap-x-14 items-center mr-auto">
           {/* Home */}
           <Link
             to="/"
@@ -375,7 +375,7 @@ export function Header({ activeSection }: HeaderProps) {
         </div>
 
         {/* Far Right Section: Language/Currency, Search, Profile, Cart */}
-        <div className="hidden md:flex md:flex-1 md:justify-end md:items-center gap-9">
+        <div className="hidden md:flex md:items-center gap-9">
           {/* Country Selector */}
           <div className="relative" ref={dropdownRef}>
             <button
