@@ -54,8 +54,8 @@ export function WhyChooseUs() {
               className="group flex flex-col p-8 rounded-3xl bg-white border border-gray-100/80 hover:border-primary-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
               {/* Feature Icon */}
-              <div className={`flex items-center justify-center w-12 h-12 rounded-2xl border mb-6 transition-transform group-hover:scale-105 duration-300 ${card.color}`}>
-                <card.icon className="w-5 h-5" />
+              <div className={`flex items-center justify-center w-16 h-16 rounded-[24px] border mb-6 transition-transform group-hover:scale-105 duration-300 ${card.color}`}>
+                <card.icon className="w-7 h-7" />
               </div>
 
               {/* Feature Title */}

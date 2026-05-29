@@ -72,7 +72,7 @@ export function BestSellers() {
                     
                     {/* Rating indicator */}
                     <div className="flex items-center gap-1.5 mt-2.5 mb-1 text-xs text-gray-500 font-medium">
-                      <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                      <Star className="w-4.5 h-4.5 fill-yellow-400 text-yellow-400" />
                       <span className="font-semibold text-gray-700">{(product.rating || 4.9).toFixed(1)}</span>
                       <span className="text-gray-400">({Math.floor((product.name.length * 19) % 100) + 40})</span>
                     </div>
@@ -92,10 +92,10 @@ export function BestSellers() {
                   
                   <Link
                     to={`/product/${product.id}`}
-                    className="w-9 h-9 rounded-full bg-primary-50 text-primary-900 flex items-center justify-center hover:bg-primary-800 hover:text-white transition-all shadow-sm"
+                    className="w-11 h-11 rounded-full bg-primary-50 text-primary-900 flex items-center justify-center hover:bg-primary-800 hover:text-white transition-all shadow-sm"
                     title="View details"
                   >
-                    <ShoppingBag className="w-4 h-4" />
+                    <ShoppingBag className="w-5.5 h-5.5" />
                   </Link>
                 </div>
               </div>
