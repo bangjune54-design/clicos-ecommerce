@@ -50,7 +50,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    font-size: 121.875%; /* Scales root font size to ~19.5px globally for superb readability and high visibility */
+    font-size: clamp(16px, 0.95vw + 6px, 32px); /* High-quality fluid scaling: dynamically grows all aspects of the site as the window size increases, beautifully bound between 16px and 32px */
   }
   body {
     @apply font-sans antialiased text-gray-900 bg-white;

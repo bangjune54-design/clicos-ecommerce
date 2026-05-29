@@ -159,7 +159,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
             style={{ width: `${100 / banners.length}%` }}
           >
             {/* Image Layer: image starts below the fixed header */}
-            <div className="w-full select-none pt-[72px]">
+            <div className="w-full select-none pt-[4.5rem]">
               {banner.image ? (
                 <img
                   src={banner.image}
@@ -185,7 +185,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
           <button
             onClick={handlePrev}
             disabled={currentIdx === 0}
-            className={`absolute left-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 text-white transition-all focus:outline-none ${
+            className={`absolute left-4 top-[calc(50%+2.25rem)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 text-white transition-all focus:outline-none ${
               currentIdx === 0 
                 ? "opacity-20 cursor-not-allowed pointer-events-none" 
                 : "hover:bg-white/15 hover:scale-105 active:scale-95"
@@ -197,7 +197,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
           <button
             onClick={handleNext}
             disabled={currentIdx === banners.length - 1}
-            className={`absolute right-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 text-white transition-all focus:outline-none ${
+            className={`absolute right-4 top-[calc(50%+2.25rem)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 text-white transition-all focus:outline-none ${
               currentIdx === banners.length - 1 
                 ? "opacity-20 cursor-not-allowed pointer-events-none" 
                 : "hover:bg-white/15 hover:scale-105 active:scale-95"
