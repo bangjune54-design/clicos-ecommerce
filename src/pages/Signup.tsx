@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { CheckCircle2 } from "lucide-react";
@@ -7,7 +7,9 @@ import { sendAdminNotification } from "../utils/email";
 
 export function Signup() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<"general" | "wholesale">("general");
+  const [searchParams] = useSearchParams();
+  const defaultTab = searchParams.get("type") === "wholesale" ? "wholesale" : "general";
+  const [activeTab, setActiveTab] = useState<"general" | "wholesale">(defaultTab);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",

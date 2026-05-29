@@ -457,10 +457,15 @@ export function AdminDashboard() {
                         value={order.status}
                         onChange={(e) => handleStatusChange(order.id, e.target.value)}
                         className={`text-sm rounded-md border-gray-300 font-semibold focus:ring-primary-500 focus:border-primary-500 ${
-                          order.status === 'Delivered' ? 'text-green-600' :
-                          order.status === 'In Transit' ? 'text-blue-600' : 'text-orange-600'
+                          order.status === 'Delivered' || order.status === 'Approved' ? 'text-green-600' :
+                          order.status === 'In Transit' ? 'text-blue-600' :
+                          order.status === 'Declined' ? 'text-red-600' :
+                          order.status === 'Pending Approval' ? 'text-amber-600' : 'text-orange-600'
                         }`}
                       >
+                        <option value="Pending Approval">Pending Approval</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Declined">Declined</option>
                         <option value="Processing">Processing</option>
                         <option value="In Transit">In Transit</option>
                         <option value="Delivered">Delivered</option>

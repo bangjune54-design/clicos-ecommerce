@@ -209,7 +209,7 @@ export function ProductDetail() {
     
     const hasOptions = (product.options && product.options.length > 0) || (product.colors && product.colors.length > 0);
     if (hasOptions && !selectedOption) {
-      alert(d("Select option before adding to cart"));
+      alert("please choose the option for the item");
       return;
     }
 

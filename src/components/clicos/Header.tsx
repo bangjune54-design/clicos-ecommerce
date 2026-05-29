@@ -5,6 +5,7 @@ import { useLanguage } from "../../contexts/LanguageContext";
 import { useCurrency } from "../../contexts/CurrencyContext";
 import { useCountry, COUNTRIES } from "../../contexts/CountryContext";
 import { saveAndClearCartForAccount } from "../../utils/cart";
+import { getLiveBrands, getLiveInventory } from "../../utils/inventory";
 
 interface HeaderProps {
   activeSection: string;
@@ -261,17 +262,67 @@ export function Header({ activeSection }: HeaderProps) {
             )}
           </div>
 
-          {/* Brands */}
-          <Link
-            to="/brands"
-            className={`text-[18px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
-              location.pathname === "/brands" || (location.pathname === "/shop" && searchParams.get("brand"))
-                ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
-                : "text-gray-600"
-            }`}
+          {/* Brands Dropdown Wrapper */}
+          <div
+            className="relative py-1.5"
+            onMouseEnter={() => setHoveredDropdown("brands")}
+            onMouseLeave={() => setHoveredDropdown(null)}
           >
-            {t('brands')}
-          </Link>
+            <Link
+              to="/brands"
+              className={`text-[18px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+                location.pathname === "/brands" || (location.pathname === "/shop" && searchParams.get("brand"))
+                  ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
+                  : "text-gray-600"
+              }`}
+            >
+              {t('brands')}
+              <ChevronDown className="w-4 h-4 opacity-60" />
+            </Link>
+            {hoveredDropdown === "brands" && (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-[720px]">
+                <div className="rounded-3xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-6 animate-slide-up">
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Our Partner Brands</h4>
+                    <span className="text-[10px] text-primary-700 font-semibold bg-primary-50 px-2.5 py-0.5 rounded-full uppercase">Direct Contracts</span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    {getLiveBrands().map((brand) => (
+                      <Link
+                        key={brand.name}
+                        to={`/shop?brand=${encodeURIComponent(brand.name.toLowerCase())}`}
+                        className="flex items-center gap-3 p-2 rounded-2xl hover:bg-primary-50 transition-all duration-200 group"
+                        onClick={() => setHoveredDropdown(null)}
+                      >
+                        <div className="w-14 h-10 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-center overflow-hidden shrink-0 group-hover:bg-primary-100 transition-colors">
+                          {brand.image ? (
+                            <img src={brand.image} alt={brand.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                          ) : (
+                            <span className="text-[11px] font-serif font-bold text-primary-900/60 uppercase tracking-wider">
+                              {brand.name.substring(0, 2)}
+                            </span>
+                          )}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-bold text-gray-900 group-hover:text-primary-800 transition-colors truncate">{brand.name}</p>
+                          <p className="text-[10px] text-gray-450 truncate mt-0.5">{brand.description}</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-gray-100 text-center">
+                    <Link
+                      to="/brands"
+                      onClick={() => setHoveredDropdown(null)}
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-primary-700 hover:text-primary-900 transition-colors"
+                    >
+                      View All Partner Brands &rarr;
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Contact */}
           <Link

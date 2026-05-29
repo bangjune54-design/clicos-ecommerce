@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { restoreCartForAccount } from "../utils/cart";
 
 export function Login() {
-  const [activeTab, setActiveTab] = useState<"general" | "wholesale">("general");
+  const [searchParams] = useSearchParams();
+  const defaultTab = searchParams.get("type") === "wholesale" ? "wholesale" : "general";
+  const [activeTab, setActiveTab] = useState<"general" | "wholesale">(defaultTab);
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 

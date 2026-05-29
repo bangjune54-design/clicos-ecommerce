@@ -7,6 +7,7 @@ import { Badge } from "../components/ui/Badge";
 import { getLiveInventory, getLiveBrands } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useCountry } from "../contexts/CountryContext";
+import { sendAdminNotification } from "../utils/email";
 
 interface Product {
   id: string;
@@ -372,6 +373,11 @@ const TRANSLATED_WHOLESALE: Record<string, Record<string, string>> = {
 };
 
 export function Wholesale() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const userType = localStorage.getItem("userType") || "retail";
+  const isWholesale = isLoggedIn && userType === "wholesale";
+  const userEmail = localStorage.getItem("userEmail") || "";
+
   const b2bBrands = getLiveBrands();
   const { language } = useLanguage();
   const { getLocalizedProduct } = useCountry();
@@ -469,234 +475,324 @@ export function Wholesale() {
             </div>
           </div>
 
-          {/* Right Column - Inquiry Form */}
-          <div className="glass rounded-3xl p-8 sm:p-10 shadow-xl border-gray-100 relative">
-            <h3 className="text-2xl font-bold text-gray-900 font-serif mb-6">
-              {d("formTitle")}
-            </h3>
-            <p className="text-sm text-gray-600 mb-8">
-              {d("formDesc")}
-            </p>
+          {/* Right Column - Inquiry Form / Gate */}
+          {!isWholesale ? (
+            <div className="glass rounded-3xl p-8 sm:p-12 shadow-xl border-primary-100/50 bg-gradient-to-b from-primary-50/20 to-white text-center relative overflow-hidden min-h-[500px] flex flex-col justify-center items-center">
+              <div className="absolute top-0 left-0 w-full h-2 bg-primary-600"></div>
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-100 text-primary-700 mb-6 border border-primary-200">
+                <Building2 className="h-8 w-8" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 font-serif mb-4">
+                Wholesale Portal Locked
+              </h3>
+              <p className="text-sm text-gray-600 mb-8 max-w-sm leading-relaxed">
+                Only registered wholesale accounts can submit wholesale order forms. Log in with your partner account or apply for a wholesale partnership.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
+                <Link to="/login?type=wholesale" className="w-full sm:w-auto">
+                  <Button variant="primary" className="w-full gap-2 font-semibold">
+                    Log In as B2B Partner <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <Link to="/signup?type=wholesale" className="w-full sm:w-auto">
+                  <Button variant="outline" className="w-full font-semibold border-primary-600 text-primary-700 hover:bg-primary-50">
+                    Apply for Partnership
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className="glass rounded-3xl p-8 sm:p-10 shadow-xl border-gray-100 relative">
+              <h3 className="text-2xl font-bold text-gray-900 font-serif mb-6">
+                {d("formTitle")}
+              </h3>
+              <p className="text-sm text-gray-600 mb-8">
+                {d("formDesc")}
+              </p>
 
-            <form action="https://formspree.io/f/xpqyvkra" method="POST" className="space-y-6" onSubmit={async (e) => {
-              e.preventDefault();
-              const form = e.currentTarget;
-              const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
-              if (submitBtn) { submitBtn.textContent = d("submittingBtn"); submitBtn.disabled = true; }
-              
-              const formData = new FormData(form);
-              
-              // Format the selected items into a readable string for the email
-              const itemsList = orderItems.length > 0 
-                ? orderItems.map(item => `- ${item.quantity} box(es) of ${item.brand} ${item.product} (${item.quantity * item.inboxQty} items total)`).join('\n')
-                : 'No specific items selected.';
+              <form action="https://formspree.io/f/xpqyvkra" method="POST" className="space-y-6" onSubmit={async (e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+                if (submitBtn) { submitBtn.textContent = d("submittingBtn"); submitBtn.disabled = true; }
                 
-              formData.append("Selected_Items_List", itemsList);
+                const formData = new FormData(form);
+                
+                // Format the selected items into a readable string for the email
+                const itemsList = orderItems.length > 0 
+                  ? orderItems.map(item => `- ${item.quantity} box(es) of ${item.brand} ${item.product} (${item.quantity * item.inboxQty} items total)`).join('\n')
+                  : 'No specific items selected.';
+                  
+                formData.append("Selected_Items_List", itemsList);
 
-              try {
-                const response = await fetch(form.action, {
-                  method: form.method,
-                  body: formData,
-                  headers: { 'Accept': 'application/json' }
+                // Build a structured list of items with their wholesale prices and calculate the order total
+                let calculatedTotal = 0;
+                const formattedItemsForStorage = orderItems.map(item => {
+                  const productsOfBrand = getBrandProducts(item.brand);
+                  const matchedProduct = productsOfBrand.find(p => p.name === item.product || `${p.name}${p.colors ? ` (${item.product.split('(')[1]?.replace(')', '')})` : ''}` === item.product);
+                  const price = matchedProduct ? matchedProduct.wholesalePrice : 15.00;
+                  const qtyTotal = item.quantity * item.inboxQty;
+                  calculatedTotal += qtyTotal * price;
+                  
+                  return {
+                    name: `${item.brand} ${item.product}`,
+                    qty: qtyTotal,
+                    price: price
+                  };
                 });
+
+                // Create a mock order structure to save in globalOrders
+                const globalOrders = JSON.parse(localStorage.getItem("globalOrders") || "[]");
+                const orderId = `WHL-${Math.floor(100000 + Math.random() * 900000)}`;
+                const firstName = formData.get("first-name") as string || "";
+                const lastName = formData.get("last-name") as string || "";
                 
-                if (response.ok) {
+                const newOrder = {
+                  id: orderId,
+                  date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+                  status: "Pending Approval",
+                  customerName: `${firstName} ${lastName}`.trim(),
+                  customerEmail: userEmail,
+                  total: calculatedTotal,
+                  address: formData.get("country") as string || "Other",
+                  items: formattedItemsForStorage
+                };
+
+                try {
+                  // Attempt calling real Vercel API
+                  const response = await fetch("/api/wholesale", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      firstName,
+                      lastName,
+                      email: formData.get("email") as string,
+                      phone: formData.get("phone") as string,
+                      company: formData.get("company") as string,
+                      country: formData.get("country") as string,
+                      businessType: formData.get("business-type") as string,
+                      selectedItemsList: itemsList,
+                      message: formData.get("message") as string,
+                    })
+                  });
+
+                  // Trigger simulation toast
+                  sendAdminNotification(
+                    `New Wholesale Order Quote Request from ${formData.get("company")}`,
+                    newOrder,
+                    "info@clicos.co.kr, wholesales@clicos.co.kr"
+                  );
+
+                  // Always persist order to localStorage and show success
+                  localStorage.setItem("globalOrders", JSON.stringify([newOrder, ...globalOrders]));
                   alert(d("successMsg").replace("{count}", String(orderItems.length)));
                   setOrderItems([]);
                   localStorage.removeItem('b2bCart');
                   window.dispatchEvent(new Event('storage'));
-                  window.location.href = '/';
-                } else {
-                  alert(d("errorMsg"));
-                  if (submitBtn) { submitBtn.textContent = d("submitBtn"); submitBtn.disabled = false; }
+                  window.location.href = '/my-page';
+                } catch (error) {
+                  console.error("API error, falling back to local simulation:", error);
+                  
+                  // Local persistence fallback
+                  localStorage.setItem("globalOrders", JSON.stringify([newOrder, ...globalOrders]));
+                  sendAdminNotification(
+                    `New Wholesale Order Quote Request from ${formData.get("company")}`,
+                    newOrder,
+                    "info@clicos.co.kr, wholesales@clicos.co.kr"
+                  );
+
+                  alert(d("successMsg").replace("{count}", String(orderItems.length)));
+                  setOrderItems([]);
+                  localStorage.removeItem('b2bCart');
+                  window.dispatchEvent(new Event('storage'));
+                  window.location.href = '/my-page';
                 }
-              } catch (error) {
-                alert(d("networkError"));
-                if (submitBtn) { submitBtn.textContent = d("submitBtn"); submitBtn.disabled = false; }
-              }
-            }}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                    {d("firstName")}
-                  </label>
-                  <Input id="first-name" name="first-name" type="text" placeholder="Jane" required />
-                </div>
-                <div>
-                  <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                    {d("lastName")}
-                  </label>
-                  <Input id="last-name" name="last-name" type="text" placeholder="Doe" required />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="company" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                  {d("companyName")}
-                </label>
-                <Input id="company" name="company" type="text" placeholder="Your Beauty Store LLC" required />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                    {d("workEmail")}
-                  </label>
-                  <Input id="email" name="email" type="email" placeholder="jane@company.com" required />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                    {d("phone")}
-                  </label>
-                  <Input id="phone" name="phone" type="tel" placeholder="+1 (555) 000-0000" />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                  {d("country")}
-                </label>
-                <select
-                  id="country"
-                  name="country"
-                  className="mt-2 block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-transparent"
-                >
-                  <option value="United States">{d("us")}</option>
-                  <option value="Canada">{d("ca")}</option>
-                  <option value="United Kingdom">{d("uk")}</option>
-                  <option value="Australia">{d("au")}</option>
-                  <option value="United Arab Emirates">{d("uae")}</option>
-                  <option value="Other">{d("other")}</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="business-type" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                  {d("businessType")}
-                </label>
-                <select
-                  id="business-type"
-                  name="business-type"
-                  className="mt-2 block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-transparent"
-                >
-                  <option value="Online Retailer">{d("onlineRetailer")}</option>
-                  <option value="Brick & Mortar Store">{d("brickMortar")}</option>
-                  <option value="Distributor / Wholesaler">{d("distributor")}</option>
-                  <option value="Salon / Spa">{d("salonSpa")}</option>
-                  <option value="Other">{d("other")}</option>
-                </select>
-              </div>
-
-              <div className="pt-4 border-t border-gray-200">
-                <h4 className="text-sm font-bold text-gray-900 mb-4">{d("orderSelection")}</h4>
-                <div className="flex flex-col sm:flex-row gap-4 mb-4">
-                  <div className="flex-1">
-                    <label htmlFor="select-brand" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                      {d("selectBrand")}
+              }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                      {d("firstName")}
                     </label>
-                    <select
-                      id="select-brand"
-                      value={selectedBrand}
-                      onChange={(e) => {
-                        setSelectedBrand(e.target.value);
-                        setSelectedProduct("");
-                      }}
-                      className="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-transparent"
-                    >
-                      <option value="">{d("chooseBrand")}</option>
-                      {b2bBrands.map(b => (
-                        <option key={b.name} value={b.name}>{b.name}</option>
-                      ))}
-                    </select>
+                    <Input id="first-name" name="first-name" type="text" placeholder="Jane" required />
                   </div>
-                  <div className="flex-1">
-                    <label htmlFor="select-product" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                      {d("selectProduct")}
+                  <div>
+                    <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                      {d("lastName")}
                     </label>
-                    <select
-                      id="select-product"
-                      value={selectedProduct}
-                      onChange={(e) => setSelectedProduct(e.target.value)}
-                      disabled={!selectedBrand}
-                      className="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-transparent disabled:opacity-50"
-                    >
-                      <option value="">{d("chooseProduct")}</option>
-                      {selectedBrand && getBrandProducts(selectedBrand).map(p => (
-                        <option key={p.id} value={p.name}>{getLocalizedProduct(p).name}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="w-full sm:w-24 shrink-0">
-                    <label htmlFor="select-quantity" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                      {d("boxQty")}
-                    </label>
-                    <Input
-                      id="select-quantity"
-                      type="number"
-                      min={1}
-                      value={selectedQuantity}
-                      onChange={(e) => setSelectedQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                    />
+                    <Input id="last-name" name="last-name" type="text" placeholder="Doe" required />
                   </div>
                 </div>
-                <div className="flex justify-end mb-6">
-                  <Button type="button" variant="outline" size="sm" onClick={handleAddItem} disabled={!selectedBrand || !selectedProduct} className="gap-2">
-                    <Plus className="w-4 h-4" /> {d("addItem")}
+
+                <div>
+                  <label htmlFor="company" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                    {d("companyName")}
+                  </label>
+                  <Input id="company" name="company" type="text" placeholder="Your Beauty Store LLC" required />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                      {d("workEmail")}
+                    </label>
+                    <Input id="email" name="email" type="email" placeholder="jane@company.com" required />
+                  </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                      {d("phone")}
+                    </label>
+                    <Input id="phone" name="phone" type="tel" placeholder="+1 (555) 000-0000" />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                    {d("country")}
+                  </label>
+                  <select
+                    id="country"
+                    name="country"
+                    className="mt-2 block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-transparent"
+                  >
+                    <option value="United States">{d("us")}</option>
+                    <option value="Canada">{d("ca")}</option>
+                    <option value="United Kingdom">{d("uk")}</option>
+                    <option value="Australia">{d("au")}</option>
+                    <option value="United Arab Emirates">{d("uae")}</option>
+                    <option value="Other">{d("other")}</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="business-type" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                    {d("businessType")}
+                  </label>
+                  <select
+                    id="business-type"
+                    name="business-type"
+                    className="mt-2 block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-transparent"
+                  >
+                    <option value="Online Retailer">{d("onlineRetailer")}</option>
+                    <option value="Brick & Mortar Store">{d("brickMortar")}</option>
+                    <option value="Distributor / Wholesaler">{d("distributor")}</option>
+                    <option value="Salon / Spa">{d("salonSpa")}</option>
+                    <option value="Other">{d("other")}</option>
+                  </select>
+                </div>
+
+                <div className="pt-4 border-t border-gray-200">
+                  <h4 className="text-sm font-bold text-gray-900 mb-4">{d("orderSelection")}</h4>
+                  <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                    <div className="flex-1">
+                      <label htmlFor="select-brand" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                        {d("selectBrand")}
+                      </label>
+                      <select
+                        id="select-brand"
+                        value={selectedBrand}
+                        onChange={(e) => {
+                          setSelectedBrand(e.target.value);
+                          setSelectedProduct("");
+                        }}
+                        className="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-transparent"
+                      >
+                        <option value="">{d("chooseBrand")}</option>
+                        {b2bBrands.map(b => (
+                          <option key={b.name} value={b.name}>{b.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="flex-1">
+                      <label htmlFor="select-product" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                        {d("selectProduct")}
+                      </label>
+                      <select
+                        id="select-product"
+                        value={selectedProduct}
+                        onChange={(e) => setSelectedProduct(e.target.value)}
+                        disabled={!selectedBrand}
+                        className="block w-full rounded-md border-0 py-2.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-transparent disabled:opacity-50"
+                      >
+                        <option value="">{d("chooseProduct")}</option>
+                        {selectedBrand && getBrandProducts(selectedBrand).map(p => (
+                          <option key={p.id} value={p.name}>{getLocalizedProduct(p).name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="w-full sm:w-24 shrink-0">
+                      <label htmlFor="select-quantity" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                        {d("boxQty")}
+                      </label>
+                      <Input
+                        id="select-quantity"
+                        type="number"
+                        min={1}
+                        value={selectedQuantity}
+                        onChange={(e) => setSelectedQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex justify-end mb-6">
+                    <Button type="button" variant="outline" size="sm" onClick={handleAddItem} disabled={!selectedBrand || !selectedProduct} className="gap-2">
+                      <Plus className="w-4 h-4" /> {d("addItem")}
+                    </Button>
+                  </div>
+
+                  {orderItems.length > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-4 mb-6 ring-1 ring-inset ring-gray-200">
+                      <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
+                        {d("selectedItems")} ({orderItems.length})
+                      </h5>
+                      <ul className="space-y-3">
+                        {orderItems.map((item, idx) => (
+                          <li key={idx} className="flex items-center justify-between gap-4 bg-white p-3 rounded-md shadow-sm">
+                            <div className="flex-1">
+                              <Badge variant="outline" className="text-[10px] mb-1">{item.brand}</Badge>
+                              <p className="text-sm font-medium text-gray-900 leading-tight">{item.product}</p>
+                              <p className="text-xs text-gray-500 mt-1">{d("inboxQty")}: {item.inboxQty}</p>
+                            </div>
+                            <div className="text-sm font-bold text-primary-700 shrink-0 text-right">
+                              <div>{item.quantity} {d("boxesCount")}</div>
+                              <div className="text-xs text-gray-500 font-normal">({item.quantity * item.inboxQty} {d("itemsCount")})</div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveItem(idx)}
+                              className="text-gray-400 hover:text-red-500 transition-colors shrink-0 p-1"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
+                    {d("additionalDetails")}
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    className="block w-full rounded-md border-0 py-2.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-transparent resize-none"
+                    placeholder={d("messagePlaceholder")}
+                    required
+                  />
+                </div>
+
+                <div className="pt-2">
+                  <Button type="submit" size="lg" className="w-full">
+                    {d("submitBtn")}
                   </Button>
                 </div>
-
-                {orderItems.length > 0 && (
-                  <div className="bg-gray-50 rounded-lg p-4 mb-6 ring-1 ring-inset ring-gray-200">
-                    <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
-                      {d("selectedItems")} ({orderItems.length})
-                    </h5>
-                    <ul className="space-y-3">
-                      {orderItems.map((item, idx) => (
-                        <li key={idx} className="flex items-center justify-between gap-4 bg-white p-3 rounded-md shadow-sm">
-                          <div className="flex-1">
-                            <Badge variant="outline" className="text-[10px] mb-1">{item.brand}</Badge>
-                            <p className="text-sm font-medium text-gray-900 leading-tight">{item.product}</p>
-                            <p className="text-xs text-gray-500 mt-1">{d("inboxQty")}: {item.inboxQty}</p>
-                          </div>
-                          <div className="text-sm font-bold text-primary-700 shrink-0 text-right">
-                            <div>{item.quantity} {d("boxesCount")}</div>
-                            <div className="text-xs text-gray-500 font-normal">({item.quantity * item.inboxQty} {d("itemsCount")})</div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveItem(idx)}
-                            className="text-gray-400 hover:text-red-500 transition-colors shrink-0 p-1"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium leading-6 text-gray-900 mb-2">
-                  {d("additionalDetails")}
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  className="block w-full rounded-md border-0 py-2.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-transparent resize-none"
-                  placeholder={d("messagePlaceholder")}
-                  required
-                />
-              </div>
-
-              <div className="pt-2">
-                <Button type="submit" size="lg" className="w-full">
-                  {d("submitBtn")}
-                </Button>
-              </div>
-            </form>
-          </div>
+              </form>
+            </div>
+          )}
           
         </div>
       </div>

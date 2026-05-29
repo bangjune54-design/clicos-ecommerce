@@ -26,7 +26,12 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
     }
 
     autoSlideTimerRef.current = setInterval(() => {
-      setCurrentIdx((prev) => (prev + 1) % banners.length);
+      setCurrentIdx((prev) => {
+        if (prev < banners.length - 1) {
+          return prev + 1;
+        }
+        return prev; // Stay on the last banner
+      });
     }, 5000);
 
     return () => {
@@ -47,7 +52,15 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
 
   const handleDragMove = (clientX: number) => {
     if (!isDragging) return;
-    const diff = clientX - startX;
+    let diff = clientX - startX;
+
+    // Apply high-quality elastic dampening power when swiping past boundaries
+    if (currentIdx === 0 && diff > 0) {
+      diff = Math.pow(diff, 0.75); // Dampen right swipe on first banner
+    } else if (currentIdx === banners.length - 1 && diff < 0) {
+      diff = -Math.pow(Math.abs(diff), 0.75); // Dampen left swipe on last banner
+    }
+
     setDragOffset(diff);
     setDraggedDistance(Math.abs(diff));
   };
@@ -59,11 +72,15 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
     // Swipe transition threshold (80px or 10% of window size)
     const threshold = Math.min(window.innerWidth * 0.1, 80);
     if (dragOffset > threshold) {
-      // Swipe Right -> Show previous banner
-      setCurrentIdx((prev) => (prev - 1 + banners.length) % banners.length);
+      // Swipe Right -> Show previous banner if not at index 0
+      if (currentIdx > 0) {
+        setCurrentIdx(currentIdx - 1);
+      }
     } else if (dragOffset < -threshold) {
-      // Swipe Left -> Show next banner
-      setCurrentIdx((prev) => (prev + 1) % banners.length);
+      // Swipe Left -> Show next banner if not at final banner
+      if (currentIdx < banners.length - 1) {
+        setCurrentIdx(currentIdx + 1);
+      }
     }
 
     setDragOffset(0);
@@ -71,12 +88,16 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentIdx((prev) => (prev - 1 + banners.length) % banners.length);
+    if (currentIdx > 0) {
+      setCurrentIdx(currentIdx - 1);
+    }
   };
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentIdx((prev) => (prev + 1) % banners.length);
+    if (currentIdx < banners.length - 1) {
+      setCurrentIdx(currentIdx + 1);
+    }
   };
 
   const handleDotClick = (idx: number) => {
@@ -168,14 +189,24 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
         <>
           <button
             onClick={handlePrev}
-            className="absolute left-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:scale-105 active:scale-95 transition-all focus:outline-none"
+            disabled={currentIdx === 0}
+            className={`absolute left-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 text-white transition-all focus:outline-none ${
+              currentIdx === 0 
+                ? "opacity-20 cursor-not-allowed pointer-events-none" 
+                : "hover:bg-white/15 hover:scale-105 active:scale-95"
+            }`}
             aria-label="Previous Slide"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/15 text-white hover:scale-105 active:scale-95 transition-all focus:outline-none"
+            disabled={currentIdx === banners.length - 1}
+            className={`absolute right-4 top-[calc(50%+36px)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 text-white transition-all focus:outline-none ${
+              currentIdx === banners.length - 1 
+                ? "opacity-20 cursor-not-allowed pointer-events-none" 
+                : "hover:bg-white/15 hover:scale-105 active:scale-95"
+            }`}
             aria-label="Next Slide"
           >
             <ChevronRight className="w-5 h-5" />

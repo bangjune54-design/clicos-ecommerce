@@ -229,10 +229,10 @@ export function Shop() {
 
     const optionsList = product.options || product.colors;
     const hasOptions = optionsList && optionsList.length > 0;
-    const selectedOption = selectedOptions[product.id] || (hasOptions ? optionsList[0] : undefined);
+    const selectedOption = selectedOptions[product.id];
 
     if (hasOptions && !selectedOption) {
-      alert(`Please select an option for ${product.name}`);
+      alert("please choose the option for the item");
       return;
     }
 

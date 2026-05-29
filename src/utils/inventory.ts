@@ -124,22 +124,6 @@ export async function initializeStorage() {
       }
     }
 
-    // Clear brand images as well to use typographic icons by default
-    if (brd && Array.isArray(brd)) {
-      let needsReset = false;
-      brd = brd.map(b => {
-        if (b.image) {
-          needsReset = true;
-          const { image, ...rest } = b;
-          return rest;
-        }
-        return b;
-      });
-      if (needsReset) {
-        await dbSet("globalBrands", brd);
-      }
-    }
-
     // 2. Fallback to localStorage + Migration
     if (!inv) {
       const localInv = localStorage.getItem("globalInventory");
@@ -168,15 +152,6 @@ export async function initializeStorage() {
       const localBrd = localStorage.getItem("globalBrands");
       if (localBrd) {
         let parsedBrd = JSON.parse(localBrd);
-        if (Array.isArray(parsedBrd)) {
-          parsedBrd = parsedBrd.map(b => {
-            if (b.image) {
-              const { image, ...rest } = b;
-              return rest;
-            }
-            return b;
-          });
-        }
         brandsCache = parsedBrd;
         await dbSet("globalBrands", brandsCache);
         // Clear legacy once migrated
