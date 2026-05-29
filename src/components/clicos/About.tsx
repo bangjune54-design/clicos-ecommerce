@@ -38,10 +38,10 @@ export function About() {
                 <img
                   src="/cargo-ship-brown.png"
                   alt="Global Cargo Ship Logistics"
-                  className="w-full h-full object-cover opacity-35 mix-blend-overlay group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-700 ease-out"
                   draggable={false}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-950/60 via-transparent to-primary-950/40"></div>
+                <div className="absolute inset-0 bg-black/30"></div>
               </div>
               
               {/* High-Tech Global Map Background */}
