@@ -25,58 +25,31 @@ export function About() {
       <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
-          {/* Left Side: Premium CSS Vector Box (No photos) (5 columns) */}
+          {/* Left Side: Premium Cargo Ship Card (5 columns) */}
           <div className="lg:col-span-5 relative flex justify-center">
-            {/* Vector Container */}
-            <div className="relative w-full max-w-[400px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border border-primary-100/50 bg-gradient-to-br from-primary-950 via-primary-900 to-primary-950 p-6 flex flex-col justify-between group">
-              {/* Ambient lighting spheres */}
-              <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-accent/15 blur-2xl pointer-events-none"></div>
-              <div className="absolute bottom-12 left-6 w-24 h-24 rounded-full bg-primary-300/10 blur-xl pointer-events-none"></div>
+            {/* Image Card Container */}
+            <div className="relative w-full max-w-[400px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border border-primary-100/50 bg-primary-950 p-6 flex flex-col justify-end group">
               
-
-              
-              {/* High-Tech Global Map Background */}
-              <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center p-6">
-                <svg className="w-full h-full text-primary-200/40" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round">
-                  <circle cx="50" cy="50" r="45" strokeDasharray="3 3" />
-                  <ellipse cx="50" cy="50" rx="45" ry="18" />
-                  <ellipse cx="50" cy="50" rx="45" ry="32" />
-                  <ellipse cx="50" cy="50" rx="18" ry="45" />
-                  <ellipse cx="50" cy="50" rx="32" ry="45" />
-                  <line x1="5" y1="50" x2="95" y2="50" />
-                  <line x1="50" y1="5" x2="50" y2="95" />
-                  <path d="M20 50 Q 50 20 80 50" strokeDasharray="2 2" strokeWidth="1.2" />
-                  <path d="M25 60 Q 50 35 75 40" strokeDasharray="2 2" strokeWidth="1.2" />
-                  <path d="M15 40 Q 50 65 85 45" strokeDasharray="2 2" strokeWidth="1.2" />
-                  <circle cx="20" cy="50" r="2.5" fill="currentColor" />
-                  <circle cx="80" cy="50" r="2.5" fill="currentColor" />
-                  <circle cx="25" cy="60" r="2" fill="currentColor" />
-                  <circle cx="75" cy="40" r="2.5" fill="currentColor" />
-                  <circle cx="50" cy="27" r="2" fill="currentColor" />
-                  <circle cx="50" cy="65" r="3" fill="#FDA4AF" />
-                </svg>
+              {/* Cargo Ship Background Image in Brown/Sepia theme */}
+              <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
+                <img
+                  src="/cargo-ship-brown.png"
+                  alt="Global Cargo Ship Logistics"
+                  className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-out"
+                  draggable={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10"></div>
               </div>
 
-              {/* Premium Vector Bottle Illustration */}
-              <div className="flex-grow flex items-center justify-center relative z-10">
-                <svg className="w-36 h-36 text-primary-200/30 group-hover:scale-105 transition-transform duration-500 ease-out" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round">
-                  <rect x="32" y="40" width="36" height="46" rx="8" />
-                  <path d="M43 40V24c0-2 2-3 4-3h6c2 0 4 1 4 3v16" strokeWidth="1.5" />
-                  <rect x="45" y="32" width="10" height="3" rx="0.5" fill="currentColor" opacity="0.8" />
-                  <circle cx="50" cy="63" r="8" strokeWidth="1.5" />
-                  <path d="M47 63h6" strokeWidth="1.5" />
-                </svg>
-              </div>
-
-              {/* Decorative accent card overlay */}
-              <div className="relative z-10 p-6 rounded-2xl glass shadow-lg flex flex-col gap-2">
+              {/* Decorative accent card overlay at the bottom */}
+              <div className="relative z-10 p-5 rounded-2xl glass shadow-lg flex flex-col gap-2 bg-white/70 backdrop-blur-md">
                 <div className="text-3xl font-serif font-bold text-primary-900 leading-none">
                   50+
                 </div>
                 <div className="text-xs font-bold text-gray-500 uppercase tracking-widest">
                   Countries Supplied
                 </div>
-                <p className="text-xs text-gray-600 font-medium">
+                <p className="text-xs text-gray-650 font-medium">
                   Connecting premium Korean formulations directly to global retail networks and beauty enthusiasts.
                 </p>
               </div>
