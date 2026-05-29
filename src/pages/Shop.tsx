@@ -527,7 +527,7 @@ export function Shop() {
                       <img
                         src={product.imageSrc}
                         alt={product.name}
-                        className="w-full h-full object-contain p-6 mix-blend-multiply object-center group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       />
                       {product.isBestseller && (
                         <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
