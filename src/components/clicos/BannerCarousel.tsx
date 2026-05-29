@@ -133,11 +133,11 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
   return (
     <section 
       id="home" 
-      className="relative w-full h-[75vh] sm:h-[80vh] bg-primary-950 overflow-hidden select-none touch-pan-y"
+      className="relative w-full h-auto bg-primary-950 overflow-hidden select-none touch-pan-y"
     >
       {/* Draggable Slides Container Track */}
       <div 
-        className="w-full h-full flex cursor-grab active:cursor-grabbing"
+        className="w-full flex cursor-grab active:cursor-grabbing"
         style={{
           transform: `translateX(calc(-${(currentIdx * 100) / banners.length}% + ${dragOffset / banners.length}px))`,
           transition: isDragging ? "none" : "transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)",
@@ -155,23 +155,23 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
           <div
             key={banner.id}
             onClick={(e) => handleBannerClick(e, banner.link)}
-            className="h-full flex-shrink-0 flex items-center justify-center relative cursor-pointer"
+            className="flex-shrink-0 relative cursor-pointer"
             style={{ width: `${100 / banners.length}%` }}
           >
-            {/* Background Layer: image starts below the fixed header */}
-            <div className="absolute inset-x-0 bottom-0 top-[72px] z-0 select-none pointer-events-none">
+            {/* Image Layer: image starts below the fixed header */}
+            <div className="w-full select-none pt-[72px]">
               {banner.image ? (
                 <img
                   src={banner.image}
                   alt={banner.title}
-                  className="w-full h-full object-cover object-center opacity-100 select-none pointer-events-none"
+                  className="w-full h-auto block select-none pointer-events-none"
                   draggable={false}
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-950">
+                <div className="w-full aspect-[21/9] bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-950 relative">
                   {/* Abstract ambient decorative light spheres */}
-                  <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-accent/10 blur-[100px] animate-pulse"></div>
-                  <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>
+                  <div className="absolute top-1/4 left-1/4 w-36 h-36 sm:w-96 sm:h-96 rounded-full bg-accent/10 blur-[100px] animate-pulse"></div>
+                  <div className="absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-80 sm:h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>
                 </div>
               )}
             </div>
