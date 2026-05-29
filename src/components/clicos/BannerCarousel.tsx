@@ -160,23 +160,49 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
           <div
             key={banner.id}
             onClick={(e) => handleBannerClick(e, banner.link)}
-            className="h-full flex-shrink-0 flex items-center justify-center relative"
+            className="h-full flex-shrink-0 flex items-center justify-center relative cursor-pointer"
             style={{ width: `${100 / banners.length}%` }}
           >
             {/* Background Layer: image starts below the fixed header */}
             <div className="absolute inset-x-0 bottom-0 top-[72px] z-0 select-none pointer-events-none">
               {banner.image ? (
-                <img
-                  src={banner.image}
-                  alt={banner.title}
-                  className="w-full h-full object-cover object-center opacity-100 select-none pointer-events-none"
-                  draggable={false}
-                />
+                <>
+                  <img
+                    src={banner.image}
+                    alt={banner.title}
+                    className="w-full h-full object-cover object-center opacity-40 select-none pointer-events-none"
+                    draggable={false}
+                  />
+                  {/* Dark overlay for readability when image is present */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary-950/60 via-primary-950/80 to-primary-950"></div>
+                </>
               ) : (
                 <div className="w-full h-full bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-950">
                   {/* Abstract ambient decorative light spheres */}
                   <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-accent/10 blur-[100px] animate-pulse"></div>
                   <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>
+                </div>
+              )}
+              {/* Radial gradient mask to make text pop */}
+              <div className="absolute inset-0 bg-radial-gradient from-transparent to-primary-950/70 pointer-events-none"></div>
+            </div>
+
+            {/* Foreground Content */}
+            <div className="relative z-10 mx-auto max-w-4xl px-6 text-center flex flex-col items-center select-text">
+              <h1 className="text-3xl font-serif font-bold tracking-tight text-white sm:text-5xl md:text-6xl leading-[1.15] drop-shadow-lg transition-transform duration-700 transform translate-y-0">
+                {banner.title}
+              </h1>
+              
+              <p className="mt-6 text-sm sm:text-base md:text-lg leading-relaxed text-primary-100 max-w-2xl font-medium opacity-90 transition-transform duration-700 delay-100 transform translate-y-0">
+                {banner.subtitle}
+              </p>
+
+              {banner.link && (
+                <div className="mt-8 transition-transform duration-700 delay-200 transform translate-y-0">
+                  <span className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-xs sm:text-sm font-semibold uppercase tracking-widest text-primary-950 bg-white hover:bg-primary-50 active:bg-primary-100 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
+                    Explore Now
+                    <span className="w-4 h-4 flex items-center">&rarr;</span>
+                  </span>
                 </div>
               )}
             </div>
