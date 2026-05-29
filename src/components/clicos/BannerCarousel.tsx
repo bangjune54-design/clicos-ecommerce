@@ -139,7 +139,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
       <div 
         className="w-full h-full flex cursor-grab active:cursor-grabbing"
         style={{
-          transform: `translateX(calc(-${currentIdx * 100}% + ${dragOffset}px))`,
+          transform: `translateX(calc(-${(currentIdx * 100) / banners.length}% + ${dragOffset / banners.length}px))`,
           transition: isDragging ? "none" : "transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)",
           width: `${banners.length * 100}%`
         }}
