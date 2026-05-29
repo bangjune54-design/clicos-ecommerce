@@ -970,39 +970,8 @@ export function AdminDashboard() {
                             const file = e.dataTransfer.files[0];
                             const reader = new FileReader();
                             reader.onload = (event) => {
-                              const img = new Image();
-                              img.onload = () => {
-                                const canvas = document.createElement("canvas");
-                                const MAX_WIDTH = 400;
-                                const MAX_HEIGHT = 400;
-                                let width = img.width;
-                                let height = img.height;
-
-                                if (width > height) {
-                                  if (width > MAX_WIDTH) {
-                                    height = Math.round((height * MAX_WIDTH) / width);
-                                    width = MAX_WIDTH;
-                                  }
-                                } else {
-                                  if (height > MAX_HEIGHT) {
-                                    width = Math.round((width * MAX_HEIGHT) / height);
-                                    height = MAX_HEIGHT;
-                                  }
-                                }
-                                canvas.width = width;
-                                canvas.height = height;
-                                const ctx = canvas.getContext("2d");
-                                if (ctx) {
-                                  ctx.fillStyle = "#ffffff";
-                                  ctx.fillRect(0, 0, width, height);
-                                  ctx.drawImage(img, 0, 0, width, height);
-                                }
-                                
-                                // Force jpeg for guaranteed compression across all browsers (Safari fallback fix)
-                                const dataUrl = canvas.toDataURL('image/jpeg', 0.4);
-                                setEditBrandPayload({ ...editBrandPayload, image: dataUrl });
-                              };
-                              img.src = event.target?.result as string;
+                              const dataUrl = event.target?.result as string;
+                              setEditBrandPayload({ ...editBrandPayload, image: dataUrl });
                             };
                             reader.readAsDataURL(file);
                           }
