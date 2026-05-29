@@ -33,16 +33,7 @@ export function About() {
               <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-accent/15 blur-2xl pointer-events-none"></div>
               <div className="absolute bottom-12 left-6 w-24 h-24 rounded-full bg-primary-300/10 blur-xl pointer-events-none"></div>
               
-              {/* Cargo Ship Background Image in Brown/Sepia theme */}
-              <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
-                <img
-                  src="/cargo-ship-brown.png"
-                  alt="Global Cargo Ship Logistics"
-                  className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-700 ease-out"
-                  draggable={false}
-                />
-                <div className="absolute inset-0 bg-black/30"></div>
-              </div>
+
               
               {/* High-Tech Global Map Background */}
               <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center p-6">
