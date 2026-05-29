@@ -16,7 +16,10 @@ const CATEGORY_STRUCTURE = [
     name: "Skincare",
     subcategories: ["Sun Care", "Cleansing", "Serum & Ampoule", "Cream", "Toner", "Mask"]
   },
-  { name: "Makeup" },
+  {
+    name: "Makeup",
+    subcategories: ["Lip Makeup", "Face Makeup"]
+  },
   { name: "Hair Care" },
   { name: "Body Care" }
 ];
@@ -180,6 +183,8 @@ export function WholesaleAllItems() {
     if (key === "cream") return t("cat_cream");
     if (key === "toner") return t("cat_toner");
     if (key === "facial_mask" || key === "mask") return t("cat_mask");
+    if (key === "lip_makeup") return t("cat_lip_makeup") || "Lip Makeup";
+    if (key === "face_makeup") return t("cat_face_makeup") || "Face Makeup";
     
     return t(key) || catName;
   };
