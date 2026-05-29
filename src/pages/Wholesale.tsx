@@ -426,12 +426,23 @@ export function Wholesale() {
   return (
     <div className="bg-white">
       {/* Header */}
-      <div className="bg-primary-900 py-24 sm:py-32">
-        <div className="mx-auto max-w-[1800px] px-6 lg:px-8 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-serif">
+      <div className="relative bg-primary-950 py-24 sm:py-32 overflow-hidden">
+        {/* Cargo Ship Background Image in Brown/Sepia theme */}
+        <div className="absolute inset-0 z-0 select-none pointer-events-none">
+          <img
+            src="/cargo-ship-brown.png"
+            alt="Wholesale & B2B Partnership"
+            className="w-full h-full object-cover opacity-45 object-center"
+            draggable={false}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary-950/60 via-primary-950/80 to-primary-950/90"></div>
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-[1800px] px-6 lg:px-8 text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-serif drop-shadow-md">
             {d("title")}
           </h1>
-          <p className="mt-6 text-lg leading-8 text-primary-100 max-w-2xl mx-auto">
+          <p className="mt-6 text-lg leading-8 text-primary-100 max-w-2xl mx-auto font-medium opacity-90">
             {d("subtitle")}
           </p>
         </div>
