@@ -286,27 +286,28 @@ export function Header({ activeSection }: HeaderProps) {
                     <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Our Partner Brands</h4>
                     <span className="text-[10px] text-primary-700 font-semibold bg-primary-50 px-2.5 py-0.5 rounded-full uppercase">Direct Contracts</span>
                   </div>
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
                     {getLiveBrands().map((brand) => (
                       <Link
                         key={brand.name}
                         to={`/shop?brand=${encodeURIComponent(brand.name.toLowerCase())}`}
-                        className="flex items-center gap-3 p-2 rounded-2xl hover:bg-primary-50 transition-all duration-200 group"
+                        className="flex flex-col items-center p-2 rounded-2xl hover:bg-primary-50/60 transition-all duration-200 group text-center"
                         onClick={() => setHoveredDropdown(null)}
                       >
-                        <div className="w-14 h-10 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-center overflow-hidden shrink-0 group-hover:bg-primary-100 transition-colors">
+                        {/* Brand Logo Container */}
+                        <div className="w-24 h-16 rounded-2xl bg-white border border-gray-100 flex items-center justify-center overflow-hidden mb-2 group-hover:scale-105 transition-transform duration-300 shadow-sm p-1.5 relative shrink-0">
                           {brand.image ? (
-                            <img src={brand.image} alt={brand.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                            <img src={brand.image} alt={brand.name} className="h-full w-full object-contain" />
                           ) : (
-                            <span className="text-[11px] font-serif font-bold text-primary-900/60 uppercase tracking-wider">
-                              {brand.name.substring(0, 2)}
+                            <span className="text-[12px] font-serif font-bold text-primary-900/60 uppercase tracking-wider">
+                              {brand.name}
                             </span>
                           )}
                         </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-bold text-gray-900 group-hover:text-primary-800 transition-colors truncate">{brand.name}</p>
-                          <p className="text-[10px] text-gray-450 truncate mt-0.5">{brand.description}</p>
-                        </div>
+                        {/* Brand Name below the picture */}
+                        <p className="text-[11px] font-bold text-gray-900 group-hover:text-primary-800 transition-colors uppercase tracking-wide truncate max-w-full">
+                          {brand.name}
+                        </p>
                       </Link>
                     ))}
                   </div>
