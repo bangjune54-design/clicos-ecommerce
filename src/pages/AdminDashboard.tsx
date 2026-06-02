@@ -181,7 +181,12 @@ export function AdminDashboard() {
 
   const handleSaveProduct = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const updated = inventory.map(p => p.id === editingProductId ? { ...p, ...editProductPayload } : p);
+    
+    // Clean up temporary options editing helper text before saving
+    const cleanedPayload = { ...editProductPayload };
+    delete cleanedPayload._optionsText;
+
+    const updated = inventory.map(p => p.id === editingProductId ? { ...p, ...cleanedPayload } : p);
     try { 
       saveLiveInventory(updated); 
       setInventory(updated);
@@ -749,11 +754,15 @@ export function AdminDashboard() {
                     <div>
                       <label className="block text-sm font-semibold mb-2 text-gray-900">Options (Comma-separated)</label>
                       <Input 
-                        value={(editProductPayload.options || editProductPayload.colors || []).join(", ")} 
+                        value={editProductPayload._optionsText !== undefined ? editProductPayload._optionsText : (editProductPayload.options || editProductPayload.colors || []).join(", ")} 
                         onChange={e => {
                           const val = e.target.value;
                           const arr = val ? val.split(",").map(s => s.trim()).filter(Boolean) : undefined;
-                          setEditProductPayload({...editProductPayload, options: arr});
+                          setEditProductPayload({
+                            ...editProductPayload, 
+                            options: arr,
+                            _optionsText: val
+                          });
                         }} 
                         placeholder="e.g. 50ml, 100ml, 150ml"
                       />
