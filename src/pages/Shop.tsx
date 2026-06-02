@@ -601,7 +601,7 @@ export function Shop() {
 
                     <div className="mt-auto flex flex-col mb-3">
                       <div className="flex items-center justify-between">
-                        <p className="text-lg font-bold text-gray-900">{formatProductPrice(product)}</p>
+                        <p className="text-base font-bold text-gray-900">{formatProductPrice(product)}</p>
                       </div>
                     </div>
                   </CardContent>

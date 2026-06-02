@@ -175,7 +175,7 @@ export function Header({ activeSection }: HeaderProps) {
             }}
             className="flex items-center gap-2 group"
           >
-            <span className="text-2xl lg:text-3xl xl:text-[34px] 2xl:text-[38px] font-serif font-bold tracking-wider text-primary-900 group-hover:text-primary-700 transition-colors">
+            <span className="text-3xl lg:text-4xl xl:text-[40px] 2xl:text-[44px] font-serif font-bold tracking-wider text-primary-900 group-hover:text-primary-700 transition-colors">
               CLICOS
             </span>
           </Link>
@@ -192,7 +192,7 @@ export function Header({ activeSection }: HeaderProps) {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/" && activeSection === "home"
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -204,7 +204,7 @@ export function Header({ activeSection }: HeaderProps) {
           {/* Products */}
           <Link
             to="/shop"
-            className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/shop" && !searchParams.get("category") && !searchParams.get("brand") && !searchParams.get("collection")
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -221,7 +221,7 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/shop"
-              className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname === "/shop" && searchParams.get("category")
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
@@ -270,7 +270,7 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/brands"
-              className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname === "/brands" || (location.pathname === "/shop" && searchParams.get("brand"))
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
@@ -328,7 +328,7 @@ export function Header({ activeSection }: HeaderProps) {
           {/* Contact */}
           <Link
             to="/contact"
-            className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/contact"
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -345,7 +345,7 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/wholesale"
-              className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname.startsWith("/wholesale")
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
@@ -385,8 +385,8 @@ export function Header({ activeSection }: HeaderProps) {
               title="Select Country"
             >
               <Globe className="h-5 w-5 lg:h-5.5 w-5.5 xl:h-6 w-6 2xl:h-6.5 w-6.5 text-gray-500" />
-              <span className="text-xs lg:text-sm xl:text-base 2xl:text-[18.5px]">{COUNTRIES.find(c => c.code === country)?.flag}</span>
-              <span className="text-xs lg:text-sm xl:text-base 2xl:text-[18.5px] font-bold">{COUNTRIES.find(c => c.code === country)?.name}</span>
+              <span className="text-sm lg:text-base xl:text-lg 2xl:text-[21.5px]">{COUNTRIES.find(c => c.code === country)?.flag}</span>
+              <span className="text-sm lg:text-base xl:text-lg 2xl:text-[21.5px] font-bold">{COUNTRIES.find(c => c.code === country)?.name}</span>
             </button>
             
             {showLangDropdown && (

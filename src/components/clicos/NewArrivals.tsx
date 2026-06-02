@@ -82,7 +82,7 @@ export function NewArrivals() {
                 {/* Pricing & Cart Action at Bottom */}
                 <div className="p-5 pt-0 mt-auto flex items-center justify-between border-t border-gray-50">
                   <div className="flex flex-col">
-                    <span className="text-lg font-bold text-gray-900 leading-none">
+                    <span className="text-base font-bold text-gray-900 leading-none">
                       {formatProductPrice(product)}
                     </span>
                     <span className="text-[10px] text-gray-400 font-medium mt-1 uppercase tracking-wider">

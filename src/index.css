@@ -50,7 +50,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    font-size: clamp(16px, 0.95vw + 6px, 32px); /* High-quality fluid scaling: dynamically grows all aspects of the site as the window size increases, beautifully bound between 16px and 32px */
+    font-size: clamp(14px, 0.5vw + 8px, 20px); /* Comfortable fluid scaling: dynamically and moderately grows all aspects of the site as the window size increases, beautifully bound between 14px and 20px */
   }
   body {
     @apply font-sans antialiased text-gray-900 bg-white;
