@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { getLiveBrands } from "../../utils/inventory";
 
 export function BrandGrid() {
   const brands = [
@@ -70,6 +72,32 @@ export function BrandGrid() {
     }
   ];
 
+  const liveBrands = getLiveBrands();
+
+  // Enrich static default brands with database images and taglines
+  const enrichedBrands = brands.map((b) => {
+    const live = liveBrands.find((lb) => lb.name.toLowerCase() === b.name.toLowerCase());
+    return {
+      ...b,
+      image: live?.image || "",
+      tagline: live?.description || b.tagline
+    };
+  });
+
+  // Add any custom brands added in the admin panel that are not in the default list
+  const staticNames = new Set(brands.map(b => b.name.toLowerCase()));
+  const customBrands = liveBrands
+    .filter(lb => !staticNames.has(lb.name.toLowerCase()))
+    .map(lb => ({
+      name: lb.name,
+      tagline: lb.description || "Premium Korean Cosmetics brand.",
+      initials: lb.name.substring(0, 2).toUpperCase(),
+      bgClass: "bg-primary-50 text-primary-800 border-primary-100",
+      image: lb.image || ""
+    }));
+
+  const allDisplayBrands = [...enrichedBrands, ...customBrands];
+
   return (
     <section id="brands" className="py-24 sm:py-32 bg-white">
       <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
@@ -89,10 +117,11 @@ export function BrandGrid() {
 
         {/* Brand Grid Container */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-          {brands.map((brand, idx) => (
-            <div
+          {allDisplayBrands.map((brand, idx) => (
+            <Link
               key={idx}
-              className="group flex flex-col items-center justify-between p-6 bg-white rounded-2xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-300"
+              to={`/shop?brand=${encodeURIComponent(brand.name.toLowerCase())}`}
+              className="group flex flex-col items-center justify-between p-6 bg-white rounded-2xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-300 cursor-pointer"
             >
               <div className="w-full flex flex-col items-center">
                 {/* Brand Logo Container */}
@@ -121,7 +150,7 @@ export function BrandGrid() {
               <p className="mt-2 text-[10px] text-gray-400 font-medium text-center leading-normal">
                 {brand.tagline}
               </p>
-            </div>
+            </Link>
           ))}
         </div>
 
