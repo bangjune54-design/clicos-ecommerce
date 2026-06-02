@@ -66,7 +66,7 @@ export function BestSellers() {
                     <span className="text-[10px] font-bold text-accent uppercase tracking-widest mb-1.5">
                       {product.brand}
                     </span>
-                    <h3 className="text-sm font-bold text-gray-900 group-hover:text-primary-800 transition-colors line-clamp-2 min-h-[40px] leading-snug font-serif">
+                    <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-primary-800 transition-colors line-clamp-3 leading-snug font-serif">
                       {product.name}
                     </h3>
                     
