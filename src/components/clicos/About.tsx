@@ -25,10 +25,10 @@ export function About() {
       <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
-          {/* Left Side: Premium Cargo Ship Card (5 columns) */}
-          <div className="lg:col-span-5 relative flex justify-center">
+          {/* Left Side: Premium Cargo Ship Card (6 columns) */}
+          <div className="lg:col-span-6 relative flex justify-center">
             {/* Image Card Container */}
-            <div className="relative w-full max-w-[400px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border border-primary-100/50 bg-primary-950 p-6 flex flex-col justify-end group">
+            <div className="relative w-full max-w-[500px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border border-primary-100/50 bg-primary-950 p-6 flex flex-col justify-end group">
               
               {/* Cargo Ship Background Image in Brown/Sepia theme */}
               <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
@@ -42,14 +42,14 @@ export function About() {
               </div>
 
               {/* Decorative accent card overlay at the bottom */}
-              <div className="relative z-10 p-5 rounded-2xl glass shadow-lg flex flex-col gap-2 bg-white/70 backdrop-blur-md">
-                <div className="text-3xl font-serif font-bold text-primary-900 leading-none">
+              <div className="relative z-10 p-7 rounded-2xl glass shadow-lg flex flex-col gap-2.5 bg-white/70 backdrop-blur-md">
+                <div className="text-5xl font-serif font-bold text-primary-900 leading-none">
                   50+
                 </div>
-                <div className="text-xs font-bold text-gray-500 uppercase tracking-widest">
+                <div className="text-sm font-bold text-gray-500 uppercase tracking-widest">
                   Countries Supplied
                 </div>
-                <p className="text-xs text-gray-650 font-medium">
+                <p className="text-sm text-gray-650 font-medium">
                   Connecting premium Korean formulations directly to global retail networks and beauty enthusiasts.
                 </p>
               </div>
@@ -59,8 +59,8 @@ export function About() {
             <div className="absolute -bottom-10 -right-10 w-52 h-52 rounded-full bg-accent/20 -z-10 blur-3xl"></div>
           </div>
 
-          {/* Right Side: Copy Content (7 columns) */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
+          {/* Right Side: Copy Content (6 columns) */}
+          <div className="lg:col-span-6 flex flex-col justify-center">
             <span className="text-xs font-bold tracking-widest text-accent uppercase mb-2">
               Who We Are
             </span>
