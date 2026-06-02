@@ -312,7 +312,7 @@ export function WholesaleBrandDetail() {
                 </div>
               
                 <Link to={`/product/${product.id}`} className="hover:text-primary-800 transition-colors group-hover:underline">
-                  <h3 className="text-sm font-bold text-gray-900 mb-1 leading-tight line-clamp-3">
+                  <h3 className="text-sm font-bold text-gray-900 mb-1 leading-snug line-clamp-3">
                     <span 
                       className="text-gray-400 font-medium mr-1"
                     >
