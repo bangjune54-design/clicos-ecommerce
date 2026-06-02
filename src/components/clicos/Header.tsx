@@ -164,7 +164,7 @@ export function Header({ activeSection }: HeaderProps) {
     >
       <nav className="mx-auto max-w-[1800px] px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex lg:flex-initial mr-20">
+        <div className="flex lg:flex-initial mr-4 lg:mr-10 xl:mr-16 2xl:mr-20">
           <Link
             to="/"
             onClick={(e) => {
@@ -175,14 +175,14 @@ export function Header({ activeSection }: HeaderProps) {
             }}
             className="flex items-center gap-2 group"
           >
-            <span className="text-[38px] font-serif font-bold tracking-wider text-primary-900 group-hover:text-primary-700 transition-colors">
+            <span className="text-2xl lg:text-3xl xl:text-[34px] 2xl:text-[38px] font-serif font-bold tracking-wider text-primary-900 group-hover:text-primary-700 transition-colors">
               CLICOS
             </span>
           </Link>
         </div>
 
         {/* Desktop Menu (Home, Products, Categories, Brands, Contact, Wholesales) */}
-        <div className="hidden md:flex md:gap-x-14 items-center mr-auto">
+        <div className="hidden md:flex md:gap-x-3 lg:gap-x-6 xl:gap-x-10 2xl:gap-x-14 items-center mr-auto">
           {/* Home */}
           <Link
             to="/"
@@ -192,7 +192,7 @@ export function Header({ activeSection }: HeaderProps) {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/" && activeSection === "home"
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -204,7 +204,7 @@ export function Header({ activeSection }: HeaderProps) {
           {/* Products */}
           <Link
             to="/shop"
-            className={`text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/shop" && !searchParams.get("category") && !searchParams.get("brand") && !searchParams.get("collection")
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -221,7 +221,7 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/shop"
-              className={`text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname === "/shop" && searchParams.get("category")
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
@@ -270,7 +270,7 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/brands"
-              className={`text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname === "/brands" || (location.pathname === "/shop" && searchParams.get("brand"))
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
@@ -327,7 +327,7 @@ export function Header({ activeSection }: HeaderProps) {
           {/* Contact */}
           <Link
             to="/contact"
-            className={`text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/contact"
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -344,7 +344,7 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/wholesale"
-              className={`text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-xs lg:text-sm xl:text-[17px] 2xl:text-[21px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname.startsWith("/wholesale")
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
@@ -375,7 +375,7 @@ export function Header({ activeSection }: HeaderProps) {
         </div>
 
         {/* Far Right Section: Language/Currency, Search, Profile, Cart */}
-        <div className="hidden md:flex md:items-center gap-9 ml-12">
+        <div className="hidden md:flex md:items-center gap-3 lg:gap-6 xl:gap-8 2xl:gap-9 ml-4 lg:ml-6 xl:ml-10 2xl:ml-12">
           {/* Country Selector */}
           <div className="relative" ref={dropdownRef}>
             <button
@@ -383,9 +383,9 @@ export function Header({ activeSection }: HeaderProps) {
               className="flex items-center gap-1.5 text-gray-700 hover:text-primary-850 transition-colors uppercase font-semibold text-xs tracking-wide focus:outline-none"
               title="Select Country"
             >
-              <Globe className="h-6.5 w-6.5 text-gray-500" />
-              <span className="text-[18.5px]">{COUNTRIES.find(c => c.code === country)?.flag}</span>
-              <span className="text-[18.5px] font-bold">{COUNTRIES.find(c => c.code === country)?.name}</span>
+              <Globe className="h-5 w-5 lg:h-5.5 w-5.5 xl:h-6 w-6 2xl:h-6.5 w-6.5 text-gray-500" />
+              <span className="text-xs lg:text-sm xl:text-base 2xl:text-[18.5px]">{COUNTRIES.find(c => c.code === country)?.flag}</span>
+              <span className="text-xs lg:text-sm xl:text-base 2xl:text-[18.5px] font-bold">{COUNTRIES.find(c => c.code === country)?.name}</span>
             </button>
             
             {showLangDropdown && (
@@ -423,7 +423,7 @@ export function Header({ activeSection }: HeaderProps) {
             className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
             title={t("search_catalog")}
           >
-            <Search className="h-6.5 w-6.5" />
+            <Search className="h-5 w-5 lg:h-5.5 w-5.5 xl:h-6 w-6 2xl:h-6.5 w-6.5" />
           </button>
 
           {/* Profile Trigger Wrapper */}
@@ -437,7 +437,7 @@ export function Header({ activeSection }: HeaderProps) {
               className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
               title={isLoggedIn ? t("my_account") : t("login")}
             >
-              <User className="h-6.5 w-6.5" />
+              <User className="h-5 w-5 lg:h-5.5 w-5.5 xl:h-6 w-6 2xl:h-6.5 w-6.5" />
             </button>
             {hoveredDropdown === "profile" && (
               <div className="absolute right-0 top-full pt-2 z-50 w-40">
@@ -493,7 +493,7 @@ export function Header({ activeSection }: HeaderProps) {
               className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
               title={t("cart")}
             >
-              <ShoppingBag className="h-6.5 w-6.5" />
+              <ShoppingBag className="h-5 w-5 lg:h-5.5 w-5.5 xl:h-6 w-6 2xl:h-6.5 w-6.5" />
               {cartCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center text-[9px] font-bold shadow-sm">
                   {cartCount}
