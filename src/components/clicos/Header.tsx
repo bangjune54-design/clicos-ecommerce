@@ -29,6 +29,13 @@ export function Header({ activeSection }: HeaderProps) {
   const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
   const [mobileWholesaleOpen, setMobileWholesaleOpen] = useState(false);
+
+  // Mobile horizontal bar dropdown states & refs
+  const mobileDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileCategoriesDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileWholesalesDropdownRef = useRef<HTMLDivElement>(null);
+  const [mobileCategoriesDropdownOpen, setMobileCategoriesDropdownOpen] = useState(false);
+  const [mobileWholesalesDropdownOpen, setMobileWholesalesDropdownOpen] = useState(false);
   
   // Big search overlay states
   const [showBigSearch, setShowBigSearch] = useState(false);
@@ -86,8 +93,19 @@ export function Header({ activeSection }: HeaderProps) {
     };
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      
+      const isOutsideDesktop = !dropdownRef.current || !dropdownRef.current.contains(target);
+      const isOutsideMobile = !mobileDropdownRef.current || !mobileDropdownRef.current.contains(target);
+      if (isOutsideDesktop && isOutsideMobile) {
         setShowLangDropdown(false);
+      }
+      
+      if (mobileCategoriesDropdownRef.current && !mobileCategoriesDropdownRef.current.contains(target)) {
+        setMobileCategoriesDropdownOpen(false);
+      }
+      if (mobileWholesalesDropdownRef.current && !mobileWholesalesDropdownRef.current.contains(target)) {
+        setMobileWholesalesDropdownOpen(false);
       }
     };
 
@@ -158,11 +176,11 @@ export function Header({ activeSection }: HeaderProps) {
     <header
       className={`sticky top-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-md py-4.5"
-          : "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-5.5"
+          ? "bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-md py-2.5 md:py-4.5"
+          : "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-3.5 md:py-5.5"
       }`}
     >
-      <nav className="mx-auto max-w-[1800px] px-6 lg:px-8 flex items-center justify-between">
+      <nav className="hidden md:flex mx-auto max-w-[1800px] px-6 lg:px-8 items-center justify-between">
         {/* Logo */}
         <div className="flex lg:flex-initial mr-4 lg:mr-10 xl:mr-16 2xl:mr-20">
           <Link
@@ -568,6 +586,258 @@ export function Header({ activeSection }: HeaderProps) {
             <span className="sr-only">Open main menu</span>
             <Menu className="h-6 w-6" aria-hidden="true" />
           </button>
+        </div>
+      </nav>
+
+      <style>{`
+        .scrollbar-none::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
+
+      {/* Mobile Navigation */}
+      <nav className="flex md:hidden flex-col gap-2.5 px-4 w-full">
+        {/* Row 1: Logo & Icons */}
+        <div className="flex items-center justify-between w-full">
+          {/* Logo */}
+          <Link
+            to="/"
+            onClick={(e) => {
+              if (isLandingPage) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            className="flex items-center gap-2 group"
+          >
+            <span className="text-2xl font-serif font-bold tracking-wider text-primary-900">
+              CLICOS
+            </span>
+          </Link>
+
+          {/* Icons */}
+          <div className="flex items-center gap-4">
+            {/* Country/Language Selector */}
+            <div className="relative font-sans" ref={mobileDropdownRef}>
+              <button
+                onClick={() => setShowLangDropdown(!showLangDropdown)}
+                className="flex items-center gap-1 text-gray-700 focus:outline-none"
+                title="Select Country"
+              >
+                <Globe className="h-5 w-5 text-gray-500 flex-shrink-0" />
+                <span className="text-xs font-bold uppercase tracking-wider">{country}</span>
+              </button>
+              
+              {showLangDropdown && (
+                <div className="absolute right-0 mt-3 w-[240px] rounded-xl bg-white border border-primary-100 shadow-xl p-2.5 z-50 flex flex-col gap-2 animate-slide-up">
+                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 px-2.5 py-1.5 border-b mb-1">Select Country</h4>
+                  <div className="max-h-60 overflow-y-auto space-y-1 scrollbar-thin">
+                    {COUNTRIES.map((c) => (
+                      <button
+                        key={c.code}
+                        onClick={() => {
+                          setCountry(c.code);
+                          setShowLangDropdown(false);
+                        }}
+                        className={`w-full flex items-center justify-between px-3 py-2 text-xs font-semibold rounded-lg transition-colors ${
+                          country === c.code
+                            ? "bg-primary-50 text-primary-800"
+                            : "hover:bg-gray-50 text-gray-600 hover:text-gray-900"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span className="text-sm">{c.flag}</span>
+                          <span>{c.name}</span>
+                        </div>
+                        <span className="text-[9px] text-gray-400 font-normal uppercase">({c.currency})</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Search Trigger */}
+            <button
+              onClick={() => setShowBigSearch(true)}
+              className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
+              title={t("search_catalog")}
+            >
+              <Search className="h-5 w-5 text-gray-500" />
+            </button>
+
+            {/* Profile Trigger */}
+            <button
+              onClick={() => navigate(isLoggedIn ? "/my-page" : "/login")}
+              className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
+              title={isLoggedIn ? t("my_account") : t("login")}
+            >
+              <User className="h-5 w-5 text-gray-500" />
+            </button>
+
+            {/* Cart Trigger */}
+            <button
+              onClick={() => navigate(isLoggedIn ? "/cart" : "/login")}
+              className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
+              title={t("cart")}
+            >
+              <ShoppingBag className="h-5 w-5 text-gray-500" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full h-4.5 w-4.5 flex items-center justify-center text-[9px] font-bold shadow-sm">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Row 2: Navigation Tabs */}
+        <div 
+          className="flex items-center gap-4 overflow-x-auto whitespace-nowrap py-1 border-t border-gray-100 scrollbar-none scroll-smooth"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {/* Home */}
+          <Link
+            to="/"
+            onClick={(e) => {
+              if (isLandingPage) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 ${
+              location.pathname === "/" && activeSection === "home"
+                ? "text-primary-850 border-b-2 border-primary-600 pb-0.5"
+                : "text-gray-500"
+            }`}
+          >
+            {t('home')}
+          </Link>
+
+          {/* Products */}
+          <Link
+            to="/shop"
+            className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 ${
+              location.pathname === "/shop" && !searchParams.get("category") && !searchParams.get("brand")
+                ? "text-primary-850 border-b-2 border-primary-600 pb-0.5"
+                : "text-gray-500"
+            }`}
+          >
+            {t('products')}
+          </Link>
+
+          {/* Categories */}
+          <div className="relative font-sans" ref={mobileCategoriesDropdownRef}>
+            <button
+              onClick={() => {
+                setMobileCategoriesDropdownOpen(!mobileCategoriesDropdownOpen);
+                setMobileWholesalesDropdownOpen(false);
+              }}
+              className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 flex items-center gap-0.5 focus:outline-none ${
+                location.pathname === "/shop" && searchParams.get("category")
+                  ? "text-primary-850 border-b-2 border-primary-600 pb-0.5"
+                  : "text-gray-500"
+              }`}
+            >
+              <span>{t('categories')}</span>
+              <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+            </button>
+            {mobileCategoriesDropdownOpen && (
+              <div className="absolute top-full left-0 mt-2 z-50 w-[180px] rounded-xl bg-white border border-primary-100 shadow-xl p-2 flex flex-col gap-1 animate-slide-up">
+                <Link
+                  to="/shop"
+                  onClick={() => setMobileCategoriesDropdownOpen(false)}
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                >
+                  {t('all')}
+                </Link>
+                <Link
+                  to="/shop?category=skincare"
+                  onClick={() => setMobileCategoriesDropdownOpen(false)}
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                >
+                  {t('skincare')}
+                </Link>
+                <Link
+                  to="/shop?category=makeup"
+                  onClick={() => setMobileCategoriesDropdownOpen(false)}
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                >
+                  {t('makeup')}
+                </Link>
+                <Link
+                  to="/shop?category=haircare"
+                  onClick={() => setMobileCategoriesDropdownOpen(false)}
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                >
+                  {t('hair_care')}
+                </Link>
+                <Link
+                  to="/shop?category=bodycare"
+                  onClick={() => setMobileCategoriesDropdownOpen(false)}
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                >
+                  {t('body_care')}
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Brands */}
+          <Link
+            to="/brands"
+            className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 ${
+              location.pathname === "/brands" ? "text-primary-855 border-b-2 border-primary-600 pb-0.5" : "text-gray-500"
+            }`}
+          >
+            {t('brands')}
+          </Link>
+
+          {/* Contact */}
+          <Link
+            to="/contact"
+            className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 ${
+              location.pathname === "/contact" ? "text-primary-855 border-b-2 border-primary-600 pb-0.5" : "text-gray-500"
+            }`}
+          >
+            {t('contact')}
+          </Link>
+
+          {/* Wholesales */}
+          <div className="relative font-sans" ref={mobileWholesalesDropdownRef}>
+            <button
+              onClick={() => {
+                setMobileWholesalesDropdownOpen(!mobileWholesalesDropdownOpen);
+                setMobileCategoriesDropdownOpen(false);
+              }}
+              className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 flex items-center gap-0.5 focus:outline-none ${
+                location.pathname.startsWith("/wholesale")
+                  ? "text-primary-855 border-b-2 border-primary-600 pb-0.5"
+                  : "text-gray-500"
+              }`}
+            >
+              <span>{t('wholesales')}</span>
+              <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+            </button>
+            {mobileWholesalesDropdownOpen && (
+              <div className="absolute top-full left-0 mt-2 z-50 w-[180px] rounded-xl bg-white border border-primary-100 shadow-xl p-2 flex flex-col gap-1 animate-slide-up">
+                <Link
+                  to="/wholesale"
+                  onClick={() => setMobileWholesalesDropdownOpen(false)}
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                >
+                  {t('order_form')}
+                </Link>
+                <Link
+                  to="/wholesale/all"
+                  onClick={() => setMobileWholesalesDropdownOpen(false)}
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                >
+                  {t('wholesale_products')}
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </nav>
 
