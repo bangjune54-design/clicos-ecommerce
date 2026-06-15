@@ -128,6 +128,10 @@ export function AdminDashboard() {
   const [editBannerPayload, setEditBannerPayload] = useState<any>({});
   const [isDraggingBanner, setIsDraggingBanner] = useState(false);
   const [newTickerMessage, setNewTickerMessage] = useState("");
+  const [exportStr, setExportStr] = useState("");
+  const [importStr, setImportStr] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [importStatus, setImportStatus] = useState("");
 
   // Security check mapping
   useEffect(() => {
@@ -349,6 +353,67 @@ export function AdminDashboard() {
           }, 10);
         }
       }, 100);
+    }
+  };
+
+  const handleExportConfig = () => {
+    const config = {
+      banners,
+      tickers,
+      inventory,
+      brands,
+    };
+    setExportStr(JSON.stringify(config));
+    setCopied(false);
+  };
+
+  const handleCopyExportStr = () => {
+    navigator.clipboard.writeText(exportStr);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
+  };
+
+  const handleImportConfig = () => {
+    try {
+      const parsed = JSON.parse(importStr.trim());
+      if (!parsed || typeof parsed !== "object") {
+        setImportStatus("Error: Invalid JSON object format.");
+        return;
+      }
+      
+      let updatedCount = 0;
+      if (parsed.banners && Array.isArray(parsed.banners)) {
+        saveLiveBanners(parsed.banners);
+        setBanners(parsed.banners);
+        updatedCount++;
+      }
+      if (parsed.tickers && Array.isArray(parsed.tickers)) {
+        saveLiveTickers(parsed.tickers);
+        setTickers(parsed.tickers);
+        updatedCount++;
+      }
+      if (parsed.inventory && Array.isArray(parsed.inventory)) {
+        saveLiveInventory(parsed.inventory);
+        setInventory(parsed.inventory);
+        updatedCount++;
+      }
+      if (parsed.brands && Array.isArray(parsed.brands)) {
+        saveLiveBrands(parsed.brands);
+        setBrands(parsed.brands);
+        updatedCount++;
+      }
+
+      if (updatedCount > 0) {
+        setImportStatus("Import successful! Data synchronized successfully.");
+        setImportStr("");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      } else {
+        setImportStatus("Error: No valid keys found in JSON (banners, tickers, inventory, brands).");
+      }
+    } catch (err: any) {
+      setImportStatus(`Error: ${err.message || "Failed to parse JSON string."}`);
     }
   };
 
@@ -1421,6 +1486,82 @@ export function AdminDashboard() {
                 </div>
               </form>
             </div>
+
+            <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-8 max-w-2xl mt-8">
+              <div className="mb-6 border-b border-gray-100 pb-4">
+                <h3 className="text-2xl font-bold font-serif text-gray-900">Site Synchronization</h3>
+                <p className="text-sm text-gray-500 mt-1">
+                  Export or import all layout configuration details (banners, tickers, brand lists, and product changes) to synchronize other devices.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-sm font-semibold mb-2 text-gray-900">Export Site Configuration</h4>
+                  <p className="text-xs text-gray-500 mb-3">
+                    Click the button below to generate a synchronization code block containing all your desktop edits. Copy this block and paste it in the import section of your other device, or paste it back to the developer to persist it permanently as the system defaults.
+                  </p>
+                  <Button 
+                    type="button" 
+                    variant="outline"
+                    onClick={handleExportConfig}
+                    className="mb-4"
+                  >
+                    Generate Sync Code
+                  </Button>
+                  {exportStr && (
+                    <div className="space-y-2">
+                      <textarea
+                        readOnly
+                        value={exportStr}
+                        className="w-full h-32 p-3 font-mono text-xs bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        onClick={(e) => (e.target as HTMLTextAreaElement).select()}
+                      />
+                      <div className="flex items-center justify-between">
+                        <Button 
+                          type="button"
+                          onClick={handleCopyExportStr}
+                          className="text-xs px-4 py-2"
+                        >
+                          {copied ? "Copied!" : "Copy to Clipboard"}
+                        </Button>
+                        {copied && (
+                          <span className="text-xs text-green-600 font-medium">✓ Code copied to clipboard!</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="border-t border-gray-100 pt-6">
+                  <h4 className="text-sm font-semibold mb-2 text-gray-900">Import Site Configuration</h4>
+                  <p className="text-xs text-gray-500 mb-3">
+                    Paste the synchronization code block generated from another device below and click import. This will update the local banners, tickers, brands, and products.
+                  </p>
+                  <textarea
+                    value={importStr}
+                    onChange={(e) => setImportStr(e.target.value)}
+                    placeholder="Paste sync JSON code here..."
+                    className="w-full h-32 p-3 font-mono text-xs bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-500"
+                  />
+                  <div className="mt-3 flex items-center justify-between">
+                    <Button 
+                      type="button"
+                      onClick={handleImportConfig}
+                      disabled={!importStr.trim()}
+                    >
+                      Import & Sync Now
+                    </Button>
+                    {importStatus && (
+                      <span className={`text-xs font-semibold ${importStatus.includes("Error") || importStatus.includes("Invalid") ? "text-red-600" : "text-green-600"}`}>
+                        {importStatus}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         )}
 
