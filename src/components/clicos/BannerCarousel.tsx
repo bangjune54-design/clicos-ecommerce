@@ -158,8 +158,8 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
             className="flex-shrink-0 relative cursor-pointer"
             style={{ width: `${100 / banners.length}%` }}
           >
-            {/* Image Layer: image starts below the fixed header */}
-            <div className="w-full select-none pt-[4.5rem] relative h-[340px] sm:h-[480px] md:h-[600px] lg:h-[700px] xl:h-[780px]">
+            {/* Image Layer */}
+            <div className="w-full select-none relative h-[340px] sm:h-[480px] md:h-[600px] lg:h-[700px] xl:h-[780px]">
               {banner.image ? (
                 <img
                   src={banner.image}
@@ -174,29 +174,6 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
                   <div className="absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-80 sm:h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>
                 </div>
               )}
-
-              {/* Text & CTA Overlay */}
-              <div className="absolute inset-0 pt-[4.5rem] bg-gradient-to-t from-black/85 via-black/40 to-transparent flex items-center">
-                <div className="w-full max-w-[1800px] mx-auto px-6 sm:px-12 md:px-20 lg:px-24 flex flex-col items-start text-left text-white">
-                  <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-accent border border-accent/30 bg-accent/5 backdrop-blur-md mb-3 sm:mb-5 shadow-sm">
-                    Premium Export Sourced
-                  </div>
-
-                  <h2 className="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-bold font-serif leading-tight text-white max-w-2xl drop-shadow-md">
-                    {banner.title}
-                  </h2>
-                  
-                  <p className="mt-2.5 sm:mt-4 text-xs sm:text-sm md:text-lg lg:text-xl leading-relaxed text-gray-200 max-w-xl font-medium opacity-90 line-clamp-2 sm:line-clamp-none">
-                    {banner.subtitle}
-                  </p>
-
-                  <div className="mt-5 sm:mt-7">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold uppercase tracking-wider text-primary-950 bg-white hover:bg-primary-50 active:bg-primary-100 transition-all shadow-md">
-                      Explore Catalog &rarr;
-                    </span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         ))}
@@ -208,7 +185,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
           <button
             onClick={handlePrev}
             disabled={currentIdx === 0}
-            className={`absolute left-4 top-[calc(50%+2.25rem)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 text-white transition-all focus:outline-none ${
+            className={`absolute left-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 text-white transition-all focus:outline-none ${
               currentIdx === 0 
                 ? "opacity-20 cursor-not-allowed pointer-events-none" 
                 : "hover:bg-white/15 hover:scale-105 active:scale-95"
@@ -220,7 +197,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
           <button
             onClick={handleNext}
             disabled={currentIdx === banners.length - 1}
-            className={`absolute right-4 top-[calc(50%+2.25rem)] -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 text-white transition-all focus:outline-none ${
+            className={`absolute right-4 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-white/5 text-white transition-all focus:outline-none ${
               currentIdx === banners.length - 1 
                 ? "opacity-20 cursor-not-allowed pointer-events-none" 
                 : "hover:bg-white/15 hover:scale-105 active:scale-95"

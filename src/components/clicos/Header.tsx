@@ -156,10 +156,10 @@ export function Header({ activeSection }: HeaderProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      className={`sticky top-0 w-full z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-md py-4.5"
-          : "bg-transparent py-9"
+          : "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-5.5"
       }`}
     >
       <nav className="mx-auto max-w-[1800px] px-6 lg:px-8 flex items-center justify-between">

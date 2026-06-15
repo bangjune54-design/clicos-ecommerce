@@ -65,8 +65,8 @@ export function AppLayout() {
       {/* Rebuilt Sticky Navbar shared across all routes */}
       <Header activeSection={activeSection} />
       
-      {/* Main content body with exact spacing offset for the sticky header */}
-      <main className="flex-grow flex flex-col pt-20">
+      {/* Main content body */}
+      <main className="flex-grow flex flex-col">
         <Outlet />
       </main>
       
