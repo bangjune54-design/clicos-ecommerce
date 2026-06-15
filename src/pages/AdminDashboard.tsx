@@ -237,10 +237,10 @@ export function AdminDashboard() {
     setEditingBannerId("new");
     setEditBannerPayload({
       id: `banner-${Date.now()}`,
-      title: "New Banner Slide Title",
-      subtitle: "Click to edit this subtitle message.",
+      title: "",
+      subtitle: "",
       image: "",
-      link: "#contact"
+      link: "/shop"
     });
   };
 
@@ -1254,29 +1254,13 @@ export function AdminDashboard() {
 
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-900">Slide Main Headline</label>
-                      <Input 
-                        value={editBannerPayload.title || ""} 
-                        onChange={e => setEditBannerPayload({...editBannerPayload, title: e.target.value})} 
-                        placeholder="e.g. Exporting Premium Cosmetics"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-900">Slide Subtitle / Description</label>
-                      <textarea 
-                        className="w-full rounded-md border-0 py-2.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 resize-none h-24"
-                        value={editBannerPayload.subtitle || ""} 
-                        onChange={e => setEditBannerPayload({...editBannerPayload, subtitle: e.target.value})}
-                        placeholder="Curated selection directly from authorized labs in Seoul..."
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-900">CTA Link Target</label>
+                      <label className="block text-sm font-semibold mb-2 text-gray-900">Banner Click-Through Link</label>
                       <Input 
                         value={editBannerPayload.link || ""} 
                         onChange={e => setEditBannerPayload({...editBannerPayload, link: e.target.value})} 
-                        placeholder="e.g. #contact (to scroll) or /shop"
+                        placeholder="e.g. /shop or /wholesale or /contact"
                       />
+                      <span className="text-xs text-gray-500 mt-1 block">Input the URL destination of where the banner should lead when a visitor clicks it.</span>
                     </div>
                   </div>
                 </form>
