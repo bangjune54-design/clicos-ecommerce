@@ -130,7 +130,18 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
         });
       }
     } else {
-      navigate(link);
+      const isExternal = link.startsWith("http://") || link.startsWith("https://") || 
+        (link.includes(".") && !link.startsWith("/") && !link.startsWith("#"));
+      
+      if (isExternal) {
+        let targetLink = link;
+        if (!link.startsWith("http://") && !link.startsWith("https://")) {
+          targetLink = "https://" + link;
+        }
+        window.location.href = targetLink;
+      } else {
+        navigate(link);
+      }
     }
   };
 
