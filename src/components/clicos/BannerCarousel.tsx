@@ -100,14 +100,20 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
   };
 
   const handleBannerClick = (e: React.MouseEvent, link: string) => {
-    // If user dragged more than a tiny threshold, treat it as a swipe gesture instead of a link click
-    if (draggedDistance > 8) {
+    // If user dragged more than a swipe threshold, treat it as a swipe gesture instead of a link click
+    if (draggedDistance > 35) {
       e.preventDefault();
       e.stopPropagation();
       return;
     }
     
     if (!link) return;
+    
+    // Automatically redirect #contact hashtag links to the actual /contact page
+    if (link === "#contact") {
+      navigate("/contact");
+      return;
+    }
     
     if (link.startsWith("#")) {
       e.preventDefault();

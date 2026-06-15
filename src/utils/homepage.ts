@@ -12,7 +12,7 @@ const DEFAULT_BANNERS: Banner[] = [
     title: "Exporting Premium Korean Cosmetics & Hair Care",
     subtitle: "Trusted by retail customers and international distributors alike.",
     image: "", // Empty string uses gorgeous CSS theme gradient
-    link: "#contact"
+    link: "/contact"
   },
   {
     id: "banner-2",
@@ -26,7 +26,7 @@ const DEFAULT_BANNERS: Banner[] = [
     title: "Comprehensive B2B Supply & Shipping Support",
     subtitle: "Worry-free customs, flexible wholesale tiers, and low MOQ frameworks.",
     image: "",
-    link: "#contact"
+    link: "/contact"
   }
 ];
 
