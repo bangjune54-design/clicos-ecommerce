@@ -161,6 +161,14 @@ export function AdminDashboard() {
     saveLiveInventory(updated);
   };
 
+  const handleDeleteBrand = (brandName: string) => {
+    if (window.confirm(`Are you sure you want to delete the brand "${brandName}"? This will remove it from the brands catalog.`)) {
+      const updated = brands.filter(b => b.name !== brandName);
+      saveLiveBrands(updated);
+      setBrands(updated);
+    }
+  };
+
   const confirmDelete = () => {
     if (deleteModal.type === 'order' && deleteModal.id) {
       handleDeleteOrder(deleteModal.id);
@@ -947,14 +955,32 @@ export function AdminDashboard() {
             {editingBrandName ? (
               <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-8">
                 <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
-                  <h3 className="text-2xl font-bold font-serif text-gray-900">Edit Brand Profile</h3>
+                  <h3 className="text-2xl font-bold font-serif text-gray-900">
+                    {editingBrandName === "new" ? "Add New Brand" : "Edit Brand Profile"}
+                  </h3>
                   <div className="flex gap-3 relative z-50">
                     <Button type="button" variant="outline" onClick={() => setEditingBrandName(null)}>Cancel</Button>
                     <Button type="button" onClick={() => {
-                        const updated = brands.map(b => b.name === editingBrandName ? { ...b, ...editBrandPayload } : b);
-                        try { saveLiveBrands(updated); } catch(e) { alert("Save error: image might be too large"); return; }
-                        setBrands(updated);
-                        setEditingBrandName(null);
+                        if (editingBrandName === "new") {
+                          if (!editBrandPayload.name || !editBrandPayload.name.trim()) {
+                            alert("Please enter a brand name.");
+                            return;
+                          }
+                          const exists = brands.some(b => b.name.toLowerCase() === editBrandPayload.name.trim().toLowerCase());
+                          if (exists) {
+                            alert("A brand with this name already exists.");
+                            return;
+                          }
+                          const updated = [...brands, { name: editBrandPayload.name.trim(), description: editBrandPayload.description || "", image: editBrandPayload.image || "" }];
+                          try { saveLiveBrands(updated); } catch(e) { alert("Save error: image might be too large"); return; }
+                          setBrands(updated);
+                          setEditingBrandName(null);
+                        } else {
+                          const updated = brands.map(b => b.name === editingBrandName ? { ...b, ...editBrandPayload } : b);
+                          try { saveLiveBrands(updated); } catch(e) { alert("Save error: image might be too large"); return; }
+                          setBrands(updated);
+                          setEditingBrandName(null);
+                        }
                     }}>Save Changes</Button>
                   </div>
                 </div>
@@ -976,7 +1002,9 @@ export function AdminDashboard() {
                             const reader = new FileReader();
                             reader.onload = (event) => {
                               const dataUrl = event.target?.result as string;
-                              setEditBrandPayload({ ...editBrandPayload, image: dataUrl });
+                              compressImageBase64(dataUrl, 1000, 1000, 0.95).then((compressed) => {
+                                setEditBrandPayload({ ...editBrandPayload, image: compressed });
+                              });
                             };
                             reader.readAsDataURL(file);
                           }
@@ -1004,10 +1032,33 @@ export function AdminDashboard() {
                           </div>
                         )}
                       </div>
+                      <div className="flex gap-2 mb-3">
+                        <Button type="button" variant="outline" className="flex-1 text-xs" onClick={() => document.getElementById("brand-file-upload")?.click()}>
+                          Select Logo File
+                        </Button>
+                        <input 
+                          type="file" 
+                          accept="image/*"
+                          className="hidden" 
+                          id="brand-file-upload" 
+                          onChange={(e) => {
+                            if (e.target.files && e.target.files[0]) {
+                              const file = e.target.files[0];
+                              const reader = new FileReader();
+                              reader.onload = (event) => {
+                                compressImageBase64(event.target?.result as string, 1000, 1000, 0.95).then((compressed) => {
+                                  setEditBrandPayload({ ...editBrandPayload, image: compressed });
+                                });
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                      </div>
                       <Input 
                         value={editBrandPayload.image || ""} 
                         onChange={e => setEditBrandPayload({...editBrandPayload, image: e.target.value})} 
-                        placeholder="Image URL (or drag & drop above)"
+                        placeholder="Image URL (or drag & drop / upload above)"
                       />
                     </div>
                   </div>
@@ -1018,9 +1069,11 @@ export function AdminDashboard() {
                       <Input 
                         value={editBrandPayload.name || ""} 
                         onChange={e => setEditBrandPayload({...editBrandPayload, name: e.target.value})} 
-                        disabled
+                        disabled={editingBrandName !== "new"}
                       />
-                      <span className="text-xs text-gray-500 mt-1 block">Brand name is not editable as it links to existing products.</span>
+                      {editingBrandName !== "new" && (
+                        <span className="text-xs text-gray-500 mt-1 block">Brand name is not editable as it links to existing products.</span>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2 text-gray-900">Description</label>
@@ -1035,39 +1088,71 @@ export function AdminDashboard() {
                 </form>
               </div>
             ) : (
-              <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Logo/Image</th>
-                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Brand Name</th>
-                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Description</th>
-                      <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase tracking-wider">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white">
-                    {brands.map((b) => (
-                      <tr key={b.name} className="hover:bg-gray-50">
-                        <td className="whitespace-nowrap px-6 py-3">
-                          <div className="h-12 w-24 flex-shrink-0 bg-gray-100 rounded border border-gray-200 flex items-center justify-center overflow-hidden">
-                            {b.image ? (
-                              <img className="h-full w-full object-cover" src={b.image} alt={b.name} />
-                            ) : (
-                              <Store className="w-5 h-5 text-gray-400" />
-                            )}
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">{b.name}</td>
-                        <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{b.description}</td>
-                        <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                          <button onClick={() => { setEditingBrandName(b.name); setEditBrandPayload(b); }} className="text-primary-600 hover:text-primary-900 transition-colors font-semibold flex items-center justify-end gap-1 w-full">
-                            <Edit className="w-4 h-4" /> Edit
-                          </button>
-                        </td>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                  <h3 className="text-lg font-bold font-serif text-gray-900 flex items-center gap-2">
+                    <Store className="w-5 h-5 text-primary-850" /> Brands Catalog ({brands.length})
+                  </h3>
+                  <Button
+                    onClick={() => {
+                      setEditingBrandName("new");
+                      setEditBrandPayload({
+                        name: "",
+                        description: "",
+                        image: ""
+                      });
+                    }}
+                    className="flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4" /> Add New Brand
+                  </Button>
+                </div>
+
+                <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Logo/Image</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Brand Name</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Description</th>
+                        <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase tracking-wider">Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 bg-white">
+                      {brands.map((b) => (
+                        <tr key={b.name} className="hover:bg-gray-50">
+                          <td className="whitespace-nowrap px-6 py-3">
+                            <div className="h-12 w-24 flex-shrink-0 bg-gray-100 rounded border border-gray-200 flex items-center justify-center overflow-hidden">
+                              {b.image ? (
+                                <img className="h-full w-full object-cover" src={b.image} alt={b.name} />
+                              ) : (
+                                <Store className="w-5 h-5 text-gray-400" />
+                              )}
+                            </div>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">{b.name}</td>
+                          <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{b.description}</td>
+                          <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                            <div className="flex justify-end gap-4 items-center">
+                              <button 
+                                onClick={() => { setEditingBrandName(b.name); setEditBrandPayload(b); }} 
+                                className="text-primary-650 hover:text-primary-900 transition-colors font-semibold flex items-center gap-1 cursor-pointer"
+                              >
+                                <Edit className="w-4 h-4" /> Edit
+                              </button>
+                              <button 
+                                onClick={() => handleDeleteBrand(b.name)} 
+                                className="text-red-500 hover:text-red-700 transition-colors font-semibold flex items-center gap-1 cursor-pointer"
+                              >
+                                <Trash2 className="w-4 h-4" /> Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>
