@@ -381,17 +381,17 @@ export function Header({ activeSection }: HeaderProps) {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowLangDropdown(!showLangDropdown)}
-              className="flex items-center gap-1.5 lg:gap-2 xl:gap-2.5 2xl:gap-3 text-gray-700 hover:text-primary-850 transition-colors uppercase font-semibold text-xs lg:text-sm xl:text-[19.5px] 2xl:text-[24.5px] tracking-wide focus:outline-none"
+              className="flex items-center gap-1.5 lg:gap-1.5 xl:gap-2 2xl:gap-2.5 text-gray-700 hover:text-primary-850 transition-colors uppercase font-semibold text-xs lg:text-xs xl:text-sm 2xl:text-base tracking-wide focus:outline-none"
               title="Select Country"
             >
-              <Globe className="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] xl:h-[30px] xl:w-[30px] 2xl:h-[38px] 2xl:w-[38px] text-gray-500 flex-shrink-0 transition-all" />
-              <span className="text-xs lg:text-sm xl:text-[19.5px] 2xl:text-[24.5px]">{COUNTRIES.find(c => c.code === country)?.flag}</span>
-              <span className="text-xs lg:text-sm xl:text-[19.5px] 2xl:text-[24.5px] font-bold">{COUNTRIES.find(c => c.code === country)?.name}</span>
+              <Globe className="h-[18px] w-[18px] lg:h-[18px] lg:w-[18px] xl:h-[22px] xl:w-[22px] 2xl:h-[26px] 2xl:w-[26px] text-gray-500 flex-shrink-0 transition-all" />
+              <span className="text-xs lg:text-xs xl:text-sm 2xl:text-base">{COUNTRIES.find(c => c.code === country)?.flag}</span>
+              <span className="text-xs lg:text-xs xl:text-sm 2xl:text-base font-bold">{COUNTRIES.find(c => c.code === country)?.name}</span>
             </button>
             
             {showLangDropdown && (
-              <div className="absolute right-0 mt-3 w-[320px] lg:w-[420px] xl:w-[500px] 2xl:w-[600px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-4 lg:p-5 xl:p-6 2xl:p-8 z-50 flex flex-col gap-2.5 animate-slide-up">
-                <h4 className="text-xs lg:text-sm xl:text-base 2xl:text-[19.5px] font-bold uppercase tracking-wider text-gray-400 px-3.5 py-2 border-b mb-1.5">Select Country</h4>
+              <div className="absolute right-0 mt-3 w-[260px] lg:w-[320px] xl:w-[380px] 2xl:w-[440px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 z-50 flex flex-col gap-2.5 animate-slide-up">
+                <h4 className="text-[10px] lg:text-xs xl:text-xs 2xl:text-sm font-bold uppercase tracking-wider text-gray-400 px-3.5 py-2 border-b mb-1.5">Select Country</h4>
                 <div className="max-h-72 lg:max-h-80 xl:max-h-96 2xl:max-h-[480px] overflow-y-auto space-y-1.5 scrollbar-thin">
                   {COUNTRIES.map((c) => (
                     <button
@@ -400,17 +400,17 @@ export function Header({ activeSection }: HeaderProps) {
                         setCountry(c.code);
                         setShowLangDropdown(false);
                       }}
-                      className={`w-full flex items-center justify-between px-4 py-3 lg:px-5 lg:py-4 xl:px-6 xl:py-4.5 2xl:px-8 2xl:py-5.5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl transition-colors ${
+                      className={`w-full flex items-center justify-between px-3.5 py-2.5 lg:px-4 lg:py-3 xl:px-5 xl:py-3.5 2xl:px-6 2xl:py-4 text-xs lg:text-sm xl:text-sm 2xl:text-base font-semibold rounded-xl transition-colors ${
                         country === c.code
                           ? "bg-primary-50 text-primary-800"
                           : "hover:bg-gray-50 text-gray-600 hover:text-gray-900"
                       }`}
                     >
                       <div className="flex items-center gap-3 lg:gap-3.5 xl:gap-4 2xl:gap-5">
-                        <span className="text-lg lg:text-xl xl:text-[24px] 2xl:text-[30px]">{c.flag}</span>
+                        <span className="text-sm lg:text-base xl:text-base 2xl:text-lg">{c.flag}</span>
                         <span>{c.name}</span>
                       </div>
-                      <span className="text-[11px] lg:text-xs xl:text-sm 2xl:text-base text-gray-400 font-normal uppercase">({c.language} / {c.currency})</span>
+                      <span className="text-[10px] lg:text-[10px] xl:text-[11px] 2xl:text-xs text-gray-400 font-normal uppercase">({c.language} / {c.currency})</span>
                     </button>
                   ))}
                 </div>
