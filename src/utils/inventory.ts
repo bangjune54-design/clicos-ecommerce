@@ -32,20 +32,7 @@ const mapB2BProducts = (b2bList: any[], brandName: string, categoryName: string 
   }));
 };
 
-const INITIAL_INVENTORY = [
-  ...mapB2BProducts(fweeProducts, "FWEE", "Makeup"),
-  ...mapB2BProducts(torridenProducts, "Torriden"),
-  ...mapB2BProducts(ddalmomdeProducts, "DDALMOMDE"),
-  ...mapB2BProducts(fourPmProducts, "4PM"),
-  ...mapB2BProducts(medicubeProducts, "MEDICUBE"),
-  ...mapB2BProducts(beautyOfJoseonProducts, "Beauty of Joseon"),
-  ...mapB2BProducts(manyoProducts, "Ma:nyo"),
-  ...mapB2BProducts(numbuzinProducts, "NUMBUZIN"),
-  ...mapB2BProducts(meditherapyProducts, "Meditherapy", "Body Care"),
-  ...mapB2BProducts(aesturaProducts, "AESTURA"),
-  ...mapB2BProducts(kerasysProducts, "Kerasys", "Hair Care"),
-  ...mapB2BProducts(atsProducts, "ATS", "Hair Care"),
-];
+import { INITIAL_INVENTORY, INITIAL_BRANDS } from "./syncedDefaults";
 
 // Global cache for synchronous access
 let inventoryCache: any[] | null = null;
@@ -385,20 +372,7 @@ const svgKERASYS = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100
   <text x="80" y="80" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="7" fill="#D4AF37" text-anchor="middle" letter-spacing="3">HAIR CLINIC SYSTEM</text>
 </svg>`;
 
-export const INITIAL_BRANDS = [
-  { name: "4PM", description: "Premium, functional skincare solutions.", image: toBase64Svg(svg4PM) },
-  { name: "AESTURA", description: "Derma-cosmetics representing dermatology-grade barrier repair.", image: toBase64Svg(svgAESTURA) },
-  { name: "DDALMOMDE", description: "Innovative beauty focused on natural radiance.", image: toBase64Svg(svgDDALMOMDE) },
-  { name: "ATS", description: "Professional hair and scalp care brand.", image: toBase64Svg(svgATS) },
-  { name: "MEDICUBE", description: "Clinically tested dermocosmetics for sensitive and troubled skin.", image: toBase64Svg(svgMEDICUBE) },
-  { name: "NUMBUZIN", description: "Number-based customized skincare solutions.", image: toBase64Svg(svgNUMBUZIN) },
-  { name: "Ma:nyo", description: "Pure ingredient-oriented skincare brand for a healthy barrier.", image: toBase64Svg(svgMANYO) },
-  { name: "Meditherapy", description: "Home-care healing solutions merging devices and cosmetics.", image: toBase64Svg(svgMEDITHERAPY) },
-  { name: "FWEE", description: "Trendy color cosmetics focused on expressive makeup.", image: toBase64Svg(svgFWEE) },
-  { name: "Torriden", description: "Clean beauty brand focusing on deep hydration with hyaluronic acid.", image: toBase64Svg(svgTORRIDEN) },
-  { name: "Beauty of Joseon", description: "Hanbang (traditional Korean herbal medicine) skincare for modern routines.", image: toBase64Svg(svgBEAUTYOFJOSEON) },
-  { name: "Kerasys", description: "Premium hair clinics and body care with rich, perfumed scents.", image: toBase64Svg(svgKERASYS) },
-];
+// INITIAL_BRANDS is imported from syncedDefaults
 
 export function getLiveBrands(): any[] {
   if (isInitialized && brandsCache) return brandsCache;
@@ -445,4 +419,3 @@ export async function resetInventoryToDefault() {
   localStorage.removeItem("deletedBrandNames");
   return inventoryCache;
 }
-
