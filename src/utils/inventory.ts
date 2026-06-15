@@ -139,10 +139,23 @@ export async function initializeStorage() {
     }
 
     // 3. Merge default static assets/code changes (e.g. brand SVGs, product updates) into loaded cache
+    let deletedBrands: string[] = [];
+    try {
+      deletedBrands = JSON.parse(localStorage.getItem("deletedBrandNames") || "[]");
+    } catch {}
+
+    let deletedProducts: string[] = [];
+    try {
+      deletedProducts = JSON.parse(localStorage.getItem("deletedProductIds") || "[]");
+    } catch {}
+
     if (brd && Array.isArray(brd)) {
       let brandsChanged = false;
       const mergedBrands = [...brd];
       INITIAL_BRANDS.forEach(defaultBrand => {
+        if (deletedBrands.includes(defaultBrand.name.toLowerCase())) {
+          return;
+        }
         const existingIdx = mergedBrands.findIndex(b => b.name.toLowerCase() === defaultBrand.name.toLowerCase());
         if (existingIdx > -1) {
           const existing = mergedBrands[existingIdx];
@@ -165,14 +178,17 @@ export async function initializeStorage() {
         await dbSet("globalBrands", mergedBrands);
       }
     } else {
-      brandsCache = INITIAL_BRANDS;
-      await dbSet("globalBrands", INITIAL_BRANDS);
+      brandsCache = INITIAL_BRANDS.filter(b => !deletedBrands.includes(b.name.toLowerCase()));
+      await dbSet("globalBrands", brandsCache);
     }
 
     if (inv && Array.isArray(inv)) {
       let invChanged = false;
       const mergedInventory = [...inv];
       INITIAL_INVENTORY.forEach(defaultProduct => {
+        if (deletedProducts.includes(defaultProduct.id)) {
+          return;
+        }
         const existingIdx = mergedInventory.findIndex(p => p.id === defaultProduct.id);
         if (existingIdx > -1) {
           const existing = mergedInventory[existingIdx];
@@ -425,6 +441,8 @@ export function saveLiveBrands(brands: any[]) {
 export async function resetInventoryToDefault() {
   inventoryCache = [...INITIAL_INVENTORY];
   await dbSet("globalInventory", INITIAL_INVENTORY);
+  localStorage.removeItem("deletedProductIds");
+  localStorage.removeItem("deletedBrandNames");
   return inventoryCache;
 }
 

@@ -163,6 +163,16 @@ export function AdminDashboard() {
     const updated = inventory.filter(p => p.id !== productId);
     setInventory(updated);
     saveLiveInventory(updated);
+
+    try {
+      const deletedIds = JSON.parse(localStorage.getItem("deletedProductIds") || "[]");
+      if (!deletedIds.includes(productId)) {
+        deletedIds.push(productId);
+        localStorage.setItem("deletedProductIds", JSON.stringify(deletedIds));
+      }
+    } catch (e) {
+      console.error("Failed to save deleted product ID:", e);
+    }
   };
 
   const handleDeleteBrand = (brandName: string) => {
@@ -170,6 +180,17 @@ export function AdminDashboard() {
       const updated = brands.filter(b => b.name !== brandName);
       saveLiveBrands(updated);
       setBrands(updated);
+
+      try {
+        const deletedNames = JSON.parse(localStorage.getItem("deletedBrandNames") || "[]");
+        const lowerName = brandName.toLowerCase();
+        if (!deletedNames.includes(lowerName)) {
+          deletedNames.push(lowerName);
+          localStorage.setItem("deletedBrandNames", JSON.stringify(deletedNames));
+        }
+      } catch (e) {
+        console.error("Failed to save deleted brand name:", e);
+      }
     }
   };
 
