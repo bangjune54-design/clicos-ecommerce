@@ -417,11 +417,11 @@ export function WholesaleAllItems() {
                 return (
                   <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
                   <Link to={`/product/${product.id}`} className="block">
-                    <div className="aspect-square overflow-hidden bg-gray-100 relative">
+                    <div className="aspect-square overflow-hidden bg-white relative p-4 flex items-center justify-center">
                       <img
                         src={product.imageSrc}
                         alt={product.name}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
                       />
                       {product.isBestseller && (
                         <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">

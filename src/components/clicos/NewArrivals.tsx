@@ -48,12 +48,12 @@ export function NewArrivals() {
                 className="group flex flex-col justify-between rounded-3xl bg-white border border-gray-100 hover:border-primary-100 hover:shadow-xl transition-all duration-300 overflow-hidden"
               >
                 <Link to={`/product/${product.id}`} className="block flex-grow flex flex-col">
-                  {/* Image Area with premium full-bleed styling */}
-                  <div className="aspect-square bg-primary-50/50 flex items-center justify-center relative overflow-hidden">
+                  {/* Image Area with premium auto-fit styling */}
+                  <div className="aspect-square bg-white flex items-center justify-center relative overflow-hidden p-4">
                     <img
                       src={product.imageSrc}
                       alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
                       loading="lazy"
                     />
                     <span className="absolute top-4 left-4 bg-accent text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">

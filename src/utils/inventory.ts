@@ -21,7 +21,7 @@ const mapB2BProducts = (b2bList: any[], brandName: string, categoryName: string 
     price: p.wholesalePrice ? p.wholesalePrice * 1.5 : 30.0,
     wholesalePrice: p.wholesalePrice,
     moq: p.moq || 10,
-    imageSrc: "/placeholder-product.svg",
+    imageSrc: p.imageSrc || "/placeholder-product.svg",
     description: p.description || `Discover the beauty of carefully crafted authentic Korean formulas. This ${p.category || categoryName} essentially targets optimal results, ensuring your absolute satisfaction with every use. Premium ingredients combined with advanced technology deliver visible improvements.`,
     rating: 4.5 + Math.random() * 0.5,
     isBestseller: p.isBestseller || false,
@@ -108,22 +108,6 @@ export async function initializeStorage() {
       localStorage.setItem("language", "EN");
     }
 
-    // Clear legacy unauthenticated pictures from loaded inventory cache
-    if (inv && Array.isArray(inv)) {
-      let needsReset = false;
-      inv = inv.map(p => {
-        // If imageSrc is present, is not placeholder, and is not a base64 user upload, clear it
-        if (p.imageSrc && p.imageSrc !== "/placeholder-product.svg" && !p.imageSrc.startsWith("data:")) {
-          needsReset = true;
-          return { ...p, imageSrc: "/placeholder-product.svg" };
-        }
-        return p;
-      });
-      if (needsReset) {
-        await dbSet("globalInventory", inv);
-      }
-    }
-
     // 2. Fallback to localStorage + Migration
     if (!inv) {
       const localInv = localStorage.getItem("globalInventory");
@@ -137,39 +121,115 @@ export async function initializeStorage() {
             return p;
           });
         }
-        inventoryCache = parsedInv;
-        await dbSet("globalInventory", inventoryCache);
-        // Clear legacy once migrated to free up space for cart
-        localStorage.removeItem("globalInventory");
+        inv = parsedInv;
       }
+      localStorage.removeItem("globalInventory");
     } else {
-      inventoryCache = inv;
-      // Also clear if it still exists after successful migration
       localStorage.removeItem("globalInventory");
     }
 
     if (!brd) {
       const localBrd = localStorage.getItem("globalBrands");
       if (localBrd) {
-        let parsedBrd = JSON.parse(localBrd);
-        brandsCache = parsedBrd;
-        await dbSet("globalBrands", brandsCache);
-        // Clear legacy once migrated
-        localStorage.removeItem("globalBrands");
+        brd = JSON.parse(localBrd);
       }
+      localStorage.removeItem("globalBrands");
     } else {
-      brandsCache = brd;
-      // Also clear if it still exists
       localStorage.removeItem("globalBrands");
     }
+
+    // 3. Merge default static assets/code changes (e.g. brand SVGs, product updates) into loaded cache
+    if (brd && Array.isArray(brd)) {
+      let brandsChanged = false;
+      const mergedBrands = [...brd];
+      INITIAL_BRANDS.forEach(defaultBrand => {
+        const existingIdx = mergedBrands.findIndex(b => b.name.toLowerCase() === defaultBrand.name.toLowerCase());
+        if (existingIdx > -1) {
+          const existing = mergedBrands[existingIdx];
+          // Update details if codebase defaults have been updated (like adding SVGs)
+          if (existing.image !== defaultBrand.image || existing.description !== defaultBrand.description) {
+            mergedBrands[existingIdx] = {
+              ...existing,
+              description: defaultBrand.description,
+              image: defaultBrand.image || existing.image
+            };
+            brandsChanged = true;
+          }
+        } else {
+          mergedBrands.push(defaultBrand);
+          brandsChanged = true;
+        }
+      });
+      brandsCache = mergedBrands;
+      if (brandsChanged) {
+        await dbSet("globalBrands", mergedBrands);
+      }
+    } else {
+      brandsCache = INITIAL_BRANDS;
+      await dbSet("globalBrands", INITIAL_BRANDS);
+    }
+
+    if (inv && Array.isArray(inv)) {
+      let invChanged = false;
+      const mergedInventory = [...inv];
+      INITIAL_INVENTORY.forEach(defaultProduct => {
+        const existingIdx = mergedInventory.findIndex(p => p.id === defaultProduct.id);
+        if (existingIdx > -1) {
+          const existing = mergedInventory[existingIdx];
+          const keysToCompare = ['name', 'brand', 'category', 'price', 'wholesalePrice', 'moq', 'description', 'isBestseller', 'optionName', 'options', 'imageSrc'] as const;
+          let hasDiff = false;
+          keysToCompare.forEach(key => {
+            if (JSON.stringify(existing[key]) !== JSON.stringify(defaultProduct[key])) {
+              if (key === 'imageSrc' && existing.imageSrc?.startsWith("data:")) {
+                return; // Keep admin custom uploaded image
+              }
+              hasDiff = true;
+            }
+          });
+          if (hasDiff) {
+            mergedInventory[existingIdx] = {
+              ...existing,
+              ...defaultProduct,
+              imageSrc: (existing.imageSrc?.startsWith("data:"))
+                ? existing.imageSrc
+                : defaultProduct.imageSrc
+            };
+            invChanged = true;
+          }
+        } else {
+          mergedInventory.push(defaultProduct);
+          invChanged = true;
+        }
+      });
+
+      // Sanitize inventory by removing legacy unauthenticated image links, but PRESERVE codebase defaults
+      let needsReset = false;
+      const sanitizedInventory = mergedInventory.map(p => {
+        const defaultProduct = INITIAL_INVENTORY.find(dp => dp.id === p.id);
+        const isDefaultImage = defaultProduct && defaultProduct.imageSrc === p.imageSrc;
+        if (p.imageSrc && p.imageSrc !== "/placeholder-product.svg" && !p.imageSrc.startsWith("data:") && !isDefaultImage) {
+          needsReset = true;
+          return { ...p, imageSrc: "/placeholder-product.svg" };
+        }
+        return p;
+      });
+
+      inventoryCache = sanitizedInventory;
+      if (invChanged || needsReset) {
+        await dbSet("globalInventory", sanitizedInventory);
+      }
+    } else {
+      inventoryCache = INITIAL_INVENTORY;
+      await dbSet("globalInventory", INITIAL_INVENTORY);
+    }
+
   } catch (e) {
     console.error("Storage Initialization Error:", e);
+    // Fallbacks
+    if (!inventoryCache) inventoryCache = INITIAL_INVENTORY;
+    if (!brandsCache) brandsCache = INITIAL_BRANDS;
   }
 
-  // 3. Last fallback to INITIAL constants
-  if (!inventoryCache) inventoryCache = INITIAL_INVENTORY;
-  if (!brandsCache) brandsCache = INITIAL_BRANDS;
-  
   isInitialized = true;
 }
 
@@ -360,5 +420,11 @@ export function saveLiveBrands(brands: any[]) {
   dbSet("globalBrands", brands).catch(console.error);
 
   // Redundant LCD save removed
+}
+
+export async function resetInventoryToDefault() {
+  inventoryCache = [...INITIAL_INVENTORY];
+  await dbSet("globalInventory", INITIAL_INVENTORY);
+  return inventoryCache;
 }
 

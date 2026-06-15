@@ -426,7 +426,7 @@ export function Wholesale() {
   return (
     <div className="bg-white">
       {/* Header */}
-      <div className="relative bg-primary-950 py-24 sm:py-32 overflow-hidden">
+      <div className="relative bg-primary-950 py-24 sm:py-32 overflow-hidden mt-8 sm:mt-12 rounded-3xl mx-4 sm:mx-6 lg:mx-8">
         {/* Cargo Ship Background Image in Brown/Sepia theme */}
         <div className="absolute inset-0 z-0 select-none pointer-events-none">
           <img

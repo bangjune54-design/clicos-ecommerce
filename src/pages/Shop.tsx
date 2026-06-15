@@ -325,7 +325,7 @@ export function Shop() {
               
               {/* Collection Quick Filters */}
               <div className="py-2">
-                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs">{d("Collection")}</h4>
+                <h4 className="font-bold text-gray-900 mb-4 uppercase tracking-wider text-sm">{d("Collection")}</h4>
                 <div className="space-y-1">
                   <button
                     onClick={() => {
@@ -385,7 +385,7 @@ export function Shop() {
 
               {/* Categories Filter */}
               <div className="border-t border-gray-100 pt-5">
-                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs">{d("Category")}</h4>
+                <h4 className="font-bold text-gray-900 mb-4 uppercase tracking-wider text-sm">{d("Category")}</h4>
                 <div className="space-y-2">
                   {CATEGORY_STRUCTURE.map((category) => {
                     const isExpanded = expandedCategory === category.name;
@@ -409,7 +409,7 @@ export function Shop() {
                             }
                             setSearchParams(searchParams);
                           }}
-                          className={`text-sm flex items-center justify-between w-full text-left py-1.5 px-2 rounded-xl transition-all ${
+                          className={`text-base flex items-center justify-between w-full text-left py-1.5 px-2 rounded-xl transition-all ${
                             isActive
                               ? "bg-primary-50 font-bold text-primary-800"
                               : "text-gray-600 hover:bg-gray-50"
@@ -433,7 +433,7 @@ export function Shop() {
                                     searchParams.set("category", sub.toLowerCase().replace(/ & /g, "").replace(/ /g, ""));
                                     setSearchParams(searchParams);
                                   }}
-                                  className={`block text-xs text-left w-full py-1 px-2 rounded-lg transition-all ${
+                                  className={`block text-sm text-left w-full py-1 px-2 rounded-lg transition-all ${
                                     isSubActive ? "bg-primary-50 font-bold text-primary-750" : "text-gray-500 hover:bg-gray-50"
                                   }`}
                                 >
@@ -451,7 +451,7 @@ export function Shop() {
 
               {/* Brands Filter */}
               <div className="border-t border-gray-100 pt-5">
-                <h4 className="font-semibold text-gray-900 mb-4 uppercase tracking-wider text-xs">{d("Brand")}</h4>
+                <h4 className="font-bold text-gray-900 mb-4 uppercase tracking-wider text-sm">{d("Brand")}</h4>
                 <div className="space-y-1.5 max-h-60 overflow-y-auto pr-2 scrollbar-thin">
                   {b2bBrands.map((brand) => {
                     const isActive = activeBrand?.toLowerCase() === brand.name.toLowerCase();
@@ -523,11 +523,11 @@ export function Shop() {
                 return (
                   <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
                   <Link to={`/product/${product.id}`} className="block">
-                    <div className="aspect-square overflow-hidden bg-gray-100 relative">
+                    <div className="aspect-square overflow-hidden bg-white relative p-4 flex items-center justify-center">
                       <img
                         src={product.imageSrc}
                         alt={product.name}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
                       />
                       {product.isBestseller && (
                         <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
@@ -551,7 +551,7 @@ export function Shop() {
                     </div>
                   
                     <Link to={`/product/${product.id}`} className="hover:text-primary-800 transition-colors group-hover:underline">
-                      <h3 className="text-sm font-bold text-gray-900 mb-1 leading-snug line-clamp-3">
+                      <h3 className="text-base font-bold text-gray-900 mb-1 leading-snug line-clamp-3">
                         <span 
                           onClick={(e) => {
                             e.preventDefault();
@@ -560,7 +560,7 @@ export function Shop() {
                             searchParams.set("brand", product.brand.toLowerCase());
                             setSearchParams(searchParams);
                           }}
-                          className="text-gray-400 font-medium hover:text-primary-600 transition-colors mr-1 cursor-pointer"
+                          className="text-gray-400 font-medium hover:text-primary-600 transition-colors mr-1 cursor-pointer text-sm"
                         >
                           {product.brand}
                         </span>

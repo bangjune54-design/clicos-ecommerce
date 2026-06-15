@@ -221,39 +221,39 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/shop"
-              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 lg:gap-1.5 xl:gap-2 ${
                 location.pathname === "/shop" && searchParams.get("category")
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
               }`}
             >
               {t('categories')}
-              <ChevronDown className="w-4 h-4 opacity-60" />
+              <ChevronDown className="w-[15px] h-[15px] lg:w-[18px] lg:h-[18px] xl:w-[22px] xl:h-[22px] 2xl:w-[28px] 2xl:h-[28px] opacity-60 flex-shrink-0 transition-all" />
             </Link>
             {hoveredDropdown === "categories" && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-48">
-                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-2 flex flex-col gap-0.5 animate-slide-up">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-[220px] lg:w-[280px] xl:w-[340px] 2xl:w-[420px]">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
                   <Link
                     to="/shop?category=skincare"
-                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
                     {t('skincare')}
                   </Link>
                   <Link
                     to="/shop?category=makeup"
-                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
                     {t('makeup')}
                   </Link>
                   <Link
                     to="/shop?category=haircare"
-                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
                     {t('hair_care')}
                   </Link>
                   <Link
                     to="/shop?category=bodycare"
-                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
                     {t('body_care')}
                   </Link>
@@ -270,23 +270,23 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/brands"
-              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 lg:gap-1.5 xl:gap-2 ${
                 location.pathname === "/brands" || (location.pathname === "/shop" && searchParams.get("brand"))
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
               }`}
             >
               {t('brands')}
-              <ChevronDown className="w-4 h-4 opacity-60" />
+              <ChevronDown className="w-[15px] h-[15px] lg:w-[18px] lg:h-[18px] xl:w-[22px] xl:h-[22px] 2xl:w-[28px] 2xl:h-[28px] opacity-60 flex-shrink-0 transition-all" />
             </Link>
             {hoveredDropdown === "brands" && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-[720px]">
-                <div className="rounded-3xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-6 animate-slide-up">
-                  <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
-                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Our Partner Brands</h4>
-                    <span className="text-[10px] text-primary-700 font-semibold bg-primary-50 px-2.5 py-0.5 rounded-full uppercase">Direct Contracts</span>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-[840px] xl:w-[1050px] 2xl:w-[1300px]">
+                <div className="rounded-3xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-6 lg:p-8 xl:p-10 2xl:p-12 animate-slide-up">
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-3.5 mb-5">
+                    <h4 className="text-xs lg:text-sm xl:text-base 2xl:text-lg font-bold text-gray-400 uppercase tracking-widest">Our Partner Brands</h4>
+                    <span className="text-xs lg:text-sm xl:text-base 2xl:text-lg text-primary-700 font-semibold bg-primary-50 px-3.5 py-1 rounded-full uppercase">Direct Contracts</span>
                   </div>
-                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-4 lg:gap-5 xl:gap-6 2xl:gap-8">
                     {getLiveBrands().map((brand) => (
                       <Link
                         key={brand.name}
@@ -295,27 +295,27 @@ export function Header({ activeSection }: HeaderProps) {
                         onClick={() => setHoveredDropdown(null)}
                       >
                         {/* Brand Logo Container */}
-                        <div className="w-24 h-16 rounded-2xl bg-white border border-gray-100 flex items-center justify-center overflow-hidden mb-2 group-hover:scale-105 transition-transform duration-300 shadow-sm p-1.5 relative shrink-0">
+                        <div className="w-28 h-20 lg:w-[130px] lg:h-[85px] xl:w-[160px] xl:h-[105px] 2xl:w-[200px] 2xl:h-[135px] rounded-2xl bg-white border border-gray-100 flex items-center justify-center overflow-hidden mb-2 group-hover:scale-105 transition-transform duration-300 shadow-sm p-1.5 relative shrink-0">
                           {brand.image ? (
                             <img src={brand.image} alt={brand.name} className="h-full w-full object-contain" />
                           ) : (
-                            <span className="text-[12px] font-serif font-bold text-primary-900/60 uppercase tracking-wider">
+                            <span className="text-sm lg:text-base xl:text-[18px] 2xl:text-[22px] font-serif font-bold text-primary-900/60 uppercase tracking-wider">
                               {brand.name}
                             </span>
                           )}
                         </div>
                         {/* Brand Name below the picture */}
-                        <p className="text-[11px] font-bold text-gray-900 group-hover:text-primary-800 transition-colors uppercase tracking-wide truncate max-w-full">
+                        <p className="text-xs lg:text-sm xl:text-[16px] 2xl:text-[19.5px] font-bold text-gray-900 group-hover:text-primary-800 transition-colors uppercase tracking-wide truncate max-w-full">
                           {brand.name}
                         </p>
                       </Link>
                     ))}
                   </div>
-                  <div className="mt-4 pt-4 border-t border-gray-100 text-center">
+                  <div className="mt-5 pt-5 border-t border-gray-100 text-center">
                     <Link
                       to="/brands"
                       onClick={() => setHoveredDropdown(null)}
-                      className="inline-flex items-center gap-1 text-[11px] font-bold text-primary-700 hover:text-primary-900 transition-colors"
+                      className="inline-flex items-center gap-1.5 text-xs lg:text-sm xl:text-[19.5px] 2xl:text-[24.5px] font-bold text-primary-700 hover:text-primary-900 transition-colors"
                     >
                       View All Partner Brands &rarr;
                     </Link>
@@ -345,27 +345,27 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/wholesale"
-              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
+              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 lg:gap-1.5 xl:gap-2 ${
                 location.pathname.startsWith("/wholesale")
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
               }`}
             >
               {t('wholesales')}
-              <ChevronDown className="w-4 h-4 opacity-60" />
+              <ChevronDown className="w-[15px] h-[15px] lg:w-[18px] lg:h-[18px] xl:w-[22px] xl:h-[22px] 2xl:w-[28px] 2xl:h-[28px] opacity-60 flex-shrink-0 transition-all" />
             </Link>
             {hoveredDropdown === "wholesale" && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-48">
-                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-2 flex flex-col gap-0.5 animate-slide-up">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-[220px] lg:w-[280px] xl:w-[340px] 2xl:w-[420px]">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
                   <Link
                     to="/wholesale"
-                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
                     {t('order_form')}
                   </Link>
                   <Link
                     to="/wholesale/all"
-                    className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
                     {t('wholesale_products')}
                   </Link>
@@ -381,18 +381,18 @@ export function Header({ activeSection }: HeaderProps) {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowLangDropdown(!showLangDropdown)}
-              className="flex items-center gap-1.5 text-gray-700 hover:text-primary-850 transition-colors uppercase font-semibold text-xs tracking-wide focus:outline-none"
+              className="flex items-center gap-1.5 lg:gap-2 xl:gap-2.5 2xl:gap-3 text-gray-700 hover:text-primary-850 transition-colors uppercase font-semibold text-xs lg:text-sm xl:text-[19.5px] 2xl:text-[24.5px] tracking-wide focus:outline-none"
               title="Select Country"
             >
-              <Globe className="h-5 w-5 lg:h-5.5 w-5.5 xl:h-6 w-6 2xl:h-6.5 w-6.5 text-gray-500" />
-              <span className="text-sm lg:text-base xl:text-lg 2xl:text-[21.5px]">{COUNTRIES.find(c => c.code === country)?.flag}</span>
-              <span className="text-sm lg:text-base xl:text-lg 2xl:text-[21.5px] font-bold">{COUNTRIES.find(c => c.code === country)?.name}</span>
+              <Globe className="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] xl:h-[30px] xl:w-[30px] 2xl:h-[38px] 2xl:w-[38px] text-gray-500 flex-shrink-0 transition-all" />
+              <span className="text-xs lg:text-sm xl:text-[19.5px] 2xl:text-[24.5px]">{COUNTRIES.find(c => c.code === country)?.flag}</span>
+              <span className="text-xs lg:text-sm xl:text-[19.5px] 2xl:text-[24.5px] font-bold">{COUNTRIES.find(c => c.code === country)?.name}</span>
             </button>
             
             {showLangDropdown && (
-              <div className="absolute right-0 mt-3 w-64 rounded-2xl bg-white border border-gray-100 shadow-2xl p-3 z-50 flex flex-col gap-1 animate-slide-up">
-                <h4 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 px-3 py-1.5 border-b mb-1">Select Country</h4>
-                <div className="max-h-60 overflow-y-auto space-y-0.5 scrollbar-thin">
+              <div className="absolute right-0 mt-3 w-[320px] lg:w-[420px] xl:w-[500px] 2xl:w-[600px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-4 lg:p-5 xl:p-6 2xl:p-8 z-50 flex flex-col gap-2.5 animate-slide-up">
+                <h4 className="text-xs lg:text-sm xl:text-base 2xl:text-[19.5px] font-bold uppercase tracking-wider text-gray-400 px-3.5 py-2 border-b mb-1.5">Select Country</h4>
+                <div className="max-h-72 lg:max-h-80 xl:max-h-96 2xl:max-h-[480px] overflow-y-auto space-y-1.5 scrollbar-thin">
                   {COUNTRIES.map((c) => (
                     <button
                       key={c.code}
@@ -400,17 +400,17 @@ export function Header({ activeSection }: HeaderProps) {
                         setCountry(c.code);
                         setShowLangDropdown(false);
                       }}
-                      className={`w-full flex items-center justify-between px-3 py-2 text-xs font-semibold rounded-xl transition-colors ${
+                      className={`w-full flex items-center justify-between px-4 py-3 lg:px-5 lg:py-4 xl:px-6 xl:py-4.5 2xl:px-8 2xl:py-5.5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl transition-colors ${
                         country === c.code
                           ? "bg-primary-50 text-primary-800"
                           : "hover:bg-gray-50 text-gray-600 hover:text-gray-900"
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm">{c.flag}</span>
+                      <div className="flex items-center gap-3 lg:gap-3.5 xl:gap-4 2xl:gap-5">
+                        <span className="text-lg lg:text-xl xl:text-[24px] 2xl:text-[30px]">{c.flag}</span>
                         <span>{c.name}</span>
                       </div>
-                      <span className="text-[9px] text-gray-400 font-normal uppercase">({c.language} / {c.currency})</span>
+                      <span className="text-[11px] lg:text-xs xl:text-sm 2xl:text-base text-gray-400 font-normal uppercase">({c.language} / {c.currency})</span>
                     </button>
                   ))}
                 </div>
@@ -424,7 +424,7 @@ export function Header({ activeSection }: HeaderProps) {
             className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
             title={t("search_catalog")}
           >
-            <Search className="h-5 w-5 lg:h-5.5 w-5.5 xl:h-6 w-6 2xl:h-6.5 w-6.5" />
+            <Search className="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] xl:h-[30px] xl:w-[30px] 2xl:h-[38px] 2xl:w-[38px] flex-shrink-0 transition-all" />
           </button>
 
           {/* Profile Trigger Wrapper */}
@@ -438,16 +438,16 @@ export function Header({ activeSection }: HeaderProps) {
               className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
               title={isLoggedIn ? t("my_account") : t("login")}
             >
-              <User className="h-5 w-5 lg:h-5.5 w-5.5 xl:h-6 w-6 2xl:h-6.5 w-6.5" />
+              <User className="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] xl:h-[30px] xl:w-[30px] 2xl:h-[38px] 2xl:w-[38px] flex-shrink-0 transition-all" />
             </button>
             {hoveredDropdown === "profile" && (
-              <div className="absolute right-0 top-full pt-2 z-50 w-40">
-                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-2 flex flex-col gap-0.5 animate-slide-up">
+              <div className="absolute right-0 top-full pt-2 z-50 w-[220px] lg:w-[280px] xl:w-[340px] 2xl:w-[420px]">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
                   {!isLoggedIn ? (
                     <Link
                       to="/login"
                       onClick={() => setHoveredDropdown(null)}
-                      className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                      className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
                     >
                       {t("login")}
                     </Link>
@@ -456,7 +456,7 @@ export function Header({ activeSection }: HeaderProps) {
                       <Link
                         to="/my-page"
                         onClick={() => setHoveredDropdown(null)}
-                        className="px-3 py-2 text-xs font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                        className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
                       >
                         {userFirstName ? `${userFirstName}'s Account` : t("account")}
                       </Link>
@@ -472,7 +472,7 @@ export function Header({ activeSection }: HeaderProps) {
                           window.dispatchEvent(new Event("storage"));
                           navigate("/");
                         }}
-                        className="px-3 py-2 text-xs font-semibold rounded-xl text-red-600 hover:bg-red-50 transition-colors block text-left w-full"
+                        className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-red-650 hover:bg-red-50 transition-colors block text-left w-full cursor-pointer"
                       >
                         {t("sign_out")}
                       </button>
@@ -494,39 +494,39 @@ export function Header({ activeSection }: HeaderProps) {
               className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
               title={t("cart")}
             >
-              <ShoppingBag className="h-5 w-5 lg:h-5.5 w-5.5 xl:h-6 w-6 2xl:h-6.5 w-6.5" />
+              <ShoppingBag className="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] xl:h-[30px] xl:w-[30px] 2xl:h-[38px] 2xl:w-[38px] flex-shrink-0 transition-all" />
               {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center text-[9px] font-bold shadow-sm">
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-[18px] w-[18px] lg:h-[22px] lg:w-[22px] xl:h-[26px] xl:w-[26px] 2xl:h-[32px] 2xl:w-[32px] flex items-center justify-center text-[10px] lg:text-[12px] xl:text-[14px] 2xl:text-[17px] font-bold shadow-sm">
                   {cartCount}
                 </span>
               )}
             </button>
             {hoveredDropdown === "cart" && (
-              <div className="absolute right-0 top-full pt-2 z-50 w-72">
-                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-4 flex flex-col gap-3 animate-slide-up">
-                  <h4 className="text-xs font-bold text-gray-900 border-b border-gray-100 pb-2">
+              <div className="absolute right-0 top-full pt-2 z-50 w-[360px] lg:w-[460px] xl:w-[560px] 2xl:w-[700px]">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-4 lg:p-6 xl:p-8 2xl:p-10 flex flex-col gap-4 lg:gap-5 xl:gap-6 2xl:gap-8 animate-slide-up">
+                  <h4 className="text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-bold text-gray-900 border-b border-gray-100 pb-3 lg:pb-4 xl:pb-5 2xl:pb-6">
                     {t("cart_items")} ({cartCount})
                   </h4>
                   {cartItems.length === 0 ? (
-                    <div className="text-center py-4 text-xs text-gray-400">
+                    <div className="text-center py-4 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] text-gray-400">
                       {t("empty_cart")}
                     </div>
                   ) : (
                     <>
-                      <div className="max-h-48 overflow-y-auto space-y-3 pr-1 scrollbar-thin">
+                      <div className="max-h-48 lg:max-h-64 xl:max-h-[300px] 2xl:max-h-[380px] overflow-y-auto space-y-4 lg:space-y-5 xl:space-y-6 2xl:space-y-8 pr-1 scrollbar-thin">
                         {cartItems.map((item, idx) => (
-                          <div key={item.id + (item.optionValue || idx)} className="flex items-center gap-2">
-                            <div className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 p-1 flex items-center justify-center flex-shrink-0">
+                          <div key={item.id + (item.optionValue || idx)} className="flex items-center gap-3 lg:gap-4 xl:gap-5 2xl:gap-6">
+                            <div className="w-14 h-14 lg:w-18 lg:h-18 xl:w-[88px] xl:h-[88px] 2xl:w-[110px] 2xl:h-[110px] rounded-lg bg-gray-50 border border-gray-100 p-1 flex items-center justify-center flex-shrink-0">
                               <img src={item.image || "/placeholder-product.svg"} alt="" className="max-w-full max-h-full object-contain" />
                             </div>
                             <div className="flex-grow min-w-0">
-                              <p className="text-[11px] font-bold text-gray-900 truncate">
+                              <p className="text-xs lg:text-sm xl:text-[16px] 2xl:text-[19.5px] font-bold text-gray-900 truncate">
                                 {getLiveInventory().find(p => p.id === item.id) ? getLocalizedProduct(getLiveInventory().find(p => p.id === item.id)).name : item.name}
                               </p>
-                              <p className="text-[9px] text-gray-400 truncate">
+                              <p className="text-[10px] lg:text-[11px] xl:text-xs 2xl:text-sm text-gray-400 truncate">
                                 {item.brand} {item.optionValue ? `| ${item.optionValue}` : ""}
                               </p>
-                              <p className="text-[10px] text-primary-700 font-semibold mt-0.5">
+                              <p className="text-[11px] lg:text-xs xl:text-[16px] 2xl:text-[19.5px] text-primary-700 font-semibold mt-0.5">
                                 {item.quantity} x {formatPrice(item.price, item.currencyPrices)}
                               </p>
                             </div>
@@ -534,9 +534,9 @@ export function Header({ activeSection }: HeaderProps) {
                         ))}
                       </div>
                       
-                      <div className="border-t border-gray-100 pt-3 flex items-center justify-between">
-                        <span className="text-xs font-bold text-gray-500">{t("total_price")}</span>
-                        <span className="text-sm font-bold text-primary-900">
+                      <div className="border-t border-gray-100 pt-4 lg:pt-5 xl:pt-6 2xl:pt-8 flex items-center justify-between">
+                        <span className="text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-bold text-gray-500">{t("total_price")}</span>
+                        <span className="text-base lg:text-[19.5px] 2xl:text-[26px] font-bold text-primary-900">
                           {formatPrice(cartTotal)}
                         </span>
                       </div>
@@ -546,7 +546,7 @@ export function Header({ activeSection }: HeaderProps) {
                           setHoveredDropdown(null);
                           navigate(isLoggedIn ? "/cart" : "/login");
                         }}
-                        className="w-full text-center py-2.5 bg-primary-800 text-white rounded-xl text-xs font-semibold hover:bg-primary-900 transition-colors shadow-sm mt-1"
+                        className="w-full text-center py-3.5 lg:py-4 xl:py-4.5 2xl:py-5.5 bg-primary-800 text-white rounded-xl text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold hover:bg-primary-900 transition-colors shadow-sm mt-1 cursor-pointer"
                       >
                         {t("view_full_cart")}
                       </button>

@@ -4,7 +4,7 @@ import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { Input } from "../components/ui/Input";
 import { useCurrency, CURRENCY_SYMBOLS } from "../contexts/CurrencyContext";
-import { getLiveInventory, saveLiveInventory, getLiveBrands, saveLiveBrands } from "../utils/inventory";
+import { getLiveInventory, saveLiveInventory, getLiveBrands, saveLiveBrands, resetInventoryToDefault } from "../utils/inventory";
 import { getLiveBanners, saveLiveBanners, getLiveTickers, saveLiveTickers, Banner } from "../utils/homepage";
 
 // Shared initial mock state
@@ -216,14 +216,10 @@ export function AdminDashboard() {
     alert("New product dynamically added to the global catalog!");
   };
 
-  const handleResetInventory = () => {
+  const handleResetInventory = async () => {
     if (window.confirm("Are you sure you want to reset the inventory to the default catalog? All custom edits and added products will be lost.")) {
-      localStorage.removeItem("globalInventory");
-      // Note: In a real app we'd also clear the IndexedDB key, 
-      // but saveLiveInventory with the initial state will overwrite it anyway.
-      const initial = getLiveInventory(); 
+      const initial = await resetInventoryToDefault(); 
       setInventory(initial);
-      saveLiveInventory(initial);
       alert("Inventory has been fully restored to default.");
     }
   };

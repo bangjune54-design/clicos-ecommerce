@@ -232,7 +232,7 @@ export function WholesaleBrandDetail() {
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Banner */}
-      <div className="relative h-64 sm:h-80 w-full bg-gray-900 flex items-center justify-center">
+      <div className="relative h-64 sm:h-80 w-auto bg-gray-900 flex items-center justify-center mt-8 sm:mt-12 rounded-3xl mx-4 sm:mx-6 lg:mx-8 overflow-hidden">
         {brand.image && (
           <img 
             src={brand.image} 
@@ -285,11 +285,11 @@ export function WholesaleBrandDetail() {
             return (
               <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
               <Link to={`/product/${product.id}`} className="block">
-                <div className="aspect-square overflow-hidden bg-gray-100 relative">
+                <div className="aspect-square overflow-hidden bg-white relative p-4 flex items-center justify-center">
                   <img
                     src={product.imageSrc}
                     alt={product.name}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
                   />
                   {product.isBestseller && (
                     <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
