@@ -66,7 +66,7 @@ export function AppLayout() {
       <Header activeSection={activeSection} />
       
       {/* Main content body */}
-      <main className="flex-grow flex flex-col">
+      <main className="flex-grow flex flex-col pt-[108px] md:pt-[88px]">
         <Outlet />
       </main>
       

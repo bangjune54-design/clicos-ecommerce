@@ -146,12 +146,26 @@ export async function initializeStorage() {
         const existingIdx = mergedBrands.findIndex(b => b.name.toLowerCase() === defaultBrand.name.toLowerCase());
         if (existingIdx > -1) {
           const existing = mergedBrands[existingIdx];
-          // Update details if codebase defaults have been updated (like adding SVGs)
-          if (existing.image !== defaultBrand.image || existing.description !== defaultBrand.description) {
+          
+          // Identify if the image is an old default SVG that should be updated to the new default SVG.
+          // Any custom uploaded brand image (WebP/PNG/JPEG/GIF/URLs/local paths) will be preserved.
+          const isOldDefaultSvg = existing.image && 
+            existing.image.startsWith("data:image/svg+xml") && 
+            existing.image !== defaultBrand.image;
+            
+          const isPlaceholderOrEmpty = !existing.image || 
+            existing.image === "/placeholder-brand.svg";
+            
+          const shouldUpdateImage = isPlaceholderOrEmpty || isOldDefaultSvg;
+          
+          const hasImageDiff = existing.image !== defaultBrand.image && shouldUpdateImage;
+          const hasDescDiff = existing.description !== defaultBrand.description && !existing.description; // Keep custom description if it exists
+          
+          if (hasImageDiff || hasDescDiff) {
             mergedBrands[existingIdx] = {
               ...existing,
-              description: defaultBrand.description,
-              image: defaultBrand.image || existing.image
+              description: hasDescDiff ? defaultBrand.description : existing.description,
+              image: hasImageDiff ? defaultBrand.image : existing.image
             };
             brandsChanged = true;
           }
@@ -181,10 +195,19 @@ export async function initializeStorage() {
           const existing = mergedInventory[existingIdx];
           const keysToCompare = ['name', 'brand', 'category', 'price', 'wholesalePrice', 'moq', 'description', 'isBestseller', 'optionName', 'options', 'imageSrc'] as const;
           let hasDiff = false;
+          
+          const isCustomProductImage = existing.imageSrc && 
+            existing.imageSrc !== "/placeholder-product.svg" && (
+              existing.imageSrc.startsWith("data:") ||
+              existing.imageSrc.startsWith("http://") ||
+              existing.imageSrc.startsWith("https://") ||
+              existing.imageSrc.startsWith("/")
+            );
+          
           keysToCompare.forEach(key => {
             if (JSON.stringify(existing[key]) !== JSON.stringify(defaultProduct[key])) {
-              if (key === 'imageSrc' && existing.imageSrc?.startsWith("data:")) {
-                return; // Keep admin custom uploaded image
+              if (key === 'imageSrc' && isCustomProductImage) {
+                return; // Keep admin custom uploaded image/URL
               }
               hasDiff = true;
             }
@@ -193,9 +216,7 @@ export async function initializeStorage() {
             mergedInventory[existingIdx] = {
               ...existing,
               ...defaultProduct,
-              imageSrc: (existing.imageSrc?.startsWith("data:"))
-                ? existing.imageSrc
-                : defaultProduct.imageSrc
+              imageSrc: isCustomProductImage ? existing.imageSrc : defaultProduct.imageSrc
             };
             invChanged = true;
           }
@@ -205,12 +226,21 @@ export async function initializeStorage() {
         }
       });
 
-      // Sanitize inventory by removing legacy unauthenticated image links, but PRESERVE codebase defaults
+      // Sanitize inventory by removing legacy unauthenticated image links, but PRESERVE codebase defaults and custom URLs
       let needsReset = false;
       const sanitizedInventory = mergedInventory.map(p => {
         const defaultProduct = INITIAL_INVENTORY.find(dp => dp.id === p.id);
         const isDefaultImage = defaultProduct && defaultProduct.imageSrc === p.imageSrc;
-        if (p.imageSrc && p.imageSrc !== "/placeholder-product.svg" && !p.imageSrc.startsWith("data:") && !isDefaultImage) {
+        
+        const isCustomProductImage = p.imageSrc && 
+          p.imageSrc !== "/placeholder-product.svg" && (
+            p.imageSrc.startsWith("data:") ||
+            p.imageSrc.startsWith("http://") ||
+            p.imageSrc.startsWith("https://") ||
+            p.imageSrc.startsWith("/")
+          );
+        
+        if (p.imageSrc && p.imageSrc !== "/placeholder-product.svg" && !isCustomProductImage && !isDefaultImage) {
           needsReset = true;
           return { ...p, imageSrc: "/placeholder-product.svg" };
         }

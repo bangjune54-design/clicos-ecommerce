@@ -11,16 +11,13 @@ export interface CountryOption {
 }
 
 export const COUNTRIES: CountryOption[] = [
-  { code: "US", name: "United States", flag: "🇺🇸", language: "EN", currency: "USD" },
   { code: "KR", name: "South Korea", flag: "🇰🇷", language: "KO", currency: "KRW" },
+  { code: "US", name: "United States", flag: "🇺🇸", language: "EN", currency: "USD" },
   { code: "BR", name: "Brazil", flag: "🇧🇷", language: "PT", currency: "BRL" },
-  { code: "ES", name: "Spain", flag: "🇪🇸", language: "ES", currency: "EUR" },
-  { code: "CN", name: "China", flag: "🇨🇳", language: "ZH", currency: "CNY" },
-  { code: "JP", name: "Japan", flag: "🇯🇵", language: "JA", currency: "JPY" },
 ];
 
 interface CountryContextType {
-  country: string; // "US" | "KR" | "BR" | "ES" | "CN" | "JP"
+  country: string; // "US" | "KR" | "BR"
   setCountry: (code: string) => void;
   getLocalizedProduct: (product: any) => any;
   formatProductPrice: (product: any, isWholesale?: boolean) => string;

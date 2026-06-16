@@ -795,10 +795,16 @@ export function AdminDashboard() {
                   <div className="space-y-6 bg-gray-50/50 p-6 rounded-xl border border-gray-100">
                     <div>
                       <label className="block text-sm font-semibold mb-2 text-gray-900">Brand</label>
-                      <Input 
+                      <select
+                        className="w-full rounded-md border-0 py-2.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 sm:text-sm sm:leading-6 bg-white"
                         value={editProductPayload.brand || ""} 
-                        onChange={e => setEditProductPayload({...editProductPayload, brand: e.target.value})} 
-                      />
+                        onChange={e => setEditProductPayload({...editProductPayload, brand: e.target.value})}
+                      >
+                        <option value="">Select Brand</option>
+                        {Array.from(new Set([...brands.map(b => b.name), ...inventory.map(p => p.brand).filter(Boolean)])).sort().map(brandName => (
+                          <option key={brandName} value={brandName}>{brandName}</option>
+                        ))}
+                      </select>
                     </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2 text-gray-900">Category</label>
@@ -955,8 +961,8 @@ export function AdminDashboard() {
                         className="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm font-medium"
                       >
                         <option value="All">All Brands</option>
-                        {Array.from(new Set(inventory.map(p => p.brand).filter(Boolean))).sort().map(brand => (
-                          <option key={brand as string} value={brand as string}>{brand as string}</option>
+                        {Array.from(new Set([...brands.map(b => b.name), ...inventory.map(p => p.brand).filter(Boolean)])).sort().map(brandName => (
+                          <option key={brandName} value={brandName}>{brandName}</option>
                         ))}
                       </select>
                     </div>

@@ -457,7 +457,7 @@ export function Shop() {
                     const isActive = activeBrand?.toLowerCase() === brand.name.toLowerCase();
                     return (
                       <button
-                        key={brand.id}
+                        key={brand.name}
                         onClick={() => {
                           if (isActive) {
                             setActiveBrand(null);

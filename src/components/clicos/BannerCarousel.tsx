@@ -176,16 +176,16 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
             style={{ width: `${100 / banners.length}%` }}
           >
             {/* Image Layer */}
-            <div className="w-full select-none relative h-[340px] sm:h-[480px] md:h-[600px] lg:h-[700px] xl:h-[780px]">
+            <div className="w-full select-none relative h-auto">
               {banner.image ? (
                 <img
                   src={banner.image}
                   alt={banner.title}
-                  className="w-full h-full object-cover select-none pointer-events-none"
+                  className="w-full h-auto block select-none pointer-events-none"
                   draggable={false}
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-950 relative">
+                <div className="w-full h-[340px] sm:h-[480px] md:h-[600px] lg:h-[700px] xl:h-[780px] bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-950 relative">
                   {/* Abstract ambient decorative light spheres */}
                   <div className="absolute top-1/4 left-1/4 w-36 h-36 sm:w-96 sm:h-96 rounded-full bg-accent/10 blur-[100px] animate-pulse"></div>
                   <div className="absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-80 sm:h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>
