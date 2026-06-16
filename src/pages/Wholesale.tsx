@@ -4,7 +4,7 @@ import { Building2, Globe2, Truck, ShieldCheck, ArrowRight, Plus, X } from "luci
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Badge } from "../components/ui/Badge";
-import { getLiveInventory, getLiveBrands } from "../utils/inventory";
+import { getLiveInventoryForCustomers, getLiveBrandsForCustomers } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useCountry } from "../contexts/CountryContext";
 import { sendAdminNotification } from "../utils/email";
@@ -21,7 +21,7 @@ interface Product {
 }
 
 const getBrandProducts = (brandName: string): Product[] => {
-  return getLiveInventory().filter(p => p.brand === brandName || p.brand?.toUpperCase() === brandName.toUpperCase());
+  return getLiveInventoryForCustomers().filter(p => p.brand === brandName || p.brand?.toUpperCase() === brandName.toUpperCase());
 };
 
 const benefits = [
@@ -378,7 +378,7 @@ export function Wholesale() {
   const isWholesale = isLoggedIn && userType === "wholesale";
   const userEmail = localStorage.getItem("userEmail") || "";
 
-  const b2bBrands = getLiveBrands();
+  const b2bBrands = getLiveBrandsForCustomers();
   const { language } = useLanguage();
   const { getLocalizedProduct } = useCountry();
   const [selectedBrand, setSelectedBrand] = useState("");

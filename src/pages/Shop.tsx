@@ -5,7 +5,7 @@ import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
-import { getLiveInventory, getLiveBrands } from "../utils/inventory";
+import { getLiveInventoryForCustomers, getLiveBrandsForCustomers } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useCountry } from "../contexts/CountryContext";
 
@@ -149,8 +149,8 @@ const TRANSLATED_SHOP: Record<string, Record<string, string>> = {
 };
 
 export function Shop() {
-  const allShopProducts = getLiveInventory();
-  const b2bBrands = getLiveBrands();
+  const allShopProducts = getLiveInventoryForCustomers();
+  const b2bBrands = getLiveBrandsForCustomers();
   const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const { language, t } = useLanguage();

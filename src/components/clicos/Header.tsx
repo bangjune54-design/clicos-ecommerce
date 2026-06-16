@@ -5,7 +5,7 @@ import { useLanguage } from "../../contexts/LanguageContext";
 import { useCurrency } from "../../contexts/CurrencyContext";
 import { useCountry, COUNTRIES } from "../../contexts/CountryContext";
 import { saveAndClearCartForAccount } from "../../utils/cart";
-import { getLiveBrands, getLiveInventory } from "../../utils/inventory";
+import { getLiveBrandsForCustomers, getLiveInventoryForCustomers } from "../../utils/inventory";
 
 interface HeaderProps {
   activeSection: string;
@@ -305,7 +305,7 @@ export function Header({ activeSection }: HeaderProps) {
                     <span className="text-xs lg:text-sm xl:text-base 2xl:text-lg text-primary-700 font-semibold bg-primary-50 px-3.5 py-1 rounded-full uppercase">Direct Contracts</span>
                   </div>
                   <div className="grid grid-cols-4 sm:grid-cols-6 gap-4 lg:gap-5 xl:gap-6 2xl:gap-8">
-                    {getLiveBrands().map((brand) => (
+                    {getLiveBrandsForCustomers().map((brand) => (
                       <Link
                         key={brand.name}
                         to={`/shop?brand=${encodeURIComponent(brand.name.toLowerCase())}`}
@@ -539,7 +539,7 @@ export function Header({ activeSection }: HeaderProps) {
                             </div>
                             <div className="flex-grow min-w-0">
                               <p className="text-xs lg:text-sm xl:text-[16px] 2xl:text-[19.5px] font-bold text-gray-900 truncate">
-                                {getLiveInventory().find(p => p.id === item.id) ? getLocalizedProduct(getLiveInventory().find(p => p.id === item.id)).name : item.name}
+                                {getLiveInventoryForCustomers().find(p => p.id === item.id) ? getLocalizedProduct(getLiveInventoryForCustomers().find(p => p.id === item.id)).name : item.name}
                               </p>
                               <p className="text-[10px] lg:text-[11px] xl:text-xs 2xl:text-sm text-gray-400 truncate">
                                 {item.brand} {item.optionValue ? `| ${item.optionValue}` : ""}

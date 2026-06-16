@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, Link, useSearchParams } from "react-router-dom";
-import { getLiveBrands } from "../utils/inventory";
+import { getLiveBrandsForCustomers } from "../utils/inventory";
 import { fweeProducts } from "../data/fweeProducts";
 import { torridenProducts } from "../data/torridenProducts";
 import { ddalmomdeProducts } from "../data/ddalmomdeProducts";
@@ -12,7 +12,7 @@ import { numbuzinProducts } from "../data/numbuzinProducts";
 import { aesturaProducts } from "../data/aesturaProducts";
 import { kerasysProducts } from "../data/kerasysProducts";
 import { atsProducts } from "../data/atsProducts";
-import { getLiveInventory } from "../utils/inventory";
+import { getLiveInventoryForCustomers } from "../utils/inventory";
 import { meditherapyProducts } from "../data/meditherapyProducts";
 import { Card, CardContent } from "../components/ui/Card";
 import { useCountry } from "../contexts/CountryContext";
@@ -135,7 +135,7 @@ const TRANSLATED_BRAND_DETAIL: Record<string, Record<string, string>> = {
 };
 
 export function WholesaleBrandDetail() {
-  const b2bBrands = getLiveBrands();
+  const b2bBrands = getLiveBrandsForCustomers();
   const { formatPrice } = useCurrency();
   const { brandId } = useParams();
   const [searchParams] = useSearchParams();
@@ -223,7 +223,7 @@ export function WholesaleBrandDetail() {
     );
   }
 
-  const products = getLiveInventory().filter(p => p.brand === brand.name);
+  const products = getLiveInventoryForCustomers().filter(p => p.brand === brand.name);
 
   const filteredProducts = products.filter(p => 
     p.name.toLowerCase().includes(brandSearchQuery.toLowerCase())

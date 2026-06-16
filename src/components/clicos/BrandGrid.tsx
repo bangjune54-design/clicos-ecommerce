@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { getLiveBrands } from "../../utils/inventory";
+import { getLiveBrandsForCustomers } from "../../utils/inventory";
 
 export function BrandGrid() {
   const brands = [
@@ -72,17 +72,20 @@ export function BrandGrid() {
     }
   ];
 
-  const liveBrands = getLiveBrands();
+  const liveBrands = getLiveBrandsForCustomers();
 
   // Enrich static default brands with database images and taglines
-  const enrichedBrands = brands.map((b) => {
-    const live = liveBrands.find((lb) => lb.name.toLowerCase() === b.name.toLowerCase());
-    return {
-      ...b,
-      image: live?.image || "",
-      tagline: live?.description || b.tagline
-    };
-  });
+  const enrichedBrands = brands
+    .map((b) => {
+      const live = liveBrands.find((lb) => lb.name.toLowerCase() === b.name.toLowerCase());
+      if (!live) return null;
+      return {
+        ...b,
+        image: live.image || "",
+        tagline: live.description || b.tagline
+      };
+    })
+    .filter((b): b is any => b !== null);
 
   // Add any custom brands added in the admin panel that are not in the default list
   const staticNames = new Set(brands.map(b => b.name.toLowerCase()));

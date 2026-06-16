@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Star, ShoppingBag } from "lucide-react";
 import { useCurrency } from "../../contexts/CurrencyContext";
 import { useCountry } from "../../contexts/CountryContext";
-import { getLiveInventory } from "../../utils/inventory";
+import { getLiveInventoryForCustomers } from "../../utils/inventory";
 
 export function BestSellers() {
   const { formatPrice } = useCurrency();
   const { getLocalizedProduct, formatProductPrice } = useCountry();
-  const allProducts = getLiveInventory();
+  const allProducts = getLiveInventoryForCustomers();
 
   // Filter products that are designated as bestseller in database, limit to 4
   const bestsellerProducts = allProducts.filter(p => p.isBestseller).slice(0, 4);

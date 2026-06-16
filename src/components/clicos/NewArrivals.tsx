@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Star, ShoppingBag } from "lucide-react";
 import { useCurrency } from "../../contexts/CurrencyContext";
 import { useCountry } from "../../contexts/CountryContext";
-import { getLiveInventory } from "../../utils/inventory";
+import { getLiveInventoryForCustomers } from "../../utils/inventory";
 
 export function NewArrivals() {
   const { formatPrice } = useCurrency();
   const { getLocalizedProduct, formatProductPrice } = useCountry();
-  const allProducts = getLiveInventory();
+  const allProducts = getLiveInventoryForCustomers();
 
   // Get the 4 most recently added products (e.g. first 4 items in getLiveInventory database)
   const newProducts = allProducts.slice(0, 4);

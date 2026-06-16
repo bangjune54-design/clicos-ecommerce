@@ -421,18 +421,44 @@ export function getLiveBrands(): any[] {
             return {
               ...defaultBrand,
               ...pb,
-              image: pb.image || defaultBrand.image
+              image: pb.image || defaultBrand.image,
+              hidden: pb.hidden !== undefined ? pb.hidden : false
             };
           }
-          return pb;
+          return {
+            ...pb,
+            hidden: pb.hidden !== undefined ? pb.hidden : false
+          };
         });
       }
     } catch {
       brandsList = INITIAL_BRANDS;
     }
   }
+
+  // Ensure all brands have a hidden field defined
+  brandsList = brandsList.map(b => ({
+    ...b,
+    hidden: b.hidden !== undefined ? b.hidden : false
+  }));
+
   brandsCache = brandsList;
   return brandsList;
+}
+
+export function getLiveBrandsForCustomers(): any[] {
+  return getLiveBrands().filter(b => !b.hidden);
+}
+
+export function getLiveInventoryForCustomers(): any[] {
+  const hiddenBrandNames = new Set(
+    getLiveBrands()
+      .filter(b => b.hidden)
+      .map(b => b.name.toLowerCase())
+  );
+  return getLiveInventory().filter(
+    p => !p.brand || !hiddenBrandNames.has(p.brand.toLowerCase())
+  );
 }
 
 export function saveLiveBrands(brands: any[]) {

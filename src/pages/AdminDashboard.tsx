@@ -1063,7 +1063,7 @@ export function AdminDashboard() {
                             alert("A brand with this name already exists.");
                             return;
                           }
-                          const updated = [...brands, { name: editBrandPayload.name.trim(), description: editBrandPayload.description || "", image: editBrandPayload.image || "" }];
+                          const updated = [...brands, { name: editBrandPayload.name.trim(), description: editBrandPayload.description || "", image: editBrandPayload.image || "", hidden: editBrandPayload.hidden || false }];
                           try { saveLiveBrands(updated); } catch(e) { alert("Save error: image might be too large"); return; }
                           setBrands(updated);
                           setEditingBrandName(null);
@@ -1176,6 +1176,20 @@ export function AdminDashboard() {
                         placeholder="Brand description..."
                       />
                     </div>
+                    <div>
+                      <label className="flex items-center gap-2 cursor-pointer mt-4">
+                        <input 
+                          type="checkbox"
+                          className="rounded border-gray-300 text-primary-600 focus:ring-primary-500 w-4 h-4"
+                          checked={editBrandPayload.hidden || false}
+                          onChange={e => setEditBrandPayload({...editBrandPayload, hidden: e.target.checked})}
+                        />
+                        <span className="text-sm font-semibold text-gray-900">Hide this brand from customers</span>
+                      </label>
+                      <span className="text-xs text-gray-500 block ml-6 mt-1">
+                        Hiding this brand will prevent it and all products under this brand from showing to retail/B2B customers.
+                      </span>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -1191,7 +1205,8 @@ export function AdminDashboard() {
                       setEditBrandPayload({
                         name: "",
                         description: "",
-                        image: ""
+                        image: "",
+                        hidden: false
                       });
                     }}
                     className="flex items-center gap-1.5 cursor-pointer"
@@ -1207,6 +1222,7 @@ export function AdminDashboard() {
                         <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Logo/Image</th>
                         <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Brand Name</th>
                         <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Description</th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Visibility</th>
                         <th className="px-6 py-4 text-right text-xs font-semibold text-gray-900 uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
@@ -1224,6 +1240,17 @@ export function AdminDashboard() {
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">{b.name}</td>
                           <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{b.description}</td>
+                          <td className="whitespace-nowrap px-6 py-4 text-sm">
+                            {b.hidden ? (
+                              <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                                Hidden
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                Visible
+                              </span>
+                            )}
+                          </td>
                           <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                             <div className="flex justify-end gap-4 items-center">
                               <button 

@@ -4,7 +4,7 @@ import { ShoppingBag, ArrowLeft, Star, Truck, ShieldCheck, Plus, Minus } from "l
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { Badge } from "../components/ui/Badge";
-import { getLiveInventory, getLiveBrands } from "../utils/inventory";
+import { getLiveInventoryForCustomers, getLiveBrandsForCustomers } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useCountry } from "../contexts/CountryContext";
 
@@ -62,7 +62,7 @@ export function ProductDetail() {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType") || "retail";
   
-  const rawProduct = getLiveInventory().find((p) => p.id === id || p.id === `b2b-${p.brand.toLowerCase()}-${id}`);
+  const rawProduct = getLiveInventoryForCustomers().find((p) => p.id === id || p.id === `b2b-${p.brand.toLowerCase()}-${id}`);
   const product = getLocalizedProduct(rawProduct);
   
   const [quantity, setQuantity] = React.useState(1);
@@ -96,7 +96,7 @@ export function ProductDetail() {
   }
 
   const isB2BUser = userType === "wholesale";
-  const isWholesaleBrand = getLiveBrands().some(b => b.name === product.brand);
+  const isWholesaleBrand = getLiveBrandsForCustomers().some(b => b.name === product.brand);
   const isB2B = isB2BUser || isWholesaleBrand;
   const displayPrice = isB2B ? product.wholesalePrice : product.price;
 

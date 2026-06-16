@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getLiveBrands } from "../utils/inventory";
+import { getLiveBrandsForCustomers } from "../utils/inventory";
 
 export function Brands() {
   const [b2bBrands, setB2bBrands] = useState<any[]>([]);
 
   useEffect(() => {
-    setB2bBrands(getLiveBrands());
+    setB2bBrands(getLiveBrandsForCustomers());
   }, []);
   return (
     <div className="bg-white py-24 sm:py-32">

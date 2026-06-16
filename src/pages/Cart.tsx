@@ -3,7 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
-import { getLiveInventory } from "../utils/inventory";
+import { getLiveInventoryForCustomers } from "../utils/inventory";
 
 // Mock data for Cart
 const mockRetailItems = [
@@ -53,7 +53,7 @@ export function Cart() {
   });
 
   const userType = localStorage.getItem("userType") || "retail";
-  const liveInventory = getLiveInventory();
+  const liveInventory = getLiveInventoryForCustomers();
   const getProductData = (id: string) => liveInventory.find(p => p.id === id);
 
   const retailTotal = userType !== "wholesale" 

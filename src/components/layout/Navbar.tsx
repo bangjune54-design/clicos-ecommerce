@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, ShoppingBag, Globe, Search, User } from "lucide-react";
 import { Button } from "../ui/Button";
 
-import { getLiveInventory, getLiveBrands } from "../../utils/inventory";
+import { getLiveInventoryForCustomers, getLiveBrandsForCustomers } from "../../utils/inventory";
 import { useCurrency } from "../../contexts/CurrencyContext";
 import { useLanguage } from "../../contexts/LanguageContext";
 
@@ -107,11 +107,11 @@ export function Navbar() {
   const getRecommendations = () => {
     if (!searchQuery.trim()) return { retail: [] as any[], b2b: [] as any[], retailBrands: [] as any[], b2bBrands: [] as any[] };
     const query = searchQuery.toLowerCase();
-    const b2bBrands = getLiveBrands();
+    const b2bBrands = getLiveBrandsForCustomers();
     
     return {
       retail: [],
-      b2b: getLiveInventory().filter(p => p.name.toLowerCase().includes(query) || (p.brand && p.brand.toLowerCase().includes(query))).slice(0, 3),
+      b2b: getLiveInventoryForCustomers().filter(p => p.name.toLowerCase().includes(query) || (p.brand && p.brand.toLowerCase().includes(query))).slice(0, 3),
       retailBrands: b2bBrands.filter(b => b.name.toLowerCase().includes(query)).slice(0, 2),
       b2bBrands: b2bBrands.filter(b => b.name.toLowerCase().includes(query)).slice(0, 2)
     };

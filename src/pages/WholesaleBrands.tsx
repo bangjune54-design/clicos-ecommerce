@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
-import { getLiveBrands } from "../utils/inventory";
+import { getLiveBrandsForCustomers } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
 
 const TRANSLATED_WHOLESALE_BRANDS: Record<string, Record<string, string>> = {
@@ -59,7 +59,7 @@ export function WholesaleBrands() {
   };
 
   useEffect(() => {
-    setB2bBrands(getLiveBrands());
+    setB2bBrands(getLiveBrandsForCustomers());
   }, []);
 
   const filteredBrands = b2bBrands.filter((brand) =>

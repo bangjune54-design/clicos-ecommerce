@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { useCurrency } from "../contexts/CurrencyContext";
-import { getLiveInventory } from "../utils/inventory";
+import { getLiveInventoryForCustomers } from "../utils/inventory";
 import { ArrowLeft, CheckCircle2, CreditCard, Wallet, X, ShieldCheck } from "lucide-react";
 import { sendAdminNotification } from "../utils/email";
 
@@ -33,7 +33,7 @@ export function Checkout() {
   });
 
   const userType = localStorage.getItem("userType") || "retail";
-  const liveInventory = getLiveInventory();
+  const liveInventory = getLiveInventoryForCustomers();
   const getProductData = (id: string) => liveInventory.find(p => p.id === id);
 
   const retailTotal = userType !== "wholesale" 
