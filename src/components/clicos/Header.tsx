@@ -27,6 +27,7 @@ export function Header({ activeSection }: HeaderProps) {
   
   // Dropdown hover & mobile accordion states
   const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
   const [mobileWholesaleOpen, setMobileWholesaleOpen] = useState(false);
 
@@ -249,33 +250,125 @@ export function Header({ activeSection }: HeaderProps) {
               <ChevronDown className="w-[15px] h-[15px] lg:w-[18px] lg:h-[18px] xl:w-[22px] xl:h-[22px] 2xl:w-[28px] 2xl:h-[28px] opacity-60 flex-shrink-0 transition-all" />
             </Link>
             {hoveredDropdown === "categories" && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-[220px] lg:w-[280px] xl:w-[340px] 2xl:w-[420px]">
-                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
+              <div 
+                className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 flex items-start"
+                onMouseLeave={() => setHoveredCategory(null)}
+              >
+                {/* Main Categories Panel */}
+                <div className="w-[220px] lg:w-[280px] xl:w-[340px] 2xl:w-[420px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
                   <Link
                     to="/shop?category=skincare"
-                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    onMouseEnter={() => setHoveredCategory("Skincare")}
+                    onClick={() => setHoveredDropdown(null)}
+                    className={`px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-between ${
+                      hoveredCategory === "Skincare" ? "bg-primary-50 text-primary-800" : ""
+                    }`}
                   >
-                    {t('skincare')}
+                    <span>{t('skincare')}</span>
+                    <span className="text-gray-400 font-normal">&rarr;</span>
                   </Link>
                   <Link
                     to="/shop?category=makeup"
-                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    onMouseEnter={() => setHoveredCategory("Makeup")}
+                    onClick={() => setHoveredDropdown(null)}
+                    className={`px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-between ${
+                      hoveredCategory === "Makeup" ? "bg-primary-50 text-primary-800" : ""
+                    }`}
                   >
-                    {t('makeup')}
+                    <span>{t('makeup')}</span>
+                    <span className="text-gray-400 font-normal">&rarr;</span>
                   </Link>
                   <Link
                     to="/shop?category=haircare"
-                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    onMouseEnter={() => setHoveredCategory(null)}
+                    onClick={() => setHoveredDropdown(null)}
+                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
                   >
                     {t('hair_care')}
                   </Link>
                   <Link
                     to="/shop?category=bodycare"
-                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    onMouseEnter={() => setHoveredCategory(null)}
+                    onClick={() => setHoveredDropdown(null)}
+                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
                   >
                     {t('body_care')}
                   </Link>
                 </div>
+
+                {/* Subcategories Side Panel */}
+                {hoveredCategory && (hoveredCategory === "Skincare" || hoveredCategory === "Makeup") && (
+                  <div className="ml-2 w-[200px] lg:w-[260px] xl:w-[310px] 2xl:w-[380px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
+                    <h5 className="text-[10px] lg:text-xs xl:text-xs 2xl:text-sm font-bold uppercase tracking-wider text-gray-400 px-3.5 py-1.5 border-b mb-1.5">
+                      {hoveredCategory === "Skincare" ? t("skincare") : t("makeup")}
+                    </h5>
+                    <div className="flex flex-col gap-1">
+                      {hoveredCategory === "Skincare" ? (
+                        <>
+                          <Link
+                            to="/shop?category=suncare"
+                            onClick={() => setHoveredDropdown(null)}
+                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                          >
+                            {t("cat_sun_care") || "Sun Care"}
+                          </Link>
+                          <Link
+                            to="/shop?category=cleansing"
+                            onClick={() => setHoveredDropdown(null)}
+                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                          >
+                            {t("cat_cleansing") || "Cleansing"}
+                          </Link>
+                          <Link
+                            to="/shop?category=serumampoule"
+                            onClick={() => setHoveredDropdown(null)}
+                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                          >
+                            {t("cat_serum") || "Serum & Ampoule"}
+                          </Link>
+                          <Link
+                            to="/shop?category=cream"
+                            onClick={() => setHoveredDropdown(null)}
+                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                          >
+                            {t("cat_cream") || "Cream"}
+                          </Link>
+                          <Link
+                            to="/shop?category=toner"
+                            onClick={() => setHoveredDropdown(null)}
+                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                          >
+                            {t("cat_toner") || "Toner"}
+                          </Link>
+                          <Link
+                            to="/shop?category=mask"
+                            onClick={() => setHoveredDropdown(null)}
+                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                          >
+                            {t("cat_mask") || "Mask"}
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <Link
+                            to="/shop?category=lipmakeup"
+                            onClick={() => setHoveredDropdown(null)}
+                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                          >
+                            {t("cat_lip_makeup") || "Lip Makeup"}
+                          </Link>
+                          <Link
+                            to="/shop?category=facemakeup"
+                            onClick={() => setHoveredDropdown(null)}
+                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                          >
+                            {t("cat_face_makeup") || "Face Makeup"}
+                          </Link>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
