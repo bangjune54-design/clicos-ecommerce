@@ -27,9 +27,9 @@ export function Brands() {
           {b2bBrands.map((brand) => (
             <li key={brand.name} className="group">
               <Link to={`/shop?brand=${encodeURIComponent(brand.name.toLowerCase())}`} className="block">
-                <div className="flex h-48 w-full items-center justify-center rounded-2xl bg-primary-50 border border-primary-100 mb-6 group-hover:bg-primary-100 transition-colors overflow-hidden">
+                <div className="flex h-48 w-full items-center justify-center rounded-2xl bg-white border border-gray-100 mb-6 group-hover:bg-primary-50/50 transition-colors overflow-hidden p-6 shadow-sm">
                   {brand.image ? (
-                    <img src={brand.image} alt={brand.name} className="h-full w-full object-cover" />
+                    <img src={brand.image} alt={brand.name} className="h-full w-full object-contain" />
                   ) : (
                     <span className="text-4xl font-serif font-bold text-primary-900/40 uppercase tracking-widest">
                       {brand.name.substring(0, 2)}

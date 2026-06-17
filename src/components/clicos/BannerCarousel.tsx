@@ -172,20 +172,20 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
           <div
             key={banner.id}
             onClick={(e) => handleBannerClick(e, banner.link)}
-            className="flex-shrink-0 relative cursor-pointer"
+            className="flex-shrink-0 relative cursor-pointer h-[180px] sm:h-[340px] md:h-[480px] lg:h-[600px] xl:h-[700px] 2xl:h-[780px]"
             style={{ width: `${100 / banners.length}%` }}
           >
             {/* Image Layer */}
-            <div className="w-full select-none relative h-auto">
+            <div className="w-full h-full select-none relative">
               {banner.image ? (
                 <img
                   src={banner.image}
                   alt={banner.title}
-                  className="w-full h-auto block select-none pointer-events-none"
+                  className="w-full h-full object-cover block select-none pointer-events-none"
                   draggable={false}
                 />
               ) : (
-                <div className="w-full h-[340px] sm:h-[480px] md:h-[600px] lg:h-[700px] xl:h-[780px] bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-950 relative">
+                <div className="w-full h-full bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-950 relative">
                   {/* Abstract ambient decorative light spheres */}
                   <div className="absolute top-1/4 left-1/4 w-36 h-36 sm:w-96 sm:h-96 rounded-full bg-accent/10 blur-[100px] animate-pulse"></div>
                   <div className="absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-80 sm:h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>

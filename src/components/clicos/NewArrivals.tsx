@@ -39,39 +39,39 @@ export function NewArrivals() {
         </div>
 
         {/* Product Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+        <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-8">
           {newProducts.map((p) => {
             const product = getLocalizedProduct(p);
             return (
               <div
                 key={product.id}
-                className="group flex flex-col justify-between rounded-3xl bg-white border border-gray-100 hover:border-primary-100 hover:shadow-xl transition-all duration-300 overflow-hidden"
+                className="group flex flex-col justify-between rounded-2xl sm:rounded-3xl bg-white border border-gray-100 hover:border-primary-100 hover:shadow-xl transition-all duration-300 overflow-hidden"
               >
                 <Link to={`/product/${product.id}`} className="block flex-grow flex flex-col">
                   {/* Image Area with premium auto-fit styling */}
-                  <div className="aspect-square bg-white flex items-center justify-center relative overflow-hidden p-4">
+                  <div className="aspect-square bg-white flex items-center justify-center relative overflow-hidden p-2 sm:p-4">
                     <img
                       src={product.imageSrc}
                       alt={product.name}
                       className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
                       loading="lazy"
                     />
-                    <span className="absolute top-4 left-4 bg-accent text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
+                    <span className="absolute top-1.5 left-1.5 sm:top-4 sm:left-4 bg-accent text-white text-[7px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm scale-90 sm:scale-100">
                       New
                     </span>
                   </div>
 
                   {/* Content info */}
-                  <div className="p-5 flex flex-col flex-grow">
-                    <span className="text-[10px] font-bold text-accent uppercase tracking-widest mb-1.5">
+                  <div className="p-2.5 sm:p-5 flex flex-col flex-grow">
+                    <span className="text-[8px] sm:text-[10px] font-bold text-accent uppercase tracking-widest mb-1 sm:mb-1.5 truncate max-w-full">
                       {product.brand}
                     </span>
-                    <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-primary-800 transition-colors line-clamp-3 leading-snug font-serif">
+                    <h3 className="text-[10px] sm:text-sm font-bold text-gray-900 group-hover:text-primary-800 transition-colors line-clamp-2 sm:line-clamp-3 leading-tight sm:leading-snug font-sans sm:font-serif">
                       {product.name}
                     </h3>
                     
                     {/* Rating indicator */}
-                    <div className="flex items-center gap-1.5 mt-2.5 mb-1 text-xs text-gray-500 font-medium">
+                    <div className="flex items-center gap-1 mt-1.5 text-[10px] sm:text-xs text-gray-500 font-medium hidden sm:flex">
                       <Star className="w-4.5 h-4.5 fill-yellow-400 text-yellow-400" />
                       <span className="font-semibold text-gray-700">{(product.rating || 4.8).toFixed(1)}</span>
                       <span className="text-gray-400">({Math.floor((product.name.length * 13) % 40) + 12})</span>
@@ -80,19 +80,19 @@ export function NewArrivals() {
                 </Link>
 
                 {/* Pricing & Cart Action at Bottom */}
-                <div className="p-5 pt-0 mt-auto flex items-center justify-between border-t border-gray-50">
+                <div className="p-2.5 sm:p-5 pt-0 mt-auto flex items-center justify-between border-t border-gray-50">
                   <div className="flex flex-col">
-                    <span className="text-base font-bold text-gray-900 leading-none">
+                    <span className="text-xs sm:text-base font-bold text-gray-900 leading-none">
                       {formatProductPrice(product)}
                     </span>
-                    <span className="text-[10px] text-gray-400 font-medium mt-1 uppercase tracking-wider">
-                      MOQ: {product.moq} units
+                    <span className="text-[8px] sm:text-[10px] text-gray-400 font-medium mt-1 uppercase tracking-wider">
+                      MOQ: {product.moq}
                     </span>
                   </div>
                   
                   <Link
                     to={`/product/${product.id}`}
-                    className="w-11 h-11 rounded-full bg-primary-50 text-primary-900 flex items-center justify-center hover:bg-primary-800 hover:text-white transition-all shadow-sm"
+                    className="w-11 h-11 rounded-full bg-primary-50 text-primary-900 flex items-center justify-center hover:bg-primary-800 hover:text-white transition-all shadow-sm hidden sm:flex"
                     title="View details"
                   >
                     <ShoppingBag className="w-5.5 h-5.5" />

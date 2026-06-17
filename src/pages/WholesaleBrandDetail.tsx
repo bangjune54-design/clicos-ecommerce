@@ -232,23 +232,39 @@ export function WholesaleBrandDetail() {
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Banner */}
-      <div className="relative h-64 sm:h-80 w-auto bg-gray-900 flex items-center justify-center mt-8 sm:mt-12 rounded-3xl mx-4 sm:mx-6 lg:mx-8 overflow-hidden">
+      <div className="relative h-64 sm:h-80 w-auto bg-primary-950 flex items-center justify-center mt-8 sm:mt-12 rounded-3xl mx-4 sm:mx-6 lg:mx-8 overflow-hidden">
+        {/* Ambient decorative background glows */}
+        <div className="absolute top-1/4 left-1/4 w-36 h-36 sm:w-96 sm:h-96 rounded-full bg-accent/10 blur-[100px] animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-80 sm:h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>
+
         {brand.image && (
           <img 
             src={brand.image} 
             alt={brand.name} 
-            className="absolute inset-0 w-full h-full object-cover opacity-50"
+            className="absolute inset-0 w-full h-full object-cover opacity-15 blur-sm select-none pointer-events-none"
           />
         )}
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 text-center px-4 w-full max-w-[1800px] mx-auto">
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="relative z-10 text-center px-4 w-full max-w-[1800px] mx-auto flex flex-col items-center">
           <Link to="/wholesale/brands" className="absolute top-0 sm:-top-8 left-4 sm:left-6 text-white/80 hover:text-white flex items-center gap-2 text-sm font-medium transition-colors">
             <ArrowLeft className="w-4 h-4" /> {d("backToBrands")}
           </Link>
-          <h1 className="text-4xl sm:text-5xl font-bold font-serif text-white tracking-widest uppercase mb-4 mt-8 sm:mt-0 drop-shadow-lg">
+          
+          {/* Dedicated brand logo card */}
+          {brand.image && (
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-white p-3.5 shadow-xl flex items-center justify-center mb-4 mt-6 sm:mt-0 select-none pointer-events-none">
+              <img 
+                src={brand.image} 
+                alt={`${brand.name} logo`} 
+                className="max-w-full max-h-full object-contain"
+              />
+            </div>
+          )}
+
+          <h1 className="text-3xl sm:text-5xl font-bold font-serif text-white tracking-widest uppercase mb-3 drop-shadow-lg">
             {brand.name}
           </h1>
-          <p className="text-white/90 text-lg max-w-2xl mx-auto drop-shadow-md">
+          <p className="text-white/95 text-xs sm:text-lg max-w-2xl mx-auto drop-shadow-md line-clamp-2">
             {brand.description}
           </p>
         </div>

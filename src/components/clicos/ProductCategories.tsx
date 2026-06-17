@@ -9,7 +9,7 @@ import { useLanguage } from "../../contexts/LanguageContext";
 
 function SunCareIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-[136px] h-[136px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="20" cy="22" r="11" fill="#FEF08A" stroke="#374151" strokeWidth="2.5" />
       <path d="M20 6v3 M20 35v3 M6 22h3 M31 22h3 M10 12l2 2 M28 30l2 2 M10 32l2-2 M28 12l2-2" stroke="#374151" strokeWidth="2.5" strokeLinecap="round" />
       <path d="M34 16h16l-3.5 25h-9z" fill="#FDA4AF" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
@@ -22,7 +22,7 @@ function SunCareIcon() {
 
 function CleansingIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-[136px] h-[136px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M20 22h16v24H20z" fill="#FCA5A5" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M25 18h6v4h-6z" fill="#94A3B8" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M28 12h-6v6h4v-3h2v-3" stroke="#374151" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="#E2E8F0" />
@@ -36,7 +36,7 @@ function CleansingIcon() {
 
 function SerumAmpouleIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-[136px] h-[136px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M32 28h16v22H32z" fill="#86EFAC" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M36 22h8v6h-8z" fill="#94A3B8" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <circle cx="40" cy="37" r="3.5" fill="#FEF08A" stroke="#374151" strokeWidth="1.5" />
@@ -49,7 +49,7 @@ function SerumAmpouleIcon() {
 
 function CreamIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-[136px] h-[136px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 28h40v18H12z" fill="#94A3B8" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M10 22h44v6H10z" fill="#475569" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M20 22c0-8 6-12 12-12s12 4 12 12" fill="#FEF08A" stroke="#374151" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -60,7 +60,7 @@ function CreamIcon() {
 
 function TonerIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-[136px] h-[136px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M20 20h16v28H20z" fill="#E0F2FE" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M20 30h16v8H20z" fill="#FDA4AF" stroke="#374151" strokeWidth="2.5" />
       <path d="M24 14h8v6h-8z" fill="#94A3B8" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
@@ -71,7 +71,7 @@ function TonerIcon() {
 
 function MaskIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-[136px] h-[136px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="12" y="10" width="40" height="44" rx="20" fill="#CCFBF1" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <rect x="20" y="22" width="8" height="5" rx="2.5" fill="#FFFFFF" stroke="#374151" strokeWidth="2" />
       <rect x="36" y="22" width="8" height="5" rx="2.5" fill="#FFFFFF" stroke="#374151" strokeWidth="2" />
@@ -83,7 +83,7 @@ function MaskIcon() {
 
 function LipMakeupIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-[136px] h-[136px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M14 36h12v18H14z" fill="#64748B" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M16 28h8v8h-8z" fill="#E2E8F0" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M17 18c0 4 1 10 1 10h6s1-6 1-10c0-2-2-4-4-4s-4 2-4 4z" fill="#F43F5E" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
@@ -96,7 +96,7 @@ function LipMakeupIcon() {
 
 function FaceMakeupIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-[136px] h-[136px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="26" cy="46" rx="16" ry="8" fill="#64748B" stroke="#374151" strokeWidth="2.5" />
       <ellipse cx="26" cy="44" rx="11" ry="5" fill="#FDBA74" stroke="#374151" strokeWidth="1.5" />
       <path d="M14 36c0-10 12-16 12-16s12 6 12 16" stroke="#374151" strokeWidth="2.5" fill="#BAE6FD" strokeLinecap="round" strokeLinejoin="round" />
@@ -110,7 +110,7 @@ function FaceMakeupIcon() {
 
 function HairCareIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-[136px] h-[136px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M16 22h14v26H16z" fill="#A7F3D0" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M19 16h8v6h-8z" fill="#475569" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M23 30c0 3-3 5-3 5s-3-2-3-5 1.5-4 3-4 3 1 3 4z" fill="#10B981" />
@@ -122,7 +122,7 @@ function HairCareIcon() {
 
 function BodyCareIcon() {
   return (
-    <svg viewBox="0 0 64 64" className="w-[136px] h-[136px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 24h14v22H12z" fill="#E2E8F0" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M15 18h8v6h-8z" fill="#94A3B8" stroke="#374151" strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M19 12h-4v6h4v-3h2v-3" stroke="#374151" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
@@ -165,34 +165,34 @@ export function ProductCategories() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 sm:gap-8">
+        <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-8">
           {categories.map((cat, idx) => {
             const IconComponent = cat.icon;
             return (
               <Link
                 key={idx}
                 to={cat.href}
-                className="group flex flex-col justify-between overflow-hidden rounded-3xl bg-white border border-gray-100 hover:border-primary-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 text-left"
+                className="group flex flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl bg-white border border-gray-100 hover:border-primary-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 text-center sm:text-left"
               >
                 <div>
-                  <div className={`aspect-[16/10] w-full flex items-center justify-center relative bg-gradient-to-tr ${cat.gradient}`}>
-                    <div className="flex items-center justify-center w-[160px] h-[160px] rounded-3xl shadow-inner border border-white/50 group-hover:scale-110 transition-transform duration-500 bg-white/40 backdrop-blur-[2px]">
+                  <div className={`aspect-square sm:aspect-[16/10] w-full flex items-center justify-center relative bg-gradient-to-tr ${cat.gradient}`}>
+                    <div className="flex items-center justify-center w-14 h-14 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-xl sm:rounded-3xl shadow-inner border border-white/50 group-hover:scale-110 transition-transform duration-500 bg-white/40 backdrop-blur-[2px] p-2 sm:p-4">
                       <IconComponent />
                     </div>
-                    <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[9px] font-bold text-primary-900 px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
+                    <span className="absolute top-2 left-2 sm:top-4 sm:left-4 bg-white/90 backdrop-blur-sm text-[8px] sm:text-[9px] font-bold text-primary-900 px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm scale-90 sm:scale-100">
                       {t(cat.badgeKey)}
                     </span>
                   </div>
-                  <div className="p-5">
-                    <h3 className="text-lg font-bold font-serif text-gray-900 group-hover:text-primary-800 transition-colors">
+                  <div className="p-2.5 sm:p-5">
+                    <h3 className="text-xs sm:text-lg font-bold font-serif text-gray-900 group-hover:text-primary-800 transition-colors line-clamp-1 sm:line-clamp-none">
                       {t(cat.titleKey)}
                     </h3>
-                    <p className="mt-2 text-xs text-gray-500 leading-normal font-medium min-h-[36px]">
+                    <p className="mt-1 text-[10px] sm:text-xs text-gray-500 leading-normal font-medium min-h-[30px] hidden sm:block">
                       {t(cat.descKey)}
                     </p>
                   </div>
                 </div>
-                <div className="px-5 pb-5 pt-1">
+                <div className="px-5 pb-5 pt-1 hidden sm:block">
                   <div className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-primary-700 group-hover:text-accent group-hover:translate-x-0.5 transition-all">
                     {t("shop_now")}
                     <ArrowRight className="w-3 h-3" />
