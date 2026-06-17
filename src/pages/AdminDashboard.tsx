@@ -808,10 +808,23 @@ export function AdminDashboard() {
                     </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2 text-gray-900">Category</label>
-                      <Input 
-                        value={editProductPayload.category || ""} 
-                        onChange={e => setEditProductPayload({...editProductPayload, category: e.target.value})} 
-                      />
+                      <select
+                        className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 transition-shadow"
+                        value={editProductPayload.category || ""}
+                        onChange={e => setEditProductPayload({...editProductPayload, category: e.target.value})}
+                      >
+                        <option value="">Select Category</option>
+                        {Array.from(new Set([
+                          "Skincare",
+                          "Makeup",
+                          "Hair Care",
+                          "Body Care",
+                          "Beauty Tools",
+                          ...inventory.map(p => p.category).filter(Boolean)
+                        ])).sort().map(catName => (
+                          <option key={catName} value={catName}>{catName}</option>
+                        ))}
+                      </select>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
