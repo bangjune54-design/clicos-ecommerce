@@ -1045,7 +1045,7 @@ export function Header({ activeSection }: HeaderProps) {
                   onClick={() => { setMobileMenuOpen(false); navigate(isLoggedIn ? "/my-page" : "/login"); }}
                   className="flex-1 py-2.5 rounded-xl border border-gray-100 text-xs font-bold text-gray-750 flex items-center justify-center gap-1.5 bg-gray-50/30"
                 >
-                  <User className="w-4 h-4" /> {isLoggedIn ? t('account') : t('login')}
+                  <User className="w-4 h-4" /> {isLoggedIn ? (userFirstName ? `${userFirstName}'s Account` : t('account')) : t('login')}
                 </button>
               </div>
 

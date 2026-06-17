@@ -64,6 +64,7 @@ export function Navbar() {
   const allAccounts = JSON.parse(localStorage.getItem("allAccounts") || "[]");
   const currentUser = allAccounts.find((a: any) => a.email.toLowerCase() === userEmail?.toLowerCase());
   const userName = currentUser?.name || userEmail?.split('@')[0] || "Account";
+  const userFirstName = localStorage.getItem("userFirstName") || (currentUser?.name ? currentUser.name.split(" ")[0] : (userName !== "Account" ? userName.split(" ")[0] : ""));
   const isAdmin = userEmail === "info@clicos.co.kr" || userEmail === "wholesale@clicos.co.kr";
   
   // Search state
@@ -400,7 +401,7 @@ export function Navbar() {
                       to="/my-page"
                       className="block w-full px-4 py-2 text-left text-sm font-medium text-gray-700 hover:bg-primary-50 hover:text-primary-900 transition-colors"
                     >
-                      {t('my_account')}
+                      {userFirstName ? `${userFirstName}'s Account` : t('my_account')}
                     </Link>
                     <Link
                       to="/orders"
