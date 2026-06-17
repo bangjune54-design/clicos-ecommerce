@@ -85,6 +85,22 @@ export async function initializeStorage() {
   if (isInitialized) return;
 
   try {
+    const APP_VERSION = "2.0";
+    const currentVersion = localStorage.getItem("clicosVersion");
+    if (currentVersion !== APP_VERSION) {
+      localStorage.removeItem("homepageBanners");
+      localStorage.removeItem("homepageTickers");
+      try {
+        const db = await openDB();
+        const transaction = db.transaction(STORE_NAME, "readwrite");
+        const store = transaction.objectStore(STORE_NAME);
+        store.clear();
+      } catch (e) {
+        console.error("Failed to clear store", e);
+      }
+      localStorage.setItem("clicosVersion", APP_VERSION);
+    }
+
     // 1. Try to load from IndexedDB
     let inv = await dbGet("globalInventory");
     let brd = await dbGet("globalBrands");
