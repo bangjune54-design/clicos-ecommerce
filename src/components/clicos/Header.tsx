@@ -251,7 +251,7 @@ export function Header({ activeSection }: HeaderProps) {
             </Link>
             {hoveredDropdown === "categories" && (
               <div 
-                className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 flex items-start"
+                className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50"
                 onMouseLeave={() => setHoveredCategory(null)}
               >
                 {/* Main Categories Panel */}
@@ -298,7 +298,7 @@ export function Header({ activeSection }: HeaderProps) {
 
                 {/* Subcategories Side Panel */}
                 {hoveredCategory && (hoveredCategory === "Skincare" || hoveredCategory === "Makeup") && (
-                  <div className="ml-2 w-[200px] lg:w-[260px] xl:w-[310px] 2xl:w-[380px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
+                  <div className="absolute left-full top-2 ml-2 w-[200px] lg:w-[260px] xl:w-[310px] 2xl:w-[380px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
                     <h5 className="text-[10px] lg:text-xs xl:text-xs 2xl:text-sm font-bold uppercase tracking-wider text-gray-400 px-3.5 py-1.5 border-b mb-1.5">
                       {hoveredCategory === "Skincare" ? t("skincare") : t("makeup")}
                     </h5>
