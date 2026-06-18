@@ -36,14 +36,36 @@ function getCategoryIcon(catName: string) {
   if (name === "sun care" || name === "suncare" || name.includes("sun")) {
     return <img src="/categories/sun-care.jpg" alt="Sun Care" className="w-full h-full object-cover rounded-md" />;
   }
-  if (name.includes("cleansing")) return <Droplets className="w-4 h-4 text-blue-500" />;
-  if (name.includes("serum") || name.includes("ampoule")) return <Sparkles className="w-4 h-4 text-emerald-500" />;
-  if (name.includes("cream")) return <Layers className="w-4 h-4 text-indigo-500" />;
-  if (name.includes("toner")) return <Wind className="w-4 h-4 text-sky-500" />;
-  if (name.includes("mask")) return <Smile className="w-4 h-4 text-teal-500" />;
-  if (name.includes("makeup") || name.includes("lip") || name.includes("face")) return <Brush className="w-4 h-4 text-pink-500" />;
-  if (name.includes("hair")) return <Scissors className="w-4 h-4 text-purple-500" />;
-  if (name.includes("body")) return <Heart className="w-4 h-4 text-red-500" />;
+  if (name.includes("cleansing")) {
+    return <img src="/categories/cleansing.jpg" alt="Cleansing" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("serum") || name.includes("ampoule")) {
+    return <img src="/categories/serum.jpg" alt="Serum & Ampoule" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("cream")) {
+    return <img src="/categories/cream.jpg" alt="Cream" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("toner")) {
+    return <img src="/categories/toner.jpg" alt="Toner" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("mask")) {
+    return <img src="/categories/mask.jpg" alt="Mask" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("lip")) {
+    return <img src="/categories/lip-makeup.jpg" alt="Lip Makeup" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("face")) {
+    return <img src="/categories/face-makeup.jpg" alt="Face Makeup" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("makeup")) {
+    return <img src="/categories/makeup.jpg" alt="Makeup" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("hair")) {
+    return <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("body")) {
+    return <img src="/categories/body-care.jpg" alt="Body Care" className="w-full h-full object-cover rounded-md" />;
+  }
   return <Grid className="w-4 h-4 text-gray-500" />;
 }
 import { Badge } from "../components/ui/Badge";
@@ -462,7 +484,7 @@ export function WholesaleAllItems() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-6">
               {filteredProducts.map((p) => {
                 const product = getLocalizedProduct(p);
                 return (
