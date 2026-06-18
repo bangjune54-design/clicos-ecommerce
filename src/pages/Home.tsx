@@ -42,14 +42,14 @@ export function Home() {
       {/* Continuous message scroll ticker */}
       <Ticker tickers={tickers} />
       
-      {/* Sourced Categories Grid */}
-      <ProductCategories />
-
       {/* New Arrivals Grid */}
       <NewArrivals />
 
       {/* Best Sellers Grid */}
       <BestSellers />
+
+      {/* Sourced Categories Grid */}
+      <ProductCategories />
 
       {/* Sourcing Corporate Values */}
       <BrandGrid />
