@@ -141,11 +141,15 @@ function BodyCareImageIcon() {
   return <img src="/categories/body-care.jpg" alt="Body Care" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
 }
 
+function SunCareImageIcon() {
+  return <img src="/categories/sun-care.jpg" alt="Sun Care" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
+}
+
 export function ProductCategories() {
   const { t } = useLanguage();
 
   const categories = [
-    { titleKey: "cat_sun_care",   descKey: "cat_sun_care_desc",   badgeKey: "cat_sun_care_badge",   icon: SunCareIcon,      gradient: "from-yellow-100/60 to-orange-50/40",  href: "/shop?category=suncare"   },
+    { titleKey: "cat_sun_care",   descKey: "cat_sun_care_desc",   badgeKey: "cat_sun_care_badge",   icon: SunCareImageIcon,   gradient: "from-yellow-100/60 to-orange-50/40",  href: "/shop?category=suncare"   },
     { titleKey: "cat_cleansing",  descKey: "cat_cleansing_desc",  badgeKey: "cat_cleansing_badge",  icon: CleansingIcon,    gradient: "from-rose-100/60 to-red-50/40",       href: "/shop?category=cleansing" },
     { titleKey: "cat_serum",      descKey: "cat_serum_desc",      badgeKey: "cat_serum_badge",      icon: SerumAmpouleIcon, gradient: "from-green-100/60 to-emerald-50/40",  href: "/shop?category=serum"     },
     { titleKey: "cat_cream",      descKey: "cat_cream_desc",      badgeKey: "cat_cream_badge",      icon: CreamIcon,        gradient: "from-blue-100/60 to-indigo-50/40",    href: "/shop?category=cream"     },
@@ -176,7 +180,7 @@ export function ProductCategories() {
         <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-8">
           {categories.map((cat, idx) => {
             const IconComponent = cat.icon;
-            const isImageIcon = cat.titleKey.includes("hair") || cat.titleKey.includes("body");
+            const isImageIcon = cat.titleKey.includes("hair") || cat.titleKey.includes("body") || cat.titleKey.includes("sun");
             return (
               <Link
                 key={idx}

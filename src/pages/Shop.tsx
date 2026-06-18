@@ -32,7 +32,9 @@ function getCategoryIcon(catName: string) {
   if (name === "body care" || name === "bodycare") {
     return <img src="/categories/body-care.jpg" alt="Body Care" className="w-full h-full object-cover rounded-md" />;
   }
-  if (name.includes("sun")) return <Sun className="w-5 h-5 text-yellow-500" />;
+  if (name === "sun care" || name === "suncare" || name.includes("sun")) {
+    return <img src="/categories/sun-care.jpg" alt="Sun Care" className="w-full h-full object-cover rounded-md" />;
+  }
   if (name.includes("cleansing")) return <Droplets className="w-5 h-5 text-blue-500" />;
   if (name.includes("serum") || name.includes("ampoule")) return <Sparkles className="w-5 h-5 text-emerald-500" />;
   if (name.includes("cream")) return <Layers className="w-5 h-5 text-indigo-500" />;
