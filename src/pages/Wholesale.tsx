@@ -480,9 +480,11 @@ export function Wholesale() {
               <p className="text-sm text-gray-600 mb-6">
                 {d("alreadyPartnerDesc")}
               </p>
-              <Button variant="primary" className="w-full sm:w-auto gap-2">
-                {d("loginPortal")} <ArrowRight className="w-4 h-4" />
-              </Button>
+              <Link to="/login?type=wholesale" className="w-full sm:w-auto block">
+                <Button variant="primary" className="w-full gap-2 justify-center">
+                  {d("loginPortal")} <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
             </div>
           </div>
 
