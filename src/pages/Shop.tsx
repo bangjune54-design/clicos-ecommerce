@@ -449,7 +449,7 @@ export function Shop() {
                             : "bg-white border-gray-150 text-gray-600 hover:border-gray-300"
                         }`}
                       >
-                        <div className="w-7 h-7 flex items-center justify-center">
+                        <div className="w-11 h-11 flex items-center justify-center">
                           {getCategoryIcon(cat.name)}
                         </div>
                       </button>
@@ -664,7 +664,7 @@ export function Shop() {
                         >
                           <div className="flex items-center gap-3">
                             {category.name !== "All" && (
-                              <div className="w-6 h-6 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-md border border-gray-150">
+                              <div className="w-9 h-9 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-lg border border-gray-150">
                                 {getCategoryIcon(category.name)}
                               </div>
                             )}

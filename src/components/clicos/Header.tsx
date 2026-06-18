@@ -295,7 +295,7 @@ export function Header({ activeSection }: HeaderProps) {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <img src="/categories/skincare.jpg" alt="Skincare" className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                      <img src="/categories/skincare.jpg" alt="Skincare" className="w-10 h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                       <span>{t('skincare')}</span>
                     </div>
                     <span className="text-gray-400 font-normal">&rarr;</span>
@@ -309,7 +309,7 @@ export function Header({ activeSection }: HeaderProps) {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <img src="/categories/makeup.jpg" alt="Makeup" className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                      <img src="/categories/makeup.jpg" alt="Makeup" className="w-10 h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                       <span>{t('makeup')}</span>
                     </div>
                     <span className="text-gray-400 font-normal">&rarr;</span>
@@ -320,7 +320,7 @@ export function Header({ activeSection }: HeaderProps) {
                     onClick={() => setHoveredDropdown(null)}
                     className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3 text-left"
                   >
-                    <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                    <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-10 h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                     <span>{t('hair_care')}</span>
                   </Link>
                   <Link
@@ -329,7 +329,7 @@ export function Header({ activeSection }: HeaderProps) {
                     onClick={() => setHoveredDropdown(null)}
                     className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3 text-left"
                   >
-                    <img src="/categories/body-care.jpg" alt="Body Care" className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                    <img src="/categories/body-care.jpg" alt="Body Care" className="w-10 h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                     <span>{t('body_care')}</span>
                   </Link>
                 </div>
@@ -949,33 +949,33 @@ export function Header({ activeSection }: HeaderProps) {
           <Link
             to="/shop?category=skincare"
             onClick={() => setMobileCategoriesDropdownOpen(false)}
-            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
           >
-            <img src="/categories/skincare.jpg" alt="Skincare" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+            <img src="/categories/skincare.jpg" alt="Skincare" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
             <span>{t('skincare')}</span>
           </Link>
           <Link
             to="/shop?category=makeup"
             onClick={() => setMobileCategoriesDropdownOpen(false)}
-            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
           >
-            <img src="/categories/makeup.jpg" alt="Makeup" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+            <img src="/categories/makeup.jpg" alt="Makeup" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
             <span>{t('makeup')}</span>
           </Link>
           <Link
             to="/shop?category=haircare"
             onClick={() => setMobileCategoriesDropdownOpen(false)}
-            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
           >
-            <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+            <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
             <span>{t('hair_care')}</span>
           </Link>
           <Link
             to="/shop?category=bodycare"
             onClick={() => setMobileCategoriesDropdownOpen(false)}
-            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
           >
-            <img src="/categories/body-care.jpg" alt="Body Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+            <img src="/categories/body-care.jpg" alt="Body Care" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
             <span>{t('body_care')}</span>
           </Link>
         </div>
@@ -1191,33 +1191,33 @@ export function Header({ activeSection }: HeaderProps) {
                       <Link
                         to="/shop?category=skincare"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-2"
+                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
                       >
-                        <img src="/categories/skincare.jpg" alt="Skincare" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                        <img src="/categories/skincare.jpg" alt="Skincare" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                         <span>{t('skincare')}</span>
                       </Link>
                       <Link
                         to="/shop?category=makeup"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-2"
+                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
                       >
-                        <img src="/categories/makeup.jpg" alt="Makeup" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                        <img src="/categories/makeup.jpg" alt="Makeup" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                         <span>{t('makeup')}</span>
                       </Link>
                       <Link
                         to="/shop?category=haircare"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-2"
+                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
                       >
-                        <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                        <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                         <span>{t('hair_care')}</span>
                       </Link>
                       <Link
                         to="/shop?category=bodycare"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-2"
+                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
                       >
-                        <img src="/categories/body-care.jpg" alt="Body Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                        <img src="/categories/body-care.jpg" alt="Body Care" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                         <span>{t('body_care')}</span>
                       </Link>
                     </div>
