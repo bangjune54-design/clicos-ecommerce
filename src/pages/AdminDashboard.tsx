@@ -8,6 +8,15 @@ import { getLiveInventory, saveLiveInventory, getLiveBrands, saveLiveBrands, res
 import { getLiveBanners, saveLiveBanners, getLiveTickers, saveLiveTickers, Banner } from "../utils/homepage";
 
 // Shared initial mock state
+const CATEGORY_STRUCTURE = [
+  { name: "Skincare", subcategories: ["Sun Care", "Cleansing", "Serum & Ampoule", "Cream", "Toner", "Mask"] },
+  { name: "Makeup", subcategories: ["Lip Makeup", "Face Makeup"] },
+  { name: "Hair Care" },
+  { name: "Body Care" },
+  { name: "Beauty Tools" }
+];
+const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap(c => [c.name, ...(c.subcategories || [])]);
+
 const initialMockOrders = [
   { 
     id: "KOR-8X912-39L", date: "March 15, 2026", status: "Processing", 
@@ -854,16 +863,27 @@ export function AdminDashboard() {
                         onChange={e => setEditProductPayload({...editProductPayload, category: e.target.value})}
                       >
                         <option value="">Select Category</option>
-                        {Array.from(new Set([
-                          "Skincare",
-                          "Makeup",
-                          "Hair Care",
-                          "Body Care",
-                          "Beauty Tools",
-                          ...inventory.map(p => p.category).filter(Boolean)
-                        ])).sort().map(catName => (
-                          <option key={catName} value={catName}>{catName}</option>
+                        {CATEGORY_STRUCTURE.map(cat => (
+                          cat.subcategories ? (
+                            <optgroup key={cat.name} label={cat.name}>
+                              <option value={cat.name}>{cat.name} (General)</option>
+                              {cat.subcategories.map(sub => (
+                                <option key={sub} value={sub}>{sub}</option>
+                              ))}
+                            </optgroup>
+                          ) : (
+                            <option key={cat.name} value={cat.name}>{cat.name}</option>
+                          )
                         ))}
+                        {(() => {
+                          const customCats = Array.from(new Set(inventory.map(p => p.category).filter(Boolean)))
+                            .filter(c => !ALL_CATEGORIES.includes(c));
+                          return customCats.length > 0 ? (
+                            <optgroup label="Other Categories">
+                              {customCats.map(c => <option key={c} value={c}>{c}</option>)}
+                            </optgroup>
+                          ) : null;
+                        })()}
                       </select>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
