@@ -34,7 +34,9 @@ export function Header({ activeSection }: HeaderProps) {
   // Mobile horizontal bar dropdown states & refs
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const mobileCategoriesDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileCategoriesButtonRef = useRef<HTMLButtonElement>(null);
   const mobileWholesalesDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileWholesalesButtonRef = useRef<HTMLButtonElement>(null);
   const [mobileCategoriesDropdownOpen, setMobileCategoriesDropdownOpen] = useState(false);
   const [mobileWholesalesDropdownOpen, setMobileWholesalesDropdownOpen] = useState(false);
   
@@ -102,10 +104,18 @@ export function Header({ activeSection }: HeaderProps) {
         setShowLangDropdown(false);
       }
       
-      if (mobileCategoriesDropdownRef.current && !mobileCategoriesDropdownRef.current.contains(target)) {
+      if (
+        mobileCategoriesDropdownRef.current && 
+        !mobileCategoriesDropdownRef.current.contains(target) &&
+        (!mobileCategoriesButtonRef.current || !mobileCategoriesButtonRef.current.contains(target))
+      ) {
         setMobileCategoriesDropdownOpen(false);
       }
-      if (mobileWholesalesDropdownRef.current && !mobileWholesalesDropdownRef.current.contains(target)) {
+      if (
+        mobileWholesalesDropdownRef.current && 
+        !mobileWholesalesDropdownRef.current.contains(target) &&
+        (!mobileWholesalesButtonRef.current || !mobileWholesalesButtonRef.current.contains(target))
+      ) {
         setMobileWholesalesDropdownOpen(false);
       }
     };
@@ -794,9 +804,7 @@ export function Header({ activeSection }: HeaderProps) {
 
         {/* Row 2: Navigation Tabs */}
         <div 
-          className={`flex items-center gap-4 whitespace-nowrap py-1 border-t border-gray-100 scrollbar-none scroll-smooth ${
-            (mobileCategoriesDropdownOpen || mobileWholesalesDropdownOpen) ? "overflow-visible" : "overflow-x-auto"
-          }`}
+          className="flex items-center gap-4 overflow-x-auto whitespace-nowrap py-1 border-t border-gray-100 scrollbar-none scroll-smooth"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {/* Home */}
@@ -830,8 +838,9 @@ export function Header({ activeSection }: HeaderProps) {
           </Link>
  
           {/* Categories */}
-          <div className="relative font-sans" ref={mobileCategoriesDropdownRef}>
+          <div className="relative font-sans">
             <button
+              ref={mobileCategoriesButtonRef}
               onClick={() => {
                 setMobileCategoriesDropdownOpen(!mobileCategoriesDropdownOpen);
                 setMobileWholesalesDropdownOpen(false);
@@ -845,49 +854,6 @@ export function Header({ activeSection }: HeaderProps) {
               <span>{t('categories')}</span>
               <ChevronDown className="w-3.5 h-3.5 opacity-60" />
             </button>
-            {mobileCategoriesDropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 z-50 w-[180px] rounded-xl bg-white border border-primary-100 shadow-xl p-2 flex flex-col gap-1 animate-slide-up">
-                <Link
-                  to="/shop"
-                  onClick={() => setMobileCategoriesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
-                >
-                  {t('all')}
-                </Link>
-                <Link
-                  to="/shop?category=skincare"
-                  onClick={() => setMobileCategoriesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
-                >
-                  <img src="/categories/skincare.jpg" alt="Skincare" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
-                  <span>{t('skincare')}</span>
-                </Link>
-                <Link
-                  to="/shop?category=makeup"
-                  onClick={() => setMobileCategoriesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
-                >
-                  <img src="/categories/makeup.jpg" alt="Makeup" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
-                  <span>{t('makeup')}</span>
-                </Link>
-                <Link
-                  to="/shop?category=haircare"
-                  onClick={() => setMobileCategoriesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
-                >
-                  <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
-                  <span>{t('hair_care')}</span>
-                </Link>
-                <Link
-                  to="/shop?category=bodycare"
-                  onClick={() => setMobileCategoriesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
-                >
-                  <img src="/categories/body-care.jpg" alt="Body Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
-                  <span>{t('body_care')}</span>
-                </Link>
-              </div>
-            )}
           </div>
  
           {/* Brands */}
@@ -911,8 +877,9 @@ export function Header({ activeSection }: HeaderProps) {
           </Link>
  
           {/* Wholesales */}
-          <div className="relative font-sans" ref={mobileWholesalesDropdownRef}>
+          <div className="relative font-sans">
             <button
+              ref={mobileWholesalesButtonRef}
               onClick={() => {
                 setMobileWholesalesDropdownOpen(!mobileWholesalesDropdownOpen);
                 setMobileCategoriesDropdownOpen(false);
@@ -926,27 +893,80 @@ export function Header({ activeSection }: HeaderProps) {
               <span>{t('wholesales')}</span>
               <ChevronDown className="w-3.5 h-3.5 opacity-60" />
             </button>
-            {mobileWholesalesDropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 z-50 w-[180px] rounded-xl bg-white border border-primary-100 shadow-xl p-2 flex flex-col gap-1 animate-slide-up">
-                <Link
-                  to="/wholesale"
-                  onClick={() => setMobileWholesalesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
-                >
-                  {t('order_form')}
-                </Link>
-                <Link
-                  to="/wholesale/all"
-                  onClick={() => setMobileWholesalesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
-                >
-                  {t('wholesale_products')}
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </nav>
+
+      {/* Mobile Dropdowns (rendered outside overflow-x-auto scroll container to prevent clipping on mobile viewports) */}
+      {mobileCategoriesDropdownOpen && (
+        <div 
+          ref={mobileCategoriesDropdownRef}
+          className="absolute top-full left-4 mt-2 z-50 w-[200px] rounded-xl bg-white border border-primary-100 shadow-xl p-2 flex flex-col gap-1 animate-slide-up"
+        >
+          <Link
+            to="/shop"
+            onClick={() => setMobileCategoriesDropdownOpen(false)}
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+          >
+            {t('all')}
+          </Link>
+          <Link
+            to="/shop?category=skincare"
+            onClick={() => setMobileCategoriesDropdownOpen(false)}
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
+          >
+            <img src="/categories/skincare.jpg" alt="Skincare" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+            <span>{t('skincare')}</span>
+          </Link>
+          <Link
+            to="/shop?category=makeup"
+            onClick={() => setMobileCategoriesDropdownOpen(false)}
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
+          >
+            <img src="/categories/makeup.jpg" alt="Makeup" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+            <span>{t('makeup')}</span>
+          </Link>
+          <Link
+            to="/shop?category=haircare"
+            onClick={() => setMobileCategoriesDropdownOpen(false)}
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
+          >
+            <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+            <span>{t('hair_care')}</span>
+          </Link>
+          <Link
+            to="/shop?category=bodycare"
+            onClick={() => setMobileCategoriesDropdownOpen(false)}
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
+          >
+            <img src="/categories/body-care.jpg" alt="Body Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+            <span>{t('body_care')}</span>
+          </Link>
+        </div>
+      )}
+
+      {/* Mobile Wholesales Dropdown (rendered outside overflow-x-auto scroll container to prevent clipping on mobile viewports) */}
+      {mobileWholesalesDropdownOpen && (
+        <div 
+          ref={mobileWholesalesDropdownRef}
+          className="absolute top-full right-4 mt-2 z-50 w-[180px] rounded-xl bg-white border border-primary-100 shadow-xl p-2 flex flex-col gap-1 animate-slide-up"
+        >
+          <Link
+            to="/wholesale"
+            onClick={() => setMobileWholesalesDropdownOpen(false)}
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+          >
+            {t('order_form')}
+          </Link>
+          <Link
+            to="/wholesale/all"
+            onClick={() => setMobileWholesalesDropdownOpen(false)}
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+          >
+            {t('wholesale_products')}
+          </Link>
+        </div>
+      )}
 
       {/* Mobile Drawer menu */}
       {mobileMenuOpen && (
