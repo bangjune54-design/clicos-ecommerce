@@ -102,7 +102,7 @@ export function BrandGrid() {
   const allDisplayBrands = [...enrichedBrands, ...customBrands];
 
   return (
-    <section id="brands" className="py-24 sm:py-32 bg-white">
+    <section id="brands" className="py-12 sm:py-24 md:py-32 bg-white">
       <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
         
         {/* Title Block */}

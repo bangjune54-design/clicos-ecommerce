@@ -158,7 +158,7 @@ export function ProductCategories() {
   ];
 
   return (
-    <section id="products" className="py-24 sm:py-32 bg-primary-50/50">
+    <section id="products" className="py-12 sm:py-24 md:py-32 bg-primary-50/50">
       <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
 
         <div className="text-center max-w-3xl mx-auto mb-16">

@@ -30,7 +30,7 @@ export function WhyChooseUs() {
   ];
 
   return (
-    <section id="why-choose-us" className="py-24 sm:py-32 bg-primary-50/50">
+    <section id="why-choose-us" className="py-12 sm:py-24 md:py-32 bg-primary-50/50">
       <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
         
         {/* Header Block */}
