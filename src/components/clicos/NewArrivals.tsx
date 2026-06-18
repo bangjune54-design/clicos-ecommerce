@@ -16,7 +16,7 @@ export function NewArrivals() {
   if (newProducts.length === 0) return null;
 
   return (
-    <section id="new-arrivals" className="py-12 sm:py-24 md:py-32 bg-white">
+    <section id="new-arrivals" className="py-12 sm:py-16 md:py-20 bg-white">
       <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
         
         {/* Section Header */}

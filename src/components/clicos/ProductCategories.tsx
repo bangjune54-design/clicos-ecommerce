@@ -145,24 +145,52 @@ function SunCareImageIcon() {
   return <img src="/categories/sun-care.jpg" alt="Sun Care" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
 }
 
+function CleansingImageIcon() {
+  return <img src="/categories/cleansing.jpg" alt="Cleansing" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
+}
+
+function SerumAmpouleImageIcon() {
+  return <img src="/categories/serum.jpg" alt="Serum & Ampoule" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
+}
+
+function CreamImageIcon() {
+  return <img src="/categories/cream.jpg" alt="Cream" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
+}
+
+function TonerImageIcon() {
+  return <img src="/categories/toner.jpg" alt="Toner" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
+}
+
+function MaskImageIcon() {
+  return <img src="/categories/mask.jpg" alt="Mask" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
+}
+
+function LipMakeupImageIcon() {
+  return <img src="/categories/lip-makeup.jpg" alt="Lip Makeup" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
+}
+
+function FaceMakeupImageIcon() {
+  return <img src="/categories/face-makeup.jpg" alt="Face Makeup" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
+}
+
 export function ProductCategories() {
   const { t } = useLanguage();
 
   const categories = [
-    { titleKey: "cat_sun_care",   descKey: "cat_sun_care_desc",   badgeKey: "cat_sun_care_badge",   icon: SunCareImageIcon,   gradient: "from-yellow-100/60 to-orange-50/40",  href: "/shop?category=suncare"   },
-    { titleKey: "cat_cleansing",  descKey: "cat_cleansing_desc",  badgeKey: "cat_cleansing_badge",  icon: CleansingIcon,    gradient: "from-rose-100/60 to-red-50/40",       href: "/shop?category=cleansing" },
-    { titleKey: "cat_serum",      descKey: "cat_serum_desc",      badgeKey: "cat_serum_badge",      icon: SerumAmpouleIcon, gradient: "from-green-100/60 to-emerald-50/40",  href: "/shop?category=serum"     },
-    { titleKey: "cat_cream",      descKey: "cat_cream_desc",      badgeKey: "cat_cream_badge",      icon: CreamIcon,        gradient: "from-blue-100/60 to-indigo-50/40",    href: "/shop?category=cream"     },
-    { titleKey: "cat_toner",      descKey: "cat_toner_desc",      badgeKey: "cat_toner_badge",      icon: TonerIcon,        gradient: "from-sky-100/60 to-blue-50/40",       href: "/shop?category=toner"     },
-    { titleKey: "cat_mask",       descKey: "cat_mask_desc",       badgeKey: "cat_mask_badge",       icon: MaskIcon,         gradient: "from-teal-100/60 to-cyan-50/40",      href: "/shop?category=mask"      },
-    { titleKey: "cat_lip_makeup", descKey: "cat_lip_makeup_desc", badgeKey: "cat_lip_makeup_badge", icon: LipMakeupIcon,    gradient: "from-pink-100/60 to-rose-50/40",      href: "/shop?category=makeup"    },
-    { titleKey: "cat_face_makeup",descKey: "cat_face_makeup_desc",badgeKey: "cat_face_makeup_badge",icon: FaceMakeupIcon,   gradient: "from-amber-100/60 to-yellow-50/40",   href: "/shop?category=makeup"    },
-    { titleKey: "cat_hair_care",  descKey: "cat_hair_care_desc",  badgeKey: "cat_hair_care_badge",  icon: HairCareImageIcon,gradient: "from-emerald-100/60 to-teal-50/40",   href: "/shop?category=haircare"  },
-    { titleKey: "cat_body_care",  descKey: "cat_body_care_desc",  badgeKey: "cat_body_care_badge",  icon: BodyCareImageIcon,gradient: "from-slate-100/60 to-zinc-50/40",     href: "/shop?category=bodycare"  },
+    { titleKey: "cat_sun_care",   descKey: "cat_sun_care_desc",   badgeKey: "cat_sun_care_badge",   icon: SunCareImageIcon,       gradient: "from-yellow-100/60 to-orange-50/40",  href: "/shop?category=suncare"   },
+    { titleKey: "cat_cleansing",  descKey: "cat_cleansing_desc",  badgeKey: "cat_cleansing_badge",  icon: CleansingImageIcon,     gradient: "from-rose-100/60 to-red-50/40",       href: "/shop?category=cleansing" },
+    { titleKey: "cat_serum",      descKey: "cat_serum_desc",      badgeKey: "cat_serum_badge",      icon: SerumAmpouleImageIcon,  gradient: "from-green-100/60 to-emerald-50/40",  href: "/shop?category=serum"     },
+    { titleKey: "cat_cream",      descKey: "cat_cream_desc",      badgeKey: "cat_cream_badge",      icon: CreamImageIcon,         gradient: "from-blue-100/60 to-indigo-50/40",    href: "/shop?category=cream"     },
+    { titleKey: "cat_toner",      descKey: "cat_toner_desc",      badgeKey: "cat_toner_badge",      icon: TonerImageIcon,         gradient: "from-sky-100/60 to-blue-50/40",       href: "/shop?category=toner"     },
+    { titleKey: "cat_mask",       descKey: "cat_mask_desc",       badgeKey: "cat_mask_badge",       icon: MaskImageIcon,          gradient: "from-teal-100/60 to-cyan-50/40",      href: "/shop?category=mask"      },
+    { titleKey: "cat_lip_makeup", descKey: "cat_lip_makeup_desc", badgeKey: "cat_lip_makeup_badge", icon: LipMakeupImageIcon,     gradient: "from-pink-100/60 to-rose-50/40",      href: "/shop?category=makeup"    },
+    { titleKey: "cat_face_makeup",descKey: "cat_face_makeup_desc",badgeKey: "cat_face_makeup_badge",icon: FaceMakeupImageIcon,    gradient: "from-amber-100/60 to-yellow-50/40",   href: "/shop?category=makeup"    },
+    { titleKey: "cat_hair_care",  descKey: "cat_hair_care_desc",  badgeKey: "cat_hair_care_badge",  icon: HairCareImageIcon,      gradient: "from-emerald-100/60 to-teal-50/40",   href: "/shop?category=haircare"  },
+    { titleKey: "cat_body_care",  descKey: "cat_body_care_desc",  badgeKey: "cat_body_care_badge",  icon: BodyCareImageIcon,      gradient: "from-slate-100/60 to-zinc-50/40",     href: "/shop?category=bodycare"  },
   ];
 
   return (
-    <section id="products" className="py-12 sm:py-24 md:py-32 bg-primary-50/50">
+    <section id="products" className="py-12 sm:py-16 md:py-20 bg-primary-50/50">
       <div className="mx-auto max-w-[1800px] px-6 lg:px-8">
 
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -180,7 +208,7 @@ export function ProductCategories() {
         <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-8">
           {categories.map((cat, idx) => {
             const IconComponent = cat.icon;
-            const isImageIcon = cat.titleKey.includes("hair") || cat.titleKey.includes("body") || cat.titleKey.includes("sun");
+            const isImageIcon = true;
             return (
               <Link
                 key={idx}
