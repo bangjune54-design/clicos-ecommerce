@@ -172,7 +172,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
           <div
             key={banner.id}
             onClick={(e) => handleBannerClick(e, banner.link)}
-            className="flex-shrink-0 relative cursor-pointer h-[180px] sm:h-[340px] md:h-[480px] lg:h-[600px] xl:h-[700px] 2xl:h-[780px]"
+            className="flex-shrink-0 relative cursor-pointer h-[200px] sm:h-[340px] md:h-[480px] lg:h-[600px] xl:h-[700px] 2xl:h-[780px]"
             style={{ width: `${100 / banners.length}%` }}
           >
             {/* Image Layer */}
@@ -181,7 +181,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
                 <img
                   src={banner.image}
                   alt={banner.title}
-                  className="w-full h-full object-cover block select-none pointer-events-none"
+                  className="w-full h-full object-contain sm:object-cover block select-none pointer-events-none"
                   draggable={false}
                 />
               ) : (
