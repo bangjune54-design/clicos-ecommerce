@@ -20,6 +20,18 @@ import {
 
 function getCategoryIcon(catName: string) {
   const name = catName.toLowerCase();
+  if (name === "skincare") {
+    return <img src="/categories/skincare.jpg" alt="Skincare" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name === "makeup") {
+    return <img src="/categories/makeup.jpg" alt="Makeup" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name === "hair care" || name === "haircare") {
+    return <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name === "body care" || name === "bodycare") {
+    return <img src="/categories/body-care.jpg" alt="Body Care" className="w-full h-full object-cover rounded-md" />;
+  }
   if (name.includes("sun")) return <Sun className="w-5 h-5 text-yellow-500" />;
   if (name.includes("cleansing")) return <Droplets className="w-5 h-5 text-blue-500" />;
   if (name.includes("serum") || name.includes("ampoule")) return <Sparkles className="w-5 h-5 text-emerald-500" />;
@@ -360,10 +372,12 @@ export function Shop() {
           <div className="flex gap-4">
             <button
               onClick={() => setMobileFilterTab(mobileFilterTab === "category" ? "none" : "category")}
-              className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider border text-center transition-all focus:outline-none flex items-center justify-center gap-2 ${
+              className={`flex-1 py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider border text-center transition-all focus:outline-none flex items-center justify-center gap-2 ${
                 mobileFilterTab === "category"
-                  ? "bg-primary-850 text-white border-primary-850 shadow-sm"
-                  : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
+                  ? "bg-primary-50/50 text-primary-900 border-primary-600 font-extrabold ring-1 ring-primary-600 shadow-sm"
+                  : mobileFilterTab === "brand"
+                    ? "bg-white text-gray-400 border-gray-200 font-medium"
+                    : "bg-white text-gray-700 border-gray-200 font-bold hover:bg-gray-50"
               }`}
             >
               <span>Category</span>
@@ -373,10 +387,12 @@ export function Shop() {
             </button>
             <button
               onClick={() => setMobileFilterTab(mobileFilterTab === "brand" ? "none" : "brand")}
-              className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider border text-center transition-all focus:outline-none flex items-center justify-center gap-2 ${
+              className={`flex-1 py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider border text-center transition-all focus:outline-none flex items-center justify-center gap-2 ${
                 mobileFilterTab === "brand"
-                  ? "bg-primary-850 text-white border-primary-850 shadow-sm"
-                  : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
+                  ? "bg-primary-50/50 text-primary-900 border-primary-600 font-extrabold ring-1 ring-primary-600 shadow-sm"
+                  : mobileFilterTab === "category"
+                    ? "bg-white text-gray-400 border-gray-200 font-medium"
+                    : "bg-white text-gray-700 border-gray-200 font-bold hover:bg-gray-50"
               }`}
             >
               <span>Brand</span>
@@ -520,13 +536,13 @@ export function Shop() {
                       }}
                       className="flex flex-col items-center shrink-0 focus:outline-none"
                     >
-                      <div className={`w-14 h-14 rounded-2xl bg-white border flex items-center justify-center p-2.5 shadow-sm transition-all ${
+                      <div className={`w-14 h-14 rounded-2xl bg-white border flex items-center justify-center overflow-hidden shadow-sm transition-all ${
                         isBrandActive
                           ? "border-primary-600 ring-2 ring-primary-100 scale-105"
                           : "border-gray-150 hover:border-gray-300"
                       }`}>
                         {brand.image ? (
-                          <img src={brand.image} alt={brand.name} className="max-w-full max-h-full object-contain" />
+                          <img src={brand.image} alt={brand.name} className="w-full h-full object-cover" />
                         ) : (
                           <span className="text-[10px] font-serif font-bold text-primary-900/40 uppercase tracking-wider">
                             {brand.name.substring(0, 2)}
@@ -646,7 +662,14 @@ export function Shop() {
                               : "text-gray-600 hover:bg-gray-50"
                           }`}
                         >
-                          <span>{translateCategory(category.name)}</span>
+                          <div className="flex items-center gap-3">
+                            {category.name !== "All" && (
+                              <div className="w-6 h-6 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-md border border-gray-150">
+                                {getCategoryIcon(category.name)}
+                              </div>
+                            )}
+                            <span>{translateCategory(category.name)}</span>
+                          </div>
                           {hasSubcategories && (
                             <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                           )}
@@ -757,7 +780,13 @@ export function Shop() {
                       <img
                         src={product.imageSrc}
                         alt={product.name}
-                        className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-center admin-custom-image"
+                        style={{
+                          objectFit: product.imageFit || 'contain',
+                          '--scale-val': product.imageScale === 'small' ? 0.7 :
+                                         product.imageScale === 'medium' ? 0.8 :
+                                         product.imageScale === 'large' ? 0.9 : 1
+                        } as React.CSSProperties}
                         loading="lazy"
                       />
                       {product.isBestseller && (

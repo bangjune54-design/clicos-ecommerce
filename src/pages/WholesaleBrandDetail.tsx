@@ -252,11 +252,11 @@ export function WholesaleBrandDetail() {
           
           {/* Dedicated brand logo card */}
           {brand.image && (
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-white p-3.5 shadow-xl flex items-center justify-center mb-4 mt-6 sm:mt-0 select-none pointer-events-none">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-white shadow-xl flex items-center justify-center mb-4 mt-6 sm:mt-0 select-none pointer-events-none overflow-hidden">
               <img 
                 src={brand.image} 
                 alt={`${brand.name} logo`} 
-                className="max-w-full max-h-full object-contain"
+                className="w-full h-full object-cover"
               />
             </div>
           )}
@@ -302,11 +302,17 @@ export function WholesaleBrandDetail() {
               <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
               <Link to={`/product/${product.id}`} className="block">
                 <div className="aspect-square overflow-hidden bg-white relative p-4 flex items-center justify-center">
-                  <img
-                    src={product.imageSrc}
-                    alt={product.name}
-                    className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
-                  />
+                   <img
+                     src={product.imageSrc}
+                     alt={product.name}
+                     className="w-full h-full object-center admin-custom-image"
+                     style={{
+                       objectFit: product.imageFit || 'contain',
+                       '--scale-val': product.imageScale === 'small' ? 0.7 :
+                                      product.imageScale === 'medium' ? 0.8 :
+                                      product.imageScale === 'large' ? 0.9 : 1
+                     } as React.CSSProperties}
+                   />
                   {product.isBestseller && (
                     <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
                       {d("bestseller")}

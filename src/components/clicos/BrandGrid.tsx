@@ -128,12 +128,12 @@ export function BrandGrid() {
             >
               <div className="w-full flex flex-col items-center">
                 {/* Brand Logo Container */}
-                <div className="w-28 h-20 rounded-2xl flex items-center justify-center mb-4 overflow-hidden border border-gray-100 relative bg-white p-2.5 shadow-sm">
+                <div className="w-28 h-20 rounded-2xl flex items-center justify-center mb-4 overflow-hidden border border-gray-100 relative bg-white shadow-sm">
                   {brand.image ? (
                     <img
                       src={brand.image}
                       alt={`${brand.name} logo`}
-                      className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                       loading="lazy"
                     />
                   ) : (

@@ -53,7 +53,13 @@ export function NewArrivals() {
                     <img
                       src={product.imageSrc}
                       alt={product.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
+                      className="w-full h-full object-center admin-custom-image"
+                      style={{
+                        objectFit: product.imageFit || 'contain',
+                        '--scale-val': product.imageScale === 'small' ? 0.7 :
+                                       product.imageScale === 'medium' ? 0.8 :
+                                       product.imageScale === 'large' ? 0.9 : 1
+                      } as React.CSSProperties}
                       loading="lazy"
                     />
                     <span className="absolute top-1.5 left-1.5 sm:top-4 sm:left-4 bg-accent text-white text-[7px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm scale-90 sm:scale-100">

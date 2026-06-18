@@ -133,6 +133,14 @@ function BodyCareIcon() {
   );
 }
 
+function HairCareImageIcon() {
+  return <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
+}
+
+function BodyCareImageIcon() {
+  return <img src="/categories/body-care.jpg" alt="Body Care" className="w-full h-full object-cover rounded-xl sm:rounded-3xl" />;
+}
+
 export function ProductCategories() {
   const { t } = useLanguage();
 
@@ -145,8 +153,8 @@ export function ProductCategories() {
     { titleKey: "cat_mask",       descKey: "cat_mask_desc",       badgeKey: "cat_mask_badge",       icon: MaskIcon,         gradient: "from-teal-100/60 to-cyan-50/40",      href: "/shop?category=mask"      },
     { titleKey: "cat_lip_makeup", descKey: "cat_lip_makeup_desc", badgeKey: "cat_lip_makeup_badge", icon: LipMakeupIcon,    gradient: "from-pink-100/60 to-rose-50/40",      href: "/shop?category=makeup"    },
     { titleKey: "cat_face_makeup",descKey: "cat_face_makeup_desc",badgeKey: "cat_face_makeup_badge",icon: FaceMakeupIcon,   gradient: "from-amber-100/60 to-yellow-50/40",   href: "/shop?category=makeup"    },
-    { titleKey: "cat_hair_care",  descKey: "cat_hair_care_desc",  badgeKey: "cat_hair_care_badge",  icon: HairCareIcon,     gradient: "from-emerald-100/60 to-teal-50/40",   href: "/shop?category=haircare"  },
-    { titleKey: "cat_body_care",  descKey: "cat_body_care_desc",  badgeKey: "cat_body_care_badge",  icon: BodyCareIcon,     gradient: "from-slate-100/60 to-zinc-50/40",     href: "/shop?category=bodycare"  },
+    { titleKey: "cat_hair_care",  descKey: "cat_hair_care_desc",  badgeKey: "cat_hair_care_badge",  icon: HairCareImageIcon,gradient: "from-emerald-100/60 to-teal-50/40",   href: "/shop?category=haircare"  },
+    { titleKey: "cat_body_care",  descKey: "cat_body_care_desc",  badgeKey: "cat_body_care_badge",  icon: BodyCareImageIcon,gradient: "from-slate-100/60 to-zinc-50/40",     href: "/shop?category=bodycare"  },
   ];
 
   return (
@@ -168,6 +176,7 @@ export function ProductCategories() {
         <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-8">
           {categories.map((cat, idx) => {
             const IconComponent = cat.icon;
+            const isImageIcon = cat.titleKey.includes("hair") || cat.titleKey.includes("body");
             return (
               <Link
                 key={idx}
@@ -176,7 +185,9 @@ export function ProductCategories() {
               >
                 <div>
                   <div className={`aspect-square sm:aspect-[16/10] w-full flex items-center justify-center relative bg-gradient-to-tr ${cat.gradient}`}>
-                    <div className="flex items-center justify-center w-14 h-14 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-xl sm:rounded-3xl shadow-inner border border-white/50 group-hover:scale-110 transition-transform duration-500 bg-white/40 backdrop-blur-[2px] p-2 sm:p-4">
+                    <div className={`flex items-center justify-center w-14 h-14 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-xl sm:rounded-3xl shadow-inner border border-white/50 group-hover:scale-110 transition-transform duration-500 bg-white/40 backdrop-blur-[2px] ${
+                      isImageIcon ? "p-0 overflow-hidden" : "p-2 sm:p-4"
+                    }`}>
                       <IconComponent />
                     </div>
                     <span className="absolute top-2 left-2 sm:top-4 sm:left-4 bg-white/90 backdrop-blur-sm text-[8px] sm:text-[9px] font-bold text-primary-900 px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm scale-90 sm:scale-100">

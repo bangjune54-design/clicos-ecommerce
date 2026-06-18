@@ -242,6 +242,8 @@ export function AdminDashboard() {
       moq: 50,
       imageSrc: "/placeholder-product.svg",
       isBestseller: false,
+      imageFit: "contain",
+      imageScale: "full",
     };
     const updated = [newProduct, ...inventory];
     setInventory(updated);
@@ -724,7 +726,19 @@ export function AdminDashboard() {
                       >
                         {editProductPayload.imageSrc ? (
                           <>
-                            <img src={editProductPayload.imageSrc} alt="Preview" className="w-full h-full object-cover" />
+                            <img 
+                              src={editProductPayload.imageSrc} 
+                              alt="Preview" 
+                              className="w-full h-full transition-all duration-300" 
+                              style={{
+                                objectFit: (editProductPayload.imageFit || "contain") as any,
+                                transform: `scale(${
+                                  editProductPayload.imageScale === "small" ? 0.7 :
+                                  editProductPayload.imageScale === "medium" ? 0.8 :
+                                  editProductPayload.imageScale === "large" ? 0.9 : 1
+                                })`
+                              }}
+                            />
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
                               <button 
                                 type="button"
@@ -772,6 +786,32 @@ export function AdminDashboard() {
                         onChange={e => setEditProductPayload({...editProductPayload, imageSrc: e.target.value})} 
                         placeholder="Image URL (or drag & drop / upload above)"
                       />
+                      <div className="grid grid-cols-2 gap-4 mt-3">
+                        <div>
+                          <label className="block text-xs font-semibold mb-1 text-gray-500">Image Fit Mode</label>
+                          <select
+                            className="w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 text-xs bg-white"
+                            value={editProductPayload.imageFit || "contain"}
+                            onChange={e => setEditProductPayload({...editProductPayload, imageFit: e.target.value})}
+                          >
+                            <option value="contain">Fit (Contain)</option>
+                            <option value="cover">Fill & Crop (Cover)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold mb-1 text-gray-500">Image Scale / Size</label>
+                          <select
+                            className="w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary-600 text-xs bg-white"
+                            value={editProductPayload.imageScale || "full"}
+                            onChange={e => setEditProductPayload({...editProductPayload, imageScale: e.target.value})}
+                          >
+                            <option value="full">Full (100%)</option>
+                            <option value="large">Large (90%)</option>
+                            <option value="medium">Medium (80%)</option>
+                            <option value="small">Small (70%)</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2 text-gray-900">Product Name</label>

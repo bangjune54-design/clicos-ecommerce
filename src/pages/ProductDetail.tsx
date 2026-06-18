@@ -285,7 +285,15 @@ export function ProductDetail() {
               <img
                 src={product.imageSrc}
                 alt={product.name}
-                className="w-full h-full object-contain p-8 mix-blend-multiply object-center"
+                className="w-full h-full p-8 mix-blend-multiply object-center transition-all duration-300"
+                style={{
+                  objectFit: product.imageFit || 'contain',
+                  transform: `scale(${
+                    product.imageScale === 'small' ? 0.7 :
+                    product.imageScale === 'medium' ? 0.8 :
+                    product.imageScale === 'large' ? 0.9 : 1
+                  })`
+                }}
               />
               {product.isBestseller && (
                 <Badge variant="accent" className="absolute top-4 left-4 shadow-md px-3 py-1 text-sm">

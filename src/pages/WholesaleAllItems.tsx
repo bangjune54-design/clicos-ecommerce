@@ -1,7 +1,49 @@
 import React, { useState, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Filter, ChevronDown, ShoppingBag, Search, Star } from "lucide-react";
+import { 
+  Filter, 
+  ChevronDown, 
+  ShoppingBag, 
+  Search, 
+  Star, 
+  Sun, 
+  Droplets, 
+  Sparkles, 
+  Layers, 
+  Wind, 
+  Smile, 
+  Brush, 
+  Scissors, 
+  Heart, 
+  Grid 
+} from "lucide-react";
 import { Card, CardContent } from "../components/ui/Card";
+
+function getCategoryIcon(catName: string) {
+  const name = catName.toLowerCase();
+  if (name === "skincare") {
+    return <img src="/categories/skincare.jpg" alt="Skincare" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name === "makeup") {
+    return <img src="/categories/makeup.jpg" alt="Makeup" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name === "hair care" || name === "haircare") {
+    return <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name === "body care" || name === "bodycare") {
+    return <img src="/categories/body-care.jpg" alt="Body Care" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("sun")) return <Sun className="w-4 h-4 text-yellow-500" />;
+  if (name.includes("cleansing")) return <Droplets className="w-4 h-4 text-blue-500" />;
+  if (name.includes("serum") || name.includes("ampoule")) return <Sparkles className="w-4 h-4 text-emerald-500" />;
+  if (name.includes("cream")) return <Layers className="w-4 h-4 text-indigo-500" />;
+  if (name.includes("toner")) return <Wind className="w-4 h-4 text-sky-500" />;
+  if (name.includes("mask")) return <Smile className="w-4 h-4 text-teal-500" />;
+  if (name.includes("makeup") || name.includes("lip") || name.includes("face")) return <Brush className="w-4 h-4 text-pink-500" />;
+  if (name.includes("hair")) return <Scissors className="w-4 h-4 text-purple-500" />;
+  if (name.includes("body")) return <Heart className="w-4 h-4 text-red-500" />;
+  return <Grid className="w-4 h-4 text-gray-500" />;
+}
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
@@ -339,7 +381,14 @@ export function WholesaleAllItems() {
                               : "text-gray-600 hover:text-primary-800"
                           } transition-colors`}
                         >
-                          {translateCategory(category.name)}
+                          <div className="flex items-center gap-2">
+                            {category.name !== "All" && (
+                              <div className="w-5 h-5 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-md border border-gray-150">
+                                {getCategoryIcon(category.name)}
+                              </div>
+                            )}
+                            <span>{translateCategory(category.name)}</span>
+                          </div>
                           {hasSubcategories && (
                             <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                           )}
@@ -418,11 +467,17 @@ export function WholesaleAllItems() {
                   <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
                   <Link to={`/product/${product.id}`} className="block">
                     <div className="aspect-square overflow-hidden bg-white relative p-4 flex items-center justify-center">
-                      <img
-                        src={product.imageSrc}
-                        alt={product.name}
-                        className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
-                      />
+                       <img
+                         src={product.imageSrc}
+                         alt={product.name}
+                         className="w-full h-full object-center admin-custom-image"
+                         style={{
+                           objectFit: product.imageFit || 'contain',
+                           '--scale-val': product.imageScale === 'small' ? 0.7 :
+                                          product.imageScale === 'medium' ? 0.8 :
+                                          product.imageScale === 'large' ? 0.9 : 1
+                         } as React.CSSProperties}
+                       />
                       {product.isBestseller && (
                         <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
                           {d("bestseller")}

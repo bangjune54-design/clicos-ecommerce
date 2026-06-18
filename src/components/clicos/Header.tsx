@@ -264,7 +264,10 @@ export function Header({ activeSection }: HeaderProps) {
                       hoveredCategory === "Skincare" ? "bg-primary-50 text-primary-800" : ""
                     }`}
                   >
-                    <span>{t('skincare')}</span>
+                    <div className="flex items-center gap-3">
+                      <img src="/categories/skincare.jpg" alt="Skincare" className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                      <span>{t('skincare')}</span>
+                    </div>
                     <span className="text-gray-400 font-normal">&rarr;</span>
                   </Link>
                   <Link
@@ -275,24 +278,29 @@ export function Header({ activeSection }: HeaderProps) {
                       hoveredCategory === "Makeup" ? "bg-primary-50 text-primary-800" : ""
                     }`}
                   >
-                    <span>{t('makeup')}</span>
+                    <div className="flex items-center gap-3">
+                      <img src="/categories/makeup.jpg" alt="Makeup" className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                      <span>{t('makeup')}</span>
+                    </div>
                     <span className="text-gray-400 font-normal">&rarr;</span>
                   </Link>
                   <Link
                     to="/shop?category=haircare"
                     onMouseEnter={() => setHoveredCategory(null)}
                     onClick={() => setHoveredDropdown(null)}
-                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3 text-left"
                   >
-                    {t('hair_care')}
+                    <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                    <span>{t('hair_care')}</span>
                   </Link>
                   <Link
                     to="/shop?category=bodycare"
                     onMouseEnter={() => setHoveredCategory(null)}
                     onClick={() => setHoveredDropdown(null)}
-                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3 text-left"
                   >
-                    {t('body_care')}
+                    <img src="/categories/body-care.jpg" alt="Body Care" className="w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                    <span>{t('body_care')}</span>
                   </Link>
                 </div>
 
@@ -406,9 +414,9 @@ export function Header({ activeSection }: HeaderProps) {
                         onClick={() => setHoveredDropdown(null)}
                       >
                         {/* Brand Logo Container */}
-                        <div className="w-28 h-20 lg:w-[130px] lg:h-[85px] xl:w-[160px] xl:h-[105px] 2xl:w-[200px] 2xl:h-[135px] rounded-2xl bg-white border border-gray-100 flex items-center justify-center overflow-hidden mb-2 group-hover:scale-105 transition-transform duration-300 shadow-sm p-1.5 relative shrink-0">
+                        <div className="w-28 h-20 lg:w-[130px] lg:h-[85px] xl:w-[160px] xl:h-[105px] 2xl:w-[200px] 2xl:h-[135px] rounded-2xl bg-white border border-gray-100 flex items-center justify-center overflow-hidden mb-2 group-hover:scale-105 transition-transform duration-300 shadow-sm relative shrink-0">
                           {brand.image ? (
-                            <img src={brand.image} alt={brand.name} className="h-full w-full object-contain" />
+                            <img src={brand.image} alt={brand.name} className="h-full w-full object-cover" />
                           ) : (
                             <span className="text-sm lg:text-base xl:text-[18px] 2xl:text-[22px] font-serif font-bold text-primary-900/60 uppercase tracking-wider">
                               {brand.name}
@@ -552,13 +560,13 @@ export function Header({ activeSection }: HeaderProps) {
               <User className="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] xl:h-[30px] xl:w-[30px] 2xl:h-[38px] 2xl:w-[38px] flex-shrink-0 transition-all" />
             </button>
             {hoveredDropdown === "profile" && (
-              <div className="absolute right-0 top-full pt-2 z-50 w-[220px] lg:w-[280px] xl:w-[340px] 2xl:w-[420px]">
-                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
+              <div className="absolute right-0 top-full pt-2 z-50 w-[150px] lg:w-[170px] xl:w-[190px] 2xl:w-[220px]">
+                <div className="rounded-xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-1.5 lg:p-2 xl:p-2.5 2xl:p-3 flex flex-col gap-1 animate-slide-up">
                   {!isLoggedIn ? (
                     <Link
                       to="/login"
                       onClick={() => setHoveredDropdown(null)}
-                      className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                      className="px-3 py-2 lg:px-3.5 lg:py-2.5 xl:px-4 xl:py-3 2xl:px-5 2xl:py-3.5 text-xs lg:text-sm xl:text-[15px] 2xl:text-[18px] font-semibold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
                     >
                       {t("login")}
                     </Link>
@@ -567,7 +575,7 @@ export function Header({ activeSection }: HeaderProps) {
                       <Link
                         to="/my-page"
                         onClick={() => setHoveredDropdown(null)}
-                        className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+                        className="px-3 py-2 lg:px-3.5 lg:py-2.5 xl:px-4 xl:py-3 2xl:px-5 2xl:py-3.5 text-xs lg:text-sm xl:text-[15px] 2xl:text-[18px] font-semibold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
                       >
                         {userFirstName ? `${userFirstName}'s Account` : t("account")}
                       </Link>
@@ -583,7 +591,7 @@ export function Header({ activeSection }: HeaderProps) {
                           window.dispatchEvent(new Event("storage"));
                           navigate("/");
                         }}
-                        className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-red-650 hover:bg-red-50 transition-colors block text-left w-full cursor-pointer"
+                        className="px-3 py-2 lg:px-3.5 lg:py-2.5 xl:px-4 xl:py-3 2xl:px-5 2xl:py-3.5 text-xs lg:text-sm xl:text-[15px] 2xl:text-[18px] font-semibold rounded-lg text-red-650 hover:bg-red-50 transition-colors block text-left w-full cursor-pointer"
                       >
                         {t("sign_out")}
                       </button>
@@ -786,7 +794,9 @@ export function Header({ activeSection }: HeaderProps) {
 
         {/* Row 2: Navigation Tabs */}
         <div 
-          className="flex items-center gap-4 overflow-x-auto whitespace-nowrap py-1 border-t border-gray-100 scrollbar-none scroll-smooth"
+          className={`flex items-center gap-4 whitespace-nowrap py-1 border-t border-gray-100 scrollbar-none scroll-smooth ${
+            (mobileCategoriesDropdownOpen || mobileWholesalesDropdownOpen) ? "overflow-visible" : "overflow-x-auto"
+          }`}
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {/* Home */}
@@ -800,25 +810,25 @@ export function Header({ activeSection }: HeaderProps) {
             }}
             className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 ${
               location.pathname === "/" && activeSection === "home"
-                ? "text-primary-850 border-b-2 border-primary-600 pb-0.5"
+                ? "text-primary-855 border-b-2 border-primary-600 pb-0.5"
                 : "text-gray-500"
             }`}
           >
             {t('home')}
           </Link>
-
+ 
           {/* Products */}
           <Link
             to="/shop"
             className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 ${
               location.pathname === "/shop" && !searchParams.get("category") && !searchParams.get("brand")
-                ? "text-primary-850 border-b-2 border-primary-600 pb-0.5"
+                ? "text-primary-855 border-b-2 border-primary-600 pb-0.5"
                 : "text-gray-500"
             }`}
           >
             {t('products')}
           </Link>
-
+ 
           {/* Categories */}
           <div className="relative font-sans" ref={mobileCategoriesDropdownRef}>
             <button
@@ -828,7 +838,7 @@ export function Header({ activeSection }: HeaderProps) {
               }}
               className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 flex items-center gap-0.5 focus:outline-none ${
                 location.pathname === "/shop" && searchParams.get("category")
-                  ? "text-primary-850 border-b-2 border-primary-600 pb-0.5"
+                  ? "text-primary-855 border-b-2 border-primary-600 pb-0.5"
                   : "text-gray-500"
               }`}
             >
@@ -847,35 +857,39 @@ export function Header({ activeSection }: HeaderProps) {
                 <Link
                   to="/shop?category=skincare"
                   onClick={() => setMobileCategoriesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
                 >
-                  {t('skincare')}
+                  <img src="/categories/skincare.jpg" alt="Skincare" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                  <span>{t('skincare')}</span>
                 </Link>
                 <Link
                   to="/shop?category=makeup"
                   onClick={() => setMobileCategoriesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
                 >
-                  {t('makeup')}
+                  <img src="/categories/makeup.jpg" alt="Makeup" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                  <span>{t('makeup')}</span>
                 </Link>
                 <Link
                   to="/shop?category=haircare"
                   onClick={() => setMobileCategoriesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
                 >
-                  {t('hair_care')}
+                  <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                  <span>{t('hair_care')}</span>
                 </Link>
                 <Link
                   to="/shop?category=bodycare"
                   onClick={() => setMobileCategoriesDropdownOpen(false)}
-                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                  className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-2"
                 >
-                  {t('body_care')}
+                  <img src="/categories/body-care.jpg" alt="Body Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                  <span>{t('body_care')}</span>
                 </Link>
               </div>
             )}
           </div>
-
+ 
           {/* Brands */}
           <Link
             to="/brands"
@@ -885,7 +899,7 @@ export function Header({ activeSection }: HeaderProps) {
           >
             {t('brands')}
           </Link>
-
+ 
           {/* Contact */}
           <Link
             to="/contact"
@@ -895,7 +909,7 @@ export function Header({ activeSection }: HeaderProps) {
           >
             {t('contact')}
           </Link>
-
+ 
           {/* Wholesales */}
           <div className="relative font-sans" ref={mobileWholesalesDropdownRef}>
             <button
@@ -1019,30 +1033,34 @@ export function Header({ activeSection }: HeaderProps) {
                       <Link
                         to="/shop?category=skincare"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-2"
                       >
-                        {t('skincare')}
+                        <img src="/categories/skincare.jpg" alt="Skincare" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                        <span>{t('skincare')}</span>
                       </Link>
                       <Link
                         to="/shop?category=makeup"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-2"
                       >
-                        {t('makeup')}
+                        <img src="/categories/makeup.jpg" alt="Makeup" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                        <span>{t('makeup')}</span>
                       </Link>
                       <Link
                         to="/shop?category=haircare"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-2"
                       >
-                        {t('hair_care')}
+                        <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                        <span>{t('hair_care')}</span>
                       </Link>
                       <Link
                         to="/shop?category=bodycare"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-2"
                       >
-                        {t('body_care')}
+                        <img src="/categories/body-care.jpg" alt="Body Care" className="w-5 h-5 rounded-md object-cover border border-gray-100 flex-shrink-0" />
+                        <span>{t('body_care')}</span>
                       </Link>
                     </div>
                   )}

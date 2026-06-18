@@ -209,7 +209,7 @@ export async function initializeStorage() {
         const existingIdx = mergedInventory.findIndex(p => p.id === defaultProduct.id);
         if (existingIdx > -1) {
           const existing = mergedInventory[existingIdx];
-          const keysToCompare = ['name', 'brand', 'category', 'price', 'wholesalePrice', 'moq', 'description', 'isBestseller', 'optionName', 'options', 'imageSrc'] as const;
+          const keysToCompare = ['name', 'brand', 'category', 'price', 'wholesalePrice', 'moq', 'description', 'isBestseller', 'optionName', 'options', 'imageSrc', 'imageFit', 'imageScale'] as const;
           let hasDiff = false;
           
           const isCustomProductImage = existing.imageSrc && 
@@ -232,7 +232,9 @@ export async function initializeStorage() {
             mergedInventory[existingIdx] = {
               ...existing,
               ...defaultProduct,
-              imageSrc: isCustomProductImage ? existing.imageSrc : defaultProduct.imageSrc
+              imageSrc: isCustomProductImage ? existing.imageSrc : defaultProduct.imageSrc,
+              imageFit: existing.imageFit,
+              imageScale: existing.imageScale
             };
             invChanged = true;
           }

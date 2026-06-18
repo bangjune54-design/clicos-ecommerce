@@ -12,7 +12,10 @@ export function Checkout() {
   const { getLocalPrice, formatLocalPrice } = useCurrency();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'paypal'>('stripe');
+  const userType = localStorage.getItem("userType") || "retail";
+  const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'paypal' | 'bank_transfer'>(
+    userType === 'wholesale' ? 'bank_transfer' : 'stripe'
+  );
   const [email, setEmail] = useState('');
   const [isRedirecting, setIsRedirecting] = useState(false);
   
@@ -31,8 +34,6 @@ export function Checkout() {
   const [b2bItems, setB2BItems] = useState<any[]>(() => {
     return JSON.parse(localStorage.getItem('b2bCart') || '[]');
   });
-
-  const userType = localStorage.getItem("userType") || "retail";
   const liveInventory = getLiveInventoryForCustomers();
   const getProductData = (id: string) => liveInventory.find(p => p.id === id);
 
@@ -86,6 +87,7 @@ export function Checkout() {
       customerEmail: email,
       orderTotal: formatLocalPrice(orderTotal),
       orderType: userType,
+      paymentMethod: paymentMethod,
       items: userType === "wholesale" ? b2bItems : retailItems
     });
     
@@ -133,7 +135,8 @@ export function Checkout() {
           name: item.name,
           qty: userType === "wholesale" ? item.boxQty : item.quantity,
           price: item.price
-        }))
+        })),
+        paymentMethod: paymentMethod
       };
       
       const updatedOrders = [newOrder, ...currentOrders];
@@ -161,6 +164,20 @@ export function Checkout() {
             An email summary has been sent to <span className="font-bold text-gray-900">{email}</span>.
           </p>
 
+          {userType === "wholesale" && (
+            <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 mb-6 text-left animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <h4 className="text-sm font-bold text-blue-950 uppercase tracking-wider mb-2">Bank Transfer Details</h4>
+              <p className="text-xs text-gray-600 leading-relaxed mb-3">
+                We accept payments via Wise international transfer and bank transfers to the local bank of your country.
+              </p>
+              <div className="bg-white p-3 rounded-lg border border-blue-100">
+                <p className="text-xs text-gray-800">
+                  Please contact us at <a href="mailto:info@clicos.co.kr" className="text-primary-600 hover:underline font-semibold">info@clicos.co.kr</a> for Wise/bank transfer details.
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="bg-gray-50 rounded-xl p-6 mb-8 text-left border border-gray-100">
             <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Order Summary</h3>
             <ul className="divide-y divide-gray-200">
@@ -186,7 +203,7 @@ export function Checkout() {
               ))}
             </ul>
             <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center font-bold">
-              <span className="text-gray-900">Total Paid</span>
+              <span className="text-gray-900">{userType === "wholesale" ? "Total Amount" : "Total Paid"}</span>
               <span className="text-lg text-primary-900">{formatLocalPrice(orderTotal)}</span>
             </div>
           </div>
@@ -294,79 +311,106 @@ export function Checkout() {
                   <h2 className="text-xl font-bold font-serif text-gray-900">Payment Information</h2>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'stripe' ? 'border-primary-600 bg-primary-50 ring-1 ring-primary-600 shadow-sm' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
-                    <input 
-                      type="radio" name="paymentMethod" value="stripe" checked={paymentMethod === 'stripe'} 
-                      onChange={() => setPaymentMethod('stripe')} className="text-primary-600 focus:ring-primary-600 w-4 h-4 cursor-pointer" 
-                    />
-                    <CreditCard className={`w-5 h-5 ${paymentMethod === 'stripe' ? 'text-primary-600' : 'text-gray-500'}`} />
-                    <span className="font-semibold text-gray-900">Credit Card (Stripe)</span>
-                  </label>
-                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'paypal' ? 'border-primary-600 bg-blue-50 ring-1 ring-blue-600 shadow-sm' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
-                    <input 
-                      type="radio" name="paymentMethod" value="paypal" checked={paymentMethod === 'paypal'} 
-                      onChange={() => setPaymentMethod('paypal')} className="text-blue-600 focus:ring-blue-600 w-4 h-4 cursor-pointer" 
-                    />
-                    <div className="flex items-center gap-1 font-bold italic text-blue-800">
-                      <span className="text-[#003087]">Pay</span>
-                      <span className="text-[#009cde]">Pal</span>
-                    </div>
-                  </label>
-                </div>
-
-                {paymentMethod === 'stripe' ? (
-                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-900">Card Number</label>
-                      <div className="relative">
-                        <Input required placeholder="0000 0000 0000 0000" maxLength={19} pattern="[0-9\s]{13,19}" />
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
-                          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-4" />
-                          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-4" />
-                        </div>
-                      </div>
+                {userType === "wholesale" ? (
+                  <div className="space-y-6">
+                    <div className="p-4 border border-primary-600 bg-primary-50 ring-1 ring-primary-600 shadow-sm rounded-xl flex items-center gap-3">
+                      <input 
+                        type="radio" name="paymentMethod" value="bank_transfer" checked={true} readOnly
+                        className="text-primary-600 focus:ring-primary-600 w-4 h-4 cursor-default" 
+                      />
+                      <Wallet className="w-5 h-5 text-primary-600" />
+                      <span className="font-semibold text-gray-900">Bank Transfer / Wise</span>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-semibold mb-2 text-gray-900">Expiration Date (MM/YY)</label>
-                        <Input required placeholder="MM/YY" maxLength={5} />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold mb-2 text-gray-900">CVC</label>
-                        <Input required placeholder="123" maxLength={4} pattern="[0-9]{3,4}" />
+                    <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                      <h3 className="text-sm font-bold text-gray-950 uppercase tracking-wider">Wholesale Payment Instructions</h3>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        We accept bank transfer payments to both <strong>Wise international transfer</strong> and <strong>local bank transfer</strong> to the bank of your country.
+                      </p>
+                      <div className="bg-white p-4 rounded-lg border border-gray-200">
+                        <p className="text-sm text-gray-700">
+                          Please contact us at <a href="mailto:info@clicos.co.kr" className="text-primary-600 hover:underline font-semibold">info@clicos.co.kr</a> for Wise/bank transfer payment details.
+                        </p>
                       </div>
                     </div>
-                    
-                    <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-900">Name on Card</label>
-                      <Input required placeholder="JANE DOE" />
-                    </div>
-                    <p className="text-[10px] text-gray-400 flex items-center gap-1">
-                      <ShieldCheck className="w-3 h-3" /> Securely processed by Stripe
-                    </p>
                   </div>
                 ) : (
-                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300 py-4">
-                    <div className="bg-blue-50 rounded-xl p-8 text-center border border-blue-100">
-                      <div className="flex justify-center mb-4">
-                        <div className="flex items-center gap-1 text-3xl font-bold italic">
+                  <>
+                    <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                      <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'stripe' ? 'border-primary-600 bg-primary-50 ring-1 ring-primary-600 shadow-sm' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
+                        <input 
+                          type="radio" name="paymentMethod" value="stripe" checked={paymentMethod === 'stripe'} 
+                          onChange={() => setPaymentMethod('stripe')} className="text-primary-600 focus:ring-primary-600 w-4 h-4 cursor-pointer" 
+                        />
+                        <CreditCard className={`w-5 h-5 ${paymentMethod === 'stripe' ? 'text-primary-600' : 'text-gray-500'}`} />
+                        <span className="font-semibold text-gray-900">Credit Card (Stripe)</span>
+                      </label>
+                      <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'paypal' ? 'border-primary-600 bg-blue-50 ring-1 ring-blue-600 shadow-sm' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
+                        <input 
+                          type="radio" name="paymentMethod" value="paypal" checked={paymentMethod === 'paypal'} 
+                          onChange={() => setPaymentMethod('paypal')} className="text-blue-600 focus:ring-blue-600 w-4 h-4 cursor-pointer" 
+                        />
+                        <div className="flex items-center gap-1 font-bold italic text-blue-800">
                           <span className="text-[#003087]">Pay</span>
                           <span className="text-[#009cde]">Pal</span>
                         </div>
-                      </div>
-                      <p className="text-sm text-blue-900 mb-6">You will be redirected to PayPal to complete your purchase securely.</p>
-                      <div className="flex flex-col gap-2">
-                         <div className="h-10 bg-[#ffc439] rounded flex items-center justify-center font-bold text-[#111] text-sm cursor-pointer hover:bg-[#f3ba2f] transition-colors">
-                           PayPal
-                         </div>
-                         <div className="h-10 bg-[#2c2e2f] rounded flex items-center justify-center font-bold text-white text-sm cursor-pointer hover:bg-[#232526] transition-colors">
-                           Debit or Credit Card
-                         </div>
-                      </div>
+                      </label>
                     </div>
-                  </div>
+
+                    {paymentMethod === 'stripe' ? (
+                      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <div>
+                          <label className="block text-sm font-semibold mb-2 text-gray-900">Card Number</label>
+                          <div className="relative">
+                            <Input required placeholder="0000 0000 0000 0000" maxLength={19} pattern="[0-9\s]{13,19}" />
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
+                              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-4" />
+                              <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-4" />
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-sm font-semibold mb-2 text-gray-900">Expiration Date (MM/YY)</label>
+                            <Input required placeholder="MM/YY" maxLength={5} />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-semibold mb-2 text-gray-900">CVC</label>
+                            <Input required placeholder="123" maxLength={4} pattern="[0-9]{3,4}" />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-semibold mb-2 text-gray-900">Name on Card</label>
+                          <Input required placeholder="JANE DOE" />
+                        </div>
+                        <p className="text-[10px] text-gray-400 flex items-center gap-1">
+                          <ShieldCheck className="w-3 h-3" /> Securely processed by Stripe
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300 py-4">
+                        <div className="bg-blue-50 rounded-xl p-8 text-center border border-blue-100">
+                          <div className="flex justify-center mb-4">
+                            <div className="flex items-center gap-1 text-3xl font-bold italic">
+                              <span className="text-[#003087]">Pay</span>
+                              <span className="text-[#009cde]">Pal</span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-blue-900 mb-6">You will be redirected to PayPal to complete your purchase securely.</p>
+                          <div className="flex flex-col gap-2">
+                             <div className="h-10 bg-[#ffc439] rounded flex items-center justify-center font-bold text-[#111] text-sm cursor-pointer hover:bg-[#f3ba2f] transition-colors">
+                               PayPal
+                             </div>
+                             <div className="h-10 bg-[#2c2e2f] rounded flex items-center justify-center font-bold text-white text-sm cursor-pointer hover:bg-[#232526] transition-colors">
+                               Debit or Credit Card
+                             </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </section>
             </form>
@@ -421,7 +465,9 @@ export function Checkout() {
               </div>
 
               <Button form="checkout-form" type="submit" disabled={isSubmitting} className="w-full text-lg py-4">
-                {isSubmitting ? "Processing Payment..." : `Pay ${formatLocalPrice(orderTotal)}`}
+                {isSubmitting 
+                  ? (userType === "wholesale" ? "Submitting Order..." : "Processing Payment...") 
+                  : (userType === "wholesale" ? "Place Wholesale Order" : `Pay ${formatLocalPrice(orderTotal)}`)}
               </Button>
             </div>
           </div>
