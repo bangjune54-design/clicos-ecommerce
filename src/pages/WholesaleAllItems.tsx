@@ -274,6 +274,7 @@ export function WholesaleAllItems() {
   
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   
   const getQty = (id: string) => quantities[id] || 1;
   const updateQty = (id: string, delta: number) => {
@@ -368,8 +369,17 @@ export function WholesaleAllItems() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
           <div className="lg:w-1/4">
-            <div className="sticky top-24">
-              <h3 className="flex items-center gap-2 text-lg font-bold font-serif mb-4">
+            <div className="flex items-center justify-between lg:hidden mb-4 border-b border-gray-200 pb-4">
+              <h3 className="flex items-center gap-2 text-lg font-bold font-serif">
+                <Filter className="w-5 h-5" /> {d("filters")}
+              </h3>
+              <Button variant="outline" size="sm" onClick={() => setShowMobileFilters(!showMobileFilters)}>
+                {showMobileFilters ? "Hide" : "Show"}
+              </Button>
+            </div>
+            
+            <div className={`sticky top-24 ${showMobileFilters ? "block" : "hidden"} lg:block`}>
+              <h3 className="hidden lg:flex items-center gap-2 text-lg font-bold font-serif mb-4">
                 <Filter className="w-5 h-5" /> {d("filters")}
               </h3>
               
@@ -509,9 +519,9 @@ export function WholesaleAllItems() {
                       )}
                     </div>
                   </Link>
-                  <CardContent className="flex flex-col flex-grow pt-4 relative">
+                  <CardContent className="flex flex-col flex-grow p-2 sm:p-4 pt-1.5 sm:pt-4 relative text-left">
                     
-                    <div className="absolute inset-x-0 bottom-full p-4 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 translate-y-4 group-hover:translate-y-0 duration-300 bg-white/90 backdrop-blur-sm shadow-md pointer-events-auto z-20">
+                    <div className="absolute inset-x-0 bottom-full p-4 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 translate-y-4 group-hover:translate-y-0 duration-300 bg-white/90 backdrop-blur-sm shadow-md pointer-events-auto z-20 hidden sm:flex">
                       <div className="flex items-center justify-between border border-gray-300 rounded-md bg-white shadow-sm font-semibold">
                         <button type="button" className="px-3 py-1.5 text-gray-600 hover:bg-gray-100 transition-colors w-1/3 text-center rounded-l-md" onClick={(e) => { e.preventDefault(); updateQty(product.id, -1); }}>-</button>
                         <span className="px-2 py-1.5 text-sm font-bold text-gray-900 w-1/3 text-center border-x border-gray-300">{getQty(product.id)}</span>
@@ -523,8 +533,8 @@ export function WholesaleAllItems() {
                       </Button>
                     </div>
                   
-                    <Link to={`/product/${product.id}`} className="hover:text-primary-800 transition-colors group-hover:underline">
-                      <h3 className="text-sm font-bold text-gray-900 mb-1 leading-snug line-clamp-3">
+                    <Link to={`/product/${product.id}`} className="hover:text-primary-800 transition-colors group-hover:underline text-left block">
+                      <h3 className="text-[10px] sm:text-sm font-bold text-gray-900 mb-1 leading-snug line-clamp-3">
                         <span 
                           onClick={(e) => {
                             e.preventDefault();
@@ -533,7 +543,7 @@ export function WholesaleAllItems() {
                             searchParams.set("brand", product.brand.toLowerCase());
                             setSearchParams(searchParams);
                           }}
-                          className="text-gray-400 font-medium hover:text-primary-600 transition-colors mr-1 cursor-pointer"
+                          className="text-gray-400 font-medium hover:text-primary-600 transition-colors mr-1 cursor-pointer text-[9px] sm:text-xs"
                         >
                           {product.brand}
                         </span>
