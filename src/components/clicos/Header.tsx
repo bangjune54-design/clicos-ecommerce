@@ -37,8 +37,14 @@ export function Header({ activeSection }: HeaderProps) {
   const mobileCategoriesButtonRef = useRef<HTMLButtonElement>(null);
   const mobileWholesalesDropdownRef = useRef<HTMLDivElement>(null);
   const mobileWholesalesButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileProfileDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileProfileButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileCartDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileCartButtonRef = useRef<HTMLButtonElement>(null);
   const [mobileCategoriesDropdownOpen, setMobileCategoriesDropdownOpen] = useState(false);
   const [mobileWholesalesDropdownOpen, setMobileWholesalesDropdownOpen] = useState(false);
+  const [mobileProfileDropdownOpen, setMobileProfileDropdownOpen] = useState(false);
+  const [mobileCartDropdownOpen, setMobileCartDropdownOpen] = useState(false);
   
   // Big search overlay states
   const [showBigSearch, setShowBigSearch] = useState(false);
@@ -117,6 +123,20 @@ export function Header({ activeSection }: HeaderProps) {
         (!mobileWholesalesButtonRef.current || !mobileWholesalesButtonRef.current.contains(target))
       ) {
         setMobileWholesalesDropdownOpen(false);
+      }
+      if (
+        mobileProfileDropdownRef.current && 
+        !mobileProfileDropdownRef.current.contains(target) &&
+        (!mobileProfileButtonRef.current || !mobileProfileButtonRef.current.contains(target))
+      ) {
+        setMobileProfileDropdownOpen(false);
+      }
+      if (
+        mobileCartDropdownRef.current && 
+        !mobileCartDropdownRef.current.contains(target) &&
+        (!mobileCartButtonRef.current || !mobileCartButtonRef.current.contains(target))
+      ) {
+        setMobileCartDropdownOpen(false);
       }
     };
 
@@ -778,27 +798,43 @@ export function Header({ activeSection }: HeaderProps) {
             </button>
 
             {/* Profile Trigger */}
-            <button
-              onClick={() => navigate(isLoggedIn ? "/my-page" : "/login")}
-              className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
-              title={isLoggedIn ? t("my_account") : t("login")}
-            >
-              <User className="h-5 w-5 text-gray-500" />
-            </button>
+            <div className="relative font-sans">
+              <button
+                ref={mobileProfileButtonRef}
+                onClick={() => {
+                  setMobileProfileDropdownOpen(!mobileProfileDropdownOpen);
+                  setMobileCartDropdownOpen(false);
+                  setMobileCategoriesDropdownOpen(false);
+                  setMobileWholesalesDropdownOpen(false);
+                }}
+                className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
+                title={isLoggedIn ? t("my_account") : t("login")}
+              >
+                <User className="h-5 w-5 text-gray-500" />
+              </button>
+            </div>
 
             {/* Cart Trigger */}
-            <button
-              onClick={() => navigate(isLoggedIn ? "/cart" : "/login")}
-              className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
-              title={t("cart")}
-            >
-              <ShoppingBag className="h-5 w-5 text-gray-500" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full h-4.5 w-4.5 flex items-center justify-center text-[9px] font-bold shadow-sm">
-                  {cartCount}
-                </span>
-              )}
-            </button>
+            <div className="relative font-sans">
+              <button
+                ref={mobileCartButtonRef}
+                onClick={() => {
+                  setMobileCartDropdownOpen(!mobileCartDropdownOpen);
+                  setMobileProfileDropdownOpen(false);
+                  setMobileCategoriesDropdownOpen(false);
+                  setMobileWholesalesDropdownOpen(false);
+                }}
+                className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
+                title={t("cart")}
+              >
+                <ShoppingBag className="h-5 w-5 text-gray-500" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full h-4.5 w-4.5 flex items-center justify-center text-[9px] font-bold shadow-sm">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -965,6 +1001,108 @@ export function Header({ activeSection }: HeaderProps) {
           >
             {t('wholesale_products')}
           </Link>
+        </div>
+      )}
+
+      {/* Mobile Profile Dropdown (rendered outside overflow-x-auto scroll container to prevent clipping) */}
+      {mobileProfileDropdownOpen && (
+        <div 
+          ref={mobileProfileDropdownRef}
+          className="absolute top-[60px] right-14 z-50 w-[150px] rounded-xl bg-white border border-primary-100 shadow-xl p-2 flex flex-col gap-1 animate-slide-up"
+        >
+          {!isLoggedIn ? (
+            <Link
+              to="/login"
+              onClick={() => setMobileProfileDropdownOpen(false)}
+              className="px-3 py-2 text-xs font-semibold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+            >
+              {t("login")}
+            </Link>
+          ) : (
+            <>
+              <Link
+                to="/my-page"
+                onClick={() => setMobileProfileDropdownOpen(false)}
+                className="px-3 py-2 text-xs font-semibold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
+              >
+                {userFirstName ? `${userFirstName}'s Account` : t("account")}
+              </Link>
+              <button
+                onClick={() => {
+                  setMobileProfileDropdownOpen(false);
+                  localStorage.setItem("isLoggedIn", "false");
+                  localStorage.removeItem("userFirstName");
+                  localStorage.removeItem("userEmail");
+                  localStorage.removeItem("userType");
+                  saveAndClearCartForAccount();
+                  setIsLoggedIn(false);
+                  setUserFirstName("");
+                  window.dispatchEvent(new Event("storage"));
+                  navigate("/");
+                }}
+                className="px-3 py-2 text-xs font-semibold rounded-lg text-red-650 hover:bg-red-50 transition-colors block text-left w-full cursor-pointer"
+              >
+                {t("sign_out")}
+              </button>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* Mobile Cart Dropdown (rendered outside overflow-x-auto scroll container to prevent clipping) */}
+      {mobileCartDropdownOpen && (
+        <div 
+          ref={mobileCartDropdownRef}
+          className="absolute top-[60px] right-4 z-50 w-[280px] rounded-xl bg-white border border-primary-100 shadow-xl p-3 flex flex-col gap-3 animate-slide-up"
+        >
+          <h4 className="text-xs font-bold text-gray-900 border-b border-gray-100 pb-2">
+            {t("cart_items")} ({cartCount})
+          </h4>
+          {cartItems.length === 0 ? (
+            <div className="text-center py-2 text-xs text-gray-400">
+              {t("empty_cart")}
+            </div>
+          ) : (
+            <>
+              <div className="max-h-40 overflow-y-auto space-y-3 pr-1 scrollbar-thin">
+                {cartItems.map((item, idx) => (
+                  <div key={item.id + (item.optionValue || idx)} className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded bg-gray-50 border border-gray-100 p-0.5 flex items-center justify-center flex-shrink-0">
+                      <img src={item.image || "/placeholder-product.svg"} alt="" className="max-w-full max-h-full object-contain" />
+                    </div>
+                    <div className="flex-grow min-w-0">
+                      <p className="text-[10px] font-bold text-gray-900 truncate">
+                        {getLiveInventoryForCustomers().find(p => p.id === item.id) ? getLocalizedProduct(getLiveInventoryForCustomers().find(p => p.id === item.id)).name : item.name}
+                      </p>
+                      <p className="text-[9px] text-gray-400 truncate">
+                        {item.brand} {item.optionValue ? `| ${item.optionValue}` : ""}
+                      </p>
+                      <p className="text-[9px] text-primary-700 font-semibold mt-0.5">
+                        {item.quantity} x {formatPrice(item.price, item.currencyPrices)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="border-t border-gray-100 pt-2 flex items-center justify-between">
+                <span className="text-[10px] font-bold text-gray-500">{t("total_price")}</span>
+                <span className="text-xs font-bold text-primary-900">
+                  {formatPrice(cartTotal)}
+                </span>
+              </div>
+
+              <button
+                onClick={() => {
+                  setMobileCartDropdownOpen(false);
+                  navigate(isLoggedIn ? "/cart" : "/login");
+                }}
+                className="w-full text-center py-2 bg-primary-800 text-white rounded-lg text-xs font-semibold hover:bg-primary-900 transition-colors shadow-sm cursor-pointer"
+              >
+                {t("view_full_cart")}
+              </button>
+            </>
+          )}
         </div>
       )}
 
