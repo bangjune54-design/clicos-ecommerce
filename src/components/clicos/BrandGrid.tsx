@@ -124,7 +124,7 @@ export function BrandGrid() {
             <Link
               key={idx}
               to={`/shop?brand=${encodeURIComponent(brand.name.toLowerCase())}`}
-              className="group flex flex-col items-center justify-between p-6 bg-white rounded-2xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-300 cursor-pointer"
+              className="group flex flex-col items-center p-4 bg-white rounded-2xl border border-gray-100 hover:border-primary-200 hover:shadow-md transition-all duration-300 cursor-pointer"
             >
               <div className="w-full flex flex-col items-center">
                 {/* Brand Logo Container */}
@@ -148,11 +148,6 @@ export function BrandGrid() {
                   {brand.name}
                 </h3>
               </div>
-
-              {/* Tagline */}
-              <p className="mt-2 text-[10px] text-gray-400 font-medium text-center leading-normal">
-                {brand.tagline}
-              </p>
             </Link>
           ))}
         </div>
