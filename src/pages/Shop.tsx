@@ -1,6 +1,36 @@
 import React, { useState, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Filter, ChevronDown, ShoppingBag, Search, Star } from "lucide-react";
+import { 
+  Filter, 
+  ChevronDown, 
+  ShoppingBag, 
+  Search, 
+  Star,
+  Sun, 
+  Droplets, 
+  Sparkles, 
+  Wind, 
+  Layers, 
+  Smile, 
+  Brush, 
+  Scissors, 
+  Heart, 
+  Grid 
+} from "lucide-react";
+
+function getCategoryIcon(catName: string) {
+  const name = catName.toLowerCase();
+  if (name.includes("sun")) return <Sun className="w-5 h-5 text-yellow-500" />;
+  if (name.includes("cleansing")) return <Droplets className="w-5 h-5 text-blue-500" />;
+  if (name.includes("serum") || name.includes("ampoule")) return <Sparkles className="w-5 h-5 text-emerald-500" />;
+  if (name.includes("cream")) return <Layers className="w-5 h-5 text-indigo-500" />;
+  if (name.includes("toner")) return <Wind className="w-5 h-5 text-sky-500" />;
+  if (name.includes("mask")) return <Smile className="w-5 h-5 text-teal-500" />;
+  if (name.includes("makeup") || name.includes("lip") || name.includes("face")) return <Brush className="w-5 h-5 text-pink-500" />;
+  if (name.includes("hair")) return <Scissors className="w-5 h-5 text-purple-500" />;
+  if (name.includes("body")) return <Heart className="w-5 h-5 text-red-500" />;
+  return <Grid className="w-5 h-5 text-gray-500" />;
+}
 import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
@@ -155,6 +185,7 @@ export function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { language, t } = useLanguage();
   const { getLocalizedProduct, formatProductPrice } = useCountry();
+  const [mobileFilterTab, setMobileFilterTab] = useState<"none" | "category" | "brand">("none");
   
   const d = (key: string) => {
     return TRANSLATED_SHOP[language]?.[key] || key;
@@ -303,6 +334,15 @@ export function Shop() {
 
   return (
     <div className="bg-white">
+      <style>{`
+        .scrollbar-none::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-none {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
       <div className="mx-auto max-w-[1800px] px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row md:items-baseline md:justify-between border-b border-gray-200 pb-6 mb-8">
           <div>
@@ -315,9 +355,200 @@ export function Shop() {
           </div>
         </div>
 
+        {/* Mobile Filter Options Tab Bar (Mobile only) */}
+        <div className="block lg:hidden w-full border-b border-gray-200 pb-4 mb-4">
+          <div className="flex gap-4">
+            <button
+              onClick={() => setMobileFilterTab(mobileFilterTab === "category" ? "none" : "category")}
+              className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider border text-center transition-all focus:outline-none flex items-center justify-center gap-2 ${
+                mobileFilterTab === "category"
+                  ? "bg-primary-850 text-white border-primary-850 shadow-sm"
+                  : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
+              }`}
+            >
+              <span>Category</span>
+              <span className="text-[9px] lowercase opacity-80 font-normal truncate max-w-[80px]">
+                {activeCategory !== "All" ? `(${translateCategory(activeCategory)})` : ""}
+              </span>
+            </button>
+            <button
+              onClick={() => setMobileFilterTab(mobileFilterTab === "brand" ? "none" : "brand")}
+              className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider border text-center transition-all focus:outline-none flex items-center justify-center gap-2 ${
+                mobileFilterTab === "brand"
+                  ? "bg-primary-850 text-white border-primary-850 shadow-sm"
+                  : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
+              }`}
+            >
+              <span>Brand</span>
+              <span className="text-[9px] lowercase opacity-80 font-normal truncate max-w-[80px]">
+                {activeBrand ? `(${activeBrand})` : ""}
+              </span>
+            </button>
+          </div>
+
+          {/* Category horizontal scroll container */}
+          {mobileFilterTab === "category" && (
+            <div className="mt-4 animate-slide-down">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Select Category</span>
+                {activeCategory !== "All" && (
+                  <button
+                    onClick={() => {
+                      setActiveCategory("All");
+                      setExpandedCategory(null);
+                      searchParams.delete("category");
+                      setSearchParams(searchParams);
+                    }}
+                    className="text-[10px] font-bold text-primary-700 hover:text-primary-900"
+                  >
+                    Clear Filter
+                  </button>
+                )}
+              </div>
+              
+              <div 
+                className="flex gap-4 overflow-x-auto pb-3 pt-1 scrollbar-none scroll-smooth touch-pan-x"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {CATEGORY_STRUCTURE.map((cat) => {
+                  const isCatActive = activeCategory === cat.name;
+                  const isSubcatActive = cat.subcategories?.includes(activeCategory);
+                  const isSelected = isCatActive || isSubcatActive;
+                  
+                  return (
+                    <div key={cat.name} className="flex flex-col items-center shrink-0">
+                      <button
+                        onClick={() => {
+                          setActiveCategory(cat.name);
+                          if (cat.name === "All") {
+                            searchParams.delete("category");
+                          } else {
+                            searchParams.set("category", cat.name.toLowerCase().replace(/ & /g, "").replace(/ /g, ""));
+                          }
+                          setSearchParams(searchParams);
+                        }}
+                        className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all border shadow-sm ${
+                          isSelected
+                            ? "bg-primary-100 border-primary-350 text-primary-900 scale-105"
+                            : "bg-white border-gray-150 text-gray-600 hover:border-gray-300"
+                        }`}
+                      >
+                        <div className="w-7 h-7 flex items-center justify-center">
+                          {getCategoryIcon(cat.name)}
+                        </div>
+                      </button>
+                      <span className={`mt-1 text-[9px] font-bold uppercase tracking-wider ${isSelected ? "text-primary-800" : "text-gray-500"}`}>
+                        {translateCategory(cat.name)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Subcategories horizontal drawer if parent has them */}
+              {(() => {
+                const activeParentName = CATEGORY_STRUCTURE.find(c => c.name === expandedCategory || c.name === activeCategory)?.name;
+                const activeParent = CATEGORY_STRUCTURE.find(c => c.name === activeParentName);
+                if (activeParent && activeParent.subcategories) {
+                  return (
+                    <div className="mt-2 pt-2 border-t border-gray-100 flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+                      {activeParent.subcategories.map((sub) => {
+                        const isSubActive = activeCategory === sub;
+                        return (
+                          <button
+                            key={sub}
+                            onClick={() => {
+                              setActiveCategory(sub);
+                              searchParams.set("category", sub.toLowerCase().replace(/ & /g, "").replace(/ /g, ""));
+                              setSearchParams(searchParams);
+                            }}
+                            className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0 transition-colors ${
+                              isSubActive
+                                ? "bg-primary-800 text-white"
+                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                            }`}
+                          >
+                            {translateCategory(sub)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  );
+                }
+                return null;
+              })()}
+            </div>
+          )}
+
+          {/* Brand horizontal scroll container */}
+          {mobileFilterTab === "brand" && (
+            <div className="mt-4 animate-slide-down">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Select Brand</span>
+                {activeBrand && (
+                  <button
+                    onClick={() => {
+                      setActiveBrand(null);
+                      searchParams.delete("brand");
+                      setSearchParams(searchParams);
+                    }}
+                    className="text-[10px] font-bold text-primary-700 hover:text-primary-900"
+                  >
+                    Clear Filter
+                  </button>
+                )}
+              </div>
+
+              <div 
+                className="flex gap-4 overflow-x-auto pb-3 pt-1 scrollbar-none scroll-smooth touch-pan-x"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {b2bBrands.map((brand) => {
+                  const isBrandActive = activeBrand?.toLowerCase() === brand.name.toLowerCase();
+                  return (
+                    <button
+                      key={brand.name}
+                      onClick={() => {
+                        if (isBrandActive) {
+                          setActiveBrand(null);
+                          searchParams.delete("brand");
+                        } else {
+                          setActiveBrand(brand.name);
+                          searchParams.set("brand", brand.name.toLowerCase());
+                        }
+                        setSearchParams(searchParams);
+                      }}
+                      className="flex flex-col items-center shrink-0 focus:outline-none"
+                    >
+                      <div className={`w-14 h-14 rounded-2xl bg-white border flex items-center justify-center p-2.5 shadow-sm transition-all ${
+                        isBrandActive
+                          ? "border-primary-600 ring-2 ring-primary-100 scale-105"
+                          : "border-gray-150 hover:border-gray-300"
+                      }`}>
+                        {brand.image ? (
+                          <img src={brand.image} alt={brand.name} className="max-w-full max-h-full object-contain" />
+                        ) : (
+                          <span className="text-[10px] font-serif font-bold text-primary-900/40 uppercase tracking-wider">
+                            {brand.name.substring(0, 2)}
+                          </span>
+                        )}
+                      </div>
+                      <span className={`mt-1 text-[9px] font-bold uppercase tracking-wider max-w-[64px] truncate text-center ${
+                        isBrandActive ? "text-primary-850" : "text-gray-500"
+                      }`}>
+                        {brand.name}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
-          <div className="lg:w-1/4">
+          <div className="hidden lg:block lg:w-1/4">
             <div className="sticky top-24 space-y-6">
               <h3 className="flex items-center gap-2 text-lg font-bold font-serif border-b border-gray-100 pb-3">
                 <Filter className="w-5 h-5" /> {d("Filters")}
@@ -502,7 +733,6 @@ export function Shop() {
                   </button>
                 )}
               </div>
-              
               <div className="relative w-full sm:w-64">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <Search className="h-4 w-4 text-gray-400" aria-hidden="true" />
@@ -517,28 +747,29 @@ export function Shop() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
               {filteredProducts.map((p) => {
                 const product = getLocalizedProduct(p);
                 return (
-                  <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300">
+                  <Card key={product.id} className="group flex flex-col hover:shadow-lg transition-shadow duration-300 rounded-2xl sm:rounded-3xl border border-gray-100 overflow-hidden">
                   <Link to={`/product/${product.id}`} className="block">
-                    <div className="aspect-square overflow-hidden bg-white relative p-4 flex items-center justify-center">
+                    <div className="aspect-square overflow-hidden bg-white relative p-2 sm:p-4 flex items-center justify-center">
                       <img
                         src={product.imageSrc}
                         alt={product.name}
                         className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
                       />
                       {product.isBestseller && (
-                        <Badge variant="accent" className="absolute top-3 left-3 shadow-sm z-10">
+                        <Badge variant="accent" className="absolute top-1.5 left-1.5 sm:top-3 sm:left-3 shadow-sm z-10 text-[7px] sm:text-[9px] px-1.5 py-0.5 rounded-full scale-90 sm:scale-100">
                           {d("Bestseller")}
                         </Badge>
                       )}
                     </div>
                   </Link>
-                  <CardContent className="flex flex-col flex-grow pt-4 relative">
+                  <CardContent className="flex flex-col flex-grow p-2 sm:p-4 pt-1.5 sm:pt-4 relative">
                     
-                    <div className="absolute inset-x-0 bottom-full p-4 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 translate-y-4 group-hover:translate-y-0 duration-300 bg-white/90 backdrop-blur-sm shadow-md pointer-events-auto z-20">
+                    <div className="absolute inset-x-0 bottom-full p-4 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2 translate-y-4 group-hover:translate-y-0 duration-300 bg-white/90 backdrop-blur-sm shadow-md pointer-events-auto z-20 hidden sm:flex">
                       <div className="flex items-center justify-between border border-gray-300 rounded-md bg-white shadow-sm font-semibold">
                         <button type="button" className="px-3 py-1.5 text-gray-600 hover:bg-gray-100 transition-colors w-1/3 text-center rounded-l-md" onClick={(e) => { e.preventDefault(); updateQty(product.id, -1); }}>-</button>
                         <span className="px-2 py-1.5 text-sm font-bold text-gray-900 w-1/3 text-center border-x border-gray-300">{getQty(product.id)}</span>
@@ -551,7 +782,7 @@ export function Shop() {
                     </div>
                   
                     <Link to={`/product/${product.id}`} className="hover:text-primary-800 transition-colors group-hover:underline">
-                      <h3 className="text-base font-bold text-gray-900 mb-1 leading-snug line-clamp-3">
+                      <h3 className="text-[10px] sm:text-base font-bold text-gray-900 mb-1 leading-tight sm:leading-snug line-clamp-2 sm:line-clamp-3">
                         <span 
                           onClick={(e) => {
                             e.preventDefault();
@@ -560,7 +791,7 @@ export function Shop() {
                             searchParams.set("brand", product.brand.toLowerCase());
                             setSearchParams(searchParams);
                           }}
-                          className="text-gray-400 font-medium hover:text-primary-600 transition-colors mr-1 cursor-pointer text-sm"
+                          className="text-gray-400 font-medium hover:text-primary-600 transition-colors mr-1 cursor-pointer text-[9px] sm:text-sm"
                         >
                           {product.brand}
                         </span>
@@ -570,7 +801,7 @@ export function Shop() {
                     
                     <Link 
                       to={`/product/${product.id}#reviews`}
-                      className="flex items-center gap-1.5 mt-1 mb-3 text-xs text-gray-500 hover:text-primary-700 transition-colors"
+                      className="flex items-center gap-1.5 mt-1 mb-3 text-xs text-gray-500 hover:text-primary-700 transition-colors hidden sm:flex"
                     >
                       <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
                       <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
@@ -581,7 +812,7 @@ export function Shop() {
                     </Link>
                     
                     {((product.options && product.options.length > 0) || (product.colors && product.colors.length > 0)) && (
-                      <div className="mb-4">
+                      <div className="mb-4 hidden sm:block">
                         <label htmlFor={`option-${product.id}`} className="sr-only">Choose an option</label>
                         <select
                           id={`option-${product.id}`}
@@ -598,10 +829,10 @@ export function Shop() {
                         </select>
                       </div>
                     )}
-
-                    <div className="mt-auto flex flex-col mb-3">
+ 
+                    <div className="mt-auto flex flex-col mb-1 sm:mb-3">
                       <div className="flex items-center justify-between">
-                        <p className="text-base font-bold text-gray-900">{formatProductPrice(product)}</p>
+                        <p className="text-xs sm:text-base font-bold text-gray-900 leading-none">{formatProductPrice(product)}</p>
                       </div>
                     </div>
                   </CardContent>
