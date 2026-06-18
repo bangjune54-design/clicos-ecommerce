@@ -35,14 +35,36 @@ function getCategoryIcon(catName: string) {
   if (name === "sun care" || name === "suncare" || name.includes("sun")) {
     return <img src="/categories/sun-care.jpg" alt="Sun Care" className="w-full h-full object-cover rounded-md" />;
   }
-  if (name.includes("cleansing")) return <Droplets className="w-5 h-5 text-blue-500" />;
-  if (name.includes("serum") || name.includes("ampoule")) return <Sparkles className="w-5 h-5 text-emerald-500" />;
-  if (name.includes("cream")) return <Layers className="w-5 h-5 text-indigo-500" />;
-  if (name.includes("toner")) return <Wind className="w-5 h-5 text-sky-500" />;
-  if (name.includes("mask")) return <Smile className="w-5 h-5 text-teal-500" />;
-  if (name.includes("makeup") || name.includes("lip") || name.includes("face")) return <Brush className="w-5 h-5 text-pink-500" />;
-  if (name.includes("hair")) return <Scissors className="w-5 h-5 text-purple-500" />;
-  if (name.includes("body")) return <Heart className="w-5 h-5 text-red-500" />;
+  if (name.includes("cleansing")) {
+    return <img src="/categories/cleansing.jpg" alt="Cleansing" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("serum") || name.includes("ampoule")) {
+    return <img src="/categories/serum.jpg" alt="Serum & Ampoule" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("cream")) {
+    return <img src="/categories/cream.jpg" alt="Cream" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("toner")) {
+    return <img src="/categories/toner.jpg" alt="Toner" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("mask")) {
+    return <img src="/categories/mask.jpg" alt="Mask" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("lip")) {
+    return <img src="/categories/lip-makeup.jpg" alt="Lip Makeup" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("face")) {
+    return <img src="/categories/face-makeup.jpg" alt="Face Makeup" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("makeup")) {
+    return <img src="/categories/makeup.jpg" alt="Makeup" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("hair")) {
+    return <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-full h-full object-cover rounded-md" />;
+  }
+  if (name.includes("body")) {
+    return <img src="/categories/body-care.jpg" alt="Body Care" className="w-full h-full object-cover rounded-md" />;
+  }
   return <Grid className="w-5 h-5 text-gray-500" />;
 }
 import { Card, CardContent } from "../components/ui/Card";
@@ -832,12 +854,12 @@ export function Shop() {
                     
                     <Link 
                       to={`/product/${product.id}#reviews`}
-                      className="flex items-center gap-1.5 mt-1 mb-3 text-xs text-gray-500 hover:text-primary-700 transition-colors hidden sm:flex"
+                      className="flex items-center gap-1 sm:gap-1.5 mt-1 mb-2 sm:mb-3 text-[9px] sm:text-xs text-gray-500 hover:text-primary-700 transition-colors"
                     >
-                      <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
+                      <Star className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 fill-yellow-500 text-yellow-500" />
                       <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
                       <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
-                      <span className="ml-auto text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded">
+                      <span className="ml-auto text-[8px] sm:text-[10px] font-semibold text-primary-600 bg-primary-50 px-1 sm:px-1.5 py-0.5 rounded">
                         {(Math.floor((product.name.length * 43) % 800) + 150).toLocaleString()}+ {d("sold")}
                       </span>
                     </Link>
@@ -864,6 +886,13 @@ export function Shop() {
                     <div className="mt-auto flex flex-col mb-1 sm:mb-3">
                       <div className="flex items-center justify-between">
                         <p className="text-xs sm:text-base font-bold text-gray-900 leading-none">{formatProductPrice(product)}</p>
+                        <button 
+                          onClick={(e) => handleAddToCart(e, product)} 
+                          className="sm:hidden p-1.5 bg-primary-600 text-white rounded-full flex items-center justify-center active:scale-95 transition-transform"
+                          aria-label="Add to cart"
+                        >
+                          <ShoppingBag className="w-3.5 h-3.5" />
+                        </button>
                       </div>
                     </div>
                   </CardContent>
