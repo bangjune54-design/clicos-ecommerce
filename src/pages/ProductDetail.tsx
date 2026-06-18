@@ -291,7 +291,9 @@ export function ProductDetail() {
                   transform: `scale(${
                     product.imageScale === 'small' ? 0.7 :
                     product.imageScale === 'medium' ? 0.8 :
-                    product.imageScale === 'large' ? 0.9 : 1
+                    product.imageScale === 'large' ? 0.9 : 
+                    product.imageScale === 'xlarge' ? 1.1 :
+                    product.imageScale === 'xxlarge' ? 1.2 : 1
                   })`
                 }}
               />

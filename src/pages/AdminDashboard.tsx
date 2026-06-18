@@ -744,7 +744,9 @@ export function AdminDashboard() {
                                 transform: `scale(${
                                   editProductPayload.imageScale === "small" ? 0.7 :
                                   editProductPayload.imageScale === "medium" ? 0.8 :
-                                  editProductPayload.imageScale === "large" ? 0.9 : 1
+                                  editProductPayload.imageScale === "large" ? 0.9 : 
+                                  editProductPayload.imageScale === "xlarge" ? 1.1 :
+                                  editProductPayload.imageScale === "xxlarge" ? 1.2 : 1
                                 })`
                               }}
                             />
@@ -814,6 +816,8 @@ export function AdminDashboard() {
                             value={editProductPayload.imageScale || "full"}
                             onChange={e => setEditProductPayload({...editProductPayload, imageScale: e.target.value})}
                           >
+                            <option value="xxlarge">Extra Extra Large (120%)</option>
+                            <option value="xlarge">Extra Large (110%)</option>
                             <option value="full">Full (100%)</option>
                             <option value="large">Large (90%)</option>
                             <option value="medium">Medium (80%)</option>
