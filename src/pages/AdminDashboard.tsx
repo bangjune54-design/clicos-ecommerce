@@ -399,6 +399,29 @@ export function AdminDashboard() {
     setCopied(false);
   };
 
+  const handleDownloadCodebase = () => {
+    const content = `import { Banner } from "./homepage";
+
+export const DEFAULT_BANNERS: Banner[] = ${JSON.stringify(banners, null, 2)};
+
+export const DEFAULT_TICKERS: string[] = ${JSON.stringify(tickers, null, 2)};
+
+export const INITIAL_BRANDS: any[] = ${JSON.stringify(brands, null, 2)};
+
+export const INITIAL_INVENTORY: any[] = ${JSON.stringify(inventory, null, 2)};
+`;
+
+    const blob = new Blob([content], { type: 'text/typescript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'syncedDefaults.ts';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const handleCopyExportStr = () => {
     navigator.clipboard.writeText(exportStr);
     setCopied(true);
@@ -1760,14 +1783,22 @@ export function AdminDashboard() {
                   <p className="text-xs text-gray-500 mb-3">
                     Click the button below to generate a synchronization code block containing all your desktop edits. Copy this block and paste it in the import section of your other device, or paste it back to the developer to persist it permanently as the system defaults.
                   </p>
-                  <Button 
-                    type="button" 
-                    variant="outline"
-                    onClick={handleExportConfig}
-                    className="mb-4"
-                  >
-                    Generate Sync Code
-                  </Button>
+                  <div className="flex gap-3 mb-4">
+                    <Button 
+                      type="button" 
+                      variant="outline"
+                      onClick={handleExportConfig}
+                    >
+                      Generate Sync Code
+                    </Button>
+                    <Button 
+                      type="button" 
+                      onClick={handleDownloadCodebase}
+                      className="bg-primary-600 hover:bg-primary-700 text-white"
+                    >
+                      Download Codebase (syncedDefaults.ts)
+                    </Button>
+                  </div>
                   {exportStr && (
                     <div className="space-y-2">
                       <textarea

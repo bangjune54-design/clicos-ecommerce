@@ -98,9 +98,8 @@ export function Header({ activeSection }: HeaderProps) {
 
   const currencies = ["USD", "EUR", "KRW", "JPY", "GBP", "BRL"];
 
-  const liveBrands = getLiveBrandsForCustomers();
-  const allProducts = getLiveInventoryForCustomers();
-  const uniqueCategories = Array.from(new Set(allProducts.map(p => p.category).filter(Boolean)));
+  const [liveBrands, setLiveBrands] = useState(() => getLiveBrandsForCustomers());
+  const [uniqueCategories, setUniqueCategories] = useState(() => Array.from(new Set(getLiveInventoryForCustomers().map(p => p.category).filter(Boolean))));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -156,6 +155,8 @@ export function Header({ activeSection }: HeaderProps) {
       const activeItems = userType === "wholesale" ? b2b : retail;
       setCartItems(activeItems);
       setCartCount(activeItems.reduce((sum: number, item: any) => sum + item.quantity, 0));
+      setLiveBrands(getLiveBrandsForCustomers());
+      setUniqueCategories(Array.from(new Set(getLiveInventoryForCustomers().map(p => p.category).filter(Boolean))));
     };
 
     syncState();
@@ -291,124 +292,25 @@ export function Header({ activeSection }: HeaderProps) {
                 onMouseLeave={() => setHoveredCategory(null)}
               >
                 {/* Main Categories Panel */}
-                <div className="w-[220px] lg:w-[280px] xl:w-[340px] 2xl:w-[420px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
+                <div className="w-[220px] lg:w-[280px] xl:w-[340px] 2xl:w-[420px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 grid grid-cols-2 gap-2 animate-slide-up">
                   <Link
-                    to="/shop?category=skincare"
-                    onMouseEnter={() => setHoveredCategory("Skincare")}
+                    to="/shop"
                     onClick={() => setHoveredDropdown(null)}
-                    className={`px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-between ${
-                      hoveredCategory === "Skincare" ? "bg-primary-50 text-primary-800" : ""
-                    }`}
+                    className="col-span-2 px-4 py-2 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-bold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-center border-b border-gray-100 mb-2"
                   >
-                    <div className="flex items-center gap-3">
-                      <span>{t('skincare')}</span>
-                    </div>
-                    <span className="text-gray-400 font-normal">&rarr;</span>
+                    {t('all')}
                   </Link>
-                  <Link
-                    to="/shop?category=makeup"
-                    onMouseEnter={() => setHoveredCategory("Makeup")}
-                    onClick={() => setHoveredDropdown(null)}
-                    className={`px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-between ${
-                      hoveredCategory === "Makeup" ? "bg-primary-50 text-primary-800" : ""
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span>{t('makeup')}</span>
-                    </div>
-                    <span className="text-gray-400 font-normal">&rarr;</span>
-                  </Link>
-                  <Link
-                    to="/shop?category=haircare"
-                    onMouseEnter={() => setHoveredCategory(null)}
-                    onClick={() => setHoveredDropdown(null)}
-                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3 text-left"
-                  >
-                    <span>{t('hair_care')}</span>
-                  </Link>
-                  <Link
-                    to="/shop?category=bodycare"
-                    onMouseEnter={() => setHoveredCategory(null)}
-                    onClick={() => setHoveredDropdown(null)}
-                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3 text-left"
-                  >
-                    <span>{t('body_care')}</span>
-                  </Link>
+                  {uniqueCategories.map((cat: any) => (
+                    <Link
+                      key={cat}
+                      to={`/shop?category=${encodeURIComponent(cat.toLowerCase())}`}
+                      onClick={() => setHoveredDropdown(null)}
+                      className="px-3 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-between"
+                    >
+                      <span className="truncate">{cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
+                    </Link>
+                  ))}
                 </div>
-
-                {/* Subcategories Side Panel */}
-                {hoveredCategory && (hoveredCategory === "Skincare" || hoveredCategory === "Makeup") && (
-                  <div className="absolute left-full top-2 ml-2 w-[200px] lg:w-[260px] xl:w-[310px] 2xl:w-[380px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
-                    <h5 className="text-[10px] lg:text-xs xl:text-xs 2xl:text-sm font-bold uppercase tracking-wider text-gray-400 px-3.5 py-1.5 border-b mb-1.5">
-                      {hoveredCategory === "Skincare" ? t("skincare") : t("makeup")}
-                    </h5>
-                    <div className="flex flex-col gap-1">
-                      {hoveredCategory === "Skincare" ? (
-                        <>
-                          <Link
-                            to="/shop?category=suncare"
-                            onClick={() => setHoveredDropdown(null)}
-                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
-                          >
-                            {t("cat_sun_care") || "Sun Care"}
-                          </Link>
-                          <Link
-                            to="/shop?category=cleansing"
-                            onClick={() => setHoveredDropdown(null)}
-                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
-                          >
-                            {t("cat_cleansing") || "Cleansing"}
-                          </Link>
-                          <Link
-                            to="/shop?category=serumampoule"
-                            onClick={() => setHoveredDropdown(null)}
-                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
-                          >
-                            {t("cat_serum") || "Serum & Ampoule"}
-                          </Link>
-                          <Link
-                            to="/shop?category=cream"
-                            onClick={() => setHoveredDropdown(null)}
-                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
-                          >
-                            {t("cat_cream") || "Cream"}
-                          </Link>
-                          <Link
-                            to="/shop?category=toner"
-                            onClick={() => setHoveredDropdown(null)}
-                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
-                          >
-                            {t("cat_toner") || "Toner"}
-                          </Link>
-                          <Link
-                            to="/shop?category=mask"
-                            onClick={() => setHoveredDropdown(null)}
-                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
-                          >
-                            {t("cat_mask") || "Mask"}
-                          </Link>
-                        </>
-                      ) : (
-                        <>
-                          <Link
-                            to="/shop?category=lipmakeup"
-                            onClick={() => setHoveredDropdown(null)}
-                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
-                          >
-                            {t("cat_lip_makeup") || "Lip Makeup"}
-                          </Link>
-                          <Link
-                            to="/shop?category=facemakeup"
-                            onClick={() => setHoveredDropdown(null)}
-                            className="px-4 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-lg text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors block text-left"
-                          >
-                            {t("cat_face_makeup") || "Face Makeup"}
-                          </Link>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
             )}
           </div>
