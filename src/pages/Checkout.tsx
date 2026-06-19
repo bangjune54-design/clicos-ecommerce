@@ -4,7 +4,7 @@ import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { getLiveInventoryForCustomers } from "../utils/inventory";
-import { ArrowLeft, CheckCircle2, CreditCard, Wallet, X, ShieldCheck } from "lucide-react";
+import { ArrowLeft, CheckCircle2, CreditCard, Wallet, X, ShieldCheck, QrCode } from "lucide-react";
 import { sendAdminNotification } from "../utils/email";
 
 export function Checkout() {
@@ -13,7 +13,7 @@ export function Checkout() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const userType = localStorage.getItem("userType") || "retail";
-  const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'paypal' | 'bank_transfer'>(
+  const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'paypal' | 'bank_transfer' | 'pix'>(
     userType === 'wholesale' ? 'bank_transfer' : 'stripe'
   );
   const [email, setEmail] = useState('');
@@ -54,6 +54,14 @@ export function Checkout() {
     : 0;
 
   const orderTotal = retailTotal + b2bTotal;
+  
+  const userEmailData = localStorage.getItem("userEmail") || "";
+  const allAccountsData = JSON.parse(localStorage.getItem("allAccounts") || "[]");
+  const userAccountData = allAccountsData.find((a: any) => a.email === userEmailData);
+  const isBrazilUser = userAccountData && userAccountData.country === 'Brazil' && userAccountData.phone?.startsWith('+55');
+  const isBrazil = isBrazilUser;
+  
+  const adminBankSettings = JSON.parse(localStorage.getItem("adminBankSettings") || "{}");
 
   useEffect(() => {
     if (orderTotal === 0 && !orderComplete) {
@@ -355,6 +363,18 @@ export function Checkout() {
                           <span className="text-[#009cde]">Pal</span>
                         </div>
                       </label>
+                      {isBrazil && (
+                        <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-colors ${paymentMethod === 'pix' ? 'border-primary-600 bg-green-50 ring-1 ring-primary-600 shadow-sm' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
+                          <input 
+                            type="radio" name="paymentMethod" value="pix" checked={paymentMethod === 'pix'} 
+                            onChange={() => setPaymentMethod('pix')} className="text-primary-600 focus:ring-primary-600 w-4 h-4 cursor-pointer" 
+                          />
+                          <div className="flex items-center gap-1 font-bold text-[#32bcad]">
+                            <QrCode className="w-5 h-5" />
+                            <span>Pix</span>
+                          </div>
+                        </label>
+                      )}
                     </div>
 
                     {paymentMethod === 'stripe' ? (
@@ -388,6 +408,35 @@ export function Checkout() {
                         <p className="text-[10px] text-gray-400 flex items-center gap-1">
                           <ShieldCheck className="w-3 h-3" /> Securely processed by Stripe
                         </p>
+                        {isBrazil && (
+                          <div className="mt-4 p-3 bg-primary-50 rounded-lg border border-primary-100 text-xs text-primary-800 font-semibold flex flex-col gap-2">
+                            <div className="flex items-center gap-2">
+                              <CheckCircle2 className="w-4 h-4 text-primary-600" />
+                              Credit card payments in Brazil are processed securely through our local Brazilian bank account:
+                            </div>
+                            <div className="ml-6 font-mono font-bold bg-white px-2 py-1 border rounded inline-block w-max">
+                              {adminBankSettings.brazilBankAccount || 'Bank details not configured'}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ) : paymentMethod === 'pix' ? (
+                      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300 py-4">
+                        <div className="bg-green-50 rounded-xl p-8 text-center border border-green-100">
+                          <div className="flex justify-center mb-4 text-[#32bcad]">
+                            <QrCode className="w-12 h-12" />
+                          </div>
+                          <h3 className="text-lg font-bold text-gray-900 mb-2">Pay with Pix</h3>
+                          <p className="text-sm text-gray-600 mb-6">
+                            Complete your payment instantly. A QR code and Pix copy-paste key will be generated on the next step.
+                          </p>
+                          <div className="bg-white p-3 rounded-md border border-green-200 mb-6 text-sm font-mono text-gray-800 font-semibold break-all">
+                            Pix Key: {adminBankSettings.pixKey || 'Not configured'}
+                          </div>
+                          <div className="text-xs font-semibold text-gray-500 flex items-center justify-center gap-1">
+                            <ShieldCheck className="w-4 h-4" /> Secure local payment
+                          </div>
+                        </div>
                       </div>
                     ) : (
                       <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300 py-4">

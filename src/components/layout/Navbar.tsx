@@ -397,6 +397,12 @@ export function Navbar() {
                 {/* Simulated Logged In State (Hardcoded for demonstration) */}
                 {isLoggedIn ? (
                   <>
+                    <div className="px-4 py-3 mb-1 border-b border-gray-100 bg-gray-50/50">
+                      <p className="text-xs font-medium text-gray-500 mb-0.5">Signed in as</p>
+                      <p className="text-sm font-bold text-gray-900 truncate">
+                        {userName}
+                      </p>
+                    </div>
                     <Link
                       to="/my-page"
                       className="block w-full px-4 py-2 text-left text-sm font-medium text-gray-700 hover:bg-primary-50 hover:text-primary-900 transition-colors"
@@ -490,18 +496,33 @@ export function Navbar() {
                     </Link>
                   ) : (
                     navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-primary-50 transition-colors ${
-                          location.pathname === item.href
-                            ? "text-primary-800 bg-primary-50"
-                            : "text-gray-900"
-                        }`}
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {t(item.translationKey || item.name)}
-                      </Link>
+                      <div key={item.name} className="-mx-3">
+                        <Link
+                          to={item.href}
+                          className={`block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-primary-50 transition-colors ${
+                            location.pathname === item.href
+                              ? "text-primary-800 bg-primary-50"
+                              : "text-gray-900"
+                          }`}
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {t(item.translationKey || item.name.toLowerCase().replace(/ \/ /g, "_").replace(/ /g, "_"))}
+                        </Link>
+                        {item.submenu && (
+                          <div className="pl-6 mt-1 space-y-1">
+                            {item.submenu.map((subitem) => (
+                              <Link
+                                key={subitem.name}
+                                to={subitem.href}
+                                className="block rounded-lg px-3 py-2 text-sm font-medium leading-6 text-gray-600 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                {t(subitem.translationKey || subitem.name.toLowerCase().replace(/ \/ /g, "_").replace(/ /g, "_"))}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     ))
                   )}
                 </div>
@@ -530,6 +551,17 @@ export function Navbar() {
                       ))}
                     </select>
                   </div>
+                  {isLoggedIn && (
+                    <div className="flex items-center gap-3 border-b border-gray-100 pb-4 bg-gray-50/50 p-3 rounded-lg">
+                      <div className="bg-primary-100 p-2 rounded-full">
+                        <User className="h-5 w-5 text-primary-800" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Signed in as</span>
+                        <span className="text-sm font-bold text-gray-900 truncate max-w-[200px]">{userName}</span>
+                      </div>
+                    </div>
+                  )}
                   <div className="flex gap-4">
                     <Button variant="outline" className="flex-1 justify-center gap-2" onClick={() => {
                       if (isLoggedIn) {

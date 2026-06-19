@@ -8,12 +8,13 @@ export interface CountryOption {
   flag: string;
   language: "EN" | "KO" | "PT" | "ES" | "ZH" | "JA";
   currency: string;
+  dialCode: string;
 }
 
 export const COUNTRIES: CountryOption[] = [
-  { code: "KR", name: "South Korea", flag: "🇰🇷", language: "KO", currency: "KRW" },
-  { code: "US", name: "United States", flag: "🇺🇸", language: "EN", currency: "USD" },
-  { code: "BR", name: "Brazil", flag: "🇧🇷", language: "PT", currency: "BRL" },
+  { code: "KR", name: "South Korea", flag: "🇰🇷", language: "KO", currency: "KRW", dialCode: "+82" },
+  { code: "US", name: "United States", flag: "🇺🇸", language: "EN", currency: "USD", dialCode: "+1" },
+  { code: "BR", name: "Brazil", flag: "🇧🇷", language: "PT", currency: "BRL", dialCode: "+55" },
 ];
 
 interface CountryContextType {

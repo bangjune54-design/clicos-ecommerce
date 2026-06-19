@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { useCurrency } from "../contexts/CurrencyContext";
@@ -39,6 +39,7 @@ const mockB2BItems = [
 
 export function Cart() {
   const { getLocalPrice, formatLocalPrice } = useCurrency();
+  const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   
   if (!isLoggedIn) {
@@ -315,11 +316,16 @@ export function Cart() {
                 </Link>
               )}
               {(userType === "wholesale" || b2bItems.length > 0) && b2bItems.length > 0 && (
-                <Link to="/wholesale" className="block w-full">
-                  <Button className="w-full text-lg shadow-md" variant="primary">
-                    Submit Wholesale Order
-                  </Button>
-                </Link>
+                <Button 
+                  className="w-full text-lg shadow-md" 
+                  variant="primary"
+                  onClick={() => {
+                    alert("Wholesale orders need to be processed through the wholesale order form. You will now be redirected.");
+                    navigate("/wholesale");
+                  }}
+                >
+                  Checkout Wholesale Items
+                </Button>
               )}
               {retailItems.length === 0 && b2bItems.length === 0 && (
                 <Button className="w-full text-lg shadow-md" disabled>

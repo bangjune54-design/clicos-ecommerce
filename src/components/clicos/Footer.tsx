@@ -1,5 +1,6 @@
 import React from "react";
 import { Facebook, Instagram, Twitter, ArrowUp } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Footer() {
   const scrollToSection = (e: React.MouseEvent, id: string) => {
@@ -57,48 +58,42 @@ export function Footer() {
               Navigation
             </h4>
             <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-              <a
-                href="#home"
-                onClick={(e) => scrollToSection(e, "home")}
+              <Link
+                to="/"
                 className="text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
               >
                 Home
-              </a>
-              <a
-                href="#about"
-                onClick={(e) => scrollToSection(e, "about")}
+              </Link>
+              <Link
+                to="/about"
                 className="text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
               >
                 About Us
-              </a>
-              <a
-                href="#products"
-                onClick={(e) => scrollToSection(e, "products")}
+              </Link>
+              <Link
+                to="/shop"
                 className="text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
               >
                 Products
-              </a>
-              <a
-                href="#brands"
-                onClick={(e) => scrollToSection(e, "brands")}
+              </Link>
+              <Link
+                to="/brands"
                 className="text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
               >
                 Brands
-              </a>
-              <a
-                href="#why-choose-us"
-                onClick={(e) => scrollToSection(e, "why-choose-us")}
+              </Link>
+              <Link
+                to="/#why-choose-us"
                 className="text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors col-span-2"
               >
                 Why Choose Us
-              </a>
-              <a
-                href="#contact"
-                onClick={(e) => scrollToSection(e, "contact")}
+              </Link>
+              <Link
+                to="/contact"
                 className="text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
               >
                 Contact
-              </a>
+              </Link>
             </div>
           </div>
 

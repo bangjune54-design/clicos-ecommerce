@@ -60,7 +60,10 @@ export function BestSellers() {
                                         product.imageScale === 'medium' ? 0.8 :
                                         product.imageScale === 'large' ? 0.9 : 
                                         product.imageScale === 'xlarge' ? 1.1 :
-                                        product.imageScale === 'xxlarge' ? 1.2 : 1
+                                        product.imageScale === 'xxlarge' ? 1.2 :
+                                        product.imageScale === 'scale140' ? 1.4 :
+                                        product.imageScale === 'scale160' ? 1.6 :
+                                        product.imageScale === 'scale180' ? 1.8 : 1
                        } as React.CSSProperties}
                        loading="lazy"
                      />
@@ -80,8 +83,8 @@ export function BestSellers() {
                     
                     {/* Rating indicator */}
                     <div className="flex items-center gap-1 mt-1.5 text-[10px] sm:text-xs text-gray-500 font-medium hidden sm:flex">
-                      <Star className="w-4.5 h-4.5 fill-yellow-400 text-yellow-400" />
-                      <span className="font-semibold text-gray-700">{(product.rating || 4.9).toFixed(1)}</span>
+                      <Star className="w-4.5 h-4.5 shrink-0 fill-yellow-400 text-yellow-400" />
+                      <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
                       <span className="text-gray-400">({Math.floor((product.name.length * 19) % 100) + 40})</span>
                     </div>
                   </div>

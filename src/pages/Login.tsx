@@ -9,10 +9,12 @@ export function Login() {
   const defaultTab = searchParams.get("type") === "wholesale" ? "wholesale" : "general";
   const [activeTab, setActiveTab] = useState<"general" | "wholesale">(defaultTab);
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     const cleanEmail = email.trim().toLowerCase();
 
     // Look up the registered account to get the first name
@@ -20,11 +22,27 @@ export function Login() {
     const account = allAccounts.find(
       (a: any) => a.email?.toLowerCase() === cleanEmail
     );
+    
+    if (account) {
+      if (activeTab === "wholesale" && account.type === "Retail") {
+        setError("Retail accounts cannot log in through the wholesale portal.");
+        return;
+      }
+      if (activeTab === "general" && account.type === "Wholesale") {
+        setError("Wholesale accounts cannot log in through the retail portal.");
+        return;
+      }
+    }
+    
     const firstName = account?.name?.split(" ")[0] || "";
+    let finalUserType = activeTab === "wholesale" ? "wholesale" : "retail";
+    if (account && account.type) {
+      finalUserType = account.type.toLowerCase();
+    }
 
     // Persist session
     localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userType", activeTab === "wholesale" ? "wholesale" : "retail");
+    localStorage.setItem("userType", finalUserType);
     localStorage.setItem("userEmail", cleanEmail);
     if (firstName) localStorage.setItem("userFirstName", firstName);
 
@@ -77,6 +95,11 @@ export function Login() {
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+          {error && (
+            <div className="bg-red-50 text-red-800 p-4 rounded-md text-sm font-medium">
+              {error}
+            </div>
+          )}
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="space-y-4 rounded-md shadow-sm">
             <div>
@@ -139,7 +162,7 @@ export function Login() {
             <p className="text-xs text-gray-500">
               {activeTab === "wholesale" ? "Don't have a wholesale account?" : "Don't have an account?"}{" "}
               <Link 
-                to={activeTab === "wholesale" ? "/wholesale" : "/signup"} 
+                to={activeTab === "wholesale" ? "/signup?type=wholesale" : "/signup"} 
                 className="font-semibold text-primary-600 hover:text-primary-800"
               >
                 Apply here

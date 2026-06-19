@@ -325,7 +325,7 @@ export function AdminDashboard() {
 
 
   const [bankSettings, setBankSettings] = useState(() => {
-    return JSON.parse(localStorage.getItem("adminBankSettings") || '{"bankName":"","accountName":"","accountNumber":"","routingNumber":"","payoneerEmail":""}');
+    return JSON.parse(localStorage.getItem("adminBankSettings") || '{"bankName":"","accountName":"","accountNumber":"","routingNumber":"","payoneerEmail":"","brazilBankAccount":"","pixKey":""}');
   });
 
   const handleSaveBankSettings = (e: React.FormEvent) => {
@@ -714,30 +714,12 @@ export function AdminDashboard() {
                   <div className="space-y-6">
                     <div>
                       <label className="block text-sm font-semibold mb-2 text-gray-900">Product Image</label>
-                      <div 
-                        className={`relative w-full h-48 rounded-lg border-2 border-dashed transition-colors flex flex-col items-center justify-center mb-3 group overflow-hidden ${isDragging ? 'border-primary-500 bg-primary-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'}`}
-                        onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                        onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
-                        onDrop={(e) => {
-                          e.preventDefault();
-                          setIsDragging(false);
-                          if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                            const file = e.dataTransfer.files[0];
-                            const reader = new FileReader();
-                            reader.onload = (event) => {
-                              compressImageBase64(event.target?.result as string, 1000, 1000, 0.95).then((compressed) => {
-                                setEditProductPayload({ ...editProductPayload, imageSrc: compressed });
-                              });
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
-                      >
-                        {editProductPayload.imageSrc ? (
-                          <>
+                      <div className="grid grid-cols-3 gap-2 mb-3">
+                        {((editProductPayload.images?.length > 0 ? editProductPayload.images : undefined) || (editProductPayload.imageSrc ? [editProductPayload.imageSrc] : [])).map((imgSrc: string, index: number) => (
+                          <div key={index} className="group relative h-24 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex-shrink-0">
                             <img 
-                              src={editProductPayload.imageSrc} 
-                              alt="Preview" 
+                              src={imgSrc} 
+                              alt={`Preview ${index}`} 
                               className="w-full h-full transition-all duration-300" 
                               style={{
                                 objectFit: (editProductPayload.imageFit || "contain") as any,
@@ -746,56 +728,121 @@ export function AdminDashboard() {
                                   editProductPayload.imageScale === "medium" ? 0.8 :
                                   editProductPayload.imageScale === "large" ? 0.9 : 
                                   editProductPayload.imageScale === "xlarge" ? 1.1 :
-                                  editProductPayload.imageScale === "xxlarge" ? 1.2 : 1
+                                  editProductPayload.imageScale === "xxlarge" ? 1.2 :
+                                  editProductPayload.imageScale === "scale140" ? 1.4 :
+                                  editProductPayload.imageScale === "scale160" ? 1.6 :
+                                  editProductPayload.imageScale === "scale180" ? 1.8 : 1
                                 })`
                               }}
                             />
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
                               <button 
                                 type="button"
-                                onClick={() => setEditProductPayload({ ...editProductPayload, imageSrc: "" })}
-                                className="bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg"
+                                onClick={() => {
+                                  const currentImages = (editProductPayload.images?.length > 0 ? editProductPayload.images : undefined) || (editProductPayload.imageSrc ? [editProductPayload.imageSrc] : []);
+                                  const newImages = currentImages.filter((_: any, i: number) => i !== index);
+                                  setEditProductPayload({ 
+                                    ...editProductPayload, 
+                                    images: newImages,
+                                    imageSrc: newImages[0] || ""
+                                  });
+                                }}
+                                className="bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors shadow-lg"
                               >
-                                <X className="w-6 h-6" />
+                                <X className="w-4 h-4" />
                               </button>
-                              <span className="text-white text-sm font-medium mt-2">Click to Remove</span>
                             </div>
-                          </>
-                        ) : (
-                          <div className="text-center p-4 cursor-pointer">
-                            <UploadCloud className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                            <p className="text-sm text-gray-500 font-medium">Drag and drop an image here</p>
-                            <p className="text-xs text-gray-400 mt-1">or provide a URL below</p>
                           </div>
-                        )}
+                        ))}
                       </div>
+
+                      <div 
+                        className={`group relative h-24 rounded-xl overflow-hidden mb-3 border-2 border-dashed ${isDragging ? 'border-primary-500 bg-primary-50' : 'border-gray-200 bg-gray-50/50'} transition-all hover:bg-gray-50`}
+                        onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                        onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          setIsDragging(false);
+                          if (e.dataTransfer.files) {
+                            Array.from(e.dataTransfer.files).forEach(file => {
+                              if (file.type.startsWith('image/')) {
+                                const reader = new FileReader();
+                                reader.onload = (event) => {
+                                  compressImageBase64(event.target?.result as string, 1000, 1000, 0.95).then((compressed) => {
+                                    setEditProductPayload((prev: any) => {
+                                      const currentImages = (prev.images?.length > 0 ? prev.images : undefined) || (prev.imageSrc ? [prev.imageSrc] : []);
+                                      const newImages = [...currentImages, compressed];
+                                      return {
+                                        ...prev,
+                                        images: newImages,
+                                        imageSrc: newImages[0]
+                                      };
+                                    });
+                                  });
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            });
+                          }
+                        }}
+                      >
+                        <div className="text-center p-4 cursor-pointer flex flex-col items-center justify-center h-full">
+                          <UploadCloud className="w-6 h-6 text-gray-400 mx-auto mb-1" />
+                          <p className="text-xs text-gray-500 font-medium">Drag & drop images</p>
+                        </div>
+                      </div>
+
                       <div className="flex gap-2 mb-3">
                         <Button type="button" variant="outline" className="flex-1 text-xs" onClick={() => document.getElementById("product-file-upload")?.click()}>
-                          Select Image File
+                          Select Image Files
                         </Button>
                         <input 
                           type="file" 
                           accept="image/*"
+                          multiple
                           className="hidden" 
                           id="product-file-upload" 
                           onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                              const file = e.target.files[0];
-                              const reader = new FileReader();
-                              reader.onload = (event) => {
-                                compressImageBase64(event.target?.result as string, 1000, 1000, 0.95).then((compressed) => {
-                                  setEditProductPayload({ ...editProductPayload, imageSrc: compressed });
-                                });
-                              };
-                              reader.readAsDataURL(file);
+                            if (e.target.files) {
+                              Array.from(e.target.files).forEach(file => {
+                                const reader = new FileReader();
+                                reader.onload = (event) => {
+                                  compressImageBase64(event.target?.result as string, 1000, 1000, 0.95).then((compressed) => {
+                                    setEditProductPayload((prev: any) => {
+                                      const currentImages = (prev.images?.length > 0 ? prev.images : undefined) || (prev.imageSrc ? [prev.imageSrc] : []);
+                                      const newImages = [...currentImages, compressed];
+                                      return {
+                                        ...prev,
+                                        images: newImages,
+                                        imageSrc: newImages[0]
+                                      };
+                                    });
+                                  });
+                                };
+                                reader.readAsDataURL(file);
+                              });
                             }
                           }}
                         />
                       </div>
                       <Input 
                         value={editProductPayload.imageSrc || ""} 
-                        onChange={e => setEditProductPayload({...editProductPayload, imageSrc: e.target.value})} 
-                        placeholder="Image URL (or drag & drop / upload above)"
+                        onChange={e => {
+                          const val = e.target.value;
+                          setEditProductPayload((prev: any) => {
+                            const currentImages = (prev.images?.length > 0 ? prev.images : undefined) || (prev.imageSrc ? [prev.imageSrc] : []);
+                            let newImages = [...currentImages];
+                            if (val) {
+                              if (newImages.length === 0) newImages = [val];
+                              else newImages[0] = val; // update first image
+                            } else {
+                              newImages = []; // clear all if user clears input, or maybe just clear the first?
+                            }
+                            return { ...prev, imageSrc: val, images: newImages.length > 0 ? newImages : undefined };
+                          });
+                        }} 
+                        placeholder="Or Image URL" 
+                        className="text-xs"
                       />
                       <div className="grid grid-cols-2 gap-4 mt-3">
                         <div>
@@ -816,6 +863,9 @@ export function AdminDashboard() {
                             value={editProductPayload.imageScale || "full"}
                             onChange={e => setEditProductPayload({...editProductPayload, imageScale: e.target.value})}
                           >
+                            <option value="scale180">Scale (180%)</option>
+                            <option value="scale160">Scale (160%)</option>
+                            <option value="scale140">Scale (140%)</option>
                             <option value="xxlarge">Extra Extra Large (120%)</option>
                             <option value="xlarge">Extra Large (110%)</option>
                             <option value="full">Full (100%)</option>
@@ -941,6 +991,64 @@ export function AdminDashboard() {
                       />
                     </div>
                   </div>
+                  
+                  {/* Option Images */}
+                  {editProductPayload.options && editProductPayload.options.length > 0 && (
+                    <div className="pt-4 mt-2 border-t border-gray-100">
+                      <label className="block text-sm font-semibold mb-3 text-gray-900">Option Images</label>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {editProductPayload.options.map((opt: string) => (
+                          <div key={opt} className="border border-gray-200 rounded-lg p-3 bg-white shadow-sm flex flex-col items-center">
+                            <span className="text-xs font-bold mb-2 truncate w-full text-center" title={opt}>{opt}</span>
+                            <div className="relative w-full aspect-square bg-gray-50 rounded-md overflow-hidden border border-gray-150 flex items-center justify-center">
+                              {editProductPayload.optionImages?.[opt] ? (
+                                <>
+                                  <img src={editProductPayload.optionImages[opt]} alt={opt} className="w-full h-full object-cover" />
+                                  <button 
+                                    type="button"
+                                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors shadow-sm"
+                                    onClick={() => {
+                                      const newOptionImages = { ...editProductPayload.optionImages };
+                                      delete newOptionImages[opt];
+                                      setEditProductPayload({ ...editProductPayload, optionImages: newOptionImages });
+                                    }}
+                                  >
+                                    <X className="w-3 h-3" />
+                                  </button>
+                                </>
+                              ) : (
+                                <div className="text-gray-400 flex flex-col items-center cursor-pointer hover:text-primary-500 transition-colors" onClick={() => document.getElementById(`option-upload-${opt}`)?.click()}>
+                                  <UploadCloud className="w-6 h-6 mb-1" />
+                                  <span className="text-[10px]">Upload</span>
+                                </div>
+                              )}
+                            </div>
+                            <input 
+                              type="file"
+                              id={`option-upload-${opt}`}
+                              className="hidden"
+                              accept="image/*"
+                              onChange={(e) => {
+                                if (e.target.files && e.target.files[0]) {
+                                  const file = e.target.files[0];
+                                  const reader = new FileReader();
+                                  reader.onload = (event) => {
+                                    compressImageBase64(event.target?.result as string, 800, 800, 0.9).then((compressed) => {
+                                      setEditProductPayload((prev: any) => ({ 
+                                        ...prev, 
+                                        optionImages: { ...(prev.optionImages || {}), [opt]: compressed }
+                                      }));
+                                    });
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   
                   {/* Advanced Country Customization */}
                   <div className="col-span-1 md:col-span-2 pt-6 mt-4 border-t border-gray-200">
@@ -1610,6 +1718,26 @@ export function AdminDashboard() {
                     placeholder="e.g. payments@clicos.co.kr"
                   />
                   <p className="text-xs text-gray-500 mt-1">Enter your registered Payoneer email to receive B2B payments globally.</p>
+                </div>
+
+                <h4 className="text-lg font-bold font-serif text-gray-900 mt-8 mb-4 border-b border-gray-100 pb-2">Brazil Local Payments</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold mb-2 text-gray-900">Brazil Bank Account</label>
+                    <Input 
+                      value={bankSettings.brazilBankAccount || ""} 
+                      onChange={e => setBankSettings({...bankSettings, brazilBankAccount: e.target.value})} 
+                      placeholder="e.g. Banco do Brasil 1234-5"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold mb-2 text-gray-900">Pix Key</label>
+                    <Input 
+                      value={bankSettings.pixKey || ""} 
+                      onChange={e => setBankSettings({...bankSettings, pixKey: e.target.value})} 
+                      placeholder="e.g. your-pix-key@email.com"
+                    />
+                  </div>
                 </div>
                 
                 <div className="pt-6 flex justify-end">

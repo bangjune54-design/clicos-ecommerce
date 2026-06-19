@@ -76,22 +76,22 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useCountry } from "../contexts/CountryContext";
 
 // Categories structure
-const CATEGORY_STRUCTURE = [
-  { name: "All" },
-  {
-    name: "Skincare",
-    subcategories: ["Sun Care", "Cleansing", "Serum & Ampoule", "Cream", "Toner", "Mask"]
-  },
-  {
-    name: "Makeup",
-    subcategories: ["Lip Makeup", "Face Makeup"]
-  },
-  { name: "Hair Care" },
-  { name: "Body Care" }
-];
-
-// Flattened list for URL matching if needed
-const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap(c => [c.name, ...(c.subcategories || [])]);
+const getDynamicCategoryStructure = () => {
+  const uniqueCats = Array.from(
+    new Set(
+      getLiveInventoryForCustomers()
+        .map(p => p.category?.trim())
+        .filter(Boolean)
+    )
+  );
+  
+  return [
+    { name: "All" },
+    ...uniqueCats.map(cat => ({
+      name: cat.charAt(0).toUpperCase() + cat.slice(1)
+    }))
+  ];
+};
 
 const TRANSLATED_WHOLESALE_ITEMS: Record<string, Record<string, string>> = {
   EN: {
@@ -229,6 +229,7 @@ export function WholesaleAllItems() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { language, t } = useLanguage();
   const { getLocalizedProduct, formatProductPrice } = useCountry();
+  const CATEGORY_STRUCTURE = useMemo(() => getDynamicCategoryStructure(), [allShopProducts]);
   
   const d = (key: string) => {
     return TRANSLATED_WHOLESALE_ITEMS[language]?.[key] || TRANSLATED_WHOLESALE_ITEMS["EN"]?.[key] || key;
@@ -258,16 +259,20 @@ export function WholesaleAllItems() {
   const initialCategory = searchParams.get("category");
   const initialBrand = searchParams.get("brand");
   
-  const [activeCategory, setActiveCategory] = useState(
-    initialCategory 
-      ? ALL_CATEGORIES.find(c => c.toLowerCase().replace(/ & /g, "").replace(/ /g, "") === initialCategory) || "All"
-      : "All"
-  );
-
-  const [activeBrand, setActiveBrand] = useState(initialBrand || null);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeBrand, setActiveBrand] = useState<string | null>(initialBrand || null);
+  
+  React.useEffect(() => {
+    const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap((c: any) => [c.name, ...(c.subcategories || [])]);
+    if (initialCategory) {
+      const matched = ALL_CATEGORIES.find(c => c.toLowerCase().replace(/ & /g, "").replace(/ /g, "") === initialCategory);
+      setActiveCategory(matched || "All");
+      setExpandedCategory(CATEGORY_STRUCTURE.find((c: any) => c.name === matched || c.subcategories?.includes(matched))?.name || null);
+    }
+  }, [initialCategory, CATEGORY_STRUCTURE]);
   
   const [expandedCategory, setExpandedCategory] = useState<string | null>(
-    CATEGORY_STRUCTURE.find(c => c.name === activeCategory || c.subcategories?.includes(activeCategory))?.name || null
+    CATEGORY_STRUCTURE.find((c: any) => c.name === activeCategory || c.subcategories?.includes(activeCategory))?.name || null
   );
   
   const [shopSearchQuery, setShopSearchQuery] = useState("");
@@ -285,6 +290,12 @@ export function WholesaleAllItems() {
     e.preventDefault();
     e.stopPropagation();
     const qty = getQty(product.id);
+    const userType = localStorage.getItem("userType") || "retail";
+    
+    if (userType !== "wholesale") {
+      alert("Only wholesale accounts can add items to the B2B quote.");
+      return;
+    }
     
     const optionsList = product.options || product.colors;
     const hasOptions = optionsList && optionsList.length > 0;
@@ -336,7 +347,7 @@ export function WholesaleAllItems() {
     if (activeCategory === "All") {
       matchesCategory = true;
     } else {
-      const parentCat = CATEGORY_STRUCTURE.find(c => c.name === activeCategory);
+      const parentCat = CATEGORY_STRUCTURE.find((c: any) => c.name === activeCategory);
       if (parentCat && parentCat.subcategories) {
         matchesCategory = p.category === activeCategory || parentCat.subcategories.includes(p.category);
       } else {
@@ -386,7 +397,7 @@ export function WholesaleAllItems() {
               <div className="border-t border-gray-200 py-6">
                 <h4 className="font-semibold text-gray-900 mb-4">{d("category")}</h4>
                 <div className="space-y-3">
-                  {CATEGORY_STRUCTURE.map((category) => {
+                  {CATEGORY_STRUCTURE.map((category: any) => {
                     const isExpanded = expandedCategory === category.name;
                     const isActive = activeCategory === category.name;
                     const hasSubcategories = !!category.subcategories;
@@ -416,12 +427,7 @@ export function WholesaleAllItems() {
                           } transition-colors`}
                         >
                           <div className="flex items-center gap-2">
-                            {category.name !== "All" && (
-                              <div className="w-9 h-9 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-lg border border-gray-150">
-                                {getCategoryIcon(category.name)}
-                              </div>
-                            )}
-                            <span>{translateCategory(category.name)}</span>
+                            <span className="font-medium">{translateCategory(category.name)}</span>
                           </div>
                           {hasSubcategories && (
                             <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
@@ -511,7 +517,10 @@ export function WholesaleAllItems() {
                                           product.imageScale === 'medium' ? 0.8 :
                                           product.imageScale === 'large' ? 0.9 : 
                                           product.imageScale === 'xlarge' ? 1.1 :
-                                          product.imageScale === 'xxlarge' ? 1.2 : 1
+                                          product.imageScale === 'xxlarge' ? 1.2 :
+                                          product.imageScale === 'scale140' ? 1.4 :
+                                          product.imageScale === 'scale160' ? 1.6 :
+                                          product.imageScale === 'scale180' ? 1.8 : 1
                          } as React.CSSProperties}
                        />
                       {product.isBestseller && (
@@ -557,7 +566,7 @@ export function WholesaleAllItems() {
                       to={`/product/${product.id}#reviews`}
                       className="flex items-center gap-1.5 mt-1 mb-3 text-xs text-gray-500 hover:text-primary-700 transition-colors"
                     >
-                      <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
+                      <Star className="w-3.5 h-3.5 shrink-0 fill-yellow-500 text-yellow-500" />
                       <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
                       <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
                       <span className="ml-auto text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded">

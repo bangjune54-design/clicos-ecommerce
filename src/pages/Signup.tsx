@@ -4,6 +4,7 @@ import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { CheckCircle2 } from "lucide-react";
 import { sendAdminNotification } from "../utils/email";
+import { COUNTRIES } from "../contexts/CountryContext";
 
 export function Signup() {
   const navigate = useNavigate();
@@ -14,10 +15,12 @@ export function Signup() {
     firstName: "",
     lastName: "",
     email: "",
+    phoneCode: "+1",
     phone: "",
     password: "",
     confirmPassword: "",
-    companyName: ""
+    companyName: "",
+    country: ""
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -31,7 +34,7 @@ export function Signup() {
   ];
   const allAccountsToMerge = savedAccounts.length > 0 ? savedAccounts : defaultAccounts;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -72,8 +75,9 @@ export function Signup() {
       id: `USR-${Math.floor(Math.random() * 900 + 100)}`,
       name: `${formData.firstName} ${formData.lastName}`.trim(),
       email: formData.email,
-      phone: formData.phone,
+      phone: `${formData.phoneCode} ${formData.phone}`,
       type: activeTab === "general" ? "Retail" : "Wholesale",
+      country: formData.country,
       joined: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
       status: "Active"
     };
@@ -218,16 +222,45 @@ export function Signup() {
             </div>
             <div>
               <label htmlFor="phone" className="sr-only">Phone Number</label>
-              <Input
-                id="phone"
-                name="phone"
-                type="tel"
-                autoComplete="tel"
+              <div className="flex gap-2">
+                <select
+                  name="phoneCode"
+                  value={formData.phoneCode}
+                  onChange={handleChange}
+                  className="w-[110px] flex h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
+                >
+                  {COUNTRIES.map(c => (
+                    <option key={c.code} value={c.dialCode}>{c.flag} {c.dialCode}</option>
+                  ))}
+                </select>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  autoComplete="tel"
+                  required
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="flex-1"
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="country" className="sr-only">Country</label>
+              <select
+                id="country"
+                name="country"
                 required
-                placeholder="Phone Number"
-                value={formData.phone}
+                value={formData.country}
                 onChange={handleChange}
-              />
+                className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 transition-shadow"
+              >
+                <option value="" disabled>Select your country</option>
+                {COUNTRIES.map(c => (
+                  <option key={c.code} value={c.name}>{c.flag} {c.name}</option>
+                ))}
+              </select>
             </div>
             <div>
               <label htmlFor="password" className="sr-only">Password</label>
@@ -266,7 +299,7 @@ export function Signup() {
           <div className="text-center mt-4">
             <p className="text-xs text-gray-500">
               Already have an account?{" "}
-              <Link to="/login" className="font-semibold text-primary-600 hover:text-primary-800">
+              <Link to={activeTab === "wholesale" ? "/login?type=wholesale" : "/login"} className="font-semibold text-primary-600 hover:text-primary-800">
                 Sign in here
               </Link>
             </p>

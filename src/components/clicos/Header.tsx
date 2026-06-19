@@ -29,6 +29,7 @@ export function Header({ activeSection }: HeaderProps) {
   const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
+  const [mobileBrandsOpen, setMobileBrandsOpen] = useState(false);
   const [mobileWholesaleOpen, setMobileWholesaleOpen] = useState(false);
 
   // Mobile horizontal bar dropdown states & refs
@@ -45,6 +46,7 @@ export function Header({ activeSection }: HeaderProps) {
   const [mobileWholesalesDropdownOpen, setMobileWholesalesDropdownOpen] = useState(false);
   const [mobileProfileDropdownOpen, setMobileProfileDropdownOpen] = useState(false);
   const [mobileCartDropdownOpen, setMobileCartDropdownOpen] = useState(false);
+  const [mobileBrandsDropdownOpen, setMobileBrandsDropdownOpen] = useState(false);
   
   // Big search overlay states
   const [showBigSearch, setShowBigSearch] = useState(false);
@@ -95,6 +97,10 @@ export function Header({ activeSection }: HeaderProps) {
   ];
 
   const currencies = ["USD", "EUR", "KRW", "JPY", "GBP", "BRL"];
+
+  const liveBrands = getLiveBrandsForCustomers();
+  const allProducts = getLiveInventoryForCustomers();
+  const uniqueCategories = Array.from(new Set(allProducts.map(p => p.category).filter(Boolean)));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -295,7 +301,6 @@ export function Header({ activeSection }: HeaderProps) {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <img src="/categories/skincare.jpg" alt="Skincare" className="w-10 h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                       <span>{t('skincare')}</span>
                     </div>
                     <span className="text-gray-400 font-normal">&rarr;</span>
@@ -309,7 +314,6 @@ export function Header({ activeSection }: HeaderProps) {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <img src="/categories/makeup.jpg" alt="Makeup" className="w-10 h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                       <span>{t('makeup')}</span>
                     </div>
                     <span className="text-gray-400 font-normal">&rarr;</span>
@@ -320,7 +324,6 @@ export function Header({ activeSection }: HeaderProps) {
                     onClick={() => setHoveredDropdown(null)}
                     className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3 text-left"
                   >
-                    <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-10 h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                     <span>{t('hair_care')}</span>
                   </Link>
                   <Link
@@ -329,7 +332,6 @@ export function Header({ activeSection }: HeaderProps) {
                     onClick={() => setHoveredDropdown(null)}
                     className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3 text-left"
                   >
-                    <img src="/categories/body-care.jpg" alt="Body Care" className="w-10 h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
                     <span>{t('body_care')}</span>
                   </Link>
                 </div>
@@ -805,6 +807,7 @@ export function Header({ activeSection }: HeaderProps) {
                   setMobileProfileDropdownOpen(!mobileProfileDropdownOpen);
                   setMobileCartDropdownOpen(false);
                   setMobileCategoriesDropdownOpen(false);
+                  setMobileBrandsDropdownOpen(false);
                   setMobileWholesalesDropdownOpen(false);
                 }}
                 className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
@@ -822,6 +825,7 @@ export function Header({ activeSection }: HeaderProps) {
                   setMobileCartDropdownOpen(!mobileCartDropdownOpen);
                   setMobileProfileDropdownOpen(false);
                   setMobileCategoriesDropdownOpen(false);
+                  setMobileBrandsDropdownOpen(false);
                   setMobileWholesalesDropdownOpen(false);
                 }}
                 className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
@@ -880,6 +884,7 @@ export function Header({ activeSection }: HeaderProps) {
               onClick={() => {
                 setMobileCategoriesDropdownOpen(!mobileCategoriesDropdownOpen);
                 setMobileWholesalesDropdownOpen(false);
+                setMobileBrandsDropdownOpen(false);
               }}
               className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 flex items-center gap-0.5 focus:outline-none ${
                 location.pathname === "/shop" && searchParams.get("category")
@@ -893,14 +898,23 @@ export function Header({ activeSection }: HeaderProps) {
           </div>
  
           {/* Brands */}
-          <Link
-            to="/brands"
-            className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 ${
-              location.pathname === "/brands" ? "text-primary-855 border-b-2 border-primary-600 pb-0.5" : "text-gray-500"
-            }`}
-          >
-            {t('brands')}
-          </Link>
+          <div className="relative font-sans">
+            <button
+              onClick={() => {
+                setMobileBrandsDropdownOpen(!mobileBrandsDropdownOpen);
+                setMobileCategoriesDropdownOpen(false);
+                setMobileWholesalesDropdownOpen(false);
+              }}
+              className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 flex items-center gap-0.5 focus:outline-none ${
+                location.pathname === "/brands" || searchParams.get("brand")
+                  ? "text-primary-855 border-b-2 border-primary-600 pb-0.5"
+                  : "text-gray-500"
+              }`}
+            >
+              <span>{t('brands')}</span>
+              <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+            </button>
+          </div>
  
           {/* Contact */}
           <Link
@@ -919,6 +933,7 @@ export function Header({ activeSection }: HeaderProps) {
               onClick={() => {
                 setMobileWholesalesDropdownOpen(!mobileWholesalesDropdownOpen);
                 setMobileCategoriesDropdownOpen(false);
+                setMobileBrandsDropdownOpen(false);
               }}
               className={`text-xs font-bold tracking-wide uppercase transition-colors hover:text-primary-700 py-1 flex items-center gap-0.5 focus:outline-none ${
                 location.pathname.startsWith("/wholesale")
@@ -946,38 +961,40 @@ export function Header({ activeSection }: HeaderProps) {
           >
             {t('all')}
           </Link>
+          {uniqueCategories.map((cat: any) => (
+            <Link
+              key={cat}
+              to={`/shop?category=${encodeURIComponent(cat.toLowerCase())}`}
+              onClick={() => setMobileCategoriesDropdownOpen(false)}
+              className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
+            >
+              <span>{cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
+            </Link>
+          ))}
+        </div>
+      )}
+
+      {mobileBrandsDropdownOpen && (
+        <div 
+          className="absolute top-full left-1/4 mt-2 z-50 w-[200px] rounded-xl bg-white border border-primary-100 shadow-xl p-2 flex flex-col gap-1 animate-slide-up"
+        >
           <Link
-            to="/shop?category=skincare"
-            onClick={() => setMobileCategoriesDropdownOpen(false)}
-            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
+            to="/brands"
+            onClick={() => setMobileBrandsDropdownOpen(false)}
+            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
           >
-            <img src="/categories/skincare.jpg" alt="Skincare" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
-            <span>{t('skincare')}</span>
+            All Brands
           </Link>
-          <Link
-            to="/shop?category=makeup"
-            onClick={() => setMobileCategoriesDropdownOpen(false)}
-            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
-          >
-            <img src="/categories/makeup.jpg" alt="Makeup" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
-            <span>{t('makeup')}</span>
-          </Link>
-          <Link
-            to="/shop?category=haircare"
-            onClick={() => setMobileCategoriesDropdownOpen(false)}
-            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
-          >
-            <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
-            <span>{t('hair_care')}</span>
-          </Link>
-          <Link
-            to="/shop?category=bodycare"
-            onClick={() => setMobileCategoriesDropdownOpen(false)}
-            className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
-          >
-            <img src="/categories/body-care.jpg" alt="Body Care" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
-            <span>{t('body_care')}</span>
-          </Link>
+          {liveBrands.map(brand => (
+            <Link
+              key={brand.id}
+              to={`/shop?brand=${encodeURIComponent(brand.name.toLowerCase())}`}
+              onClick={() => setMobileBrandsDropdownOpen(false)}
+              className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
+            >
+              <span>{brand.name}</span>
+            </Link>
+          ))}
         </div>
       )}
 
@@ -1188,54 +1205,51 @@ export function Header({ activeSection }: HeaderProps) {
                       >
                         {t('all')}
                       </Link>
-                      <Link
-                        to="/shop?category=skincare"
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
-                      >
-                        <img src="/categories/skincare.jpg" alt="Skincare" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
-                        <span>{t('skincare')}</span>
-                      </Link>
-                      <Link
-                        to="/shop?category=makeup"
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
-                      >
-                        <img src="/categories/makeup.jpg" alt="Makeup" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
-                        <span>{t('makeup')}</span>
-                      </Link>
-                      <Link
-                        to="/shop?category=haircare"
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
-                      >
-                        <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
-                        <span>{t('hair_care')}</span>
-                      </Link>
-                      <Link
-                        to="/shop?category=bodycare"
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
-                      >
-                        <img src="/categories/body-care.jpg" alt="Body Care" className="w-8 h-8 rounded-lg object-cover border border-gray-100 flex-shrink-0" />
-                        <span>{t('body_care')}</span>
-                      </Link>
+                      {uniqueCategories.map((cat: any) => (
+                        <Link
+                          key={cat}
+                          to={`/shop?category=${encodeURIComponent(cat.toLowerCase())}`}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
+                        >
+                          <span className="font-medium text-gray-800">{cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
+                        </Link>
+                      ))}
                     </div>
                   )}
                 </div>
 
-                {/* Brands */}
-                <Link
-                  to="/brands"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block rounded-xl px-4 py-2.5 text-base font-semibold transition-all ${
-                    location.pathname === "/brands"
-                      ? "text-primary-800 bg-primary-50/70"
-                      : "text-gray-700 hover:text-primary-700 hover:bg-gray-50/50"
-                  }`}
-                >
-                  {t('brands')}
-                </Link>
+                {/* Brands Accordion */}
+                <div>
+                  <button
+                    onClick={() => setMobileBrandsOpen(!mobileBrandsOpen)}
+                    className="flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-base font-semibold text-gray-700 hover:text-primary-700 hover:bg-gray-50/50 transition-all focus:outline-none"
+                  >
+                    <span>{t('brands')}</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileBrandsOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {mobileBrandsOpen && (
+                    <div className="pl-6 pr-4 py-1.5 space-y-1 bg-primary-50/30 rounded-xl mt-1 ml-4 border-l border-primary-100">
+                      <Link
+                        to="/brands"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors"
+                      >
+                        All Brands
+                      </Link>
+                      {liveBrands.map(brand => (
+                        <Link
+                          key={brand.id}
+                          to={`/shop?brand=${encodeURIComponent(brand.name.toLowerCase())}`}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
+                        >
+                          <span className="font-medium text-gray-800">{brand.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
                 {/* Contact */}
                 <Link

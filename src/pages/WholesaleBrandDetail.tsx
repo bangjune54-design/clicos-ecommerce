@@ -312,7 +312,10 @@ export function WholesaleBrandDetail() {
                                       product.imageScale === 'medium' ? 0.8 :
                                       product.imageScale === 'large' ? 0.9 : 
                                       product.imageScale === 'xlarge' ? 1.1 :
-                                      product.imageScale === 'xxlarge' ? 1.2 : 1
+                                      product.imageScale === 'xxlarge' ? 1.2 :
+                                      product.imageScale === 'scale140' ? 1.4 :
+                                      product.imageScale === 'scale160' ? 1.6 :
+                                      product.imageScale === 'scale180' ? 1.8 : 1
                      } as React.CSSProperties}
                    />
                   {product.isBestseller && (
@@ -350,7 +353,7 @@ export function WholesaleBrandDetail() {
                   to={`/product/${product.id}#reviews`}
                   className="flex items-center gap-1.5 mt-1 mb-3 text-xs text-gray-500 hover:text-primary-700 transition-colors"
                 >
-                  <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
+                  <Star className="w-3.5 h-3.5 shrink-0 fill-yellow-500 text-yellow-500" />
                   <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
                   <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
                   <span className="ml-auto text-[10px] font-semibold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded">

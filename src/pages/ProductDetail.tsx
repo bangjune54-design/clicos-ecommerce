@@ -7,6 +7,7 @@ import { Badge } from "../components/ui/Badge";
 import { getLiveInventoryForCustomers, getLiveBrandsForCustomers } from "../utils/inventory";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useCountry } from "../contexts/CountryContext";
+import { ImageCarousel } from "../components/clicos/ImageCarousel";
 
 const TRANSLATED_DETAIL: Record<string, Record<string, string>> = {
   EN: {
@@ -281,28 +282,18 @@ export function ProductDetail() {
           
           {/* Image Gallery */}
           <div className="flex flex-col gap-4">
-            <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm border border-gray-100">
-              <img
-                src={product.imageSrc}
-                alt={product.name}
-                className="w-full h-full p-8 mix-blend-multiply object-center transition-all duration-300"
-                style={{
-                  objectFit: product.imageFit || 'contain',
-                  transform: `scale(${
-                    product.imageScale === 'small' ? 0.7 :
-                    product.imageScale === 'medium' ? 0.8 :
-                    product.imageScale === 'large' ? 0.9 : 
-                    product.imageScale === 'xlarge' ? 1.1 :
-                    product.imageScale === 'xxlarge' ? 1.2 : 1
-                  })`
-                }}
-              />
-              {product.isBestseller && (
-                <Badge variant="accent" className="absolute top-4 left-4 shadow-md px-3 py-1 text-sm">
-                  {d("Bestseller")}
-                </Badge>
-              )}
-            </div>
+            <ImageCarousel 
+              images={(() => {
+                const productObj = product as any;
+                const optionImg = selectedOption ? productObj.optionImages?.[selectedOption] : null;
+                const baseImgs = productObj.images?.length > 0 ? productObj.images : [product.imageSrc];
+                return optionImg ? [optionImg, ...baseImgs.filter((img: string) => img !== optionImg)] : baseImgs;
+              })()}
+              productName={product.name}
+              imageFit={product.imageFit as any}
+              imageScale={product.imageScale}
+              isBestseller={product.isBestseller}
+            />
           </div>
 
           {/* Product Info */}

@@ -75,21 +75,22 @@ import { getLiveInventoryForCustomers, getLiveBrandsForCustomers } from "../util
 import { useLanguage } from "../contexts/LanguageContext";
 import { useCountry } from "../contexts/CountryContext";
 
-const CATEGORY_STRUCTURE = [
-  { name: "All" },
-  {
-    name: "Skincare",
-    subcategories: ["Sun Care", "Cleansing", "Serum & Ampoule", "Cream", "Toner", "Mask"]
-  },
-  {
-    name: "Makeup",
-    subcategories: ["Lip Makeup", "Face Makeup"]
-  },
-  { name: "Hair Care" },
-  { name: "Body Care" }
-];
-
-const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap(c => [c.name, ...(c.subcategories || [])]);
+const getDynamicCategoryStructure = () => {
+  const uniqueCats = Array.from(
+    new Set(
+      getLiveInventoryForCustomers()
+        .map(p => p.category?.trim())
+        .filter(Boolean)
+    )
+  );
+  
+  return [
+    { name: "All" },
+    ...uniqueCats.map(cat => ({
+      name: cat.charAt(0).toUpperCase() + cat.slice(1)
+    }))
+  ];
+};
 
 const TRANSLATED_SHOP: Record<string, Record<string, string>> = {
   EN: {
@@ -221,6 +222,7 @@ export function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { language, t } = useLanguage();
   const { getLocalizedProduct, formatProductPrice } = useCountry();
+  const CATEGORY_STRUCTURE = useMemo(() => getDynamicCategoryStructure(), [allShopProducts]);
   const [mobileFilterTab, setMobileFilterTab] = useState<"none" | "category" | "brand">("none");
   
   const d = (key: string) => {
@@ -263,7 +265,7 @@ export function Shop() {
   const [activeCollection, setActiveCollection] = useState<string>(initialCollection);
   
   const [expandedCategory, setExpandedCategory] = useState<string | null>(
-    CATEGORY_STRUCTURE.find(c => c.name === activeCategory || c.subcategories?.includes(activeCategory))?.name || null
+    CATEGORY_STRUCTURE.find((c: any) => c.name === activeCategory || c.subcategories?.includes(activeCategory))?.name || null
   );
   
   const [shopSearchQuery, setShopSearchQuery] = useState(initialSearch);
@@ -276,10 +278,12 @@ export function Shop() {
   };
 
   React.useEffect(() => {
+    const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap((c: any) => [c.name, ...(c.subcategories || [])]);
+
     if (initialCategory) {
       const matched = ALL_CATEGORIES.find(c => c.toLowerCase().replace(/ & /g, "").replace(/ /g, "") === initialCategory);
       setActiveCategory(matched || "All");
-      setExpandedCategory(CATEGORY_STRUCTURE.find(c => c.name === matched || c.subcategories?.includes(matched))?.name || null);
+      setExpandedCategory(CATEGORY_STRUCTURE.find((c: any) => c.name === matched || c.subcategories?.includes(matched))?.name || null);
     } else {
       setActiveCategory("All");
     }
@@ -344,7 +348,7 @@ export function Shop() {
     if (activeCategory === "All") {
       matchesCategory = true;
     } else {
-      const parentCat = CATEGORY_STRUCTURE.find(c => c.name === activeCategory);
+      const parentCat = CATEGORY_STRUCTURE.find((c: any) => c.name === activeCategory);
       if (parentCat && parentCat.subcategories) {
         matchesCategory = p.category === activeCategory || parentCat.subcategories.includes(p.category);
       } else {
@@ -450,7 +454,7 @@ export function Shop() {
                 className="flex gap-4 overflow-x-auto pb-3 pt-1 scrollbar-none scroll-smooth touch-pan-x"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                {CATEGORY_STRUCTURE.map((cat) => {
+                {CATEGORY_STRUCTURE.map((cat: any) => {
                   const isCatActive = activeCategory === cat.name;
                   const isSubcatActive = cat.subcategories?.includes(activeCategory);
                   const isSelected = isCatActive || isSubcatActive;
@@ -467,19 +471,16 @@ export function Shop() {
                           }
                           setSearchParams(searchParams);
                         }}
-                        className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all border shadow-sm ${
+                        className={`px-4 h-10 whitespace-nowrap rounded-2xl flex items-center justify-center transition-all border shadow-sm ${
                           isSelected
-                            ? "bg-primary-100 border-primary-350 text-primary-900 scale-105"
+                            ? "bg-primary-100 border-primary-350 text-primary-900"
                             : "bg-white border-gray-150 text-gray-600 hover:border-gray-300"
                         }`}
                       >
-                        <div className="w-11 h-11 flex items-center justify-center">
-                          {getCategoryIcon(cat.name)}
-                        </div>
+                        <span className={`text-[11px] font-bold uppercase tracking-wider ${isSelected ? "text-primary-800" : "text-gray-500"}`}>
+                          {translateCategory(cat.name)}
+                        </span>
                       </button>
-                      <span className={`mt-1 text-[9px] font-bold uppercase tracking-wider ${isSelected ? "text-primary-800" : "text-gray-500"}`}>
-                        {translateCategory(cat.name)}
-                      </span>
                     </div>
                   );
                 })}
@@ -487,8 +488,8 @@ export function Shop() {
 
               {/* Subcategories horizontal drawer if parent has them */}
               {(() => {
-                const activeParentName = CATEGORY_STRUCTURE.find(c => c.name === expandedCategory || c.name === activeCategory)?.name;
-                const activeParent = CATEGORY_STRUCTURE.find(c => c.name === activeParentName);
+                const activeParentName = CATEGORY_STRUCTURE.find((c: any) => c.name === expandedCategory || c.name === activeCategory)?.name;
+                const activeParent = CATEGORY_STRUCTURE.find((c: any) => c.name === activeParentName);
                 if (activeParent && activeParent.subcategories) {
                   return (
                     <div className="mt-2 pt-2 border-t border-gray-100 flex gap-2 overflow-x-auto pb-2 scrollbar-none">
@@ -658,7 +659,7 @@ export function Shop() {
               <div className="border-t border-gray-100 pt-5">
                 <h4 className="font-bold text-gray-900 mb-4 uppercase tracking-wider text-sm">{d("Category")}</h4>
                 <div className="space-y-2">
-                  {CATEGORY_STRUCTURE.map((category) => {
+                  {CATEGORY_STRUCTURE.map((category: any) => {
                     const isExpanded = expandedCategory === category.name;
                     const isActive = activeCategory === category.name;
                     const hasSubcategories = !!category.subcategories;
@@ -687,12 +688,7 @@ export function Shop() {
                           }`}
                         >
                           <div className="flex items-center gap-3">
-                            {category.name !== "All" && (
-                              <div className="w-9 h-9 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-lg border border-gray-150">
-                                {getCategoryIcon(category.name)}
-                              </div>
-                            )}
-                            <span>{translateCategory(category.name)}</span>
+                            <span className="font-medium">{translateCategory(category.name)}</span>
                           </div>
                           {hasSubcategories && (
                             <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
@@ -811,7 +807,10 @@ export function Shop() {
                                          product.imageScale === 'medium' ? 0.8 :
                                          product.imageScale === 'large' ? 0.9 : 
                                          product.imageScale === 'xlarge' ? 1.1 :
-                                         product.imageScale === 'xxlarge' ? 1.2 : 1
+                                         product.imageScale === 'xxlarge' ? 1.2 :
+                                         product.imageScale === 'scale140' ? 1.4 :
+                                         product.imageScale === 'scale160' ? 1.6 :
+                                         product.imageScale === 'scale180' ? 1.8 : 1
                         } as React.CSSProperties}
                         loading="lazy"
                       />
@@ -858,7 +857,7 @@ export function Shop() {
                       to={`/product/${product.id}#reviews`}
                       className="flex items-center gap-1 sm:gap-1.5 mt-1 mb-2 sm:mb-3 text-[9px] sm:text-xs text-gray-500 hover:text-primary-700 transition-colors"
                     >
-                      <Star className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 fill-yellow-500 text-yellow-500" />
+                      <Star className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 shrink-0 fill-yellow-500 text-yellow-500" />
                       <span className="font-semibold text-gray-700">{product.rating ? product.rating.toFixed(1) : "5.0"}</span>
                       <span>({Math.floor((product.name.length * 17) % 200) + 45})</span>
                       <span className="ml-auto text-[8px] sm:text-[10px] font-semibold text-primary-600 bg-primary-50 px-1 sm:px-1.5 py-0.5 rounded">
