@@ -176,18 +176,40 @@ function FaceMakeupImageIcon() {
 export function ProductCategories() {
   const { t } = useLanguage();
 
-  const categories = [
-    { titleKey: "cat_sun_care",   descKey: "cat_sun_care_desc",   badgeKey: "cat_sun_care_badge",   icon: SunCareImageIcon,       gradient: "from-yellow-100/60 to-orange-50/40",  href: "/shop?category=suncare"   },
-    { titleKey: "cat_cleansing",  descKey: "cat_cleansing_desc",  badgeKey: "cat_cleansing_badge",  icon: CleansingImageIcon,     gradient: "from-rose-100/60 to-red-50/40",       href: "/shop?category=cleansing" },
-    { titleKey: "cat_serum",      descKey: "cat_serum_desc",      badgeKey: "cat_serum_badge",      icon: SerumAmpouleImageIcon,  gradient: "from-green-100/60 to-emerald-50/40",  href: "/shop?category=serum"     },
-    { titleKey: "cat_cream",      descKey: "cat_cream_desc",      badgeKey: "cat_cream_badge",      icon: CreamImageIcon,         gradient: "from-blue-100/60 to-indigo-50/40",    href: "/shop?category=cream"     },
-    { titleKey: "cat_toner",      descKey: "cat_toner_desc",      badgeKey: "cat_toner_badge",      icon: TonerImageIcon,         gradient: "from-sky-100/60 to-blue-50/40",       href: "/shop?category=toner"     },
-    { titleKey: "cat_mask",       descKey: "cat_mask_desc",       badgeKey: "cat_mask_badge",       icon: MaskImageIcon,          gradient: "from-teal-100/60 to-cyan-50/40",      href: "/shop?category=mask"      },
-    { titleKey: "cat_lip_makeup", descKey: "cat_lip_makeup_desc", badgeKey: "cat_lip_makeup_badge", icon: LipMakeupImageIcon,     gradient: "from-pink-100/60 to-rose-50/40",      href: "/shop?category=makeup"    },
-    { titleKey: "cat_face_makeup",descKey: "cat_face_makeup_desc",badgeKey: "cat_face_makeup_badge",icon: FaceMakeupImageIcon,    gradient: "from-amber-100/60 to-yellow-50/40",   href: "/shop?category=makeup"    },
-    { titleKey: "cat_hair_care",  descKey: "cat_hair_care_desc",  badgeKey: "cat_hair_care_badge",  icon: HairCareImageIcon,      gradient: "from-emerald-100/60 to-teal-50/40",   href: "/shop?category=haircare"  },
-    { titleKey: "cat_body_care",  descKey: "cat_body_care_desc",  badgeKey: "cat_body_care_badge",  icon: BodyCareImageIcon,      gradient: "from-slate-100/60 to-zinc-50/40",     href: "/shop?category=bodycare"  },
+  const liveProducts = getLiveInventoryForCustomers();
+  const dynamicCategoryNames = Array.from(new Set(liveProducts.map(p => p.category).filter(Boolean)));
+  
+  const defaultCategories = [
+    { titleKey: "cat_sun_care",   name: "Sun Care", descKey: "cat_sun_care_desc",   badgeKey: "cat_sun_care_badge",   icon: SunCareImageIcon,       gradient: "from-yellow-100/60 to-orange-50/40",  href: "/shop?category=suncare"   },
+    { titleKey: "cat_cleansing",  name: "Cleansing", descKey: "cat_cleansing_desc",  badgeKey: "cat_cleansing_badge",  icon: CleansingImageIcon,     gradient: "from-rose-100/60 to-red-50/40",       href: "/shop?category=cleansing" },
+    { titleKey: "cat_serum",      name: "Serum & Ampoule", descKey: "cat_serum_desc",      badgeKey: "cat_serum_badge",      icon: SerumAmpouleImageIcon,  gradient: "from-green-100/60 to-emerald-50/40",  href: "/shop?category=serum"     },
+    { titleKey: "cat_cream",      name: "Cream", descKey: "cat_cream_desc",      badgeKey: "cat_cream_badge",      icon: CreamImageIcon,         gradient: "from-blue-100/60 to-indigo-50/40",    href: "/shop?category=cream"     },
+    { titleKey: "cat_toner",      name: "Toner", descKey: "cat_toner_desc",      badgeKey: "cat_toner_badge",      icon: TonerImageIcon,         gradient: "from-sky-100/60 to-blue-50/40",       href: "/shop?category=toner"     },
+    { titleKey: "cat_mask",       name: "Mask", descKey: "cat_mask_desc",       badgeKey: "cat_mask_badge",       icon: MaskImageIcon,          gradient: "from-teal-100/60 to-cyan-50/40",      href: "/shop?category=mask"      },
+    { titleKey: "cat_lip_makeup", name: "Lip Makeup", descKey: "cat_lip_makeup_desc", badgeKey: "cat_lip_makeup_badge", icon: LipMakeupImageIcon,     gradient: "from-pink-100/60 to-rose-50/40",      href: "/shop?category=makeup"    },
+    { titleKey: "cat_face_makeup",name: "Face Makeup", descKey: "cat_face_makeup_desc",badgeKey: "cat_face_makeup_badge",icon: FaceMakeupImageIcon,    gradient: "from-amber-100/60 to-yellow-50/40",   href: "/shop?category=makeup"    },
+    { titleKey: "cat_hair_care",  name: "Hair Care", descKey: "cat_hair_care_desc",  badgeKey: "cat_hair_care_badge",  icon: HairCareImageIcon,      gradient: "from-emerald-100/60 to-teal-50/40",   href: "/shop?category=haircare"  },
+    { titleKey: "cat_body_care",  name: "Body Care", descKey: "cat_body_care_desc",  badgeKey: "cat_body_care_badge",  icon: BodyCareImageIcon,      gradient: "from-slate-100/60 to-zinc-50/40",     href: "/shop?category=bodycare"  },
   ];
+
+  const enrichedCategories = defaultCategories.filter(dc => 
+    dynamicCategoryNames.some(dcn => dcn.toLowerCase() === dc.name.toLowerCase())
+  );
+
+  const defaultCategoryNames = new Set(defaultCategories.map(c => c.name.toLowerCase()));
+  const customCategories = dynamicCategoryNames
+    .filter(name => !defaultCategoryNames.has(name.toLowerCase()))
+    .map(name => ({
+      titleKey: name,
+      name: name,
+      descKey: "Premium products in " + name,
+      badgeKey: "NEW",
+      icon: () => <div className="w-full h-full bg-primary-100 rounded-xl sm:rounded-3xl flex items-center justify-center font-bold text-primary-800 text-xl">{name.charAt(0)}</div>,
+      gradient: "from-primary-100/60 to-primary-50/40",
+      href: `/shop?category=${encodeURIComponent(name.toLowerCase())}`
+    }));
+
+  const categories = [...enrichedCategories, ...customCategories];
 
   return (
     <section id="products" className="py-12 sm:py-16 md:py-20 bg-primary-50/50">
