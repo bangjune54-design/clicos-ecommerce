@@ -163,6 +163,7 @@ export function Shop() {
   const { language, t } = useLanguage();
   const { getLocalizedProduct, formatProductPrice } = useCountry();
   const CATEGORY_STRUCTURE = useMemo(() => getDynamicCategoryStructure(), [allShopProducts]);
+  const ALL_CATEGORIES = useMemo(() => CATEGORY_STRUCTURE.flatMap((c: any) => [c.name, ...(c.subcategories || [])]), [CATEGORY_STRUCTURE]);
   const [mobileFilterTab, setMobileFilterTab] = useState<"none" | "category" | "brand">("none");
   
   const d = (key: string) => {
@@ -218,8 +219,6 @@ export function Shop() {
   };
 
   React.useEffect(() => {
-    const ALL_CATEGORIES = CATEGORY_STRUCTURE.flatMap((c: any) => [c.name, ...(c.subcategories || [])]);
-
     if (initialCategory) {
       const matched = ALL_CATEGORIES.find(c => c.toLowerCase().replace(/ & /g, "").replace(/ /g, "") === initialCategory);
       setActiveCategory(matched || "All");
