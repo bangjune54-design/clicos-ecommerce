@@ -5,68 +5,8 @@ import {
   ChevronDown, 
   ShoppingBag, 
   Search, 
-  Star,
-  Sun, 
-  Droplets, 
-  Sparkles, 
-  Wind, 
-  Layers, 
-  Smile, 
-  Brush, 
-  Scissors, 
-  Heart, 
-  Grid 
+  Star 
 } from "lucide-react";
-
-function getCategoryIcon(catName: string) {
-  const name = catName.toLowerCase();
-  if (name === "skincare") {
-    return <img src="/categories/skincare.jpg" alt="Skincare" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name === "makeup") {
-    return <img src="/categories/makeup.jpg" alt="Makeup" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name === "hair care" || name === "haircare") {
-    return <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name === "body care" || name === "bodycare") {
-    return <img src="/categories/body-care.jpg" alt="Body Care" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name === "sun care" || name === "suncare" || name.includes("sun")) {
-    return <img src="/categories/sun-care.jpg" alt="Sun Care" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name.includes("cleansing")) {
-    return <img src="/categories/cleansing.jpg" alt="Cleansing" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name.includes("serum") || name.includes("ampoule")) {
-    return <img src="/categories/serum.jpg" alt="Serum & Ampoule" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name.includes("cream")) {
-    return <img src="/categories/cream.jpg" alt="Cream" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name.includes("toner")) {
-    return <img src="/categories/toner.jpg" alt="Toner" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name.includes("mask")) {
-    return <img src="/categories/mask.jpg" alt="Mask" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name.includes("lip")) {
-    return <img src="/categories/lip-makeup.jpg" alt="Lip Makeup" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name.includes("face")) {
-    return <img src="/categories/face-makeup.jpg" alt="Face Makeup" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name.includes("makeup")) {
-    return <img src="/categories/makeup.jpg" alt="Makeup" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name.includes("hair")) {
-    return <img src="/categories/hair-care.jpg" alt="Hair Care" className="w-full h-full object-cover rounded-md" />;
-  }
-  if (name.includes("body")) {
-    return <img src="/categories/body-care.jpg" alt="Body Care" className="w-full h-full object-cover rounded-md" />;
-  }
-  return <Grid className="w-5 h-5 text-gray-500" />;
-}
 import { Card, CardContent } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
