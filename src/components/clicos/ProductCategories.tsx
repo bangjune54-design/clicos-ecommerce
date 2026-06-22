@@ -207,7 +207,7 @@ export function ProductCategories() {
       badgeKey: "NEW",
       icon: () => <div className="w-full h-full bg-primary-100 rounded-xl sm:rounded-3xl flex items-center justify-center font-bold text-primary-800 text-xl">{name.charAt(0)}</div>,
       gradient: "from-primary-100/60 to-primary-50/40",
-      href: `/shop?category=${encodeURIComponent(name.toLowerCase())}`
+      href: `/shop?category=${encodeURIComponent(name.toLowerCase().replace(/ & /g, "").replace(/ /g, ""))}`
     }));
 
   const categories = [...enrichedCategories, ...customCategories];

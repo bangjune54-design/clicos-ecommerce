@@ -303,7 +303,7 @@ export function Header({ activeSection }: HeaderProps) {
                   {uniqueCategories.map((cat: any) => (
                     <Link
                       key={cat}
-                      to={`/shop?category=${encodeURIComponent(cat.toLowerCase())}`}
+                      to={`/shop?category=${encodeURIComponent(cat.toLowerCase().replace(/ & /g, "").replace(/ /g, ""))}`}
                       onClick={() => setHoveredDropdown(null)}
                       className="px-3 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-between"
                     >
@@ -866,7 +866,7 @@ export function Header({ activeSection }: HeaderProps) {
           {uniqueCategories.map((cat: any) => (
             <Link
               key={cat}
-              to={`/shop?category=${encodeURIComponent(cat.toLowerCase())}`}
+              to={`/shop?category=${encodeURIComponent(cat.toLowerCase().replace(/ & /g, "").replace(/ /g, ""))}`}
               onClick={() => setMobileCategoriesDropdownOpen(false)}
               className="px-3 py-2 text-xs font-bold rounded-lg text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center gap-3"
             >
@@ -1110,7 +1110,7 @@ export function Header({ activeSection }: HeaderProps) {
                       {uniqueCategories.map((cat: any) => (
                         <Link
                           key={cat}
-                          to={`/shop?category=${encodeURIComponent(cat.toLowerCase())}`}
+                          to={`/shop?category=${encodeURIComponent(cat.toLowerCase().replace(/ & /g, "").replace(/ /g, ""))}`}
                           onClick={() => setMobileMenuOpen(false)}
                           className="py-2 text-sm font-semibold text-gray-600 hover:text-primary-800 transition-colors flex items-center gap-3"
                         >

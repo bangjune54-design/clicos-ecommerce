@@ -24,7 +24,7 @@ const navigation: NavItem[] = [
       { name: "All", translationKey: "all", href: "/shop" },
       { name: "Skincare", translationKey: "skincare", href: "/shop?category=skincare" },
       { name: "Makeup", translationKey: "makeup", href: "/shop?category=makeup" },
-      { name: "Haircare", translationKey: "haircare", href: "/shop?category=hair-and-body" },
+      { name: "Haircare", translationKey: "haircare", href: "/shop?category=haircare" },
       { name: "Brands", translationKey: "brands", href: "/brands" },
     ]
   },
