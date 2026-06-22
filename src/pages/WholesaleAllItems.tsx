@@ -25,11 +25,48 @@ const getDynamicCategoryStructure = () => {
     )
   );
   
+  const hierarchy = [
+    { 
+      name: "Skincare", 
+      subcategories: ["Sun Care", "Cleansing", "Serum & Ampoule", "Cream", "Toner", "Mask"] 
+    },
+    { 
+      name: "Makeup", 
+      subcategories: ["Lip Makeup", "Face Makeup"] 
+    },
+    { name: "Hair Care" },
+    { name: "Body Care" }
+  ];
+  
+  const filtered = hierarchy.map(item => {
+    if (item.subcategories) {
+      const subs = item.subcategories.filter(sub => 
+        uniqueCats.some(uc => uc.toLowerCase() === sub.toLowerCase())
+      );
+      return {
+        ...item,
+        subcategories: subs.length > 0 ? subs : undefined
+      };
+    }
+    return item;
+  }).filter(item => {
+    const isParentPresent = uniqueCats.some(uc => uc.toLowerCase() === item.name.toLowerCase());
+    const hasSubsPresent = !!item.subcategories;
+    return isParentPresent || hasSubsPresent;
+  });
+
+  const hierarchyNames = new Set(
+    hierarchy.flatMap(item => [item.name.toLowerCase(), ...(item.subcategories || []).map(s => s.toLowerCase())])
+  );
+  
+  const custom = uniqueCats
+    .filter(uc => !hierarchyNames.has(uc.toLowerCase()))
+    .map(uc => ({ name: uc.charAt(0).toUpperCase() + uc.slice(1) }));
+    
   return [
     { name: "All" },
-    ...uniqueCats.map(cat => ({
-      name: cat.charAt(0).toUpperCase() + cat.slice(1)
-    }))
+    ...filtered,
+    ...custom
   ];
 };
 

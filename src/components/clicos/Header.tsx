@@ -1,11 +1,66 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Menu, X, Globe, Search, User, ShoppingBag, ChevronDown } from "lucide-react";
+import { Menu, X, Globe, Search, User, ShoppingBag, ChevronDown, ChevronRight } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useCurrency } from "../../contexts/CurrencyContext";
 import { useCountry, COUNTRIES } from "../../contexts/CountryContext";
 import { saveAndClearCartForAccount } from "../../utils/cart";
 import { getLiveBrandsForCustomers, getLiveInventoryForCustomers } from "../../utils/inventory";
+
+const getFilteredCategories = () => {
+  const uniqueCats = Array.from(
+    new Set(
+      getLiveInventoryForCustomers()
+        .map(p => p.category?.trim())
+        .filter(Boolean)
+    )
+  );
+
+  const hierarchy = ["Skincare", "Makeup", "Hair Care", "Body Care"];
+  const subcategoriesMap: Record<string, string[]> = {
+    "Skincare": ["Sun Care", "Cleansing", "Serum & Ampoule", "Cream", "Toner", "Mask"],
+    "Makeup": ["Lip Makeup", "Face Makeup"]
+  };
+
+  const filtered = hierarchy.filter(catName => {
+    const isParentPresent = uniqueCats.some(uc => uc.toLowerCase() === catName.toLowerCase());
+    const isAnySubPresent = subcategoriesMap[catName]?.some(sub => 
+      uniqueCats.some(uc => uc.toLowerCase() === sub.toLowerCase())
+    );
+    return isParentPresent || isAnySubPresent;
+  });
+
+  const hierarchyNames = new Set([
+    ...hierarchy.map(c => c.toLowerCase()),
+    ...Object.values(subcategoriesMap).flat().map(c => c.toLowerCase())
+  ]);
+
+  const custom = uniqueCats
+    .filter(uc => !hierarchyNames.has(uc.toLowerCase()))
+    .map(uc => uc.charAt(0).toUpperCase() + uc.slice(1));
+
+  return [...filtered, ...custom];
+};
+
+const getSubcategories = (categoryName: string) => {
+  const name = categoryName.toLowerCase();
+  const uniqueCats = Array.from(
+    new Set(
+      getLiveInventoryForCustomers()
+        .map(p => p.category?.trim())
+        .filter(Boolean)
+    )
+  );
+
+  let subs: string[] = [];
+  if (name === "skincare") {
+    subs = ["Sun Care", "Cleansing", "Serum & Ampoule", "Cream", "Toner", "Mask"];
+  } else if (name === "makeup") {
+    subs = ["Lip Makeup", "Face Makeup"];
+  }
+
+  return subs.filter(sub => uniqueCats.some(uc => uc.toLowerCase() === sub.toLowerCase()));
+};
 
 interface HeaderProps {
   activeSection: string;
@@ -99,7 +154,7 @@ export function Header({ activeSection }: HeaderProps) {
   const currencies = ["USD", "EUR", "KRW", "JPY", "GBP", "BRL"];
 
   const [liveBrands, setLiveBrands] = useState(() => getLiveBrandsForCustomers());
-  const [uniqueCategories, setUniqueCategories] = useState(() => Array.from(new Set(getLiveInventoryForCustomers().map(p => p.category).filter(Boolean))));
+  const [uniqueCategories, setUniqueCategories] = useState(() => getFilteredCategories());
 
   useEffect(() => {
     const handleScroll = () => {
@@ -288,29 +343,62 @@ export function Header({ activeSection }: HeaderProps) {
             </Link>
             {hoveredDropdown === "categories" && (
               <div 
-                className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50"
+                className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 flex items-start gap-3"
                 onMouseLeave={() => setHoveredCategory(null)}
               >
                 {/* Main Categories Panel */}
-                <div className="w-[220px] lg:w-[280px] xl:w-[340px] 2xl:w-[420px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 grid grid-cols-2 gap-2 animate-slide-up">
+                <div className="w-[180px] lg:w-[220px] xl:w-[260px] 2xl:w-[320px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
                   <Link
                     to="/shop"
                     onClick={() => setHoveredDropdown(null)}
-                    className="col-span-2 px-4 py-2 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-bold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-center border-b border-gray-100 mb-2"
+                    className="px-3 py-2 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-bold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-center border-b border-gray-100 pb-2 mb-1"
                   >
                     {t('all')}
                   </Link>
-                  {uniqueCategories.map((cat: any) => (
-                    <Link
-                      key={cat}
-                      to={`/shop?category=${encodeURIComponent(cat.toLowerCase().replace(/ & /g, "").replace(/ /g, ""))}`}
-                      onClick={() => setHoveredDropdown(null)}
-                      className="px-3 py-2.5 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-between"
-                    >
-                      <span className="truncate">{cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
-                    </Link>
-                  ))}
+                  {uniqueCategories.map((cat: any) => {
+                    const hasSubs = getSubcategories(cat).length > 0;
+                    return (
+                      <Link
+                        key={cat}
+                        to={`/shop?category=${encodeURIComponent(cat.toLowerCase().replace(/ & /g, "").replace(/ /g, ""))}`}
+                        onMouseEnter={() => setHoveredCategory(cat)}
+                        onClick={() => setHoveredDropdown(null)}
+                        className={`px-3 py-2 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-xl transition-colors flex items-center justify-between ${
+                          hoveredCategory === cat
+                            ? "bg-primary-50 text-primary-800"
+                            : "text-gray-700 hover:bg-primary-50 hover:text-primary-800"
+                        }`}
+                      >
+                        <span className="truncate">{cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
+                        {hasSubs && (
+                          <ChevronRight className="w-3.5 h-3.5 lg:w-4 h-4 text-gray-400" />
+                        )}
+                      </Link>
+                    );
+                  })}
                 </div>
+
+                {/* Subcategories Flyout Panel */}
+                {hoveredCategory && getSubcategories(hoveredCategory).length > 0 && (
+                  <div className="w-[180px] lg:w-[220px] xl:w-[260px] 2xl:w-[320px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
+                    <div className="px-3 py-1 text-[10px] lg:text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2 mb-1">
+                      {hoveredCategory} Categories
+                    </div>
+                    {getSubcategories(hoveredCategory).map((sub: string) => (
+                      <Link
+                        key={sub}
+                        to={`/shop?category=${encodeURIComponent(sub.toLowerCase().replace(/ & /g, "").replace(/ /g, ""))}`}
+                        onClick={() => {
+                          setHoveredDropdown(null);
+                          setHoveredCategory(null);
+                        }}
+                        className="px-3 py-2 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-between"
+                      >
+                        <span>{sub}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
