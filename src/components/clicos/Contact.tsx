@@ -135,7 +135,7 @@ export function Contact() {
                       Headquarters
                     </h4>
                     <p className="mt-1 text-sm font-medium text-primary-100 leading-normal">
-                      20, Dongjak-daero 11-gil, Dongjak-gu, Seoul, 07014 Republic of Korea
+                      AV BRIGADEIRO FARIA LIMA 1811 CONJ 115 CXPST 11248
                     </p>
                   </div>
                 </div>
@@ -149,8 +149,8 @@ export function Contact() {
                       Inquiries Email
                     </h4>
                     <p className="mt-1 text-sm font-medium text-primary-100 leading-normal">
-                      info@clicos.co.kr<br />
-                      wholesale@clicos.co.kr
+                      info@clicos.com<br />
+                      wholesale@clicos.com
                     </p>
                   </div>
                 </div>
@@ -164,8 +164,8 @@ export function Contact() {
                       Direct Support
                     </h4>
                     <p className="mt-1 text-sm font-medium text-primary-100 leading-normal">
-                      +82 010-3734-1492<br />
-                      <span className="text-[10px] text-primary-300 font-medium">Mon - Fri: 9am - 6pm KST</span>
+                      +55 (11) 94512-2703<br />
+                      <span className="text-[10px] text-primary-300 font-medium">Mon - Fri: 9am - 6pm</span>
                     </p>
                   </div>
                 </div>

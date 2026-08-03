@@ -389,11 +389,9 @@ export function Contact() {
                     <MapPin className="h-6 w-6 text-primary-700" aria-hidden="true" />
                   </div>
                   <div>
-                    <h4 className="text-base font-semibold leading-7 text-gray-900">{d("Seoul Headquarters")}</h4>
+                    <h4 className="text-base font-semibold leading-7 text-gray-900">{d("Headquarters")}</h4>
                     <p className="mt-1 text-sm leading-6 text-gray-600">
-                      20, Dongjak-daero 11-gil<br />
-                      Dongjak-gu, Seoul<br />
-                      07014 Republic of Korea
+                      AV BRIGADEIRO FARIA LIMA 1811 CONJ 115 CXPST 11248
                     </p>
                   </div>
                 </div>
@@ -418,7 +416,7 @@ export function Contact() {
                   <div>
                     <h4 className="text-base font-semibold leading-7 text-gray-900">{d("Call Us")}</h4>
                     <p className="mt-1 text-sm leading-6 text-gray-600">
-                      +82 010-3734-1492<br />
+                      +55 (11) 94512-2703<br />
                       {d("Mon-Fri")}
                     </p>
                   </div>
