@@ -66,15 +66,16 @@ export function Signup() {
     // Success state
     const saved = localStorage.getItem("allAccounts");
     const accounts = saved ? JSON.parse(saved) : [
-      { id: "USR-001", name: "Jane Doe", email: "jane.doe@example.com", type: "Retail", joined: "Jan 12, 2026", status: "Active" },
-      { id: "USR-002", name: "John Smith", email: "retail_shop@b2b.com", type: "Wholesale", joined: "Feb 05, 2026", status: "Active" },
-      { id: "USR-003", name: "Admin Setup", email: "info@clicos.co.kr", type: "Admin", joined: "Dec 01, 2025", status: "Active" },
+      { id: "USR-001", name: "Jane Doe", email: "jane.doe@example.com", password: "password123", type: "Retail", joined: "Jan 12, 2026", status: "Active" },
+      { id: "USR-002", name: "John Smith", email: "retail_shop@b2b.com", password: "password123", type: "Wholesale", joined: "Feb 05, 2026", status: "Active" },
+      { id: "USR-003", name: "Admin Setup", email: "info@clicos.com", password: "adminpassword", type: "Admin", joined: "Dec 01, 2025", status: "Active" },
     ];
     
     const newAccount = {
       id: `USR-${Math.floor(Math.random() * 900 + 100)}`,
       name: `${formData.firstName} ${formData.lastName}`.trim(),
       email: formData.email,
+      password: formData.password,
       phone: `${formData.phoneCode} ${formData.phone}`,
       type: activeTab === "general" ? "Retail" : "Wholesale",
       country: formData.country,

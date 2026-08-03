@@ -9,6 +9,7 @@ export function Login() {
   const defaultTab = searchParams.get("type") === "wholesale" ? "wholesale" : "general";
   const [activeTab, setActiveTab] = useState<"general" | "wholesale">(defaultTab);
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -17,21 +18,46 @@ export function Login() {
     setError("");
     const cleanEmail = email.trim().toLowerCase();
 
-    // Look up the registered account to get the first name
-    const allAccounts: any[] = JSON.parse(localStorage.getItem("allAccounts") || "[]");
+    // Load registered accounts or initialize default accounts
+    const savedAccountsString = localStorage.getItem("allAccounts");
+    let allAccounts: any[] = [];
+    if (savedAccountsString) {
+      allAccounts = JSON.parse(savedAccountsString);
+    } else {
+      allAccounts = [
+        { id: "USR-001", name: "Jane Doe", email: "jane.doe@example.com", password: "password123", type: "Retail", status: "Active" },
+        { id: "USR-002", name: "John Smith", email: "retail_shop@b2b.com", password: "password123", type: "Wholesale", status: "Active" },
+        { id: "USR-003", name: "Admin Setup", email: "info@clicos.com", password: "adminpassword", type: "Admin", status: "Active" },
+        { id: "USR-004", name: "Wholesale Admin", email: "wholesale@clicos.com", password: "adminpassword", type: "Admin", status: "Active" },
+      ];
+      localStorage.setItem("allAccounts", JSON.stringify(allAccounts));
+    }
+
+    // Look up the registered account
     const account = allAccounts.find(
       (a: any) => a.email?.toLowerCase() === cleanEmail
     );
     
-    if (account) {
-      if (activeTab === "wholesale" && account.type === "Retail") {
-        setError("Retail accounts cannot log in through the wholesale portal.");
-        return;
-      }
-      if (activeTab === "general" && account.type === "Wholesale") {
-        setError("Wholesale accounts cannot log in through the retail portal.");
-        return;
-      }
+    // Account must exist
+    if (!account) {
+      setError("Invalid account email or password. Please check your credentials or register a new account.");
+      return;
+    }
+
+    // Password must match if stored
+    if (account.password && account.password !== password) {
+      setError("Invalid account email or password. Please try again.");
+      return;
+    }
+
+    // Role portal tab validation
+    if (activeTab === "wholesale" && account.type === "Retail") {
+      setError("Retail accounts cannot log in through the wholesale portal.");
+      return;
+    }
+    if (activeTab === "general" && account.type === "Wholesale") {
+      setError("Wholesale accounts cannot log in through the retail portal.");
+      return;
     }
     
     const firstName = account?.name?.split(" ")[0] || "";
@@ -54,7 +80,7 @@ export function Login() {
     // Show success feedback
     window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: "Successfully logged in!" } }));
 
-    if (cleanEmail === "info@clicos.co.kr" || cleanEmail === "wholesale@clicos.co.kr") {
+    if (cleanEmail === "info@clicos.com" || cleanEmail === "wholesale@clicos.com") {
       navigate("/admin");
     } else {
       navigate("/");
@@ -128,6 +154,8 @@ export function Login() {
                 autoComplete="current-password"
                 required
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
