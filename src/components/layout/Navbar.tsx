@@ -65,7 +65,7 @@ export function Navbar() {
   const currentUser = allAccounts.find((a: any) => a.email.toLowerCase() === userEmail?.toLowerCase());
   const userName = currentUser?.name || userEmail?.split('@')[0] || "Account";
   const userFirstName = localStorage.getItem("userFirstName") || (currentUser?.name ? currentUser.name.split(" ")[0] : (userName !== "Account" ? userName.split(" ")[0] : ""));
-  const isAdmin = userEmail === "info@clicos.co.kr" || userEmail === "wholesale@clicos.co.kr";
+  const isAdmin = userEmail ? userEmail.toLowerCase().endsWith("@clicos.co.kr") : false;
   
   // Search state
   const [isSearchOpen, setIsSearchOpen] = useState(false);

@@ -27,8 +27,8 @@ export function Login() {
       allAccounts = [
         { id: "USR-001", name: "Jane Doe", email: "jane.doe@example.com", password: "password123", type: "Retail", status: "Active" },
         { id: "USR-002", name: "John Smith", email: "retail_shop@b2b.com", password: "password123", type: "Wholesale", status: "Active" },
-        { id: "USR-003", name: "Admin Setup", email: "info@clicos.com", password: "adminpassword", type: "Admin", status: "Active" },
-        { id: "USR-004", name: "Wholesale Admin", email: "wholesale@clicos.com", password: "adminpassword", type: "Admin", status: "Active" },
+        { id: "USR-003", name: "Admin Setup", email: "info@clicos.co.kr", password: "adminpassword", type: "Admin", status: "Active" },
+        { id: "USR-004", name: "Wholesale Admin", email: "wholesale@clicos.co.kr", password: "adminpassword", type: "Admin", status: "Active" },
       ];
       localStorage.setItem("allAccounts", JSON.stringify(allAccounts));
     }
@@ -80,7 +80,7 @@ export function Login() {
     // Show success feedback
     window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: "Successfully logged in!" } }));
 
-    if (cleanEmail === "info@clicos.com" || cleanEmail === "wholesale@clicos.com") {
+    if (cleanEmail.endsWith("@clicos.co.kr")) {
       navigate("/admin");
     } else {
       navigate("/");

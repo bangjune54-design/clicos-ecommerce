@@ -12,7 +12,7 @@ export function AppLayout() {
 
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
-    const isAdmin = userEmail === "info@clicos.co.kr" || userEmail === "wholesale@clicos.co.kr";
+    const isAdmin = userEmail ? userEmail.toLowerCase().endsWith("@clicos.co.kr") : false;
   }, [location.pathname, navigate]);
 
   // Setup active section tracking observer for the sticky header (runs only on landing page)

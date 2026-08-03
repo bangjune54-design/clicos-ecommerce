@@ -145,7 +145,7 @@ export function AdminDashboard() {
   // Security check mapping
   useEffect(() => {
     const email = localStorage.getItem("userEmail") || "";
-    if (email !== "info@clicos.co.kr" && email !== "wholesale@clicos.co.kr") {
+    if (!email.toLowerCase().endsWith("@clicos.co.kr")) {
       window.location.href = "/login";
     }
   }, []);
