@@ -14,7 +14,7 @@ export function About() {
             Bringing Seoul to the <span className="text-accent text-transparent bg-clip-text bg-gradient-to-r from-primary-800 to-accent">World</span>
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Founded in the heart of South Korea, CLICOS is a premier exporter of authentic Korean cosmetics and hair care products to retail and wholesale customers globally.
+            Founded in the heart of South Korea, KOSMERA is a premier exporter of authentic Korean cosmetics and hair care products to retail and wholesale customers globally.
           </p>
         </div>
       </div>

@@ -150,7 +150,7 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
   return (
     <section 
       id="home" 
-      className="relative w-full h-auto bg-primary-950 overflow-hidden select-none touch-pan-y"
+      className="relative w-full h-auto bg-primary-950 overflow-hidden select-none touch-pan-y mt-2 sm:mt-3"
     >
       {/* Draggable Slides Container Track */}
       <div 
@@ -176,12 +176,12 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
             style={{ width: `${100 / banners.length}%` }}
           >
             {/* Image Layer */}
-            <div className="w-full h-full select-none relative flex items-center justify-center bg-primary-950">
+            <div className="w-full h-full select-none relative flex items-center justify-center bg-primary-950 min-h-[320px] sm:min-h-[420px] lg:min-h-[520px]">
               {banner.image ? (
                 <img
                   src={banner.image}
                   alt={banner.title}
-                  className="w-full h-auto block select-none pointer-events-none"
+                  className="w-full h-auto block select-none pointer-events-none object-cover"
                   draggable={false}
                 />
               ) : (
@@ -189,6 +189,27 @@ export function BannerCarousel({ banners }: BannerCarouselProps) {
                   {/* Abstract ambient decorative light spheres */}
                   <div className="absolute top-1/4 left-1/4 w-36 h-36 sm:w-96 sm:h-96 rounded-full bg-accent/10 blur-[100px] animate-pulse"></div>
                   <div className="absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-80 sm:h-80 rounded-full bg-primary-500/10 blur-[100px]"></div>
+                </div>
+              )}
+              
+              {/* Optional Text Overlay for banners with title or subtitle */}
+              {(banner.title || banner.subtitle) && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 sm:p-10 text-center z-10 bg-black/30 pointer-events-none">
+                  {banner.country && banner.country !== "ALL" && (
+                    <span className="text-[10px] sm:text-xs uppercase tracking-widest font-bold bg-white/20 text-white px-3 py-1 rounded-full mb-3 backdrop-blur-sm border border-white/20">
+                      {banner.country === "US" ? "🇺🇸 United States" : banner.country === "KR" ? "🇰🇷 South Korea" : banner.country === "BR" ? "🇧🇷 Brazil" : banner.country}
+                    </span>
+                  )}
+                  {banner.title && (
+                    <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white tracking-wide max-w-4xl drop-shadow-md">
+                      {banner.title}
+                    </h2>
+                  )}
+                  {banner.subtitle && (
+                    <p className="text-xs sm:text-base md:text-lg text-white/90 font-medium max-w-2xl mt-2 sm:mt-3 drop-shadow">
+                      {banner.subtitle}
+                    </p>
+                  )}
                 </div>
               )}
             </div>

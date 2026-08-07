@@ -12,6 +12,7 @@ import { WholesaleAllItems } from "@/pages/WholesaleAllItems";
 import { Brands } from "@/pages/Brands";
 import { Login } from "@/pages/Login";
 import { Signup } from "@/pages/Signup";
+import { ForgotPassword } from "@/pages/ForgotPassword";
 import { MyPage } from "@/pages/MyPage";
 import { Orders } from "@/pages/Orders";
 import { Cart } from "@/pages/Cart";
@@ -64,6 +65,7 @@ function App() {
                 <Route path="/brands" element={<Brands />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/my-page" element={<MyPage />} />
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/cart" element={<Cart />} />

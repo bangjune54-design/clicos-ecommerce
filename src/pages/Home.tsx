@@ -8,14 +8,16 @@ import { About } from "../components/clicos/About";
 import { BrandGrid } from "../components/clicos/BrandGrid";
 import { WhyChooseUs } from "../components/clicos/WhyChooseUs";
 import { getLiveBanners, getLiveTickers } from "../utils/homepage";
+import { useCountry } from "../contexts/CountryContext";
 
 export function Home() {
-  const [banners, setBanners] = useState(() => getLiveBanners());
+  const { country } = useCountry();
+  const [banners, setBanners] = useState(() => getLiveBanners(country));
   const [tickers, setTickers] = useState(() => getLiveTickers());
 
   useEffect(() => {
     // Set document title
-    document.title = "CLICOS | Korean Cosmetics & Hair Care Export";
+    document.title = "KOSMERA | Korean Cosmetics & Hair Care Export";
     
     // Ingress metadata description
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -26,13 +28,21 @@ export function Home() {
     }
     metaDescription.setAttribute(
       "content",
-      "CLICOS exports premium Korean cosmetics, skincare, and hair care products to retail customers and international distributors worldwide."
+      "KOSMERA exports premium Korean cosmetics, skincare, and hair care products to retail customers and international distributors worldwide."
     );
-
-    // Sync live banners and tickers from storage
-    setBanners(getLiveBanners());
-    setTickers(getLiveTickers());
   }, []);
+
+  useEffect(() => {
+    setBanners(getLiveBanners(country));
+    setTickers(getLiveTickers());
+
+    const handleStorage = () => {
+      setBanners(getLiveBanners(country));
+      setTickers(getLiveTickers());
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, [country]);
 
   return (
     <div className="bg-white selection:bg-primary-100 selection:text-primary-900 w-full flex flex-col">

@@ -1,21 +1,24 @@
 import React from "react";
 import { ShieldCheck, Award, Sparkles } from "lucide-react";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 export function About() {
+  const { t } = useLanguage();
+
   const highlights = [
     {
-      title: "100% Authentic Guarantee",
-      desc: "All cosmetics, skincare, and hair care products are sourced directly from authorized brand labs and suppliers in Seoul.",
+      titleKey: "highlight_1_title",
+      descKey: "highlight_1_desc",
       icon: ShieldCheck,
     },
     {
-      title: "Comprehensive Export Support",
-      desc: "Worry-free logistics, reliable customized documentation, and robust packaging designed for overseas shipping.",
+      titleKey: "highlight_2_title",
+      descKey: "highlight_2_desc",
       icon: Award,
     },
     {
-      title: "K-Beauty Sourcing Expertise",
-      desc: "Continuous curation of trending formulas, indie innovations, and market-ready staples to elevate your supply catalog.",
+      titleKey: "highlight_3_title",
+      descKey: "highlight_3_desc",
       icon: Sparkles,
     },
   ];
@@ -47,10 +50,10 @@ export function About() {
                   50+
                 </div>
                 <div className="text-sm font-bold text-gray-500 uppercase tracking-widest">
-                  Countries Supplied
+                  {t("countries_supplied")}
                 </div>
                 <p className="text-sm text-gray-650 font-medium">
-                  Connecting premium Korean formulations directly to global retail networks and beauty enthusiasts.
+                  {t("countries_supplied_desc")}
                 </p>
               </div>
             </div>
@@ -62,15 +65,14 @@ export function About() {
           {/* Right Side: Copy Content (6 columns) */}
           <div className="lg:col-span-6 flex flex-col justify-center">
             <span className="text-xs font-bold tracking-widest text-accent uppercase mb-2">
-              Who We Are
+              {t("who_we_are")}
             </span>
             <h2 className="text-3xl font-serif font-bold tracking-tight text-gray-900 sm:text-4xl leading-tight">
-              Bridging International Markets with Premium{" "}
-              <span className="heading-gradient font-serif">K-Beauty</span>
+              {t("about_headline")}
             </h2>
             
             <p className="mt-6 text-base sm:text-lg leading-relaxed text-gray-600 font-medium">
-              CLICOS connects international buyers with premium Korean beauty and hair care products. We work with trusted Korean brands and suppliers to provide reliable sourcing, product selection, and export support for retailers and distributors worldwide.
+              {t("about_paragraph")}
             </p>
 
             {/* List of Highlights */}
@@ -82,10 +84,10 @@ export function About() {
                   </div>
                   <div>
                     <h4 className="text-base font-bold text-gray-900 font-serif">
-                      {item.title}
+                      {t(item.titleKey)}
                     </h4>
                     <p className="mt-1 text-sm text-gray-500 leading-normal font-medium">
-                      {item.desc}
+                      {t(item.descKey)}
                     </p>
                   </div>
                 </div>

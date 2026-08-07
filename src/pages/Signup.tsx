@@ -23,16 +23,51 @@ export function Signup() {
     country: ""
   });
   const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  const isPasswordMismatch = Boolean(
+    (formData.confirmPassword || submitted) &&
+    formData.password !== "" &&
+    formData.password !== formData.confirmPassword
+  );
+
   // Load existing accounts dynamically
-  const savedAccounts = JSON.parse(localStorage.getItem("allAccounts") || "[]");
+  const hasStoredAccounts = localStorage.getItem("allAccounts") !== null;
+  const savedAccounts = hasStoredAccounts ? JSON.parse(localStorage.getItem("allAccounts") || "[]") : [];
   const defaultAccounts = [
-    { email: "jane.doe@example.com" }, 
-    { email: "retail_shop@b2b.com" }, 
-    { email: "info@clicos.co.kr" }
+    { email: "jane.doe@example.com", phone: "+1 555-0192" }, 
+    { email: "retail_shop@b2b.com", phone: "+1 555-0193" }, 
+    { email: "info@clicos.co.kr", phone: "+82 10-1234-5678" },
+    { email: "wholesale@clicos.co.kr", phone: "+82 10-9876-5432" }
   ];
-  const allAccountsToMerge = savedAccounts.length > 0 ? savedAccounts : defaultAccounts;
+  const allAccountsToMerge = hasStoredAccounts ? savedAccounts : defaultAccounts;
+
+  const isEmailTaken = Boolean(
+    formData.email.trim() &&
+    allAccountsToMerge.some((a: any) => a.email && a.email.trim().toLowerCase() === formData.email.trim().toLowerCase())
+  );
+
+  const cleanDigits = (val: string) => val.replace(/\D/g, "");
+
+  const isPhoneTaken = Boolean(
+    formData.phone.trim() &&
+    allAccountsToMerge.some((a: any) => {
+      if (!a.phone) return false;
+      const existingDigits = cleanDigits(a.phone);
+      const inputPhoneDigits = cleanDigits(formData.phone);
+      const fullInputDigits = cleanDigits(formData.phoneCode + formData.phone);
+      
+      if (!existingDigits || !inputPhoneDigits) return false;
+
+      return (
+        existingDigits === inputPhoneDigits ||
+        existingDigits === fullInputDigits ||
+        (inputPhoneDigits.length >= 7 && existingDigits.endsWith(inputPhoneDigits)) ||
+        (existingDigits.length >= 7 && inputPhoneDigits.endsWith(existingDigits))
+      );
+    })
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -44,22 +79,21 @@ export function Signup() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitted(true);
     setError("");
 
-    const isEmailTaken = allAccountsToMerge.some((a: any) => a.email.toLowerCase() === formData.email.toLowerCase());
     if (isEmailTaken) {
-      setError("An account with this email already exists.");
+      setError("An account with this email address already exists.");
       return;
     }
 
-    const isPhoneTaken = allAccountsToMerge.some((a: any) => a.phone && a.phone === formData.phone);
     if (isPhoneTaken) {
       setError("An account with this phone number already exists.");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match. Please try again.");
+      setError("Passwords do not match. Account creation failed.");
       return;
     }
 
@@ -219,6 +253,7 @@ export function Signup() {
                 placeholder="Email address"
                 value={formData.email}
                 onChange={handleChange}
+                error={isEmailTaken ? "An account with this email address already exists." : undefined}
               />
             </div>
             <div>
@@ -228,7 +263,9 @@ export function Signup() {
                   name="phoneCode"
                   value={formData.phoneCode}
                   onChange={handleChange}
-                  className="w-[110px] flex h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow"
+                  className={`w-[110px] flex h-10 rounded-md border bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow ${
+                    isPhoneTaken ? "border-red-500" : "border-gray-300"
+                  }`}
                 >
                   {COUNTRIES.map(c => (
                     <option key={c.code} value={c.dialCode}>{c.flag} {c.dialCode}</option>
@@ -243,6 +280,7 @@ export function Signup() {
                   placeholder="Phone Number"
                   value={formData.phone}
                   onChange={handleChange}
+                  error={isPhoneTaken ? "An account with this phone number already exists." : undefined}
                   className="flex-1"
                 />
               </div>
@@ -287,12 +325,17 @@ export function Signup() {
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                error={isPasswordMismatch ? "Passwords do not match." : undefined}
               />
             </div>
           </div>
 
           <div>
-            <Button type="submit" className="w-full justify-center">
+            <Button
+              type="submit"
+              className="w-full justify-center"
+              disabled={isPasswordMismatch || isEmailTaken || isPhoneTaken}
+            >
               Sign up as {activeTab === "general" ? "Customer" : "Wholesale Partner"}
             </Button>
           </div>

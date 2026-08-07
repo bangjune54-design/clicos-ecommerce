@@ -31,7 +31,7 @@ export function CountryProvider({ children }: { children: ReactNode }) {
   const { setCurrency, formatLocalPrice, formatPrice } = useCurrency();
   
   const [country, setCountryState] = useState(() => {
-    return localStorage.getItem("selectedCountry") || "US";
+    return localStorage.getItem("selectedCountry") || "BR";
   });
 
   const changeCountry = (code: string) => {
@@ -92,20 +92,33 @@ export function CountryProvider({ children }: { children: ReactNode }) {
     };
   };
 
-  const formatProductPrice = (product: any, isWholesale: boolean = false) => {
+  const formatProductPrice = (product: any, isWholesale?: boolean) => {
     if (!product) return "";
     
-    const overrides = isWholesale ? product.countryWholesalePrices : product.countryPrices;
-    const currencyOverrides = isWholesale ? product.currencyWholesalePrices : product.currencyPrices;
+    const userType = localStorage.getItem("userType") || "retail";
+    const useWholesale = isWholesale !== undefined ? isWholesale : (userType === "wholesale");
+    
+    const overrides = useWholesale ? product.countryWholesalePrices : product.countryPrices;
+    const currencyOverrides = useWholesale ? product.currencyWholesalePrices : product.currencyPrices;
     
     // 1. If country override exists, format it directly (no double conversion)
     if (overrides && overrides[country] !== undefined && overrides[country] !== null && overrides[country] !== "") {
-      const amount = Number(overrides[country]);
+      let amount = Number(overrides[country]);
+      if (useWholesale) {
+        const retailOverride = product.countryPrices?.[country];
+        const retailAmount = (retailOverride !== undefined && retailOverride !== null && retailOverride !== "") ? Number(retailOverride) : Number(product.price);
+        if (amount > retailAmount) amount = retailAmount;
+      }
       return formatLocalPrice(amount);
     }
     
     // 2. Otherwise use the standard formatPrice on base price
-    const basePrice = isWholesale ? product.wholesalePrice : product.price;
+    let basePrice = Number(product.price || 0);
+    if (useWholesale) {
+      const wp = (product.wholesalePrice !== undefined && product.wholesalePrice !== null && Number(product.wholesalePrice) > 0) ? Number(product.wholesalePrice) : basePrice;
+      basePrice = wp <= basePrice ? wp : basePrice;
+    }
+    
     return formatPrice(basePrice, currencyOverrides);
   };
 

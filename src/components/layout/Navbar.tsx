@@ -124,13 +124,13 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full glass">
       <nav
-        className="mx-auto flex max-w-[1800px] items-center justify-between p-4 lg:px-8"
+        className="mx-auto flex max-w-[1800px] items-center justify-between py-2 px-4 lg:px-8"
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5 flex items-center gap-2">
             <span className="sr-only">CLICOS</span>
-            <div className="text-2xl font-serif font-bold tracking-tight text-primary-900">
+            <div className="text-sm lg:text-base font-serif font-bold tracking-tight text-primary-900">
               CLICOS
             </div>
           </Link>
@@ -472,7 +472,7 @@ export function Navbar() {
             <div className="flex items-center justify-between">
               <Link to="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
                 <span className="sr-only">CLICOS</span>
-                <div className="text-2xl font-serif font-bold text-primary-900">CLICOS</div>
+                <div className="text-sm sm:text-base font-serif font-bold text-primary-900">CLICOS</div>
               </Link>
               <button
                 type="button"

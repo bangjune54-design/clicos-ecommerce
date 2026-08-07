@@ -38,7 +38,7 @@ export const translations: Record<string, Record<string, string>> = {
     select_option: "Select option...",
     hero_title: "Authentic K-Beauty,",
     hero_subtitle: "Delivered Globally",
-    hero_description: "Premium skincare and hair care products exported worldwide. Whether you're shopping for yourself or stocking your store, CLICOS is your trusted K-Beauty partner.",
+    hero_description: "Premium skincare and hair care products exported worldwide. Whether you're shopping for yourself or stocking your store, KOSMERA is your trusted K-Beauty partner.",
     shop_retail: "Shop Retail",
     apply_wholesale: "Apply for Wholesale",
     best_sellers: "Best Sellers",
@@ -48,7 +48,7 @@ export const translations: Record<string, Record<string, string>> = {
     shop_by_category: "Shop by Category",
     browse_all_categories: "Browse all categories",
     shop_now: "Shop now",
-    why_choose_clicos: "Why Choose CLICOS",
+    why_choose_clicos: "Why Choose KOSMERA",
     gateway_to_k_beauty: "Your Gateway to Korean Beauty",
     clicos_description: "We bridge the gap between Seoul's finest cosmetic innovations and the global market, ensuring quality, authenticity, and seamless delivery.",
     bulk_title: "Looking to Buy in Bulk?",
@@ -118,6 +118,70 @@ export const translations: Record<string, Record<string, string>> = {
     cat_body_care: "Body Care",
     cat_body_care_desc: "Gentle body washes, moisturizing lotions, and body oils.",
     cat_body_care_badge: "Body Therapy",
+
+    // Hero & Header Extra
+    global_supply_network: "Global Supply Network",
+    hero_headline_main: "Exporting Premium Korean Cosmetics & Hair Care Products",
+    globally: "Globally",
+    explore_products: "Explore Products",
+    contact_us: "Contact Us",
+    our_partner_brands: "Our Partner Brands",
+    direct_contracts: "Direct Contracts",
+    view_all_partner_brands: "View All Partner Brands →",
+    select_country: "Select Country",
+
+    // Best Sellers & New Arrivals
+    customer_favorites: "Customer Favorites",
+    browse_full_shop: "Browse Full Shop",
+    best_seller_badge: "Best Seller",
+    just_added: "Just Added",
+    new_arrivals: "New Arrivals",
+    view_all_catalog: "View All Catalog",
+    badge_new: "New",
+
+    // About Section
+    who_we_are: "Who We Are",
+    about_headline: "Bridging International Markets with Premium K-Beauty",
+    about_paragraph: "KOSMERA connects international buyers with premium Korean beauty and hair care products. We work with trusted Korean brands and suppliers to provide reliable sourcing, product selection, and export support for retailers and distributors worldwide.",
+    countries_supplied: "Countries Supplied",
+    countries_supplied_desc: "Connecting premium Korean formulations directly to global retail networks and beauty enthusiasts.",
+    highlight_1_title: "100% Authentic Guarantee",
+    highlight_1_desc: "All cosmetics, skincare, and hair care products are sourced directly from authorized brand labs and suppliers in Seoul.",
+    highlight_2_title: "Comprehensive Export Support",
+    highlight_2_desc: "Worry-free logistics, reliable customized documentation, and robust packaging designed for overseas shipping.",
+    highlight_3_title: "K-Beauty Sourcing Expertise",
+    highlight_3_desc: "Continuous curation of trending formulas, indie innovations, and market-ready staples to elevate your supply catalog.",
+
+    // Why Choose Us Section
+    why_choose_us: "Why Choose Us",
+    sourcing_excellence_title: "Sourcing Excellence You Can Trust",
+    sourcing_excellence_desc: "KOSMERA is dedicated to ensuring that global beauty merchants have access to authentic, high-quality Korean formulations with seamless logistics.",
+    reason_1_title: "Korean Beauty Expertise",
+    reason_1_desc: "Our deep ties with leading laboratories and brands in Seoul allow us to source the most innovative and trending formulations in K-Beauty first.",
+    reason_2_title: "Reliable Export Support",
+    reason_2_desc: "We manage customs compliance, export documentation, packaging safety, and international freight options, making sourcing simple.",
+    reason_3_title: "Retail & B2B Friendly",
+    reason_3_desc: "We operate with flexible structures, competitive pricing tiers, and reasonable Minimum Order Quantities to serve both retailers and distributors.",
+    reason_4_title: "Premium Product Selection",
+    reason_4_desc: "Every single product is strictly selected, verified for 100% authenticity, and complies with standard global safety regulations.",
+
+    // Brand Grid Section
+    brand_partners: "Brand Partners",
+    brand_partners_title: "Trusted K-Beauty Global Distribution",
+    brand_partners_desc: "We source and export an extensive portfolio of renowned Korean beauty and professional hair care brands, ensuring authentic product delivery worldwide.",
+
+    // Footer Section
+    footer_desc: "We connect global retailers and distributors with authenticated, premium Korean cosmetics and hair care products sourced directly from manufacturers in Seoul.",
+    navigation: "Navigation",
+    follow_us: "Follow Us",
+    back_to_top: "Back To Top",
+    all_rights_reserved: "All rights reserved.",
+    privacy_policy: "Privacy Policy",
+    terms_of_service: "Terms of Service",
+
+    // Shop Page Filters
+    select_category: "Select Category",
+    clear_filter: "Clear Filter",
   },
   KO: {
     home: "홈",
@@ -158,7 +222,7 @@ export const translations: Record<string, Record<string, string>> = {
     select_option: "옵션 선택...",
     hero_title: "정품 K-뷰티,",
     hero_subtitle: "전 세계 배송",
-    hero_description: "전 세계로 수출되는 프리미엄 스킨케어 및 헤어케어 제품입니다. 개인 쇼핑이든 매장 재고 확보든, CLICOS는 신뢰할 수 있는 K-뷰티 파트너입니다.",
+    hero_description: "전 세계로 수출되는 프리미엄 스킨케어 및 헤어케어 제품입니다. 개인 쇼핑이든 매장 재고 확보든, KOSMERA는 신뢰할 수 있는 K-뷰티 파트너입니다.",
     shop_retail: "소매 쇼핑",
     apply_wholesale: "도매 신청",
     best_sellers: "베스트셀러",
@@ -168,7 +232,7 @@ export const translations: Record<string, Record<string, string>> = {
     shop_by_category: "카테고리별 쇼핑",
     browse_all_categories: "모든 카테고리 찾아보기",
     shop_now: "지금 쇼핑하기",
-    why_choose_clicos: "왜 CLICOS인가요?",
+    why_choose_clicos: "왜 KOSMERA인가요?",
     gateway_to_k_beauty: "한국 뷰티의 관문",
     clicos_description: "서울의 최고 화장품 혁신과 글로벌 시장 사이의 가교 역할을 하며 품질, 정품 보장, 원활한 배송을 약속합니다.",
     bulk_title: "대량 구매를 원하시나요?",
@@ -235,9 +299,73 @@ export const translations: Record<string, Record<string, string>> = {
     cat_hair_care: "헤어 케어",
     cat_hair_care_desc: "영양 샴푸, 트리트먼트, 헤어 세럼.",
     cat_hair_care_badge: "두피 케어",
-    cat_body_care: "바디 케어",
-    cat_body_care_desc: "순한 바디워시, 보습 로션, 바디 오일.",
+    cat_body_care: "바디케어",
+    cat_body_care_desc: "순한 바디워시, 수분 보습 로션 및 바디 오일.",
     cat_body_care_badge: "바디 테라피",
+
+    // Hero & Header Extra
+    global_supply_network: "글로벌 공급망 네트워크",
+    hero_headline_main: "프리미엄 한국 화장품 및 헤어케어 제품 글로벌 수출",
+    globally: "글로벌 시장으로",
+    explore_products: "제품 탐색하기",
+    contact_us: "문의하기",
+    our_partner_brands: "공식 파트너 브랜드",
+    direct_contracts: "직접 제조 계약",
+    view_all_partner_brands: "모든 파트너 브랜드 보기 →",
+    select_country: "국가 선택",
+
+    // Best Sellers & New Arrivals
+    customer_favorites: "고객 인기 상품",
+    browse_full_shop: "전체 쇼핑몰 둘러보기",
+    best_seller_badge: "베스트셀러",
+    just_added: "신규 입고",
+    new_arrivals: "신제품",
+    view_all_catalog: "전체 카탈로그 보기",
+    badge_new: "신제품",
+
+    // About Section
+    who_we_are: "회사 소개",
+    about_headline: "글로벌 시장과 프리미엄 K-뷰티를 잇는 가교",
+    about_paragraph: "KOSMERA는 전 세계 구매자와 프리미엄 한국 화장품 및 헤어케어 제품을 연결합니다. 검증된 한국 브랜드 및 공급업체와 협력하여 소매업체와 유통업체를 위한 안정적인 소싱, 제품 선정 및 수출 지원을 제공합니다.",
+    countries_supplied: "수출 국가 수",
+    countries_supplied_desc: "프리미엄 한국 화장품 처방을 글로벌 유통망과 뷰티 매니아에게 직접 공급합니다.",
+    highlight_1_title: "100% 정품 보장",
+    highlight_1_desc: "모든 화장품, 스킨케어 및 헤어케어 제품은 서울의 공인 브랜드 연구소 및 공급업체에서 직접 소싱됩니다.",
+    highlight_2_title: "체계적인 수출 지원",
+    highlight_2_desc: "걱정 없는 물류, 신뢰할 수 있는 맞춤형 서류 작업, 해외 배송을 위한 튼튼한 포장을 제공합니다.",
+    highlight_3_title: "K-뷰티 소싱 전문성",
+    highlight_3_desc: "트렌디한 포뮬러, 인디 브랜드의 혁신 및 인기 필수템을 지속적으로 엄선하여 공급 라인업을 강화합니다.",
+
+    // Why Choose Us Section
+    why_choose_us: "왜 KOSMERA인가",
+    sourcing_excellence_title: "신뢰할 수 있는 탁월한 소싱 능력",
+    sourcing_excellence_desc: "KOSMERA는 전 세계 뷰티 유통업체가 원활한 물류와 함께 정품 고품질 한국 화장품 처방을 제공받을 수 있도록 최선을 다합니다.",
+    reason_1_title: "한국 뷰티 전문성",
+    reason_1_desc: "서울의 주요 연구소 및 브랜드와의 긴밀한 파트너십을 통해 K-뷰티의 가장 혁신적이고 트렌디한 처방을 최우선으로 소싱합니다.",
+    reason_2_title: "안전하고 신뢰할 수 있는 수출 지원",
+    reason_2_desc: "통관 준수, 수출 서류 작업, 포장 안전 및 국제 화물 운송 옵션을 관리하여 소싱 과정을 간소화합니다.",
+    reason_3_title: "소매 및 B2B 맞춤형 지원",
+    reason_3_desc: "유연한 운영 구조, 경쟁력 있는 가격대 및 합리적인 최소 주문 수량(MOQ)으로 소매업체와 유통업체 모두를 지원합니다.",
+    reason_4_title: "프리미엄 제품 선별",
+    reason_4_desc: "모든 제품은 엄격하게 선별되고 100% 정품 인증을 받았으며 글로벌 표준 안전 규정을 준수합니다.",
+
+    // Brand Grid Section
+    brand_partners: "파트너 브랜드",
+    brand_partners_title: "신뢰받는 K-뷰티 글로벌 유통",
+    brand_partners_desc: "유명 한국 뷰티 및 전문 헤어케어 브랜드의 다양하고 폭넓은 포트폴리오를 소싱 및 수출하여 전 세계에 정품을 배송합니다.",
+
+    // Footer Section
+    footer_desc: "서울의 제조사로부터 직접 소싱한 검증된 프리미엄 한국 화장품 및 헤어케어 제품으로 전 세계 소매업체와 유통업체를 연결합니다.",
+    navigation: "내비게이션",
+    follow_us: "팔로우",
+    back_to_top: "맨 위로",
+    all_rights_reserved: "All rights reserved.",
+    privacy_policy: "개인정보 처리방침",
+    terms_of_service: "이용약관",
+
+    // Shop Page Filters
+    select_category: "카테고리 선택",
+    clear_filter: "필터 초기화",
   },
   PT: {
     home: "Início",
@@ -280,7 +408,7 @@ export const translations: Record<string, Record<string, string>> = {
     // New Header/Search translation keys
     products: "Produtos",
     categories: "Categorias",
-    wholesales: "Vendas por atacado",
+    wholesales: "Atacado",
     order_form: "Formulário de pedido",
     wholesale_products: "Produtos de atacado",
     hair_care: "Cuidados com o cabelo",
@@ -328,6 +456,70 @@ export const translations: Record<string, Record<string, string>> = {
     cat_body_care: "Cuidados Corporais",
     cat_body_care_desc: "Sabonetes suaves, loções hidratantes e óleos corporais.",
     cat_body_care_badge: "Terapia Corporal",
+
+    // Hero & Header Extra
+    global_supply_network: "Rede Global de Suprimentos",
+    hero_headline_main: "Exportando Cosméticos e Produtos Capilares Coreanos de Alta Qualidade",
+    globally: "Globalmente",
+    explore_products: "Explorar Produtos",
+    contact_us: "Fale Conosco",
+    our_partner_brands: "Nossas Marcas Parceiras",
+    direct_contracts: "Contratos Diretos",
+    view_all_partner_brands: "Ver todas as marcas parceiras →",
+    select_country: "Selecionar País",
+
+    // Best Sellers & New Arrivals
+    customer_favorites: "Favoritos dos Clientes",
+    browse_full_shop: "Navegar por toda a loja",
+    best_seller_badge: "Mais Vendido",
+    just_added: "Recém Adicionados",
+    new_arrivals: "Novidades",
+    view_all_catalog: "Ver todo o catálogo",
+    badge_new: "Novo",
+
+    // About Section
+    who_we_are: "Quem Somos",
+    about_headline: "Conectando Mercados Internacionais à Beleza Coreana Premium",
+    about_paragraph: "KOSMERA conecta compradores internacionais com cosméticos e produtos capilares coreanos de alta qualidade. Trabalhamos com marcas e fornecedores confiáveis da Coreia para oferecer suprimento seguro, seleção de produtos e suporte para exportação a varejistas e distribuidores em todo o mundo.",
+    countries_supplied: "Países Atendidos",
+    countries_supplied_desc: "Conectando formulações coreanas premium diretamente a redes de varejo globais e entusiastas da beleza.",
+    highlight_1_title: "Garantia de 100% de Autenticidade",
+    highlight_1_desc: "Todos os cosméticos, cuidados com a pele e produtos capilares são adquiridos diretamente de laboratórios e fornecedores autorizados em Seul.",
+    highlight_2_title: "Suporte Completo para Exportação",
+    highlight_2_desc: "Logística sem preocupações, documentação personalizada confiável e embalagens resistentes projetadas para envio internacional.",
+    highlight_3_title: "Especialização em Suprimentos K-Beauty",
+    highlight_3_desc: "Curadoria contínua de fórmulas em tendência, inovações indie e produtos essenciais para elevar seu catálogo de suprimentos.",
+
+    // Why Choose Us Section
+    why_choose_us: "Por que nos escolher",
+    sourcing_excellence_title: "Excelência em Suprimentos em que Você Pode Confiar",
+    sourcing_excellence_desc: "KOSMERA dedica-se a garantir que comerciantes globais de beleza tenham acesso a formulações coreanas autênticas e de alta qualidade com logística sem complicações.",
+    reason_1_title: "Especialização em Beleza Coreana",
+    reason_1_desc: "Nossas fortes ligações com os principais laboratórios e marcas de Seul nos permitem fornecer em primeira mão as formulações mais inovadoras e tendências em K-Beauty.",
+    reason_2_title: "Suporte de Exportação Confiável",
+    reason_2_desc: "Gerenciamos a conformidade alfandegária, documentação de exportação, segurança de embalagem e frete internacional, simplificando seu suprimento.",
+    reason_3_title: "Ideal para Varejo e B2B",
+    reason_3_desc: "Operamos com estruturas flexíveis, preços competitivos e quantidades mínimas de pedido acessíveis para atender varejistas e distribuidores.",
+    reason_4_title: "Seleção de Produtos Premium",
+    reason_4_desc: "Cada produto é rigorosamente selecionado, verificado quanto à autenticidade 100% e cumpre as normas globais de segurança.",
+
+    // Brand Grid Section
+    brand_partners: "Marcas Parceiras",
+    brand_partners_title: "Distribuição Global de K-Beauty de Confiança",
+    brand_partners_desc: "Fornecemos e exportamos um amplo portfólio de marcas renomadas de beleza e cuidados capilares profissionais da Coreia, garantindo a entrega de produtos autênticos em todo o mundo.",
+
+    // Footer Section
+    footer_desc: "Conectamos varejistas e distribuidores globais com cosméticos e produtos capilares coreanos autênticos de alta qualidade, adquiridos diretamente de fabricantes em Seul.",
+    navigation: "Navegação",
+    follow_us: "Siga-nos",
+    back_to_top: "Voltar ao topo",
+    all_rights_reserved: "Todos os direitos reservados.",
+    privacy_policy: "Política de Privacidade",
+    terms_of_service: "Termos de Serviço",
+
+    // Shop Page Filters
+    select_category: "Selecionar Categoria",
+    clear_filter: "Limpar Filtro",
   },
   ES: {
     home: "Inicio",
@@ -418,6 +610,70 @@ export const translations: Record<string, Record<string, string>> = {
     cat_body_care: "Cuidado Corporal",
     cat_body_care_desc: "Geles de ducha suaves, lociones hidratantes y aceites corporales.",
     cat_body_care_badge: "Terapia Corporal",
+
+    // Hero & Header Extra
+    global_supply_network: "Red Global de Suministros",
+    hero_headline_main: "Exportación de Cosméticos y Productos Capilares Coreanos de Alta Calidad",
+    globally: "a Nivel Global",
+    explore_products: "Explorar Productos",
+    contact_us: "Contáctenos",
+    our_partner_brands: "Nuestras Marcas Socias",
+    direct_contracts: "Contratos Directos",
+    view_all_partner_brands: "Ver todas las marcas socias →",
+    select_country: "Seleccionar País",
+
+    // Best Sellers & New Arrivals
+    customer_favorites: "Favoritos de los Clientes",
+    browse_full_shop: "Explorar toda la tienda",
+    best_seller_badge: "Más Vendido",
+    just_added: "Recién Añadidos",
+    new_arrivals: "Novedades",
+    view_all_catalog: "Ver todo el catálogo",
+    badge_new: "Nuevo",
+
+    // About Section
+    who_we_are: "Quiénes Somos",
+    about_headline: "Conectando Mercados Internacionales con K-Beauty Premium",
+    about_paragraph: "KOSMERA conecta a compradores internacionales con productos de belleza y cuidado del cabello coreanos de primera calidad. Trabajamos con marcas y proveedores coreanos confiables para brindar abastecimiento seguro, selección de productos y soporte de exportación a minoristas y distribuidores de todo el mundo.",
+    countries_supplied: "Países Atendidos",
+    countries_supplied_desc: "Conectando formulaciones coreanas premium directamente a redes minoristas globales y entusiastas de la belleza.",
+    highlight_1_title: "Garantía de 100% Autenticidad",
+    highlight_1_desc: "Todos los cosméticos, productos para el cuidado de la piel y el cabello se obtienen directamente de laboratorios y proveedores autorizados en Seúl.",
+    highlight_2_title: "Soporte Integral de Exportación",
+    highlight_2_desc: "Logística sin complicaciones, documentación personalizada confiable y embalaje resistente diseñado para envíos al extranjero.",
+    highlight_3_title: "Experiencia en Abastecimiento K-Beauty",
+    highlight_3_desc: "Curaduría continua de fórmulas de tendencia, innovaciones independientes y productos esenciales listos para el mercado.",
+
+    // Why Choose Us Section
+    why_choose_us: "Por qué elegirnos",
+    sourcing_excellence_title: "Excelencia de Abastecimiento en la que Puede Confiar",
+    sourcing_excellence_desc: "KOSMERA se dedica a garantizar que los comerciantes globales de belleza tengan acceso a formulaciones coreanas auténticas y de alta calidad con una logística fluida.",
+    reason_1_title: "Experiencia en Belleza Coreana",
+    reason_1_desc: "Nuestra sólida relación con laboratorios y marcas líderes en Seúl nos permite abastecer primero las formulaciones más innovadoras y de tendencia en K-Beauty.",
+    reason_2_title: "Soporte de Exportación Confiable",
+    reason_2_desc: "Gestionamos el cumplimiento aduanero, la documentación de exportación, la seguridad del embalaje y las opciones de flete internacional, simplificando el abastecimiento.",
+    reason_3_title: "Ideal para Minoristas y B2B",
+    reason_3_desc: "Operamos con estructuras flexibles, precios competitivos y cantidades mínimas de pedido razonables para atender tanto a minoristas como a distribuidores.",
+    reason_4_title: "Selección de Productos Premium",
+    reason_4_desc: "Cada producto se selecciona estrictamente, se verifica para garantizar un 100% de autenticidad y cumple con las regulaciones de seguridad globales.",
+
+    // Brand Grid Section
+    brand_partners: "Marcas Socias",
+    brand_partners_title: "Distribución Global de K-Beauty de Confianza",
+    brand_partners_desc: "Obtenemos y exportamos un amplio portafolio de reconocidas marcas coreanas de belleza y cuidado profesional del cabello, garantizando la entrega de productos auténticos en todo el mundo.",
+
+    // Footer Section
+    footer_desc: "Conectamos a minoristas y distribuidores globales con cosméticos y productos capilares coreanos auténticos de primera calidad, adquiridos directamente de fabricantes en Seúl.",
+    navigation: "Navegación",
+    follow_us: "Síganos",
+    back_to_top: "Volver arriba",
+    all_rights_reserved: "Todos los derechos reservados.",
+    privacy_policy: "Política de Privacidad",
+    terms_of_service: "Términos de Servicio",
+
+    // Shop Page Filters
+    select_category: "Seleccionar Categoría",
+    clear_filter: "Limpiar Filtro",
   },
   ZH: {
     home: "首页",
@@ -508,6 +764,59 @@ export const translations: Record<string, Record<string, string>> = {
     cat_body_care: "身体护理",
     cat_body_care_desc: "温和沐浴露、保湿乳液及身体油。",
     cat_body_care_badge: "身体疗养",
+
+    // Hero & Header Extra
+    global_supply_network: "全球供应链网络",
+    hero_headline_main: "出口韩国高端化妆品与洗护发产品",
+    globally: "走向全球",
+    explore_products: "探索产品",
+    contact_us: "联系我们",
+    our_partner_brands: "我们的合作伙伴品牌",
+    direct_contracts: "直签合同",
+    view_all_partner_brands: "查看所有合作品牌 →",
+    select_country: "选择国家/地区",
+
+    // Best Sellers & New Arrivals
+    customer_favorites: "最受顾客喜爱的产品",
+    browse_full_shop: "浏览全部商城",
+    best_seller_badge: "畅销",
+    just_added: "最新上架",
+    new_arrivals: "新品上市",
+    view_all_catalog: "查看完整目录",
+    badge_new: "新品",
+
+    // About Section
+    who_we_are: "关于我们",
+    about_headline: "连接国际市场与高端 K-Beauty",
+    why_choose_us: "为什么选择我们",
+    sourcing_excellence_title: "值得信赖的卓越采购支持",
+    sourcing_excellence_desc: "KOSMERA 致力于确保全球美妆商户能够获得正品、优质的韩国美容配方以及无缝的物流服务。",
+    reason_1_title: "韩国美妆专业知识",
+    reason_1_desc: "我们与首尔顶尖实验室及品牌建立的紧密联系，使我们能够率先采购到 K-Beauty 最具创新性与流行度的配方。",
+    reason_2_title: "可靠的出口支持",
+    reason_2_desc: "我们处理海关合规、出口文件、包装安全及国际货运选项，让选品采购变得简单高效。",
+    reason_3_title: "适合零售与 B2B 业务",
+    reason_3_desc: "我们拥有灵活的运营结构、具竞争力的价格阶梯以及合理的最小起订量（MOQ），全面服务零售商与分销商。",
+    reason_4_title: "严选高端产品",
+    reason_4_desc: "每件产品均经过严格挑选与 100% 正品验证，并符合全球通用安全法规。",
+
+    // Brand Grid Section
+    brand_partners: "品牌合作伙伴",
+    brand_partners_title: "值得信赖的 K-Beauty 全球分销",
+    brand_partners_desc: "我们采购并出口涵盖知名韩国美妆与专业洗护发品牌的丰富产品组合，确保全球范围内正品交付。",
+
+    // Footer Section
+    footer_desc: "我们为全球零售商与分销商提供直接采购自首尔制造商的正品高端韩国化妆品及洗护发产品。",
+    navigation: "导航",
+    follow_us: "关注我们",
+    back_to_top: "返回顶部",
+    all_rights_reserved: "保留所有权利。",
+    privacy_policy: "隐私政策",
+    terms_of_service: "服务条款",
+
+    // Shop Page Filters
+    select_category: "选择分类",
+    clear_filter: "清除筛选",
   },
   JA: {
     home: "ホーム",
@@ -598,5 +907,69 @@ export const translations: Record<string, Record<string, string>> = {
     cat_body_care: "ボディケア",
     cat_body_care_desc: "やさしいボディウォッシュ・保湿ローション・ボディオイル。",
     cat_body_care_badge: "ボディセラピー",
+
+    // Hero & Header Extra
+    global_supply_network: "グローバル供給ネットワーク",
+    hero_headline_main: "プレミアムな韓国コスメ＆ヘアケア製品を世界へ輸出",
+    globally: "世界中へ",
+    explore_products: "製品を見る",
+    contact_us: "お問い合わせ",
+    our_partner_brands: "パートナーブランド一覧",
+    direct_contracts: "直契約",
+    view_all_partner_brands: "すべてのパートナーブランドを見る →",
+    select_country: "国・地域を選択",
+
+    // Best Sellers & New Arrivals
+    customer_favorites: "人気お気に入り商品",
+    browse_full_shop: "すべてのショップを見る",
+    best_seller_badge: "ベストセラー",
+    just_added: "新着入荷",
+    new_arrivals: "新着商品",
+    view_all_catalog: "全カタログを見る",
+    badge_new: "NEW",
+
+    // About Section
+    who_we_are: "CLICOSについて",
+    about_headline: "世界の市場とプレミアムK-Beautyをつなぐ架け橋",
+    about_paragraph: "CLICOSは、世界中のバイヤーとプレミアムな韓国の化粧品およびヘアケア製品を結びつけます。信頼できる韓国ブランドやサプライヤーと連携し、世界中の小売り業者やディストリビューター向けに確実な仕入れ、製品選定、輸出サポートを提供します。",
+    countries_supplied: "供給国・地域",
+    countries_supplied_desc: "プレミアムな韓国の処方を世界の小売りネットワークと美を愛するお客様へ直接お届けします。",
+    highlight_1_title: "100% 正規品保証",
+    highlight_1_desc: "すべてのコスメ、スキンケア、ヘアケア製品は、ソウルの正規ブランドラボや authorized サプライヤーから直接仕入れています。",
+    highlight_2_title: "充実した輸出サポート",
+    highlight_2_desc: "安心の物流、信頼できるカスタマイズ書類、海外発送に耐えうる堅牢な梱包を提供します。",
+    highlight_3_title: "K-Beautyの仕入れノウハウ",
+    highlight_3_desc: "トレンドの処方、インディーズの革新製品、市場で人気の定番アイテムを厳選し、仕入れカタログを拡充します。",
+
+    // Why Choose Us Section
+    why_choose_us: "選ばれる理由",
+    sourcing_excellence_title: "信頼できる仕入れのクオリティ",
+    sourcing_excellence_desc: "CLICOSは、世界中のビューティー事業者様が本物の高品質な韓国コスメ処方にスムーズな物流で access できるよう取り組んでいます。",
+    reason_1_title: "韓国ビューティーの専門性",
+    reason_1_desc: "ソウルの主要なラボやブランド와의深いつながりにより、K-Beautyの最も革新的でトレンドの処方をいち早く仕入れることができます。",
+    reason_2_title: "信頼できる輸出サポート",
+    reason_2_desc: "通関、輸出書類、梱包の安全性、国際貨物の配送選択肢を管理し、仕入れをシンプルにします。",
+    reason_3_title: "リテール＆B2Bに最適",
+    reason_3_desc: "柔軟な運用体制、競争力のある価格設定、合理的 MO Q（最小発注数量）により、小売り業者様とディストリビューター様双方に対応します。",
+    reason_4_title: "厳選された製品ラインナップ",
+    reason_4_desc: "すべての製品は厳格に選定され、100%正規品であることが確認されており、グローバルな安全規制に準拠しています。",
+
+    // Brand Grid Section
+    brand_partners: "パートナーブランド",
+    brand_partners_title: "信頼されるK-Beautyグローバル流通",
+    brand_partners_desc: "有名韓国コスメおよびプロフェッショナルヘアケアブランドの広範なポートフォリオを仕入れ・輸出し、世界中へ正規品をお届けします。",
+
+    // Footer Section
+    footer_desc: "ソウルのメーカーから直接仕入れた本物のプレミアムな韓国コスメ＆ヘアケア製品で、世界の小売り業者様とディストリビューター様を結びつけます。",
+    navigation: "ナビゲーション",
+    follow_us: "公式SNS",
+    back_to_top: "ページ上部へ",
+    all_rights_reserved: "All rights reserved.",
+    privacy_policy: "プライバシーポリシー",
+    terms_of_service: "利用規約",
+
+    // Shop Page Filters
+    select_category: "カテゴリーを選択",
+    clear_filter: "フィルターを解除",
   }
 };

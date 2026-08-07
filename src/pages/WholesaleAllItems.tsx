@@ -440,6 +440,51 @@ export function WholesaleAllItems() {
                 </div>
               </div>
 
+              {/* Brands Filter */}
+              <div className="border-t border-gray-200 py-6">
+                <h4 className="font-semibold text-gray-900 mb-4">{d("brandLabel")}</h4>
+                <div className="space-y-1.5 max-h-64 overflow-y-auto pr-2 scrollbar-thin">
+                  <button
+                    onClick={() => {
+                      setActiveBrand(null);
+                      searchParams.delete("brand");
+                      setSearchParams(searchParams);
+                    }}
+                    className={`flex items-center justify-between w-full text-left text-sm py-1.5 px-2.5 rounded-lg transition-all ${
+                      !activeBrand
+                        ? "bg-primary-50 font-bold text-primary-800"
+                        : "text-gray-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    <span>{d("All")} {d("brandLabel")}s</span>
+                  </button>
+                  {getLiveBrandsForCustomers().map((brand) => {
+                    const isActive = activeBrand?.toLowerCase() === brand.name.toLowerCase();
+                    return (
+                      <button
+                        key={brand.name}
+                        onClick={() => {
+                          if (isActive) {
+                            setActiveBrand(null);
+                            searchParams.delete("brand");
+                          } else {
+                            setActiveBrand(brand.name);
+                            searchParams.set("brand", brand.name.toLowerCase());
+                          }
+                          setSearchParams(searchParams);
+                        }}
+                        className={`flex items-center justify-between w-full text-left text-sm py-1.5 px-2.5 rounded-lg transition-all ${
+                          isActive
+                            ? "bg-primary-50 font-bold text-primary-800"
+                            : "text-gray-600 hover:bg-gray-50"
+                        }`}
+                      >
+                        <span className="truncate">{brand.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -572,14 +617,10 @@ export function WholesaleAllItems() {
 
                     <div className="mt-auto flex flex-col mb-3">
                       <div className="flex items-center justify-between">
-                        <p className="text-base font-bold text-gray-900">{formatProductPrice(product, false)}</p>
+                        <p className="text-base font-bold text-gray-900">{formatProductPrice(product, true)}</p>
                       </div>
                       <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 mt-0.5">
-                        <span className="text-[9.5px] text-gray-500 font-medium whitespace-nowrap">{d("b2bPrice")}: <span className="text-accent font-bold">{formatProductPrice(product, true)}</span></span>
-                        <div className="flex items-center gap-1">
-                          <span className="text-[9px] bg-green-100 text-green-700 font-bold px-1 rounded shadow-sm whitespace-nowrap">{d("saveLabel")} {Math.round((1 - product.wholesalePrice / product.price) * 100)}%</span>
-                          <span className="text-[9px] text-gray-400 whitespace-nowrap">{d("moqLabel")} {product.moq}</span>
-                        </div>
+                        <span className="text-[9.5px] text-gray-400 whitespace-nowrap">{d("moqLabel")} {product.moq}</span>
                       </div>
                     </div>
                   </CardContent>

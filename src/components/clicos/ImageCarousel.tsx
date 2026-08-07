@@ -101,11 +101,11 @@ export function ImageCarousel({ images, productName, imageFit = 'contain', image
   return (
     <>
       <div 
-        className="aspect-square bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm border border-gray-100 touch-none select-none group"
+        className="aspect-square bg-white rounded-2xl overflow-hidden relative shadow-sm border border-gray-100 touch-none select-none group"
       >
         <div 
           ref={carouselRef}
-          className="w-full h-full flex transition-transform duration-300 ease-out cursor-grab active:cursor-grabbing"
+          className="w-full h-full flex transition-transform duration-300 ease-out cursor-grab active:cursor-grabbing bg-white"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
@@ -116,11 +116,11 @@ export function ImageCarousel({ images, productName, imageFit = 'contain', image
           }}
         >
           {validImages.map((src, i) => (
-            <div key={i} className="min-w-full h-full flex items-center justify-center p-8">
+            <div key={i} className="min-w-full h-full flex items-center justify-center p-8 bg-white">
               <img
                 src={src}
                 alt={`${productName} ${i + 1}`}
-                className="w-full h-full mix-blend-multiply transition-all duration-300 pointer-events-none"
+                className="w-full h-full mix-blend-multiply bg-white transition-all duration-300 pointer-events-none"
                 style={{
                   objectFit: imageFit,
                   transform: `scale(${scale})`

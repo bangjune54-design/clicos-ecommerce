@@ -1,7 +1,10 @@
 import React from "react";
 import { ArrowRight, Globe } from "lucide-react";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 export function Hero() {
+  const { t } = useLanguage();
+
   const scrollToSection = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     const element = document.getElementById(id);
@@ -35,19 +38,19 @@ export function Hero() {
         {/* Upper Tag */}
         <div className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary-200 ring-1 ring-white/20 bg-white/5 backdrop-blur-md mb-8 animate-fade-in shadow-sm">
           <Globe className="w-3.5 h-3.5 text-accent animate-spin-slow" />
-          Global Supply Network
+          {t("global_supply_network")}
         </div>
 
         {/* Headlines */}
         <h1 className="text-4xl font-serif font-bold tracking-tight text-white sm:text-6xl max-w-4xl leading-[1.15] drop-shadow-sm animate-slide-up">
-          Exporting Premium Korean Cosmetics & Hair Care Products{" "}
+          {t("hero_headline_main")}{" "}
           <span className="text-accent text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary-300">
-            Globally
+            {t("globally")}
           </span>
         </h1>
         
         <p className="mt-6 text-lg sm:text-xl leading-relaxed text-primary-100 max-w-2xl font-medium opacity-90 animate-slide-up" style={{ animationDelay: "0.15s" }}>
-          Trusted by retail customers and international distributors alike. We deliver K-Beauty innovations directly from Seoul.
+          {t("hero_description")}
         </p>
 
         {/* Actions */}
@@ -57,7 +60,7 @@ export function Hero() {
             onClick={(e) => scrollToSection(e, "products")}
             className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-semibold uppercase tracking-wider text-primary-950 bg-white hover:bg-primary-50 active:bg-primary-100 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
           >
-            Explore Products
+            {t("explore_products")}
             <ArrowRight className="w-4 h-4 text-primary-800" />
           </a>
           <a
@@ -65,7 +68,7 @@ export function Hero() {
             onClick={(e) => scrollToSection(e, "contact")}
             className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-semibold uppercase tracking-wider text-white border border-white/40 bg-white/5 hover:bg-white/10 hover:border-white/60 backdrop-blur-md transition-all hover:-translate-y-0.5"
           >
-            Contact Us
+            {t("contact_us")}
           </a>
         </div>
       </div>

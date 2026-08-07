@@ -269,13 +269,13 @@ export function Header({ activeSection }: HeaderProps) {
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-md py-2.5 md:py-4.5"
-          : "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-3.5 md:py-5.5"
+          ? "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-md py-1"
+          : "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm py-1.5"
       }`}
     >
       <nav className="hidden md:flex mx-auto max-w-[1800px] px-6 lg:px-8 items-center justify-between">
         {/* Logo */}
-        <div className="flex lg:flex-initial mr-4 lg:mr-10 xl:mr-16 2xl:mr-20">
+        <div className="flex lg:flex-initial mr-4 lg:mr-8 xl:mr-12">
           <Link
             to="/"
             onClick={(e) => {
@@ -286,14 +286,14 @@ export function Header({ activeSection }: HeaderProps) {
             }}
             className="flex items-center gap-2 group"
           >
-            <span className="text-3xl lg:text-4xl xl:text-[40px] 2xl:text-[44px] font-serif font-bold tracking-wider text-primary-900 group-hover:text-primary-700 transition-colors">
-              CLICOS
+            <span className="text-xl lg:text-2xl font-serif font-bold tracking-wider text-primary-900 group-hover:text-primary-700 transition-colors">
+              KOSMERA
             </span>
           </Link>
         </div>
 
         {/* Desktop Menu (Home, Products, Categories, Brands, Contact, Wholesales) */}
-        <div className="hidden md:flex md:gap-x-3 lg:gap-x-6 xl:gap-x-10 2xl:gap-x-14 items-center mr-auto">
+        <div className="hidden md:flex md:gap-x-4 lg:gap-x-7 xl:gap-x-9 items-center mr-auto">
           {/* Home */}
           <Link
             to="/"
@@ -303,7 +303,7 @@ export function Header({ activeSection }: HeaderProps) {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-sm lg:text-base font-bold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/" && activeSection === "home"
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -315,7 +315,7 @@ export function Header({ activeSection }: HeaderProps) {
           {/* Products */}
           <Link
             to="/shop"
-            className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-sm lg:text-base font-bold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/shop" && !searchParams.get("category") && !searchParams.get("brand") && !searchParams.get("collection")
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -332,14 +332,14 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/shop"
-              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 lg:gap-1.5 xl:gap-2 ${
+              className={`text-sm lg:text-base font-bold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname === "/shop" && searchParams.get("category")
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
               }`}
             >
               {t('categories')}
-              <ChevronDown className="w-[15px] h-[15px] lg:w-[18px] lg:h-[18px] xl:w-[22px] xl:h-[22px] 2xl:w-[28px] 2xl:h-[28px] opacity-60 flex-shrink-0 transition-all" />
+              <ChevronDown className="w-4 h-4 opacity-60 flex-shrink-0 transition-all" />
             </Link>
             {hoveredDropdown === "categories" && (
               <div 
@@ -347,11 +347,11 @@ export function Header({ activeSection }: HeaderProps) {
                 onMouseLeave={() => setHoveredCategory(null)}
               >
                 {/* Main Categories Panel */}
-                <div className="w-[180px] lg:w-[220px] xl:w-[260px] 2xl:w-[320px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
+                <div className="w-[140px] lg:w-[160px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-2 flex flex-col gap-1 animate-slide-up">
                   <Link
                     to="/shop"
                     onClick={() => setHoveredDropdown(null)}
-                    className="px-3 py-2 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-bold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-center border-b border-gray-100 pb-2 mb-1"
+                    className="px-3 py-1.5 text-xs lg:text-sm font-bold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-center border-b border-gray-100 pb-1.5 mb-1"
                   >
                     {t('all')}
                   </Link>
@@ -363,7 +363,7 @@ export function Header({ activeSection }: HeaderProps) {
                         to={`/shop?category=${encodeURIComponent(cat.toLowerCase().replace(/ & /g, "").replace(/ /g, ""))}`}
                         onMouseEnter={() => setHoveredCategory(cat)}
                         onClick={() => setHoveredDropdown(null)}
-                        className={`px-3 py-2 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-xl transition-colors flex items-center justify-between ${
+                        className={`px-3 py-1.5 text-xs lg:text-sm font-semibold rounded-xl transition-colors flex items-center justify-between ${
                           hoveredCategory === cat
                             ? "bg-primary-50 text-primary-800"
                             : "text-gray-700 hover:bg-primary-50 hover:text-primary-800"
@@ -371,7 +371,7 @@ export function Header({ activeSection }: HeaderProps) {
                       >
                         <span className="truncate">{cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
                         {hasSubs && (
-                          <ChevronRight className="w-3.5 h-3.5 lg:w-4 h-4 text-gray-400" />
+                          <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
                         )}
                       </Link>
                     );
@@ -380,8 +380,8 @@ export function Header({ activeSection }: HeaderProps) {
 
                 {/* Subcategories Flyout Panel */}
                 {hoveredCategory && getSubcategories(hoveredCategory).length > 0 && (
-                  <div className="w-[180px] lg:w-[220px] xl:w-[260px] 2xl:w-[320px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
-                    <div className="px-3 py-1 text-[10px] lg:text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2 mb-1">
+                  <div className="w-[140px] lg:w-[160px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-2 flex flex-col gap-1 animate-slide-up">
+                    <div className="px-3 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-1.5 mb-1">
                       {hoveredCategory} Categories
                     </div>
                     {getSubcategories(hoveredCategory).map((sub: string) => (
@@ -392,7 +392,7 @@ export function Header({ activeSection }: HeaderProps) {
                           setHoveredDropdown(null);
                           setHoveredCategory(null);
                         }}
-                        className="px-3 py-2 text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-between"
+                        className="px-3 py-1.5 text-xs lg:text-sm font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors flex items-center justify-between"
                       >
                         <span>{sub}</span>
                       </Link>
@@ -411,54 +411,52 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/brands"
-              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 lg:gap-1.5 xl:gap-2 ${
+              className={`text-sm lg:text-base font-bold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname === "/brands" || (location.pathname === "/shop" && searchParams.get("brand"))
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
               }`}
             >
               {t('brands')}
-              <ChevronDown className="w-[15px] h-[15px] lg:w-[18px] lg:h-[18px] xl:w-[22px] xl:h-[22px] 2xl:w-[28px] 2xl:h-[28px] opacity-60 flex-shrink-0 transition-all" />
+              <ChevronDown className="w-4 h-4 opacity-60 flex-shrink-0 transition-all" />
             </Link>
             {hoveredDropdown === "brands" && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-[840px] xl:w-[1050px] 2xl:w-[1300px]">
-                <div className="rounded-3xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-6 lg:p-8 xl:p-10 2xl:p-12 animate-slide-up">
-                  <div className="flex items-center justify-between border-b border-gray-100 pb-3.5 mb-5">
-                    <h4 className="text-xs lg:text-sm xl:text-base 2xl:text-lg font-bold text-gray-400 uppercase tracking-widest">Our Partner Brands</h4>
-                    <span className="text-xs lg:text-sm xl:text-base 2xl:text-lg text-primary-700 font-semibold bg-primary-50 px-3.5 py-1 rounded-full uppercase">Direct Contracts</span>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-[420px] lg:w-[480px]">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-4 animate-slide-up">
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-2 mb-3">
+                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest">{t("our_partner_brands")}</h4>
+                    <span className="text-[10px] text-primary-700 font-semibold bg-primary-50 px-2 py-0.5 rounded-full uppercase">{t("direct_contracts")}</span>
                   </div>
-                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-4 lg:gap-5 xl:gap-6 2xl:gap-8">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
                     {getLiveBrandsForCustomers().map((brand) => (
                       <Link
                         key={brand.name}
                         to={`/shop?brand=${encodeURIComponent(brand.name.toLowerCase())}`}
-                        className="flex flex-col items-center p-2 rounded-2xl hover:bg-primary-50/60 transition-all duration-200 group text-center"
+                        className="flex flex-col items-center p-1 rounded-xl hover:bg-primary-50/60 transition-all duration-200 group text-center"
                         onClick={() => setHoveredDropdown(null)}
                       >
-                        {/* Brand Logo Container */}
-                        <div className="w-28 h-20 lg:w-[130px] lg:h-[85px] xl:w-[160px] xl:h-[105px] 2xl:w-[200px] 2xl:h-[135px] rounded-2xl bg-white border border-gray-100 flex items-center justify-center overflow-hidden mb-2 group-hover:scale-105 transition-transform duration-300 shadow-sm relative shrink-0">
+                        <div className="w-16 h-11 lg:w-20 lg:h-14 rounded-lg bg-white border border-gray-100 flex items-center justify-center overflow-hidden mb-1 group-hover:scale-105 transition-transform duration-300 shadow-sm relative shrink-0">
                           {brand.image ? (
                             <img src={brand.image} alt={brand.name} className="h-full w-full object-cover" />
                           ) : (
-                            <span className="text-sm lg:text-base xl:text-[18px] 2xl:text-[22px] font-serif font-bold text-primary-900/60 uppercase tracking-wider">
+                            <span className="text-xs font-serif font-bold text-primary-900/60 uppercase tracking-wider">
                               {brand.name}
                             </span>
                           )}
                         </div>
-                        {/* Brand Name below the picture */}
-                        <p className="text-xs lg:text-sm xl:text-[16px] 2xl:text-[19.5px] font-bold text-gray-900 group-hover:text-primary-800 transition-colors uppercase tracking-wide truncate max-w-full">
+                        <p className="text-[11px] lg:text-xs font-bold text-gray-900 group-hover:text-primary-800 transition-colors uppercase tracking-wide truncate max-w-full">
                           {brand.name}
                         </p>
                       </Link>
                     ))}
                   </div>
-                  <div className="mt-5 pt-5 border-t border-gray-100 text-center">
+                  <div className="mt-3 pt-3 border-t border-gray-100 text-center">
                     <Link
                       to="/brands"
                       onClick={() => setHoveredDropdown(null)}
-                      className="inline-flex items-center gap-1.5 text-xs lg:text-sm xl:text-[19.5px] 2xl:text-[24.5px] font-bold text-primary-700 hover:text-primary-900 transition-colors"
+                      className="inline-flex items-center gap-1.5 text-xs lg:text-sm font-bold text-primary-700 hover:text-primary-900 transition-colors"
                     >
-                      View All Partner Brands &rarr;
+                      {t("view_all_partner_brands")}
                     </Link>
                   </div>
                 </div>
@@ -469,7 +467,7 @@ export function Header({ activeSection }: HeaderProps) {
           {/* Contact */}
           <Link
             to="/contact"
-            className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
+            className={`text-sm lg:text-base font-bold tracking-wide transition-all duration-200 hover:text-primary-600 relative py-1.5 ${
               location.pathname === "/contact"
                 ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                 : "text-gray-600"
@@ -486,27 +484,27 @@ export function Header({ activeSection }: HeaderProps) {
           >
             <Link
               to="/wholesale"
-              className={`text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 lg:gap-1.5 xl:gap-2 ${
+              className={`text-sm lg:text-base font-bold tracking-wide transition-all duration-200 hover:text-primary-600 flex items-center gap-1 ${
                 location.pathname.startsWith("/wholesale")
                   ? "text-primary-800 font-bold after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary-600 after:rounded-full"
                   : "text-gray-600"
               }`}
             >
               {t('wholesales')}
-              <ChevronDown className="w-[15px] h-[15px] lg:w-[18px] lg:h-[18px] xl:w-[22px] xl:h-[22px] 2xl:w-[28px] 2xl:h-[28px] opacity-60 flex-shrink-0 transition-all" />
+              <ChevronDown className="w-4 h-4 opacity-60 flex-shrink-0 transition-all" />
             </Link>
             {hoveredDropdown === "wholesale" && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-[220px] lg:w-[280px] xl:w-[340px] 2xl:w-[420px]">
-                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-1.5 animate-slide-up">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 w-[150px] lg:w-[170px]">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-2 flex flex-col gap-1 animate-slide-up">
                   <Link
                     to="/wholesale"
-                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    className="px-3 py-1.5 text-xs lg:text-sm font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
                     {t('order_form')}
                   </Link>
                   <Link
                     to="/wholesale/all"
-                    className="px-4 py-3 lg:px-5 lg:py-3.5 xl:px-6 xl:py-4 2xl:px-8 2xl:py-5 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
+                    className="px-3 py-1.5 text-xs lg:text-sm font-semibold rounded-xl text-gray-700 hover:bg-primary-50 hover:text-primary-800 transition-colors"
                   >
                     {t('wholesale_products')}
                   </Link>
@@ -523,22 +521,22 @@ export function Header({ activeSection }: HeaderProps) {
             <button
               onClick={() => setShowLangDropdown(!showLangDropdown)}
               className="flex items-center gap-1.5 lg:gap-1.5 xl:gap-2 2xl:gap-2.5 text-gray-700 hover:text-primary-850 transition-colors uppercase font-semibold text-xs lg:text-xs xl:text-sm 2xl:text-base tracking-wide focus:outline-none"
-              title="Select Country"
+              title={t("select_country")}
             >
               <Globe className="h-[18px] w-[18px] lg:h-[18px] lg:w-[18px] xl:h-[22px] xl:w-[22px] 2xl:h-[26px] 2xl:w-[26px] text-gray-500 flex-shrink-0 transition-all" />
-              <span className="text-xs lg:text-xs xl:text-sm 2xl:text-base">{COUNTRIES.find(c => c.code === country)?.flag}</span>
-              <span className="text-xs lg:text-xs xl:text-sm 2xl:text-base font-bold">{COUNTRIES.find(c => c.code === country)?.name}</span>
+              <span className="text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-none">{COUNTRIES.find(c => c.code === country)?.flag}</span>
             </button>
             
             {showLangDropdown && (
-              <div className="absolute right-0 mt-3 w-[260px] lg:w-[320px] xl:w-[380px] 2xl:w-[440px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 z-50 flex flex-col gap-2.5 animate-slide-up">
-                <h4 className="text-[10px] lg:text-xs xl:text-xs 2xl:text-sm font-bold uppercase tracking-wider text-gray-400 px-3.5 py-2 border-b mb-1.5">Select Country</h4>
+              <div className="absolute right-0 mt-3 w-[160px] lg:w-[190px] xl:w-[220px] 2xl:w-[250px] rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-2.5 lg:p-3 xl:p-3.5 2xl:p-4 z-50 flex flex-col gap-2 animate-slide-up">
+                <h4 className="text-[10px] lg:text-xs xl:text-xs 2xl:text-sm font-bold uppercase tracking-wider text-gray-400 px-3.5 py-2 border-b mb-1.5">{t("select_country")}</h4>
                 <div className="max-h-72 lg:max-h-80 xl:max-h-96 2xl:max-h-[480px] overflow-y-auto space-y-1.5 scrollbar-thin">
                   {COUNTRIES.map((c) => (
                     <button
                       key={c.code}
                       onClick={() => {
                         setCountry(c.code);
+                        setLanguage(c.language);
                         setShowLangDropdown(false);
                       }}
                       className={`w-full flex items-center justify-between px-3.5 py-2.5 lg:px-4 lg:py-3 xl:px-5 xl:py-3.5 2xl:px-6 2xl:py-4 text-xs lg:text-sm xl:text-sm 2xl:text-base font-semibold rounded-xl transition-colors ${
@@ -565,7 +563,7 @@ export function Header({ activeSection }: HeaderProps) {
             className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
             title={t("search_catalog")}
           >
-            <Search className="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] xl:h-[30px] xl:w-[30px] 2xl:h-[38px] 2xl:w-[38px] flex-shrink-0 transition-all" />
+            <Search className="h-[16px] w-[16px] lg:h-[18px] lg:w-[18px] xl:h-[22px] xl:w-[22px] 2xl:h-[26px] 2xl:w-[26px] flex-shrink-0 transition-all" />
           </button>
 
           {/* Profile Trigger Wrapper */}
@@ -579,10 +577,10 @@ export function Header({ activeSection }: HeaderProps) {
               className="text-gray-700 hover:text-primary-850 transition-colors focus:outline-none flex items-center"
               title={isLoggedIn ? t("my_account") : t("login")}
             >
-              <User className="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] xl:h-[30px] xl:w-[30px] 2xl:h-[38px] 2xl:w-[38px] flex-shrink-0 transition-all" />
+              <User className="h-[16px] w-[16px] lg:h-[18px] lg:w-[18px] xl:h-[22px] xl:w-[22px] 2xl:h-[26px] 2xl:w-[26px] flex-shrink-0 transition-all" />
             </button>
             {hoveredDropdown === "profile" && (
-              <div className="absolute right-0 top-full pt-2 z-50 w-[150px] lg:w-[170px] xl:w-[190px] 2xl:w-[220px]">
+              <div className="absolute right-0 top-full pt-2 z-50 w-[110px] lg:w-[125px] xl:w-[140px] 2xl:w-[155px]">
                 <div className="rounded-xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-1.5 lg:p-2 xl:p-2.5 2xl:p-3 flex flex-col gap-1 animate-slide-up">
                   {!isLoggedIn ? (
                     <Link
@@ -635,29 +633,29 @@ export function Header({ activeSection }: HeaderProps) {
               className="text-gray-700 hover:text-primary-850 transition-colors relative flex items-center focus:outline-none"
               title={t("cart")}
             >
-              <ShoppingBag className="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] xl:h-[30px] xl:w-[30px] 2xl:h-[38px] 2xl:w-[38px] flex-shrink-0 transition-all" />
+              <ShoppingBag className="h-[16px] w-[16px] lg:h-[18px] lg:w-[18px] xl:h-[22px] xl:w-[22px] 2xl:h-[26px] 2xl:w-[26px] flex-shrink-0 transition-all" />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-[18px] w-[18px] lg:h-[22px] lg:w-[22px] xl:h-[26px] xl:w-[26px] 2xl:h-[32px] 2xl:w-[32px] flex items-center justify-center text-[10px] lg:text-[12px] xl:text-[14px] 2xl:text-[17px] font-bold shadow-sm">
+                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full h-[15px] w-[15px] lg:h-[18px] lg:w-[18px] xl:h-[20px] xl:w-[20px] 2xl:h-[24px] 2xl:w-[24px] flex items-center justify-center text-[9px] lg:text-[10px] xl:text-[12px] 2xl:text-[14px] font-bold shadow-sm">
                   {cartCount}
                 </span>
               )}
             </button>
             {hoveredDropdown === "cart" && (
-              <div className="absolute right-0 top-full pt-2 z-50 w-[360px] lg:w-[460px] xl:w-[560px] 2xl:w-[700px]">
-                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-4 lg:p-6 xl:p-8 2xl:p-10 flex flex-col gap-4 lg:gap-5 xl:gap-6 2xl:gap-8 animate-slide-up">
-                  <h4 className="text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] font-bold text-gray-900 border-b border-gray-100 pb-3 lg:pb-4 xl:pb-5 2xl:pb-6">
+              <div className="absolute right-0 top-full pt-2 z-50 w-[220px] lg:w-[270px] xl:w-[320px] 2xl:w-[370px]">
+                <div className="rounded-2xl bg-white/95 backdrop-blur-md border border-primary-100 shadow-2xl p-3 lg:p-4 xl:p-5 2xl:p-6 flex flex-col gap-2.5 lg:gap-3.5 xl:gap-4 animate-slide-up">
+                  <h4 className="text-xs lg:text-sm xl:text-base font-bold text-gray-900 border-b border-gray-100 pb-2 lg:pb-2.5">
                     {t("cart_items")} ({cartCount})
                   </h4>
                   {cartItems.length === 0 ? (
-                    <div className="text-center py-4 text-sm lg:text-base xl:text-[19.5px] 2xl:text-[24.5px] text-gray-400">
+                    <div className="text-center py-3 text-xs lg:text-sm text-gray-400">
                       {t("empty_cart")}
                     </div>
                   ) : (
                     <>
-                      <div className="max-h-48 lg:max-h-64 xl:max-h-[300px] 2xl:max-h-[380px] overflow-y-auto space-y-4 lg:space-y-5 xl:space-y-6 2xl:space-y-8 pr-1 scrollbar-thin">
+                      <div className="max-h-40 lg:max-h-52 xl:max-h-60 overflow-y-auto space-y-3 pr-1 scrollbar-thin">
                         {cartItems.map((item, idx) => (
-                          <div key={item.id + (item.optionValue || idx)} className="flex items-center gap-3 lg:gap-4 xl:gap-5 2xl:gap-6">
-                            <div className="w-14 h-14 lg:w-18 lg:h-18 xl:w-[88px] xl:h-[88px] 2xl:w-[110px] 2xl:h-[110px] rounded-lg bg-gray-50 border border-gray-100 p-1 flex items-center justify-center flex-shrink-0">
+                          <div key={item.id + (item.optionValue || idx)} className="flex items-center gap-2.5 lg:gap-3">
+                            <div className="w-10 h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 rounded-lg bg-white border border-gray-100 p-0.5 flex items-center justify-center flex-shrink-0">
                               <img src={item.image || "/placeholder-product.svg"} alt="" className="max-w-full max-h-full object-contain" />
                             </div>
                             <div className="flex-grow min-w-0">
@@ -733,8 +731,8 @@ export function Header({ activeSection }: HeaderProps) {
             }}
             className="flex items-center gap-2 group"
           >
-            <span className="text-2xl font-serif font-bold tracking-wider text-primary-900">
-              CLICOS
+            <span className="text-sm sm:text-base font-serif font-bold tracking-wider text-primary-900">
+              KOSMERA
             </span>
           </Link>
 
@@ -744,11 +742,11 @@ export function Header({ activeSection }: HeaderProps) {
             <div className="relative font-sans" ref={mobileDropdownRef}>
               <button
                 onClick={() => setShowLangDropdown(!showLangDropdown)}
-                className="flex items-center gap-1 text-gray-700 focus:outline-none"
+                className="flex items-center gap-1.5 text-gray-700 focus:outline-none"
                 title="Select Country"
               >
                 <Globe className="h-5 w-5 text-gray-500 flex-shrink-0" />
-                <span className="text-xs font-bold uppercase tracking-wider">{country}</span>
+                <span className="text-base font-bold leading-none">{COUNTRIES.find(c => c.code === country)?.flag}</span>
               </button>
               
               {showLangDropdown && (
@@ -760,6 +758,7 @@ export function Header({ activeSection }: HeaderProps) {
                         key={c.code}
                         onClick={() => {
                           setCountry(c.code);
+                          setLanguage(c.language);
                           setShowLangDropdown(false);
                         }}
                         className={`w-full flex items-center justify-between px-3 py-2 text-xs font-semibold rounded-lg transition-colors ${
@@ -1074,7 +1073,7 @@ export function Header({ activeSection }: HeaderProps) {
               <div className="max-h-40 overflow-y-auto space-y-3 pr-1 scrollbar-thin">
                 {cartItems.map((item, idx) => (
                   <div key={item.id + (item.optionValue || idx)} className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded bg-gray-50 border border-gray-100 p-0.5 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded bg-white border border-gray-100 p-0.5 flex items-center justify-center flex-shrink-0">
                       <img src={item.image || "/placeholder-product.svg"} alt="" className="max-w-full max-h-full object-contain" />
                     </div>
                     <div className="flex-grow min-w-0">
@@ -1137,7 +1136,7 @@ export function Header({ activeSection }: HeaderProps) {
                   }}
                   className="text-2xl font-serif font-bold text-primary-900"
                 >
-                  CLICOS
+                  KOSMERA
                 </Link>
                 <button
                   type="button"

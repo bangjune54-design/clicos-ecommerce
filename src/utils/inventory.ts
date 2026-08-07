@@ -85,19 +85,10 @@ export async function initializeStorage() {
   if (isInitialized) return;
 
   try {
-    const APP_VERSION = "2.0";
-    const currentVersion = localStorage.getItem("clicosVersion");
+    const APP_VERSION = "2.5.0";
+    const currentVersion = localStorage.getItem("kosmeraVersion") || localStorage.getItem("clicosVersion");
     if (currentVersion !== APP_VERSION) {
-      localStorage.removeItem("homepageBanners");
-      localStorage.removeItem("homepageTickers");
-      try {
-        const db = await openDB();
-        const transaction = db.transaction(STORE_NAME, "readwrite");
-        const store = transaction.objectStore(STORE_NAME);
-        store.clear();
-      } catch (e) {
-        console.error("Failed to clear store", e);
-      }
+      localStorage.setItem("kosmeraVersion", APP_VERSION);
       localStorage.setItem("clicosVersion", APP_VERSION);
     }
 
@@ -105,10 +96,14 @@ export async function initializeStorage() {
     let inv = await dbGet("globalInventory");
     let brd = await dbGet("globalBrands");
 
-    // Guarantee English by default for returning users migrating from legacy KO default versions
+    // Guarantee Brazil Portuguese by default for returning users
     const savedLang = localStorage.getItem("language");
-    if (!savedLang || savedLang === "KO") {
-      localStorage.setItem("language", "EN");
+    if (!savedLang) {
+      localStorage.setItem("language", "PT");
+    }
+    const savedCountry = localStorage.getItem("selectedCountry");
+    if (!savedCountry) {
+      localStorage.setItem("selectedCountry", "BR");
     }
 
     // 2. Fallback to localStorage + Migration
@@ -207,38 +202,7 @@ export async function initializeStorage() {
           return;
         }
         const existingIdx = mergedInventory.findIndex(p => p.id === defaultProduct.id);
-        if (existingIdx > -1) {
-          const existing = mergedInventory[existingIdx];
-          const keysToCompare = ['name', 'brand', 'category', 'price', 'wholesalePrice', 'moq', 'description', 'isBestseller', 'optionName', 'options', 'imageSrc', 'imageFit', 'imageScale'] as const;
-          let hasDiff = false;
-          
-          const isCustomProductImage = existing.imageSrc && 
-            existing.imageSrc !== "/placeholder-product.svg" && (
-              existing.imageSrc.startsWith("data:") ||
-              existing.imageSrc.startsWith("http://") ||
-              existing.imageSrc.startsWith("https://") ||
-              existing.imageSrc.startsWith("/")
-            );
-          
-          keysToCompare.forEach(key => {
-            if (JSON.stringify(existing[key]) !== JSON.stringify(defaultProduct[key])) {
-              if (key === 'imageSrc' && isCustomProductImage) {
-                return; // Keep admin custom uploaded image/URL
-              }
-              hasDiff = true;
-            }
-          });
-          if (hasDiff) {
-            mergedInventory[existingIdx] = {
-              ...existing,
-              ...defaultProduct,
-              imageSrc: isCustomProductImage ? existing.imageSrc : defaultProduct.imageSrc,
-              imageFit: existing.imageFit,
-              imageScale: existing.imageScale
-            };
-            invChanged = true;
-          }
-        } else {
+        if (existingIdx === -1) {
           mergedInventory.push(defaultProduct);
           invChanged = true;
         }

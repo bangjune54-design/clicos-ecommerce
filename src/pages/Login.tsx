@@ -22,49 +22,43 @@ export function Login() {
     const savedAccountsString = localStorage.getItem("allAccounts");
     let allAccounts: any[] = [];
     if (savedAccountsString) {
-      allAccounts = JSON.parse(savedAccountsString);
-    } else {
+      try {
+        allAccounts = JSON.parse(savedAccountsString);
+      } catch (err) {
+        allAccounts = [];
+      }
+    }
+
+    if (!allAccounts || allAccounts.length === 0) {
       allAccounts = [
-        { id: "USR-001", name: "Jane Doe", email: "jane.doe@example.com", password: "password123", type: "Retail", status: "Active" },
-        { id: "USR-002", name: "John Smith", email: "retail_shop@b2b.com", password: "password123", type: "Wholesale", status: "Active" },
-        { id: "USR-003", name: "Admin Setup", email: "info@clicos.co.kr", password: "adminpassword", type: "Admin", status: "Active" },
-        { id: "USR-004", name: "Wholesale Admin", email: "wholesale@clicos.co.kr", password: "adminpassword", type: "Admin", status: "Active" },
+        { id: "USR-001", name: "Jane Doe", email: "jane.doe@example.com", password: "password123", phone: "+1 555-0192", type: "Retail", status: "Active" },
+        { id: "USR-002", name: "John Smith", email: "retail_shop@b2b.com", password: "password123", phone: "+1 555-0193", type: "Wholesale", status: "Active" },
+        { id: "USR-003", name: "Kosmera Admin", email: "info@kosmera.co.kr", password: "adminpassword", phone: "+82 10-1234-5678", type: "Admin", status: "Active" },
+        { id: "USR-004", name: "Kosmera Wholesale Admin", email: "wholesale@kosmera.co.kr", password: "adminpassword", phone: "+82 10-9876-5432", type: "Admin", status: "Active" },
+        { id: "USR-005", name: "Kosmera Main Admin", email: "admin@kosmera.co.kr", password: "adminpassword", phone: "+82 10-1111-2222", type: "Admin", status: "Active" },
       ];
       localStorage.setItem("allAccounts", JSON.stringify(allAccounts));
     }
 
-    // Look up the registered account
+    // Look up the registered account case-insensitively
     const account = allAccounts.find(
-      (a: any) => a.email?.toLowerCase() === cleanEmail
+      (a: any) => a.email && a.email.trim().toLowerCase() === cleanEmail
     );
     
     // Account must exist
     if (!account) {
-      setError("Invalid account email or password. Please check your credentials or register a new account.");
+      setError("No account found with this email address. Please check your spelling or register a new account.");
       return;
     }
 
     // Password must match if stored
-    if (account.password && account.password !== password) {
-      setError("Invalid account email or password. Please try again.");
+    if (account.password && account.password.trim() !== password.trim()) {
+      setError("Incorrect password. Please check your password or click 'Forgot your password?' to reset it.");
       return;
     }
 
-    // Role portal tab validation
-    if (activeTab === "wholesale" && account.type === "Retail") {
-      setError("Retail accounts cannot log in through the wholesale portal.");
-      return;
-    }
-    if (activeTab === "general" && account.type === "Wholesale") {
-      setError("Wholesale accounts cannot log in through the retail portal.");
-      return;
-    }
-    
     const firstName = account?.name?.split(" ")[0] || "";
-    let finalUserType = activeTab === "wholesale" ? "wholesale" : "retail";
-    if (account && account.type) {
-      finalUserType = account.type.toLowerCase();
-    }
+    let finalUserType = account.type ? account.type.toLowerCase() : (activeTab === "wholesale" ? "wholesale" : "retail");
 
     // Persist session
     localStorage.setItem("isLoggedIn", "true");
@@ -80,7 +74,7 @@ export function Login() {
     // Show success feedback
     window.dispatchEvent(new CustomEvent("show-toast", { detail: { message: "Successfully logged in!" } }));
 
-    if (cleanEmail.endsWith("@clicos.co.kr")) {
+    if (cleanEmail.endsWith("@clicos.co.kr") || finalUserType === "admin") {
       navigate("/admin");
     } else {
       navigate("/");
@@ -174,7 +168,7 @@ export function Login() {
             </div>
 
             <div className="text-sm">
-              <Link to="#" className="font-medium text-primary-600 hover:text-primary-500 transition-colors">
+              <Link to="/forgot-password" className="font-medium text-primary-600 hover:text-primary-500 transition-colors">
                 Forgot your password?
               </Link>
             </div>

@@ -4,6 +4,7 @@ export interface Banner {
   subtitle: string;
   image: string; // Base64 or URL
   link: string;
+  country?: string; // "ALL" | "US" | "KR" | "BR"
 }
 
 const toBase64Svg = (svg: string) => {
@@ -23,7 +24,7 @@ const banner1Svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 80
   <path d="M 0,400 Q 500,300 1000,500 T 1600,400 L 1600,800 L 0,800 Z" fill="#EAE0D5" opacity="0.4"/>
   <circle cx="1300" cy="300" r="150" fill="#E6C5B3" opacity="0.2"/>
   <circle cx="300" cy="600" r="200" fill="#E8DCD1" opacity="0.3"/>
-  <text x="800" y="320" font-family="Georgia, serif" font-weight="bold" font-size="56" fill="#3D312A" text-anchor="middle" letter-spacing="2">CLICOS BEAUTY</text>
+  <text x="800" y="320" font-family="Georgia, serif" font-weight="bold" font-size="56" fill="#3D312A" text-anchor="middle" letter-spacing="2">KOSMERA BEAUTY</text>
   <text x="800" y="410" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="64" fill="#1A130F" text-anchor="middle" letter-spacing="4">PREMIUM KOREAN COSMETICS</text>
   <text x="800" y="480" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="24" fill="#6E5D53" text-anchor="middle" letter-spacing="8">AUTHENTIC SKINCARE &amp; HAIR CARE SOLUTIONS</text>
   <rect x="700" y="540" width="200" height="50" rx="25" fill="#3D312A"/>
@@ -36,7 +37,7 @@ const banner2Svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 80
   <circle cx="1200" cy="500" r="250" fill="#1E3A8A" opacity="0.04"/>
   <circle cx="200" cy="200" r="100" fill="#3B82F6" opacity="0.05"/>
   <path d="M 150,400 L 1450,400" stroke="#3B82F6" stroke-width="1" stroke-dasharray="8 8" opacity="0.2"/>
-  <text x="800" y="320" font-family="Georgia, serif" font-weight="bold" font-size="56" fill="#1E293B" text-anchor="middle" letter-spacing="2">CLICOS DERMA</text>
+  <text x="800" y="320" font-family="Georgia, serif" font-weight="bold" font-size="56" fill="#1E293B" text-anchor="middle" letter-spacing="2">KOSMERA DERMA</text>
   <text x="800" y="410" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="64" fill="#0F172A" text-anchor="middle" letter-spacing="4">AUTHORIZED K-BEAUTY LABS</text>
   <text x="800" y="480" font-family="system-ui, -apple-system, sans-serif" font-weight="500" font-size="24" fill="#475569" text-anchor="middle" letter-spacing="8">DIRECT CONTRACT SOURCING FROM SEOUL</text>
   <rect x="700" y="540" width="200" height="50" rx="25" fill="#0F172A"/>
@@ -57,25 +58,22 @@ const banner3Svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 80
 
 import { DEFAULT_BANNERS, DEFAULT_TICKERS } from "./syncedDefaults";
 
-export function getLiveBanners(): Banner[] {
+export function getLiveBanners(targetCountry?: string): Banner[] {
   const saved = localStorage.getItem("homepageBanners");
-  let list = DEFAULT_BANNERS;
+  let list: Banner[] = DEFAULT_BANNERS;
   if (saved) {
     try {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed) && parsed.length > 0) {
         list = parsed.map((pb: any) => {
           const defaultBanner = DEFAULT_BANNERS.find(db => db.id === pb.id);
-          // Auto-migrate banners that have empty images so they display the beautiful premium SVGs
-          if (defaultBanner && (!pb.image || pb.image === "")) {
-            return {
-              ...pb,
-              title: pb.title || defaultBanner.title,
-              subtitle: pb.subtitle || defaultBanner.subtitle,
-              image: defaultBanner.image
-            };
-          }
-          return pb;
+          return {
+            ...pb,
+            title: pb.title || defaultBanner?.title || "CLICOS Beauty Export",
+            subtitle: pb.subtitle || defaultBanner?.subtitle || "Authentic Korean Cosmetics & Haircare",
+            image: pb.image || defaultBanner?.image || "",
+            country: pb.country || "ALL"
+          };
         });
       }
     } catch {
@@ -83,30 +81,86 @@ export function getLiveBanners(): Banner[] {
     }
   }
   localStorage.setItem("homepageBanners", JSON.stringify(list));
+
+  if (targetCountry && targetCountry !== "ALL") {
+    const countrySpecific = list.filter(b => b.country === targetCountry);
+    const globalBanners = list.filter(b => !b.country || b.country === "ALL");
+    if (countrySpecific.length > 0) {
+      return [...countrySpecific, ...globalBanners];
+    }
+    return globalBanners;
+  }
+
   return list;
+}
+
+export interface TickerItem {
+  id: string;
+  text: string;
+  country?: string; // "ALL" | "US" | "KR" | "BR"
 }
 
 export function saveLiveBanners(banners: Banner[]) {
   localStorage.setItem("homepageBanners", JSON.stringify(banners));
 }
 
-export function getLiveTickers(): string[] {
-  const saved = localStorage.getItem("homepageTickers");
+export function getLiveTickerItems(targetCountry?: string): TickerItem[] {
+  const saved = localStorage.getItem("homepageTickerItems");
+  let list: TickerItem[] = [];
+
   if (saved) {
     try {
       const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed)) {
-        return parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        list = parsed.map((item: any, idx: number) => {
+          if (typeof item === "string") {
+            return { id: `ticker-${idx}`, text: item, country: "ALL" };
+          }
+          return { ...item, country: item.country || "ALL" };
+        });
       }
-      return DEFAULT_TICKERS;
     } catch {
-      return DEFAULT_TICKERS;
+      list = [];
     }
   }
-  localStorage.setItem("homepageTickers", JSON.stringify(DEFAULT_TICKERS));
-  return DEFAULT_TICKERS;
+
+  if (list.length === 0) {
+    const oldSaved = localStorage.getItem("homepageTickers");
+    let oldList = DEFAULT_TICKERS;
+    if (oldSaved) {
+      try {
+        const parsedOld = JSON.parse(oldSaved);
+        if (Array.isArray(parsedOld)) oldList = parsedOld;
+      } catch {}
+    }
+    list = oldList.map((t, idx) => ({ id: `ticker-${idx}`, text: t, country: "ALL" }));
+  }
+
+  localStorage.setItem("homepageTickerItems", JSON.stringify(list));
+
+  if (targetCountry && targetCountry !== "ALL") {
+    const countrySpecific = list.filter(t => t.country === targetCountry);
+    const globalTickers = list.filter(t => !t.country || t.country === "ALL");
+    if (countrySpecific.length > 0) {
+      return [...countrySpecific, ...globalTickers];
+    }
+    return globalTickers;
+  }
+
+  return list;
+}
+
+export function getLiveTickers(targetCountry?: string): string[] {
+  const items = getLiveTickerItems(targetCountry);
+  return items.map(item => item.text);
+}
+
+export function saveLiveTickerItems(items: TickerItem[]) {
+  localStorage.setItem("homepageTickerItems", JSON.stringify(items));
+  localStorage.setItem("homepageTickers", JSON.stringify(items.map(i => i.text)));
 }
 
 export function saveLiveTickers(tickers: string[]) {
-  localStorage.setItem("homepageTickers", JSON.stringify(tickers));
+  const items: TickerItem[] = tickers.map((text, idx) => ({ id: `ticker-${idx}`, text, country: "ALL" }));
+  saveLiveTickerItems(items);
 }

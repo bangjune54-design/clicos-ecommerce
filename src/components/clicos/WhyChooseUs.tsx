@@ -1,29 +1,32 @@
 import React from "react";
 import { Sparkles, ShieldCheck, HeartHandshake, Compass } from "lucide-react";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 export function WhyChooseUs() {
+  const { t } = useLanguage();
+
   const cards = [
     {
-      title: "Korean Beauty Expertise",
-      desc: "Our deep ties with leading laboratories and brands in Seoul allow us to source the most innovative and trending formulations in K-Beauty first.",
+      titleKey: "reason_1_title",
+      descKey: "reason_1_desc",
       icon: Sparkles,
       color: "text-accent bg-accent/10 border-accent/20"
     },
     {
-      title: "Reliable Export Support",
-      desc: "We manage customs compliance, export documentation, packaging safety, and international freight options, making sourcing simple.",
+      titleKey: "reason_2_title",
+      descKey: "reason_2_desc",
       icon: ShieldCheck,
       color: "text-primary-700 bg-primary-50 border-primary-100"
     },
     {
-      title: "Retail & B2B Friendly",
-      desc: "We operate with flexible structures, competitive pricing tiers, and reasonable Minimum Order Quantities to serve both retailers and distributors.",
+      titleKey: "reason_3_title",
+      descKey: "reason_3_desc",
       icon: HeartHandshake,
       color: "text-rose-700 bg-rose-50 border-rose-100"
     },
     {
-      title: "Premium Product Selection",
-      desc: "Every single product is strictly selected, verified for 100% authenticity, and complies with standard global safety regulations.",
+      titleKey: "reason_4_title",
+      descKey: "reason_4_desc",
       icon: Compass,
       color: "text-indigo-700 bg-indigo-50 border-indigo-100"
     }
@@ -36,13 +39,13 @@ export function WhyChooseUs() {
         {/* Header Block */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-xs font-bold tracking-widest text-accent uppercase mb-2 block">
-            Why Choose Us
+            {t("why_choose_us")}
           </span>
           <h2 className="text-3xl font-serif font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Sourcing Excellence You Can Trust
+            {t("sourcing_excellence_title")}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-gray-500 font-medium">
-            CLICOS is dedicated to ensuring that global beauty merchants have access to authentic, high-quality Korean formulations with seamless logistics.
+            {t("sourcing_excellence_desc")}
           </p>
         </div>
 
@@ -60,12 +63,12 @@ export function WhyChooseUs() {
 
               {/* Feature Title */}
               <h3 className="text-lg font-bold text-gray-900 font-serif mb-3">
-                {card.title}
+                {t(card.titleKey)}
               </h3>
 
               {/* Feature Description */}
               <p className="text-sm text-gray-500 leading-relaxed font-medium">
-                {card.desc}
+                {t(card.descKey)}
               </p>
             </div>
           ))}

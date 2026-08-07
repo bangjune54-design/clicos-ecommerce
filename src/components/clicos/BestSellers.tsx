@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Star, ShoppingBag } from "lucide-react";
 import { useCurrency } from "../../contexts/CurrencyContext";
 import { useCountry } from "../../contexts/CountryContext";
+import { useLanguage } from "../../contexts/LanguageContext";
 import { getLiveInventoryForCustomers } from "../../utils/inventory";
 
 export function BestSellers() {
   const { formatPrice } = useCurrency();
   const { getLocalizedProduct, formatProductPrice } = useCountry();
+  const { t } = useLanguage();
   const allProducts = getLiveInventoryForCustomers();
 
   // Filter products that are designated as bestseller in database, limit to 4
@@ -23,17 +25,17 @@ export function BestSellers() {
         <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 mb-12 border-b border-gray-200 pb-6">
           <div>
             <span className="text-xs font-bold tracking-widest text-accent uppercase mb-2 block">
-              Customer Favorites
+              {t("customer_favorites")}
             </span>
             <h2 className="text-3xl font-serif font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Best Sellers
+              {t("best_sellers")}
             </h2>
           </div>
           <Link
             to="/shop"
             className="text-xs font-bold uppercase tracking-widest text-primary-700 hover:text-accent flex items-center gap-1.5 transition-colors group"
           >
-            Browse Full Shop
+            {t("browse_full_shop")}
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
@@ -68,7 +70,7 @@ export function BestSellers() {
                        loading="lazy"
                      />
                     <span className="absolute top-1.5 left-1.5 sm:top-4 sm:left-4 bg-primary-800 text-white text-[7px] sm:text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm scale-90 sm:scale-100">
-                      Best Seller
+                      {t("best_seller_badge")}
                     </span>
                   </div>
 
@@ -97,7 +99,7 @@ export function BestSellers() {
                       {formatProductPrice(product)}
                     </span>
                     <span className="text-[8px] sm:text-[10px] text-gray-400 font-medium mt-1 uppercase tracking-wider">
-                      MOQ: {product.moq}
+                      {t("moq")}: {product.moq}
                     </span>
                   </div>
                   

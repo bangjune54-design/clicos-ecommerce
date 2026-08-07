@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "../../contexts/LanguageContext";
 import { getLiveBrandsForCustomers } from "../../utils/inventory";
 
 export function BrandGrid() {
+  const { t } = useLanguage();
   const brands = [
     {
       name: "4PM",
@@ -108,13 +110,13 @@ export function BrandGrid() {
         {/* Title Block */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-xs font-bold tracking-widest text-accent uppercase mb-2 block">
-            Brand Partners
+            {t("brand_partners")}
           </span>
           <h2 className="text-3xl font-serif font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Trusted K-Beauty Global Distribution
+            {t("brand_partners_title")}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-gray-500 font-medium">
-            We source and export an extensive portfolio of renowned Korean beauty and professional hair care brands, ensuring authentic product delivery worldwide.
+            {t("brand_partners_desc")}
           </p>
         </div>
 

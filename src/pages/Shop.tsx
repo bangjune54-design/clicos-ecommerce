@@ -410,7 +410,7 @@ export function Shop() {
           {mobileFilterTab === "category" && (
             <div className="mt-4 animate-slide-down">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Select Category</span>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("select_category")}</span>
                 {activeCategory !== "All" && (
                   <button
                     onClick={() => {
@@ -421,7 +421,7 @@ export function Shop() {
                     }}
                     className="text-[10px] font-bold text-primary-700 hover:text-primary-900"
                   >
-                    Clear Filter
+                    {t("clear_filter")}
                   </button>
                 )}
               </div>
